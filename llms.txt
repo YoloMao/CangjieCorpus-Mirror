@@ -1,0 +1,162 @@
+# CangjieCorpus - 仓颉编程语言知识库
+
+本文档索引了仓颉编程语言相关的部分 Markdown 文档，包含开发指南、代码示例等。更全面的文档索引（包含系统 API 调用、编译工具使用）请见：https://github.com/YoloMao/CangjieCorpus-Mirror/blob/main/llms-full.txt
+
+## 项目概述
+CangjieCorpus 仓颉编程语言完整知识库，聚焦核心知识体系，整合官方开发指南、API文档、典型代码示例及语法规范等多维度资源: /README.md
+
+## 扩展功能库 (extra)
+仓颉语言核心数据结构与功能扩展库，提供贴合鸿蒙生态分布式开发、设备协同等典型场景的自主设计扩展功能，包含自定义工具类、场景化代码模板及最佳实践示例。
+
+- [Array数组类型详解](/extra/Array.md): 固定长度数组的创建、操作、遍历、切片、反转等核心功能使用指南
+- [ArrayList动态数组集合](/extra/ArrayList.md): 可变长度列表的初始化、添加、删除、访问、lambda函数使用等操作详解
+- [Collection集合操作通用接口](/extra/Collection.md): 仓颉语言集合类型的通用操作接口和抽象定义说明
+- [Function函数式编程特性](/extra/Function.md): 高阶函数、闭包、lambda表达式、函数作为一等公民的使用指南
+- [HashMap哈希映射数据结构](/extra/HashMap.md): 键值对存储、可哈希类型约束、初始化、查询、修改等操作详解
+- [HashSet哈希集合类型](/extra/HashSet.md): 去重元素集合的创建、添加、删除、包含检查、迭代等操作指南
+- [Numbers数值类型系统](/extra/Numbers.md): 整数、浮点数、数值转换、运算操作、精度处理等数值计算功能详解
+- [Option可选类型模式](/extra/Option.md): Some/None枚举构造器、安全的空值处理、getOrThrow值提取等可选值编程模式
+- [Rune字符处理机制](/extra/Rune.md): Unicode字符编码、字符操作、字符串与字符数组转换等字符处理功能
+- [Sorting排序算法实现](/extra/Sorting.md): 各种排序算法的实现、性能比较、自定义比较器、排序稳定性等排序功能详解
+- [String字符串处理核心](/extra/String.md): 字符串创建、拼接、切割、搜索、替换、格式化、编码转换等字符串操作大全
+- [Tuple元组数据类型](/extra/Tuple.md): 固定元素个数的异构数据组合、元组访问、元组解构、元组应用场景等使用指南
+
+## 用户开发手册 (manual)
+仓颉编程语言用户开发指南，同步官网开发手册，聚焦开发者核心知识需求，涵盖语言基础语法、编程范式、多端应用开发流程、工程化实践、性能优化等全面的开发知识体系。
+
+### 语言基础入门
+
+#### 初识仓颉语言
+- [仓颉语言特性概述](/manual/source_zh_cn/first_understanding/basic.md): 多后端支持、语法简明高效、多范式编程、类型安全、内存安全、高效并发等核心特点介绍
+- [Hello World入门](/manual/source_zh_cn/first_understanding/hello_world.md): 第一个仓颉程序编写、编译运行流程、开发环境配置等快速入门指南
+- [社区版本安装指南](/manual/source_zh_cn/first_understanding/install_Community.md): 仓颉语言社区版本下载安装、环境配置、开发工具设置等安装教程
+
+#### 基础编程概念
+- [程序结构设计](/manual/source_zh_cn/basic_programming_concepts/program_structure.md): 仓颉程序的基本结构、模块组织、代码布局、项目架构等结构化编程指南
+- [标识符命名规范](/manual/source_zh_cn/basic_programming_concepts/identifier.md): 变量、函数、类型命名规则、关键字限制、命名约定等标识符使用规范
+- [表达式系统](/manual/source_zh_cn/basic_programming_concepts/expression.md): 算术表达式、逻辑表达式、比较表达式、复合表达式等表达式类型详解
+- [函数基础概念](/manual/source_zh_cn/basic_programming_concepts/function.md): 函数定义、参数传递、返回值、作用域、生命周期等函数编程基础
+
+#### 基础数据类型
+- [整数类型详解](/manual/source_zh_cn/basic_data_type/integer.md): Int8、Int16、Int32、Int64等整数类型、取值范围、运算操作、类型转换
+- [浮点数类型](/manual/source_zh_cn/basic_data_type/float.md): Float32、Float64浮点数类型、精度处理、特殊值、数学运算等浮点数编程
+- [布尔类型](/manual/source_zh_cn/basic_data_type/bool.md): Bool类型的true/false值、逻辑运算、条件判断、布尔表达式等布尔逻辑
+- [字符类型](/manual/source_zh_cn/basic_data_type/characters.md): Rune字符类型、Unicode支持、字符编码、字符操作等字符处理功能
+- [字符串类型](/manual/source_zh_cn/basic_data_type/strings.md): String字符串的创建、拼接、切割、搜索、格式化等字符串操作大全
+- [数组类型](/manual/source_zh_cn/basic_data_type/array.md): Array固定长度数组的创建、访问、遍历、切片等数组操作详解
+- [元组类型](/manual/source_zh_cn/basic_data_type/tuple.md): Tuple元组的定义、访问、解构、应用场景等元组编程技巧
+- [范围类型](/manual/source_zh_cn/basic_data_type/range.md): Range范围表达式、区间操作、循环迭代、范围应用等范围编程
+- [Unit类型](/manual/source_zh_cn/basic_data_type/unit.md): Unit空类型、void函数、无返回值函数等Unit类型应用
+- [Nothing类型](/manual/source_zh_cn/basic_data_type/nothing.md): Nothing底类型、异常处理、类型安全等Nothing类型机制
+- [基础运算符](/manual/source_zh_cn/basic_data_type/basic_operators.md): 算术运算符、比较运算符、逻辑运算符、位运算符等运算符详解
+
+### 高级编程特性
+
+#### 函数式编程
+- [函数定义详解](/manual/source_zh_cn/function/define_functions.md): 函数声明、参数列表、返回类型、函数体、函数签名等函数定义规范
+- [函数调用机制](/manual/source_zh_cn/function/call_functions.md): 函数调用语法、参数传递、返回值处理、调用栈等函数调用详解
+- [Lambda表达式](/manual/source_zh_cn/function/lambda.md): 匿名函数、闭包、函数式编程、高阶函数等Lambda编程技巧
+- [闭包机制](/manual/source_zh_cn/function/closure.md): 闭包的创建、变量捕获、生命周期、内存管理等闭包编程模式
+- [一等公民函数](/manual/source_zh_cn/function/first_class_citizen.md): 函数作为值、函数作为参数、函数作为返回值等函数式编程特性
+- [嵌套函数](/manual/source_zh_cn/function/nested_functions.md): 函数内部定义函数、作用域嵌套、局部函数等嵌套函数编程
+- [函数重载](/manual/source_zh_cn/function/function_overloading.md): 同名函数不同参数、重载解析、函数重载规则等重载机制
+- [操作符重载](/manual/source_zh_cn/function/operator_overloading.md): 自定义操作符、操作符函数、运算符重载规则等操作符编程
+- [常量函数与求值](/manual/source_zh_cn/function/const_func_and_eval.md): const函数、编译时求值、常量表达式、编译时计算等编译期编程
+- [函数调用解语糖](/manual/source_zh_cn/function/function_call_desugar.md): 函数调用的底层实现、语法糖、编译器优化等函数调用机制
+
+#### 集合数据结构
+- [集合概述](/manual/source_zh_cn/collections/collection_overview.md): 仓颉集合类型介绍、集合层次结构、集合选择指南等集合编程基础
+- [ArrayList动态数组](/manual/source_zh_cn/collections/collection_arraylist.md): 可变长度列表、元素操作、容量管理、性能特性等ArrayList编程
+- [HashMap哈希映射](/manual/source_zh_cn/collections/collection_hashmap.md): 键值对存储、哈希算法、冲突处理、性能优化等HashMap编程
+- [HashSet哈希集合](/manual/source_zh_cn/collections/collection_hashset.md): 唯一元素集合、去重处理、集合运算、查找效率等HashSet编程
+- [可迭代集合](/manual/source_zh_cn/collections/collection_iterable_collections.md): Iterator迭代器、for-in循环、集合遍历、迭代器模式等可迭代编程
+
+#### 面向对象编程
+- [类定义与实现](/manual/source_zh_cn/class_and_interface/class.md): class类的定义、构造函数、成员变量、成员方法等类编程基础
+- [接口设计](/manual/source_zh_cn/class_and_interface/interface.md): interface接口定义、接口实现、多接口实现、接口继承等接口编程
+- [属性系统](/manual/source_zh_cn/class_and_interface/prop.md): 属性定义、getter/setter、计算属性、属性访问控制等属性编程
+- [子类型关系](/manual/source_zh_cn/class_and_interface/subtype.md): 继承关系、is-a关系、子类型多态、Liskov替换原则等子类型编程
+- [类型转换](/manual/source_zh_cn/class_and_interface/typecast.md): 向上转型、向下转型、类型检查、安全转换等类型转换机制
+
+#### 结构体编程
+- [结构体定义](/manual/source_zh_cn/struct/define_struct.md): struct结构体声明、字段定义、结构体类型、值语义等结构体基础
+- [结构体实例化](/manual/source_zh_cn/struct/create_instance.md): 结构体创建、字段初始化、构造语法、实例管理等实例化操作
+- [可变性控制](/manual/source_zh_cn/struct/mut.md): mut关键字、可变字段、不可变结构体、变量重新绑定等可变性管理
+
+### 高级语言特性
+
+#### 泛型编程
+- [泛型概述](/manual/source_zh_cn/generic/generic_overview.md): 泛型编程介绍、类型参数、泛型优势、使用场景等泛型编程基础
+- [泛型函数](/manual/source_zh_cn/generic/generic_function.md): 泛型函数定义、类型参数、函数重载、类型推断等泛型函数编程
+- [泛型类](/manual/source_zh_cn/generic/generic_class.md): 泛型类定义、类型参数、实例化、继承关系等泛型类编程
+- [泛型接口](/manual/source_zh_cn/generic/generic_interface.md): 泛型接口定义、接口实现、协变逆变、类型边界等泛型接口编程
+- [泛型结构体](/manual/source_zh_cn/generic/generic_struct.md): 泛型结构体定义、字段类型、构造函数、值语义等泛型结构体编程
+- [泛型枚举](/manual/source_zh_cn/generic/generic_enum.md): 泛型枚举定义、变体参数、模式匹配、Option/Result等泛型枚举编程
+- [泛型约束](/manual/source_zh_cn/generic/generic_constraint.md): where子句、类型边界、trait bound、约束条件等泛型约束机制
+- [泛型子类型](/manual/source_zh_cn/generic/generic_subtype.md): 泛型类型的继承、子类型关系、协变逆变、类型安全等泛型子类型
+- [类型别名](/manual/source_zh_cn/generic/typealias.md): typealias类型别名、类型重命名、泛型别名、类型简化等别名机制
+
+#### 枚举与模式匹配
+- [枚举类型](/manual/source_zh_cn/enum_and_pattern_match/enum.md): enum枚举定义、变体构造器、关联数据、枚举方法等枚举编程
+- [模式匹配](/manual/source_zh_cn/enum_and_pattern_match/match.md): match表达式、模式语法、匹配分支、模式守卫等模式匹配编程
+- [可选类型](/manual/source_zh_cn/enum_and_pattern_match/option_type.md): Option<T>类型、Some/None、空值安全、可选值处理等可选类型编程
+- [模式概述](/manual/source_zh_cn/enum_and_pattern_match/pattern_overview.md): 模式匹配介绍、模式类型、匹配机制、编译器优化等模式匹配基础
+- [模式可反驳性](/manual/source_zh_cn/enum_and_pattern_match/pattern_refutability.md): 可反驳模式、不可反驳模式、编译时检查、模式完整性等可反驳性
+- [其他模式](/manual/source_zh_cn/enum_and_pattern_match/other.md): 字面量模式、变量模式、通配符模式、复合模式等其他模式类型
+
+### 系统编程与高级特性
+
+#### 错误处理机制
+- [异常处理概述](/manual/source_zh_cn/error_handle/exception_overview.md): 仓颉异常处理模型、异常类型、捕获机制、错误传播等异常处理基础
+- [异常捕获处理](/manual/source_zh_cn/error_handle/handle.md): try-catch语法、异常捕获、错误处理、异常链等异常处理实践
+- [常见运行时异常](/manual/source_zh_cn/error_handle/common_runtime_exceptions.md): 空指针异常、数组越界、类型转换异常等常见异常类型及处理
+- [Option类型使用](/manual/source_zh_cn/error_handle/use_option.md): Option<T>可选类型、空值安全、错误避免、安全编程等Option编程
+
+#### 包与模块系统
+- [包系统概述](/manual/source_zh_cn/package/package_overview.md): 仓颉包系统介绍、模块组织、依赖管理、包发布等包管理基础
+- [包名规范](/manual/source_zh_cn/package/package_name.md): 包命名规则、包路径、包标识、版本管理等包命名约定
+- [导入机制](/manual/source_zh_cn/package/import.md): import语句、包导入、选择性导入、别名导入等导入语法详解
+- [入口点定义](/manual/source_zh_cn/package/entry.md): main函数、程序入口、命令行参数、程序启动等入口点编程
+- [顶层访问控制](/manual/source_zh_cn/package/toplevel_access.md): public/private访问修饰符、模块边界、封装性、访问权限等访问控制
+
+#### 扩展机制
+- [扩展概述](/manual/source_zh_cn/extension/extend_overview.md): 仓颉扩展机制介绍、扩展类型、使用场景、设计原则等扩展编程基础
+- [直接扩展](/manual/source_zh_cn/extension/direct_extension.md): 类型直接扩展、方法添加、功能增强、扩展语法等直接扩展编程
+- [接口扩展](/manual/source_zh_cn/extension/interface_extension.md): 接口的扩展实现、协议扩展、默认实现、扩展接口等接口扩展编程
+- [访问规则](/manual/source_zh_cn/extension/access_rules.md): 扩展访问控制、作用域限制、扩展可见性、命名冲突等访问规则
+
+#### 并发编程
+- [并发概述](/manual/source_zh_cn/concurrency/concurrency_overview.md): 仓颉并发模型、线程机制、协程支持、并发安全等并发编程基础
+- [线程创建](/manual/source_zh_cn/concurrency/create_thread.md): 线程创建语法、线程生命周期、线程参数、线程管理等线程编程
+- [线程使用](/manual/source_zh_cn/concurrency/use_thread.md): 线程间通信、数据共享、线程池、任务调度等线程使用技巧
+- [同步机制](/manual/source_zh_cn/concurrency/sync.md): 互斥锁、信号量、条件变量、原子操作等同步原语使用
+- [线程终止](/manual/source_zh_cn/concurrency/terminal_thread.md): 线程退出、资源清理、优雅关闭、终止机制等线程终止处理
+- [睡眠机制](/manual/source_zh_cn/concurrency/sleep.md): 线程睡眠、延时执行、定时任务、睡眠控制等睡眠编程
+
+#### 反射与注解
+- [注解系统](/manual/source_zh_cn/reflect_and_annotation/anno.md): 注解定义、注解使用、元数据标记、编译时处理等注解编程
+- [动态特性](/manual/source_zh_cn/reflect_and_annotation/dynamic_feature.md): 反射机制、动态调用、类型检查、运行时特性等动态编程
+
+#### 网络编程
+- [网络编程概述](/manual/source_zh_cn/Net/net_overview.md): 仓颉网络编程介绍、网络协议支持、编程模型、性能特性等网络编程基础
+- [Socket网络编程](/manual/source_zh_cn/Net/net_socket.md): TCP/UDP Socket编程、客户端服务端开发、网络通信等Socket编程
+- [HTTP网络编程](/manual/source_zh_cn/Net/net_http.md): HTTP客户端服务端、RESTful API、Web服务开发等HTTP编程
+- [WebSocket编程](/manual/source_zh_cn/Net/net_websocket.md): WebSocket协议、实时通信、双向数据传输等WebSocket编程
+
+#### 基础输入输出
+- [IO编程概述](/manual/source_zh_cn/Basic_IO/basic_IO_overview.md): 仓颉IO编程介绍、流式IO、文件操作、网络IO等IO编程基础
+- [源流处理](/manual/source_zh_cn/Basic_IO/basic_IO_source_stream.md): 输入流、数据源、流读取、缓冲处理等源流编程
+- [进程流处理](/manual/source_zh_cn/Basic_IO/basic_IO_process_stream.md): 进程间通信、管道、标准输入输出、进程流等进程流编程
+
+#### 外部语言互操作
+- [C语言互操作](/manual/source_zh_cn/FFI/cangjie-c.md): 仓颉与C语言互操作、FFI机制、数据类型映射、函数调用等C互操作
+
+#### 宏编程系统
+- [宏编程介绍](/manual/source_zh_cn/Macro/macro_introduction.md): 仓颉宏系统介绍、元编程、代码生成、编译时转换等宏编程基础
+- [宏实现机制](/manual/source_zh_cn/Macro/implementation_of_macros.md): 宏定义、宏展开、宏作用域、宏系统实现等宏实现详解
+- [语法节点](/manual/source_zh_cn/Macro/sytax_node.md): AST语法节点、语法树操作、节点类型、树结构等语法节点编程
+- [Token类型与引用表达式](/manual/source_zh_cn/Macro/Tokens_types_and_quote_expressions.md): Token解析、引用表达式、宏参数、语法标记等Token编程
+- [编译标志](/manual/source_zh_cn/Macro/builtin_compilation_flags.md): 内置编译标志、条件编译、编译时配置、预处理等编译标志使用
+- [错误报告与调试](/manual/source_zh_cn/Macro/compiling_error_reporting_and_debugging.md): 编译错误报告、宏调试、错误定位、调试技巧等错误处理
+- [宏包定义与导入](/manual/source_zh_cn/Macro/defining_and_importing_macro_package.md): 宏包创建、宏导入、包管理、宏分发等宏包系统
+- [宏编程实践案例](/manual/source_zh_cn/Macro/pratical_case.md): 实际宏应用、代码生成案例、最佳实践、高级技巧等宏编程实践

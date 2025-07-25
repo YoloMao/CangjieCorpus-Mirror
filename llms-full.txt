@@ -1,0 +1,597 @@
+# CangjieCorpus - 仓颉编程语言知识库
+
+本文档索引了仓颉编程语言相关的所有 Markdown 文档，包含 API 文档、开发指南、代码示例等。基于仓颉编程语言 v1.0.0 版本构建的高质量知识基座，支持 RAG（检索增强生成）技术应用。
+
+## 项目概述
+CangjieCorpus 仓颉编程语言完整知识库，聚焦核心知识体系，整合官方开发指南、API文档、典型代码示例及语法规范等多维度资源: /README.md
+
+## 扩展功能库 (extra)
+仓颉语言核心数据结构与功能扩展库，提供贴合鸿蒙生态分布式开发、设备协同等典型场景的自主设计扩展功能，包含自定义工具类、场景化代码模板及最佳实践示例。
+
+- [Array数组类型详解](/extra/Array.md): 固定长度数组的创建、操作、遍历、切片、反转等核心功能使用指南
+- [ArrayList动态数组集合](/extra/ArrayList.md): 可变长度列表的初始化、添加、删除、访问、lambda函数使用等操作详解
+- [Collection集合操作通用接口](/extra/Collection.md): 仓颉语言集合类型的通用操作接口和抽象定义说明
+- [Function函数式编程特性](/extra/Function.md): 高阶函数、闭包、lambda表达式、函数作为一等公民的使用指南
+- [HashMap哈希映射数据结构](/extra/HashMap.md): 键值对存储、可哈希类型约束、初始化、查询、修改等操作详解
+- [HashSet哈希集合类型](/extra/HashSet.md): 去重元素集合的创建、添加、删除、包含检查、迭代等操作指南
+- [Numbers数值类型系统](/extra/Numbers.md): 整数、浮点数、数值转换、运算操作、精度处理等数值计算功能详解
+- [Option可选类型模式](/extra/Option.md): Some/None枚举构造器、安全的空值处理、getOrThrow值提取等可选值编程模式
+- [Rune字符处理机制](/extra/Rune.md): Unicode字符编码、字符操作、字符串与字符数组转换等字符处理功能
+- [Sorting排序算法实现](/extra/Sorting.md): 各种排序算法的实现、性能比较、自定义比较器、排序稳定性等排序功能详解
+- [String字符串处理核心](/extra/String.md): 字符串创建、拼接、切割、搜索、替换、格式化、编码转换等字符串操作大全
+- [Tuple元组数据类型](/extra/Tuple.md): 固定元素个数的异构数据组合、元组访问、元组解构、元组应用场景等使用指南
+
+## 标准库文档 (libs/std)
+仓颉编程语言标准库是安装SDK时默认自带的库，追求使用方便、功能通用、质量标杆三大特点，提供常用功能和工具以便开发者快速高效编写程序。包含若干包，每个包可单独输出AST文件、静态库文件、动态库文件等产物。
+
+- [仓颉标准库总体介绍](/libs/std/std_module_overview.md): std标准库概述、包导入规则、功能特点及完整包列表索引
+
+### 命令行参数解析 (argopt)
+argopt包提供从命令行参数字符串解析出参数名和参数值的相关能力，支持短选项、长选项、短前缀长选项、短选项组合等多种参数格式。
+
+- [argopt包功能概述](/libs/std/argopt/argopt_package_overview.md): 命令行参数解析能力介绍、参数类型分类、API列表及使用说明
+- [argopt包类定义](/libs/std/argopt/argopt_package_api/argopt_package_classes.md): ArgOpt类的属性方法、构造函数、解析功能等完整API参考
+- [argopt包枚举类型](/libs/std/argopt/argopt_package_api/argopt_package_enums.md): ArgumentMode参数模式、ArgumentSpec参数规格等枚举类型定义
+- [argopt包异常处理](/libs/std/argopt/argopt_package_api/argopt_package_exception.md): ArgumentParseException解析异常的定义、触发条件及处理方式
+- [argopt包函数定义](/libs/std/argopt/argopt_package_api/argopt_package_function.md): parseArguments解析函数的参数规格、返回值、使用方法详解
+- [argopt包结构体](/libs/std/argopt/argopt_package_api/argopt_package_struct.md): ParsedArguments解析结果结构体的字段定义及数据访问方式
+- [基础参数解析示例](/libs/std/argopt/argopt_samples/argument_parse.md): 简单命令行参数解析的完整代码示例及解析流程说明
+- [长参数解析示例](/libs/std/argopt/argopt_samples/long_argument_parse.md): --开头长参数的解析方法、参数值获取及错误处理示例
+- [短参数解析示例](/libs/std/argopt/argopt_samples/short_argument_parse.md): -开头短参数的解析技巧、参数组合及实际应用场景
+
+### 抽象语法树 (ast)
+ast包主要包含了仓颉源码的语法解析器和仓颉语法树节点，提供语法解析函数，支持代码结构分析、语法树操作、编译器开发等场景。
+
+- [AST包功能概述](/libs/std/ast/ast_package_overview.md): 抽象语法树解析器介绍、语法树节点定义、解析函数及编译器支持功能
+- [AST包类定义](/libs/std/ast/ast_package_api/ast_package_classes.md): 语法树节点类的层次结构、属性方法、节点类型及继承关系详解
+- [AST包枚举类型](/libs/std/ast/ast_package_api/ast_package_enums.md): 语法树节点类型、语法元素标识、解析状态等枚举值定义
+- [AST包异常处理](/libs/std/ast/ast_package_api/ast_package_exceptions.md): 语法解析过程中的异常类型、错误处理机制及异常恢复策略
+- [AST包函数定义](/libs/std/ast/ast_package_api/ast_package_funcs.md): 语法解析函数、树操作函数、代码生成函数等核心API详解
+- [AST包接口定义](/libs/std/ast/ast_package_api/ast_package_interfaces.md): 语法树访问器、节点处理器、解析器接口等抽象接口规范
+- [AST包结构体](/libs/std/ast/ast_package_api/ast_package_structs.md): 语法树节点数据结构、解析配置、上下文信息等结构体定义
+- [AST上下文使用示例](/libs/std/ast/ast_samples/context.md): 语法解析上下文的创建、配置、使用及生命周期管理实例
+- [AST转储示例](/libs/std/ast/ast_samples/dump.md): 抽象语法树的序列化、可视化输出、调试信息生成等转储操作
+- [AST操作示例](/libs/std/ast/ast_samples/operate.md): 语法树节点的增删改查、结构变换、代码重构等操作演示
+- [AST解析示例](/libs/std/ast/ast_samples/parse.md): 仓颉源码解析流程、语法分析器使用、解析结果处理等完整示例
+- [AST报告示例](/libs/std/ast/ast_samples/report.md): 语法错误报告生成、诊断信息输出、编译错误处理等报告功能
+- [AST遍历示例](/libs/std/ast/ast_samples/traverse.md): 语法树的深度优先遍历、广度优先遍历、访问者模式等遍历技巧
+
+### 二进制处理 (binary)
+binary包提供了基础数据类型和二进制字节数组的不同端序转换接口，以及端序反转接口，支持跨平台数据交换和网络通信。
+
+- [二进制包功能概述](/libs/std/binary/binary_package_overview.md): 字节序转换介绍、大小端处理、数据类型与字节数组互转功能说明
+- [二进制包接口定义](/libs/std/binary/binary_package_api/binary_package_interfaces.md): 字节序转换接口、数据编解码接口、二进制操作抽象接口规范
+
+### 集合操作 (collection)
+collection包提供了常见数据结构的高效实现、相关抽象的接口的定义以及在集合类型中常用的函数功能，包括ArrayList、HashMap、HashSet、TreeSet等核心集合类型。
+
+- [集合包功能概述](/libs/std/collection/collection_package_overview.md): 集合数据结构介绍、接口抽象定义、常用集合类型及其特性对比说明
+- [集合包类定义](/libs/std/collection/collection_package_api/collection_package_class.md): ArrayList、HashMap、HashSet、TreeSet等集合类的完整API、方法签名及使用规范
+- [集合包异常处理](/libs/std/collection/collection_package_api/collection_package_exception.md): 集合操作异常类型、越界异常、空集合异常等错误处理机制
+- [集合包函数定义](/libs/std/collection/collection_package_api/collection_package_function.md): 集合工具函数、排序函数、搜索函数、转换函数等辅助功能API
+- [集合包接口定义](/libs/std/collection/collection_package_api/collection_package_interface.md): Iterable、Collection、List、Set、Map等集合抽象接口规范
+- [ArrayList添加操作示例](/libs/std/collection/collection_package_samples/sample_arraylist_add.md): 动态数组的元素添加、插入、批量添加等添加操作的代码示例
+- [ArrayList获取设置示例](/libs/std/collection/collection_package_samples/sample_arraylist_get_set.md): 动态数组的索引访问、元素获取、值设置、边界检查等操作演示
+- [ArrayList删除清空切片示例](/libs/std/collection/collection_package_samples/sample_arraylist_remove_clear_slice.md): 动态数组的元素删除、列表清空、切片操作及性能优化技巧
+- [HashMap添加删除清空示例](/libs/std/collection/collection_package_samples/sample_hashmap_add_remove_clear.md): 哈希映射的键值对添加、删除、清空操作及哈希冲突处理演示
+- [HashMap获取添加包含检查示例](/libs/std/collection/collection_package_samples/sample_hashmap_get_add_contains.md): 哈希映射的值获取、键存在检查、条件查询等查询操作实例
+- [HashSet添加迭代删除示例](/libs/std/collection/collection_package_samples/sample_hashset_add_iterator_remove.md): 哈希集合的元素添加、迭代遍历、删除操作及去重特性演示
+- [迭代器使用示例](/libs/std/collection/collection_package_samples/sample_iterator.md): 集合迭代器的创建、遍历模式、自定义迭代器及for-in循环使用
+- [TreeSet添加迭代删除示例](/libs/std/collection/collection_package_samples/sample_treeset_add_iterator_remove.md): 有序集合的元素添加、按序迭代、删除操作及红黑树实现特性
+
+### 并发集合操作 (collection_concurrent)
+collection.concurrent包提供了并发安全的集合类型实现，支持多线程环境下的安全数据操作，包括ConcurrentHashMap、ConcurrentLinkedQueue等线程安全的集合类型。
+
+- [并发集合包功能概述](/libs/std/collection_concurrent/collection_concurrent_package_overview.md): 线程安全集合介绍、并发控制机制、性能特性及适用场景说明
+- [并发集合包类定义](/libs/std/collection_concurrent/collection_concurrent_package_api/collection_concurrent_class.md): ConcurrentHashMap、ConcurrentLinkedQueue等并发集合类的API及线程安全保证
+- [并发集合包接口定义](/libs/std/collection_concurrent/collection_concurrent_package_api/collection_concurrent_interface.md): 并发集合抽象接口、同步机制接口、线程安全操作规范
+- [并发集合包类型定义](/libs/std/collection_concurrent/collection_concurrent_package_api/collection_concurrent_types.md): 并发集合类型别名、泛型约束、线程安全类型声明
+- [并发链表队列示例](/libs/std/collection_concurrent/collection_concurrent_samples/sample_concurrent_linked_queue.md): ConcurrentLinkedQueue的创建、入队出队、多线程安全操作演示
+- [并发HashMap示例](/libs/std/collection_concurrent/collection_concurrent_samples/sample_concurrenthashmap.md): ConcurrentHashMap的并发读写、线程安全更新、性能优化最佳实践
+
+### 控制台操作 (console)
+console包提供和标准输入、标准输出、标准错误进行交互的方法，支持控制台程序的输入输出操作及用户交互。
+
+- [控制台包功能概述](/libs/std/console/console_package_overview.md): 标准流交互介绍、输入输出方法、控制台程序开发指南
+- [控制台包类定义](/libs/std/console/console_package_api/console_package_class.md): Console类的输入输出方法、格式化打印、错误输出等功能API
+- [控制台使用示例](/libs/std/console/console_samples/console_sample.md): 控制台输入输出操作、用户交互、命令行程序开发实例
+
+### 类型转换 (convert)
+convert包提供从字符串转到特定类型的Convert系列函数以及提供格式化能力，主要为将仓颉类型实例转换为格式化字符串。
+
+- [类型转换包功能概述](/libs/std/convert/convert_package_overview.md): 类型转换接口介绍、字符串转换功能、格式化输出能力说明
+- [类型转换包接口定义](/libs/std/convert/convert_package_api/convert_package_interfaces.md): Convert接口规范、类型转换抽象、格式化接口定义
+- [类型转换示例](/libs/std/convert/convert_samples/convert_samples.md): 字符串与数值转换、自定义类型转换、格式化输出应用实例
+
+### 核心功能 (core)
+core包是标准库的核心包，提供了适用仓颉语言编程最基本的一些API能力，包括基础数据类型、内存管理、异常处理等核心功能。
+
+- [核心包功能概述](/libs/std/core/core_package_overview.md): 仓颉语言核心API介绍、基础类型定义、内存管理及异常处理机制
+- [核心包类定义](/libs/std/core/core_package_api/core_package_classes.md): String、Array等基础类的完整API、构造方法、成员函数详解
+- [核心包枚举类型](/libs/std/core/core_package_api/core_package_enums.md): Option、Result等核心枚举类型、模式匹配、错误处理枚举
+- [核心包异常处理](/libs/std/core/core_package_api/core_package_exceptions.md): 系统异常类定义、异常层次结构、异常处理机制详解
+- [核心包函数定义](/libs/std/core/core_package_api/core_package_funcs.md): 全局函数、工具函数、类型转换函数等核心功能函数API
+- [核心包接口定义](/libs/std/core/core_package_api/core_package_interfaces.md): 核心抽象接口、操作符接口、比较接口等基础接口规范
+- [核心包内置函数](/libs/std/core/core_package_api/core_package_intrinsics.md): 编译器内置函数、底层操作函数、性能优化内置API
+- [核心包结构体](/libs/std/core/core_package_api/core_package_structs.md): 基础数据结构、元组结构、值类型结构体定义
+- [核心包类型定义](/libs/std/core/core_package_api/core_package_types.md): 基础类型别名、泛型类型、函数签名类型等类型系统
+- [CString使用示例](/libs/std/core/core_samples/core_cstring_sample.md): C语言字符串互操作、内存管理、字符编码转换实例
+- [Spawn协程示例](/libs/std/core/core_samples/core_spawn_sample.md): 用户态轻量级线程创建、协程调度、并发编程应用
+
+### 加密功能 (crypto)
+crypto包提供加密解密和摘要算法功能，支持对称加解密、哈希摘要、数字签名等密码学操作。
+
+#### 对称加密 (cipher)
+- [cipher子包功能概述](/libs/std/crypto/cipher/cipher_package_overview.md): 对称加解密通用接口、加密算法支持、密钥管理说明
+- [cipher包接口定义](/libs/std/crypto/cipher/cipher_package_api/cipher_package_interfaces.md): 加密解密接口规范、密码算法抽象、加密模式定义
+
+#### 摘要算法 (digest) 
+- [digest子包功能概述](/libs/std/crypto/digest/digest_package_overview.md): 常用摘要算法通用接口、MD5/SHA系列/SM3/HMAC等哈希算法支持
+- [digest包函数定义](/libs/std/crypto/digest/digest_package_api/digest_package_funcs.md): 摘要计算函数、哈希算法实现、消息认证码生成API
+- [digest包接口定义](/libs/std/crypto/digest/digest_package_api/digest_package_interfaces.md): 摘要算法接口规范、哈希计算抽象、消息摘要接口
+
+### 数据库操作 (database_sql)
+database.sql包提供仓颉访问数据库的接口，支持SQL数据库连接、查询、事务处理等数据库操作功能。
+
+- [数据库SQL包功能概述](/libs/std/database_sql/database_sql_package_overview.md): 数据库访问接口介绍、连接管理、SQL操作及事务处理说明
+- [数据库SQL包类定义](/libs/std/database_sql/database_sql_package_api/database_sql_package_classes.md): Connection、Statement、ResultSet等数据库操作类的完整API
+- [数据库SQL包枚举类型](/libs/std/database_sql/database_sql_package_api/database_sql_package_enums.md): 数据库类型枚举、连接状态、事务隔离级别等枚举定义
+- [数据库SQL包异常处理](/libs/std/database_sql/database_sql_package_api/database_sql_package_exceptions.md): 数据库连接异常、SQL执行异常、事务异常等错误处理
+- [数据库SQL包接口定义](/libs/std/database_sql/database_sql_package_api/database_sql_package_interfaces.md): 数据库驱动接口、连接池接口、查询结果接口等抽象规范
+- [数据库连接获取示例](/libs/std/database_sql/database_sql_samples/db_get_connection.md): 数据库连接建立、连接池配置、连接参数设置实例
+- [数据库表修改示例](/libs/std/database_sql/database_sql_samples/db_modify_table.md): DDL操作、表结构修改、索引创建删除等数据库schema操作
+- [数据库操作示例](/libs/std/database_sql/database_sql_samples/db_operations.md): 增删改查操作、批量操作、参数化查询等数据操作实例
+- [数据库事务示例](/libs/std/database_sql/database_sql_samples/db_transactions.md): 事务开启提交回滚、事务隔离级别、分布式事务处理
+
+### 派生宏 (deriving)
+deriving包提供一组宏来自动生成接口实现，支持自动生成ToString、Hashable、Equatable等常用接口的实现代码。
+
+- [派生包功能概述](/libs/std/deriving/deriving_package_overview.md): 自动代码生成宏介绍、支持的接口类型、宏使用方法说明
+- [派生包宏定义](/libs/std/deriving/deriving_package_api/deriving_package_macros.md): ToString、Hashable、Equatable等派生宏的定义及生成规则
+- [派生用户指南](/libs/std/deriving/deriving_samples/deriving_user_guide.md): 派生宏的使用方法、注解语法、自定义派生实现指南
+
+### 环境变量 (env)
+env包提供当前进程的相关信息与功能，包括环境变量、命令行参数、标准流、退出程序等系统环境交互能力。
+
+- [环境变量包功能概述](/libs/std/env/env_package_overview.md): 进程环境信息获取、环境变量操作、系统参数访问功能介绍
+- [环境变量包类定义](/libs/std/env/env_package_api/env_package_classes.md): Environment类的环境变量读写、进程信息获取等方法API
+- [环境变量包异常处理](/libs/std/env/env_package_api/env_package_exceptions.md): 环境变量访问异常、权限异常、系统调用异常处理
+- [环境变量包函数定义](/libs/std/env/env_package_api/env_package_funcs.md): 环境变量读取设置、命令行参数解析、程序退出等功能函数
+- [环境变量使用示例](/libs/std/env/env_samples/env_sample.md): 环境变量读写操作、命令行参数处理、系统环境配置实例
+
+### 文件系统 (fs)
+fs（file system）包提供对文件、文件夹、路径、文件元数据信息的一些操作函数，支持完整的文件系统操作能力。
+
+- [文件系统包功能概述](/libs/std/fs/fs_package_overview.md): 文件系统操作介绍、路径处理、文件元数据、目录遍历功能说明
+- [文件系统包类定义](/libs/std/fs/fs_package_api/fs_package_classes.md): File、Directory、Path等文件系统操作类的完整API参考
+- [文件系统包枚举类型](/libs/std/fs/fs_package_api/fs_package_enums.md): 文件类型、权限模式、访问模式等文件系统相关枚举
+- [文件系统包异常处理](/libs/std/fs/fs_package_api/fs_package_exceptions.md): 文件访问异常、权限异常、路径异常等文件操作错误处理
+- [文件系统包函数定义](/libs/std/fs/fs_package_api/fs_package_funcs.md): 文件读写、目录操作、路径解析、权限管理等工具函数API
+- [文件系统包结构体](/libs/std/fs/fs_package_api/fs_package_structs.md): 文件信息、目录条目、路径组件等文件系统数据结构
+- [目录操作示例](/libs/std/fs/fs_samples/directory_samples.md): 目录创建删除、目录遍历、子目录查找等目录管理操作
+- [文件操作示例](/libs/std/fs/fs_samples/file_samples.md): 文件创建删除复制移动、文件读写、文件锁定等文件操作实例
+- [文件信息示例](/libs/std/fs/fs_samples/fileinfo_samples.md): 文件元数据获取、文件大小时间权限、文件类型判断等信息查询
+- [路径操作示例](/libs/std/fs/fs_samples/path_samples.md): 路径解析拼接、相对绝对路径转换、路径规范化等路径处理
+
+### 输入输出 (io)
+io包提供程序与外部设备进行数据交换的能力，实现流式I/O操作的通用接口和特殊实现，支持文件、网络等数据通道的读写操作。
+
+- [IO包功能概述](/libs/std/io/io_package_overview.md): 输入输出流介绍、流式I/O接口、数据交换机制及缓冲操作说明
+- [IO包类定义](/libs/std/io/io_package_api/io_package_classes.md): InputStream、OutputStream、BufferedReader等I/O流类的完整API
+- [IO包枚举类型](/libs/std/io/io_package_api/io_package_enums.md): 文件打开模式、流状态、缓冲模式等I/O操作相关枚举
+- [IO包异常处理](/libs/std/io/io_package_api/io_package_exceptions.md): I/O异常类型、流操作异常、设备访问异常等错误处理机制
+- [IO包函数定义](/libs/std/io/io_package_api/io_package_funcs.md): copy、readString、readToEnd等I/O工具函数及流操作API
+- [IO包接口定义](/libs/std/io/io_package_api/io_package_interfaces.md): Readable、Writable、Seekable等I/O抽象接口及流操作规范
+- [缓冲输入流示例](/libs/std/io/io_samples/buffered_input_stream.md): BufferedInputStream的创建使用、缓冲区管理、性能优化技巧
+- [缓冲输出流示例](/libs/std/io/io_samples/buffered_output_stream.md): BufferedOutputStream的缓冲写入、刷新机制、批量操作演示
+- [字节缓冲示例](/libs/std/io/io_samples/byte_buffer.md): ByteBuffer的分配管理、读写操作、位置指针控制等缓冲区操作
+- [链式输入流示例](/libs/std/io/io_samples/chained_input_stream.md): ChainedInputStream的多流组合、顺序读取、流切换等链式操作
+- [多输出流示例](/libs/std/io/io_samples/multi_output_stream.md): MultiOutputStream的并行写入、输出分发、同步写入等多流操作
+- [字符串读取示例](/libs/std/io/io_samples/string_reader.md): StringReader的字符串流读取、文本解析、内存流操作实例
+- [字符串写入示例](/libs/std/io/io_samples/string_writer.md): StringWriter的字符串流写入、文本构建、内存缓冲写入应用
+
+### 数学计算 (math)
+math包提供常见的数学运算，常数定义，浮点数处理等功能，支持基础数学运算、三角函数、指数对数等科学计算能力。
+
+- [数学包功能概述](/libs/std/math/math_package_overview.md): 数学运算介绍、常数定义、浮点数处理、数学函数库说明
+- [数学包枚举类型](/libs/std/math/math_package_api/math_package_enums.md): 舍入模式、数值分类、精度等级等数学计算相关枚举
+- [数学包函数定义](/libs/std/math/math_package_api/math_package_funcs.md): sin、cos、log、sqrt等数学函数、常数PI、E等数学API
+- [数学包接口定义](/libs/std/math/math_package_api/math_package_interfaces.md): 数值计算接口、舍入接口、比较接口等数学运算抽象
+- [数学基础运算示例](/libs/std/math/math_samples/math_basic_operation.md): 四则运算、幂运算、开方运算、三角函数等基础数学计算实例
+
+### 高精度数值 (math_numeric)
+math.numeric包对基础类型可表达范围之外提供扩展能力，支持大整数BigInt和高精度小数Decimal的运算操作。
+
+- [高精度数值包概述](/libs/std/math_numeric/math_numeric_package_overview.md): 大整数和高精度小数介绍、精度控制、运算性能及应用场景
+- [高精度数值包枚举](/libs/std/math_numeric/math_numeric_package_api/math_numeric_package_enums.md): 舍入模式、运算策略、精度级别等高精度计算枚举
+- [高精度数值包函数](/libs/std/math_numeric/math_numeric_package_api/math_numeric_package_funcs.md): 大数运算函数、精度转换函数、比较运算等高精度API
+- [高精度数值包结构体](/libs/std/math_numeric/math_numeric_package_api/math_numeric_package_structs.md): BigInt、Decimal数据结构定义、内部表示、存储格式
+- [BigInt基础运算示例](/libs/std/math_numeric/math_numeric_samples/bigInt_basic_arithmetic.md): 大整数的加减乘除、位运算、模运算等基础数学操作
+- [BigInt基础属性示例](/libs/std/math_numeric/math_numeric_samples/bigInt_basic_prop.md): 大整数的位数计算、符号判断、进制转换等属性操作
+- [BigInt比较运算示例](/libs/std/math_numeric/math_numeric_samples/bigInt_compare_opration.md): 大整数的大小比较、相等判断、排序操作等比较功能
+- [Decimal基础运算示例](/libs/std/math_numeric/math_numeric_samples/decimal_basic_arithmetic.md): 高精度小数的算术运算、精度控制、舍入处理等运算操作
+- [Decimal基础属性示例](/libs/std/math_numeric/math_numeric_samples/decimal_basic_prop.md): 高精度小数的精度获取、小数位数、数值范围等属性查询
+- [Decimal比较运算示例](/libs/std/math_numeric/math_numeric_samples/decimal_compare_opration.md): 高精度小数的精确比较、容差比较、数值排序等比较操作
+
+### 网络通信 (net)
+net包提供常见的网络通信功能，支持TCP、UDP、Unix域套接字等多种网络协议的客户端和服务端开发。
+
+- [网络包功能概述](/libs/std/net/net_package_overview.md): 网络通信介绍、协议支持、套接字操作、网络编程模型说明
+- [网络包类定义](/libs/std/net/net_package_api/net_package_classes.md): Socket、ServerSocket、InetAddress等网络通信类的完整API
+- [网络包枚举类型](/libs/std/net/net_package_api/net_package_enums.md): 协议类型、套接字类型、连接状态等网络相关枚举定义
+- [网络包异常处理](/libs/std/net/net_package_api/net_package_exceptions.md): 网络连接异常、超时异常、协议异常等网络错误处理
+- [网络包接口定义](/libs/std/net/net_package_api/net_package_interfaces.md): 网络连接接口、数据传输接口、协议处理接口等抽象规范
+- [网络包结构体](/libs/std/net/net_package_api/net_package_structs.md): 网络地址、端口信息、连接参数等网络通信数据结构
+- [套接字选项示例](/libs/std/net/net_samples/socket_option.md): Socket选项设置、超时配置、缓冲区大小等套接字参数调优
+- [TCP通信示例](/libs/std/net/net_samples/tcp.md): TCP客户端服务端开发、连接建立、数据传输、连接管理实例
+- [UDP通信示例](/libs/std/net/net_samples/udp.md): UDP数据报发送接收、无连接通信、组播通信等UDP编程实例
+- [Unix域套接字示例](/libs/std/net/net_samples/unix.md): Unix域套接字的创建连接、本地进程通信、权限控制等应用
+- [Unix数据报示例](/libs/std/net/net_samples/unix_datagram.md): Unix域数据报套接字的无连接通信、本地消息传递等操作
+
+### 其他重要标准库
+
+#### 对象池 (objectpool)
+- [对象池包功能概述](/libs/std/objectpool/objectpool_package_overview.md): 对象缓存和复用功能、内存优化、生命周期管理及性能提升说明
+- [对象池包类定义](/libs/std/objectpool/objectpool_package_api/objectpool_package_classes.md): ObjectPool类的对象管理、获取释放、容量控制等完整API
+
+#### 溢出处理 (overflow)
+- [溢出处理包概述](/libs/std/overflow/overflow_package_overview.md): 溢出处理相关能力、数值溢出检测、安全运算及错误处理机制
+- [溢出处理异常定义](/libs/std/overflow/overflow_package_api/overflow_package_exceptions.md): 溢出异常类型、运算异常、边界异常等溢出错误处理
+- [溢出处理接口定义](/libs/std/overflow/overflow_package_api/overflow_package_interfaces.md): 安全运算接口、溢出检测接口、边界检查接口等抽象规范
+- [Option模式示例](/libs/std/overflow/overflow_samples/option.md): 可选值返回的溢出处理、安全运算、结果检查等Option应用
+- [饱和运算示例](/libs/std/overflow/overflow_samples/saturating.md): 饱和运算模式、边界值处理、数值截断等饱和运算操作
+- [抛异常示例](/libs/std/overflow/overflow_samples/throwing.md): 异常抛出模式、运算失败处理、异常捕获等throwing运算
+- [环绕运算示例](/libs/std/overflow/overflow_samples/wrapping.md): 环绕运算模式、模运算、循环计数等wrapping运算操作
+
+#### POSIX系统接口 (posix)
+- [POSIX包功能概述](/libs/std/posix/posix_package_overview.md): POSIX系统接口适配、系统调用封装、跨平台兼容性说明
+- [POSIX常量变量定义](/libs/std/posix/posix_package_api/posix_package_constants_vars.md): 系统常量、错误码、文件权限等POSIX标准常量定义
+- [POSIX函数定义](/libs/std/posix/posix_package_api/posix_package_funcs.md): 系统调用函数、文件操作、进程管理等POSIX函数API
+- [POSIX文件内容获取示例](/libs/std/posix/posix_samples/posix_get_file_content_samples.md): 文件读取、内容获取、缓冲区管理等文件操作实例
+- [POSIX文件信息获取示例](/libs/std/posix/posix_samples/posix_get_file_info_samples.md): 文件属性获取、stat系统调用、文件元数据查询实例
+- [POSIX系统环境信息示例](/libs/std/posix/posix_samples/posix_get_os_envinfo_samples.md): 环境变量获取、系统信息查询、运行时环境检测实例
+- [POSIX进程管理示例](/libs/std/posix/posix_samples/posix_process_samples.md): 进程创建、信号处理、进程间通信等进程管理操作
+
+#### 进程操作 (process)
+- [进程包功能概述](/libs/std/process/process_package_overview.md): Process进程操作接口、进程创建、标准流获取、进程等待等功能
+- [进程包类定义](/libs/std/process/process_package_api/process_package_classes.md): Process、ProcessBuilder等进程管理类的完整API参考
+- [进程包枚举类型](/libs/std/process/process_package_api/process_package_enums.md): 进程状态、退出码、信号类型等进程相关枚举定义
+- [进程包异常处理](/libs/std/process/process_package_api/process_package_exceptions.md): 进程异常、启动失败、通信异常等进程操作错误处理
+- [进程包函数定义](/libs/std/process/process_package_api/process_package_funcs.md): 进程工具函数、启动辅助、状态查询等进程操作API
+- [进程操作示例](/libs/std/process/process_samples/process_sample.md): 进程创建启动、参数传递、环境变量设置等基础进程操作
+- [子进程操作示例](/libs/std/process/process_samples/process_subprocess_sample.md): 子进程管理、标准输入输出重定向、进程通信等高级操作
+
+#### 随机数生成 (random)
+- [随机数包功能概述](/libs/std/random/random_package_overview.md): 伪随机数生成能力、随机算法、种子管理及随机分布说明
+- [随机数包类定义](/libs/std/random/random_package_api/random_package_classes.md): Random类的随机数生成、种子设置、分布采样等完整API
+
+#### 引用管理 (ref)
+- [引用包功能概述](/libs/std/ref/ref_package_overview.md): 弱引用管理、内存回收、循环引用处理及生命周期控制
+- [引用包类定义](/libs/std/ref/ref_package_api/ref_package_classes.md): WeakRef弱引用类的创建、访问、生命周期管理等API
+- [引用包枚举类型](/libs/std/ref/ref_package_api/ref_package_enums.md): 引用状态、回收策略、生命周期阶段等引用管理枚举
+- [缓存中的弱引用示例](/libs/std/ref/ref_samples/weakref_in_cache.md): 弱引用在缓存系统中的应用、内存优化、自动清理实例
+
+#### 反射功能 (reflect)
+- [反射包功能概述](/libs/std/reflect/reflect_package_overview.md): 反射功能介绍、运行时类型信息获取、动态调用及元数据访问
+- [反射包类定义](/libs/std/reflect/reflect_package_api/reflect_package_classes.md): TypeInfo、MethodInfo等反射类的类型信息、方法调用等API
+- [反射包枚举类型](/libs/std/reflect/reflect_package_api/reflect_package_enums.md): 类型分类、成员类型、访问权限等反射相关枚举定义
+- [反射包异常处理](/libs/std/reflect/reflect_package_api/reflect_package_exceptions.md): 反射异常、类型转换异常、方法调用异常等错误处理
+- [反射包函数定义](/libs/std/reflect/reflect_package_api/reflect_package_funcs.md): 类型获取、实例创建、方法调用等反射操作函数API
+- [反射包类型定义](/libs/std/reflect/reflect_package_api/reflect_package_types.md): 反射类型、元数据类型、动态类型等反射类型系统
+- [注解反射示例](/libs/std/reflect/reflect_samples/annotation.md): 注解信息获取、注解处理、元数据解析等注解反射应用
+- [动态加载示例](/libs/std/reflect/reflect_samples/dynload.md): 动态库加载、符号查找、动态调用等动态加载功能实例
+- [成员信息示例](/libs/std/reflect/reflect_samples/memberInfo.md): 类成员信息获取、字段访问、方法调用等成员反射操作
+- [类型信息示例](/libs/std/reflect/reflect_samples/typeInfo.md): 类型信息查询、继承关系、接口实现等类型反射功能
+
+#### 正则表达式 (regex)
+- [正则表达式包概述](/libs/std/regex/regex_package_overview.md): 正则表达式文本处理能力、UTF-8支持、查找分割替换验证功能
+- [正则表达式包类定义](/libs/std/regex/regex_package_api/regex_package_classes.md): Regex、Match等正则表达式类的模式匹配、结果处理API
+- [正则表达式包枚举](/libs/std/regex/regex_package_api/regex_package_enums.md): 匹配选项、替换模式、编译标志等正则表达式枚举
+- [正则表达式包异常](/libs/std/regex/regex_package_api/regex_package_exceptions.md): 正则表达式编译异常、匹配异常、模式异常等错误处理
+- [正则表达式包结构体](/libs/std/regex/regex_package_api/regex_package_structs.md): 匹配结果、捕获组、匹配位置等正则表达式数据结构
+- [正则表达式使用示例](/libs/std/regex/regex_samples/regex_sample.md): 模式编译、文本匹配、替换操作、分组捕获等正则应用
+
+#### 运行时环境 (runtime)
+- [运行时包功能概述](/libs/std/runtime/runtime_package_overview.md): 程序运行时环境交互、执行控制、监视管理及运行时信息获取
+- [运行时包函数定义](/libs/std/runtime/runtime_package_api/runtime_package_funcs.md): 运行时控制函数、系统信息获取、性能监控等运行时API
+- [运行时包结构体](/libs/std/runtime/runtime_package_api/runtime_package_structs.md): 运行时信息、性能指标、系统状态等运行时数据结构
+
+#### 排序算法 (sort)
+- [排序包功能概述](/libs/std/sort/sort_package_overview.md): 数组类型排序函数、排序算法实现、性能特性及使用场景
+- [排序包函数定义](/libs/std/sort/sort_package_api/sort_package_funcs.md): sort、stableSort等排序函数、比较器、排序配置API
+- [排序包接口定义](/libs/std/sort/sort_package_api/sort_package_interfaces.md): Comparable比较接口、自定义比较器、排序策略接口
+- [数组排序示例](/libs/std/sort/sort_samples/sort_sample_array.md): 基础类型数组排序、自定义比较器、稳定排序等排序操作实例
+
+#### 并发编程 (sync)
+- [并发包功能概述](/libs/std/sync/sync_package_overview.md): 并发编程相关能力、同步原语、线程安全、锁机制及协调工具
+- [并发包类定义](/libs/std/sync/sync_package_api/sync_package_classes.md): Mutex、Semaphore、Condition等同步类的锁定、等待、通知API
+- [并发包常量变量](/libs/std/sync/sync_package_api/sync_package_constants_vars.md): 超时常量、默认配置、同步参数等并发编程常量定义
+- [并发包枚举类型](/libs/std/sync/sync_package_api/sync_package_enums.md): 锁状态、等待结果、同步模式等并发相关枚举定义
+- [并发包异常处理](/libs/std/sync/sync_package_api/sync_package_exceptions.md): 死锁异常、超时异常、同步异常等并发错误处理机制
+- [并发包接口定义](/libs/std/sync/sync_package_api/sync_package_interfaces.md): 同步接口、锁接口、协调接口等并发编程抽象规范
+- [并发包结构体](/libs/std/sync/sync_package_api/sync_package_structs.md): 同步状态、锁信息、条件变量等并发数据结构定义
+- [并发编程示例](/libs/std/sync/sync_samples/sync_samples.md): 互斥锁、信号量、条件变量、读写锁等并发编程模式实例
+
+#### 时间处理 (time)
+- [时间包功能概述](/libs/std/time/time_package_overview.md): 时间相关类型、日期时间、时间间隔、单调时间和时区处理功能
+- [时间包类定义](/libs/std/time/time_package_api/time_package_classes.md): DateTime、Duration、TimeZone等时间类的创建、运算、格式化API
+- [时间包枚举类型](/libs/std/time/time_package_api/time_package_enums.md): 时间单位、日期格式、时区类型等时间相关枚举定义
+- [时间包异常处理](/libs/std/time/time_package_api/time_package_exceptions.md): 时间解析异常、格式异常、时区异常等时间操作错误处理
+- [时间包结构体](/libs/std/time/time_package_api/time_package_structs.md): 时间点、时间段、时区信息等时间数据结构定义
+- [日期时间比较示例](/libs/std/time/time_samples/datetime_compare.md): 时间比较、日期排序、时间间隔计算等时间比较操作
+- [日期时间解析示例](/libs/std/time/time_samples/datetime_parse.md): 时间字符串解析、格式识别、解析容错等时间解析功能
+- [日期时间属性示例](/libs/std/time/time_samples/datetime_prop.md): 年月日时分秒获取、星期判断、时间属性查询等属性操作
+- [日期时间时区示例](/libs/std/time/time_samples/datetime_tz.md): 时区转换、UTC时间、本地时间、夏令时处理等时区操作
+- [单调时间测试示例](/libs/std/time/time_samples/monotime_test.md): 单调时间获取、性能测量、时间间隔统计等单调时间应用
+
+#### Unicode处理 (unicode)
+- [Unicode包功能概述](/libs/std/unicode/unicode_package_overview.md): Unicode编码标准字符处理能力、字符分类、编码转换功能
+- [Unicode包枚举类型](/libs/std/unicode/unicode_package_api/unicode_package_enums.md): 字符类别、编码格式、normalization形式等Unicode枚举
+- [Unicode包接口定义](/libs/std/unicode/unicode_package_api/unicode_package_interfaces.md): 字符处理接口、编码转换接口、Unicode标准接口规范
+
+### 单元测试框架 (unittest)
+仓颉语言完整的单元测试生态，提供测试代码编写、运行调测、Mock框架、属性测试等全面的测试支持。
+
+#### 核心测试框架 (unittest)
+- [单元测试包功能概述](/libs/std/unittest/unittest_package_overview.md): 仓颉项目单元测试代码编写、运行调测、基本功能及测试框架架构
+- [单元测试包类定义](/libs/std/unittest/unittest_package_api/unittest_package_classes.md): TestCase、TestSuite、TestRunner等测试类的完整API及测试生命周期
+- [单元测试包枚举类型](/libs/std/unittest/unittest_package_api/unittest_package_enums.md): 测试状态、运行模式、结果类型等测试相关枚举定义
+- [单元测试包异常处理](/libs/std/unittest/unittest_package_api/unittest_package_exceptions.md): 测试异常、断言失败、框架异常等测试错误处理机制
+- [单元测试包函数定义](/libs/std/unittest/unittest_package_api/unittest_package_functions.md): assertEquals、assertTrue等断言函数、测试工具函数API
+- [单元测试包接口定义](/libs/std/unittest/unittest_package_api/unittest_package_interfaces.md): 测试接口、断言接口、运行器接口等测试抽象规范
+- [单元测试包结构体](/libs/std/unittest/unittest_package_api/unittest_package_structs.md): 测试结果、测试配置、执行报告等测试数据结构
+- [单元测试包类型定义](/libs/std/unittest/unittest_package_api/unittest_package_types.md): 测试类型、断言类型、结果类型等测试类型系统
+- [单元测试基础示例](/libs/std/unittest/unittest_samples/unittest_basics.md): 基础测试用例编写、断言使用、测试执行等入门实例
+- [性能基准测试示例](/libs/std/unittest/unittest_samples/unittest_benchmarks.md): 性能测试编写、基准测试、性能对比、优化验证等基准测试应用
+- [动态测试示例](/libs/std/unittest/unittest_samples/unittest_dynamic_tests.md): 运行时生成测试、动态测试用例、参数化测试等动态测试技术
+- [单元测试入门指南](/libs/std/unittest/unittest_samples/unittest_getting_started.md): 测试框架快速入门、项目配置、测试编写流程等使用指南
+- [参数化测试示例](/libs/std/unittest/unittest_samples/unittest_parameterized_tests.md): 参数化测试用例、数据驱动测试、测试数据管理等参数化测试实践
+- [测试模板示例](/libs/std/unittest/unittest_samples/unittest_test_templates.md): 测试模板设计、通用测试模式、测试代码复用等模板化测试方法
+
+#### Mock测试框架 (unittest.mock)
+- [Mock测试包功能概述](/libs/std/unittest_mock/unittest_mock_package_overview.md): 仓颉单元测试Mock框架、mock对象创建配置、API签名一致性保证
+- [Mock测试包类定义](/libs/std/unittest_mock/unittest_mock_package_api/unittest_mock_package_classes.md): Mock、MockBuilder等Mock类的对象创建、行为配置、验证API
+- [Mock测试包枚举类型](/libs/std/unittest_mock/unittest_mock_package_api/unittest_mock_package_enums.md): Mock模式、调用策略、验证类型等Mock测试相关枚举
+- [Mock测试包异常处理](/libs/std/unittest_mock/unittest_mock_package_api/unittest_mock_package_exceptions.md): Mock异常、验证失败、配置异常等Mock测试错误处理
+- [Mock测试包函数定义](/libs/std/unittest_mock/unittest_mock_package_api/unittest_mock_package_functions.md): createMock、verify等Mock工具函数、验证辅助函数API
+- [Mock测试包接口定义](/libs/std/unittest_mock/unittest_mock_package_api/unittest_mock_package_interfaces.md): Mock接口、验证接口、配置接口等Mock测试抽象规范
+- [Mock框架基础示例](/libs/std/unittest_mock/unittest_mock_samples/mock_framework_basics.md): Mock对象创建、行为定义、调用验证等Mock框架基础使用
+- [Mock框架入门指南](/libs/std/unittest_mock/unittest_mock_samples/mock_framework_getting_started.md): Mock测试快速入门、框架配置、测试策略等使用指导
+- [存根测试示例](/libs/std/unittest_mock/unittest_mock_samples/mock_framework_stubs.md): Stub对象创建、返回值配置、异常模拟等存根测试技术
+- [Mock验证示例](/libs/std/unittest_mock/unittest_mock_samples/mock_framework_verification.md): 方法调用验证、参数验证、调用次数验证等Mock验证技术
+
+#### 测试辅助模块
+- [Mock宏包功能概述](/libs/std/unittest_mock_mockmacro/unittest_mock_mockmacro_package_overview.md): unittest.mock.mockmacro为Mock框架提供的用户所需宏功能
+- [Mock宏包宏定义](/libs/std/unittest_mock_mockmacro/unittest_mock_mockmacro_package_api/unittest_mock_mockmacro_package_macros.md): Mock相关宏的定义、生成规则、使用方法等宏编程支持
+
+- [测试宏包功能概述](/libs/std/unittest_testmacro/unittest_testmacro_package_overview.md): unittest.testmacro为单元测试框架提供的用户所需宏功能
+- [测试宏包宏定义](/libs/std/unittest_testmacro/unittest_testmacro_package_api/unittest_testmacro_package_macros.md): 测试相关宏的定义、代码生成、简化语法等宏编程支持
+
+- [测试通用模块概述](/libs/std/unittest_common/unittest_common_package_overview.md): unittest.common为单元测试框架提供的打印类型和通用方法
+- [测试通用包类定义](/libs/std/unittest_common/unittest_common_package_api/unittest_common_package_classes.md): 测试通用类、打印辅助类、工具类等通用功能API
+- [测试通用包枚举](/libs/std/unittest_common/unittest_common_package_api/unittest_common_package_enums.md): 输出格式、打印级别、通用状态等测试通用枚举定义
+- [测试通用包异常](/libs/std/unittest_common/unittest_common_package_api/unittest_common_package_exceptions.md): 通用测试异常、打印异常、工具异常等通用错误处理
+- [测试通用包函数](/libs/std/unittest_common/unittest_common_package_api/unittest_common_package_functions.md): 通用工具函数、打印函数、辅助函数等通用功能API
+- [测试通用包接口](/libs/std/unittest_common/unittest_common_package_api/unittest_common_package_interfaces.md): 通用接口、打印接口、工具接口等测试通用抽象规范
+- [测试通用包结构体](/libs/std/unittest_common/unittest_common_package_api/unittest_common_package_structs.md): 通用数据结构、配置结构、结果结构等测试通用数据类型
+
+- [差异对比模块概述](/libs/std/unittest_diff/unittest_diff_package_overview.md): unittest.diff为单元测试框架提供的差异对比信息API
+- [差异对比包接口](/libs/std/unittest_diff/unittest_diff_package_api/unittest_diff_package_interfaces.md): 差异对比接口、文本比较接口、结果展示接口等差异处理规范
+
+- [属性测试模块概述](/libs/std/unittest_prop_test/unittest_prop_test_package_overview.md): unittest.prop_test为单元测试框架提供的参数化测试类型和方法
+- [属性测试包类定义](/libs/std/unittest_prop_test/unittest_prop_test_package_api/unittest_prop_test_package_classes.md): PropertyTest、Generator等属性测试类的随机生成、属性验证API
+- [属性测试包函数](/libs/std/unittest_prop_test/unittest_prop_test_package_api/unittest_prop_test_package_functions.md): 属性测试函数、生成器函数、验证函数等属性测试功能API
+- [属性测试包接口](/libs/std/unittest_prop_test/unittest_prop_test_package_api/unittest_prop_test_package_interfaces.md): 属性测试接口、生成器接口、验证接口等属性测试抽象规范
+- [属性测试包结构体](/libs/std/unittest_prop_test/unittest_prop_test_package_api/unittest_prop_test_package_structs.md): 测试属性、生成配置、验证结果等属性测试数据结构
+
+## 用户开发手册 (manual)
+仓颉编程语言用户开发指南，同步官网开发手册，聚焦开发者核心知识需求，涵盖语言基础语法、编程范式、多端应用开发流程、工程化实践、性能优化等全面的开发知识体系。
+
+### 语言基础入门
+
+#### 初识仓颉语言
+- [仓颉语言特性概述](/manual/source_zh_cn/first_understanding/basic.md): 多后端支持、语法简明高效、多范式编程、类型安全、内存安全、高效并发等核心特点介绍
+- [Hello World入门](/manual/source_zh_cn/first_understanding/hello_world.md): 第一个仓颉程序编写、编译运行流程、开发环境配置等快速入门指南
+- [社区版本安装指南](/manual/source_zh_cn/first_understanding/install_Community.md): 仓颉语言社区版本下载安装、环境配置、开发工具设置等安装教程
+
+#### 基础编程概念
+- [程序结构设计](/manual/source_zh_cn/basic_programming_concepts/program_structure.md): 仓颉程序的基本结构、模块组织、代码布局、项目架构等结构化编程指南
+- [标识符命名规范](/manual/source_zh_cn/basic_programming_concepts/identifier.md): 变量、函数、类型命名规则、关键字限制、命名约定等标识符使用规范
+- [表达式系统](/manual/source_zh_cn/basic_programming_concepts/expression.md): 算术表达式、逻辑表达式、比较表达式、复合表达式等表达式类型详解
+- [函数基础概念](/manual/source_zh_cn/basic_programming_concepts/function.md): 函数定义、参数传递、返回值、作用域、生命周期等函数编程基础
+
+#### 基础数据类型
+- [整数类型详解](/manual/source_zh_cn/basic_data_type/integer.md): Int8、Int16、Int32、Int64等整数类型、取值范围、运算操作、类型转换
+- [浮点数类型](/manual/source_zh_cn/basic_data_type/float.md): Float32、Float64浮点数类型、精度处理、特殊值、数学运算等浮点数编程
+- [布尔类型](/manual/source_zh_cn/basic_data_type/bool.md): Bool类型的true/false值、逻辑运算、条件判断、布尔表达式等布尔逻辑
+- [字符类型](/manual/source_zh_cn/basic_data_type/characters.md): Rune字符类型、Unicode支持、字符编码、字符操作等字符处理功能
+- [字符串类型](/manual/source_zh_cn/basic_data_type/strings.md): String字符串的创建、拼接、切割、搜索、格式化等字符串操作大全
+- [数组类型](/manual/source_zh_cn/basic_data_type/array.md): Array固定长度数组的创建、访问、遍历、切片等数组操作详解
+- [元组类型](/manual/source_zh_cn/basic_data_type/tuple.md): Tuple元组的定义、访问、解构、应用场景等元组编程技巧
+- [范围类型](/manual/source_zh_cn/basic_data_type/range.md): Range范围表达式、区间操作、循环迭代、范围应用等范围编程
+- [Unit类型](/manual/source_zh_cn/basic_data_type/unit.md): Unit空类型、void函数、无返回值函数等Unit类型应用
+- [Nothing类型](/manual/source_zh_cn/basic_data_type/nothing.md): Nothing底类型、异常处理、类型安全等Nothing类型机制
+- [基础运算符](/manual/source_zh_cn/basic_data_type/basic_operators.md): 算术运算符、比较运算符、逻辑运算符、位运算符等运算符详解
+
+### 高级编程特性
+
+#### 函数式编程
+- [函数定义详解](/manual/source_zh_cn/function/define_functions.md): 函数声明、参数列表、返回类型、函数体、函数签名等函数定义规范
+- [函数调用机制](/manual/source_zh_cn/function/call_functions.md): 函数调用语法、参数传递、返回值处理、调用栈等函数调用详解
+- [Lambda表达式](/manual/source_zh_cn/function/lambda.md): 匿名函数、闭包、函数式编程、高阶函数等Lambda编程技巧
+- [闭包机制](/manual/source_zh_cn/function/closure.md): 闭包的创建、变量捕获、生命周期、内存管理等闭包编程模式
+- [一等公民函数](/manual/source_zh_cn/function/first_class_citizen.md): 函数作为值、函数作为参数、函数作为返回值等函数式编程特性
+- [嵌套函数](/manual/source_zh_cn/function/nested_functions.md): 函数内部定义函数、作用域嵌套、局部函数等嵌套函数编程
+- [函数重载](/manual/source_zh_cn/function/function_overloading.md): 同名函数不同参数、重载解析、函数重载规则等重载机制
+- [操作符重载](/manual/source_zh_cn/function/operator_overloading.md): 自定义操作符、操作符函数、运算符重载规则等操作符编程
+- [常量函数与求值](/manual/source_zh_cn/function/const_func_and_eval.md): const函数、编译时求值、常量表达式、编译时计算等编译期编程
+- [函数调用解语糖](/manual/source_zh_cn/function/function_call_desugar.md): 函数调用的底层实现、语法糖、编译器优化等函数调用机制
+
+#### 集合数据结构
+- [集合概述](/manual/source_zh_cn/collections/collection_overview.md): 仓颉集合类型介绍、集合层次结构、集合选择指南等集合编程基础
+- [ArrayList动态数组](/manual/source_zh_cn/collections/collection_arraylist.md): 可变长度列表、元素操作、容量管理、性能特性等ArrayList编程
+- [HashMap哈希映射](/manual/source_zh_cn/collections/collection_hashmap.md): 键值对存储、哈希算法、冲突处理、性能优化等HashMap编程
+- [HashSet哈希集合](/manual/source_zh_cn/collections/collection_hashset.md): 唯一元素集合、去重处理、集合运算、查找效率等HashSet编程
+- [可迭代集合](/manual/source_zh_cn/collections/collection_iterable_collections.md): Iterator迭代器、for-in循环、集合遍历、迭代器模式等可迭代编程
+
+#### 面向对象编程
+- [类定义与实现](/manual/source_zh_cn/class_and_interface/class.md): class类的定义、构造函数、成员变量、成员方法等类编程基础
+- [接口设计](/manual/source_zh_cn/class_and_interface/interface.md): interface接口定义、接口实现、多接口实现、接口继承等接口编程
+- [属性系统](/manual/source_zh_cn/class_and_interface/prop.md): 属性定义、getter/setter、计算属性、属性访问控制等属性编程
+- [子类型关系](/manual/source_zh_cn/class_and_interface/subtype.md): 继承关系、is-a关系、子类型多态、Liskov替换原则等子类型编程
+- [类型转换](/manual/source_zh_cn/class_and_interface/typecast.md): 向上转型、向下转型、类型检查、安全转换等类型转换机制
+
+#### 结构体编程
+- [结构体定义](/manual/source_zh_cn/struct/define_struct.md): struct结构体声明、字段定义、结构体类型、值语义等结构体基础
+- [结构体实例化](/manual/source_zh_cn/struct/create_instance.md): 结构体创建、字段初始化、构造语法、实例管理等实例化操作
+- [可变性控制](/manual/source_zh_cn/struct/mut.md): mut关键字、可变字段、不可变结构体、变量重新绑定等可变性管理
+
+### 高级语言特性
+
+#### 泛型编程
+- [泛型概述](/manual/source_zh_cn/generic/generic_overview.md): 泛型编程介绍、类型参数、泛型优势、使用场景等泛型编程基础
+- [泛型函数](/manual/source_zh_cn/generic/generic_function.md): 泛型函数定义、类型参数、函数重载、类型推断等泛型函数编程
+- [泛型类](/manual/source_zh_cn/generic/generic_class.md): 泛型类定义、类型参数、实例化、继承关系等泛型类编程
+- [泛型接口](/manual/source_zh_cn/generic/generic_interface.md): 泛型接口定义、接口实现、协变逆变、类型边界等泛型接口编程
+- [泛型结构体](/manual/source_zh_cn/generic/generic_struct.md): 泛型结构体定义、字段类型、构造函数、值语义等泛型结构体编程
+- [泛型枚举](/manual/source_zh_cn/generic/generic_enum.md): 泛型枚举定义、变体参数、模式匹配、Option/Result等泛型枚举编程
+- [泛型约束](/manual/source_zh_cn/generic/generic_constraint.md): where子句、类型边界、trait bound、约束条件等泛型约束机制
+- [泛型子类型](/manual/source_zh_cn/generic/generic_subtype.md): 泛型类型的继承、子类型关系、协变逆变、类型安全等泛型子类型
+- [类型别名](/manual/source_zh_cn/generic/typealias.md): typealias类型别名、类型重命名、泛型别名、类型简化等别名机制
+
+#### 枚举与模式匹配
+- [枚举类型](/manual/source_zh_cn/enum_and_pattern_match/enum.md): enum枚举定义、变体构造器、关联数据、枚举方法等枚举编程
+- [模式匹配](/manual/source_zh_cn/enum_and_pattern_match/match.md): match表达式、模式语法、匹配分支、模式守卫等模式匹配编程
+- [可选类型](/manual/source_zh_cn/enum_and_pattern_match/option_type.md): Option<T>类型、Some/None、空值安全、可选值处理等可选类型编程
+- [模式概述](/manual/source_zh_cn/enum_and_pattern_match/pattern_overview.md): 模式匹配介绍、模式类型、匹配机制、编译器优化等模式匹配基础
+- [模式可反驳性](/manual/source_zh_cn/enum_and_pattern_match/pattern_refutability.md): 可反驳模式、不可反驳模式、编译时检查、模式完整性等可反驳性
+- [其他模式](/manual/source_zh_cn/enum_and_pattern_match/other.md): 字面量模式、变量模式、通配符模式、复合模式等其他模式类型
+
+### 系统编程与高级特性
+
+#### 错误处理机制
+- [异常处理概述](/manual/source_zh_cn/error_handle/exception_overview.md): 仓颉异常处理模型、异常类型、捕获机制、错误传播等异常处理基础
+- [异常捕获处理](/manual/source_zh_cn/error_handle/handle.md): try-catch语法、异常捕获、错误处理、异常链等异常处理实践
+- [常见运行时异常](/manual/source_zh_cn/error_handle/common_runtime_exceptions.md): 空指针异常、数组越界、类型转换异常等常见异常类型及处理
+- [Option类型使用](/manual/source_zh_cn/error_handle/use_option.md): Option<T>可选类型、空值安全、错误避免、安全编程等Option编程
+
+#### 包与模块系统
+- [包系统概述](/manual/source_zh_cn/package/package_overview.md): 仓颉包系统介绍、模块组织、依赖管理、包发布等包管理基础
+- [包名规范](/manual/source_zh_cn/package/package_name.md): 包命名规则、包路径、包标识、版本管理等包命名约定
+- [导入机制](/manual/source_zh_cn/package/import.md): import语句、包导入、选择性导入、别名导入等导入语法详解
+- [入口点定义](/manual/source_zh_cn/package/entry.md): main函数、程序入口、命令行参数、程序启动等入口点编程
+- [顶层访问控制](/manual/source_zh_cn/package/toplevel_access.md): public/private访问修饰符、模块边界、封装性、访问权限等访问控制
+
+#### 扩展机制
+- [扩展概述](/manual/source_zh_cn/extension/extend_overview.md): 仓颉扩展机制介绍、扩展类型、使用场景、设计原则等扩展编程基础
+- [直接扩展](/manual/source_zh_cn/extension/direct_extension.md): 类型直接扩展、方法添加、功能增强、扩展语法等直接扩展编程
+- [接口扩展](/manual/source_zh_cn/extension/interface_extension.md): 接口的扩展实现、协议扩展、默认实现、扩展接口等接口扩展编程
+- [访问规则](/manual/source_zh_cn/extension/access_rules.md): 扩展访问控制、作用域限制、扩展可见性、命名冲突等访问规则
+
+#### 并发编程
+- [并发概述](/manual/source_zh_cn/concurrency/concurrency_overview.md): 仓颉并发模型、线程机制、协程支持、并发安全等并发编程基础
+- [线程创建](/manual/source_zh_cn/concurrency/create_thread.md): 线程创建语法、线程生命周期、线程参数、线程管理等线程编程
+- [线程使用](/manual/source_zh_cn/concurrency/use_thread.md): 线程间通信、数据共享、线程池、任务调度等线程使用技巧
+- [同步机制](/manual/source_zh_cn/concurrency/sync.md): 互斥锁、信号量、条件变量、原子操作等同步原语使用
+- [线程终止](/manual/source_zh_cn/concurrency/terminal_thread.md): 线程退出、资源清理、优雅关闭、终止机制等线程终止处理
+- [睡眠机制](/manual/source_zh_cn/concurrency/sleep.md): 线程睡眠、延时执行、定时任务、睡眠控制等睡眠编程
+
+#### 反射与注解
+- [注解系统](/manual/source_zh_cn/reflect_and_annotation/anno.md): 注解定义、注解使用、元数据标记、编译时处理等注解编程
+- [动态特性](/manual/source_zh_cn/reflect_and_annotation/dynamic_feature.md): 反射机制、动态调用、类型检查、运行时特性等动态编程
+
+#### 网络编程
+- [网络编程概述](/manual/source_zh_cn/Net/net_overview.md): 仓颉网络编程介绍、网络协议支持、编程模型、性能特性等网络编程基础
+- [Socket网络编程](/manual/source_zh_cn/Net/net_socket.md): TCP/UDP Socket编程、客户端服务端开发、网络通信等Socket编程
+- [HTTP网络编程](/manual/source_zh_cn/Net/net_http.md): HTTP客户端服务端、RESTful API、Web服务开发等HTTP编程
+- [WebSocket编程](/manual/source_zh_cn/Net/net_websocket.md): WebSocket协议、实时通信、双向数据传输等WebSocket编程
+
+#### 基础输入输出
+- [IO编程概述](/manual/source_zh_cn/Basic_IO/basic_IO_overview.md): 仓颉IO编程介绍、流式IO、文件操作、网络IO等IO编程基础
+- [源流处理](/manual/source_zh_cn/Basic_IO/basic_IO_source_stream.md): 输入流、数据源、流读取、缓冲处理等源流编程
+- [进程流处理](/manual/source_zh_cn/Basic_IO/basic_IO_process_stream.md): 进程间通信、管道、标准输入输出、进程流等进程流编程
+
+#### 外部语言互操作
+- [C语言互操作](/manual/source_zh_cn/FFI/cangjie-c.md): 仓颉与C语言互操作、FFI机制、数据类型映射、函数调用等C互操作
+
+#### 宏编程系统
+- [宏编程介绍](/manual/source_zh_cn/Macro/macro_introduction.md): 仓颉宏系统介绍、元编程、代码生成、编译时转换等宏编程基础
+- [宏实现机制](/manual/source_zh_cn/Macro/implementation_of_macros.md): 宏定义、宏展开、宏作用域、宏系统实现等宏实现详解
+- [语法节点](/manual/source_zh_cn/Macro/sytax_node.md): AST语法节点、语法树操作、节点类型、树结构等语法节点编程
+- [Token类型与引用表达式](/manual/source_zh_cn/Macro/Tokens_types_and_quote_expressions.md): Token解析、引用表达式、宏参数、语法标记等Token编程
+- [编译标志](/manual/source_zh_cn/Macro/builtin_compilation_flags.md): 内置编译标志、条件编译、编译时配置、预处理等编译标志使用
+- [错误报告与调试](/manual/source_zh_cn/Macro/compiling_error_reporting_and_debugging.md): 编译错误报告、宏调试、错误定位、调试技巧等错误处理
+- [宏包定义与导入](/manual/source_zh_cn/Macro/defining_and_importing_macro_package.md): 宏包创建、宏导入、包管理、宏分发等宏包系统
+- [宏编程实践案例](/manual/source_zh_cn/Macro/pratical_case.md): 实际宏应用、代码生成案例、最佳实践、高级技巧等宏编程实践
+
+### 工程化开发
+
+#### 编译与构建
+- [CJC编译器使用指南](/manual/source_zh_cn/compile_and_build/cjc_usage.md): cjc编译命令基本使用方法、编译选项、前端编译器、编译流程等编译器功能详解
+- [CJPM包管理器鸿蒙系统指南](/manual/source_zh_cn/compile_and_build/cjpm_usage_OHOS.md): CJPM包管理器功能介绍、基本使用方法、命令详解、依赖管理、构建流程等包管理完整指南
+- [条件编译功能](/manual/source_zh_cn/compile_and_build/conditional_compilation.md): @When注解条件编译、内置编译条件变量、导入和声明的条件编译、编译标记等条件编译详解
+
+#### 部署与运行
+- [运行CJNative程序](/manual/source_zh_cn/deploy_and_run/run_cjnative.md): 原生二进制程序运行、命令行参数、环境配置、运行时选项等程序运行
+- [CJNative运行时部署](/manual/source_zh_cn/deploy_and_run/runtime_deploy_cjnative.md): 运行时环境部署、依赖管理、系统要求、部署策略等运行时部署
+
+### 参考附录
+
+#### 编译选项参考
+- [编译选项大全](/manual/source_zh_cn/Appendix/compile_options.md): 编译器选项、优化级别、调试选项、链接选项等编译配置参考
+- [关键字列表](/manual/source_zh_cn/Appendix/keyword.md): 仓颉语言保留关键字、语法关键字、上下文关键字等关键字参考
+- [Linux工具链安装](/manual/source_zh_cn/Appendix/linux_toolchain_install.md): Linux环境下工具链安装、依赖配置、环境变量设置等安装指南
+- [操作符参考](/manual/source_zh_cn/Appendix/operator.md): 运算符优先级、结合性、操作符类型、重载规则等操作符参考
+- [操作符函数映射](/manual/source_zh_cn/Appendix/operator_function.md): 操作符与函数映射关系、操作符重载、函数名约定等映射参考
+- [运行时环境配置](/manual/source_zh_cn/Appendix/runtime_env.md): 运行时环境变量、配置参数、性能调优、内存设置等环境配置
+- [Token类型参考](/manual/source_zh_cn/Appendix/tokenkind_type.md): 词法分析Token类型、语法标记、保留字符等Token类型参考
+
+## 工具链用户手册 (tools)
+仓颉语言工具链用户手册，同步官网工具指南，涵盖工具集官方标准用法，系统化整合仓颉语言全生命周期开发工具链，包括IDE插件、命令行工具等完整开发工具生态。
+
+- [工具链手册封面](/tools/source_zh_cn/Chapter_00_Cover.md): 仓颉语言工具链用户手册封面、版本信息、发布时间等基本信息
+
+### IDE开发环境
+
+#### IDE插件概述与安装
+- [IDE插件使用指南](/tools/source_zh_cn/IDE/ide_plug-in_overview_community.md): 仓颉语言IDE插件功能介绍、语言服务、工程管理、编译构建、调试服务等IDE集成开发环境完整指南
+- [IDE插件安装教程](/tools/source_zh_cn/IDE/install_community.md): VSCode仓颉插件安装步骤、环境配置、SDK设置、插件激活等安装配置详细教程
+
+#### 项目管理与构建
+- [仓颉项目创建](/tools/source_zh_cn/IDE/create_cj_project_community.md): VSCode中创建仓颉项目、项目模板选择、项目结构配置、依赖管理等项目创建完整流程
+- [编译与构建系统](/tools/source_zh_cn/IDE/compilation_and_building_community.md): 项目编译配置、构建选项、输出目录设置、编译优化、多目标构建等编译构建功能详解
+
+#### 语言服务功能
+- [语言服务特性](/tools/source_zh_cn/IDE/language_service_community.md): 代码补全、语法高亮、错误检查、重构支持、导航跳转等智能编程辅助功能详解
+
+#### 调试功能
+- [调试服务使用](/tools/source_zh_cn/IDE/debug_service_community.md): 断点调试、变量查看、调用栈分析、表达式求值、调试配置等调试功能完整使用指南
+
+#### 命令行工具集成
+- [命令行工具集成](/tools/source_zh_cn/IDE/command-line_tools_integration_community.md): IDE中集成命令行工具、终端使用、工具链调用、外部工具配置等命令行集成功能
+
+### 命令行工具集
+
+#### 编译器工具 (cjnative)
+- [CJNative编译器手册](/tools/source_zh_cn/tools/user_manual_cjnative.md): 仓颉原生编译器使用、编译选项、优化级别、目标平台、链接配置等编译器完整使用指南
+
+#### 包管理工具 (cjpm)
+- [包管理器手册](/tools/source_zh_cn/tools/cjpm_manual_cjnative_community.md): CJPM包管理器使用、依赖管理、包发布、版本控制、仓库配置等包管理完整功能指南
+
+#### 代码格式化工具 (cjfmt)
+- [代码格式化手册](/tools/source_zh_cn/tools/cjfmt_manual.md): CJFmt代码格式化工具使用、格式规范、配置选项、批量格式化、集成方式等格式化工具指南
+
+#### 代码检查工具 (cjlint)
+- [静态检查手册](/tools/source_zh_cn/tools/cjlint_manual.md): CJLint静态代码检查工具使用、检查规则、错误类型、配置定制、检查报告等代码质量检查指南
+
+#### 调试器工具 (cjdb)
+- [调试器手册](/tools/source_zh_cn/tools/cjdb_manual_cjnative.md): CJDB调试器使用、断点设置、变量查看、内存分析、调试命令、远程调试等调试器功能详解
+
+#### 代码覆盖率工具 (cjcov)
+- [代码覆盖率手册](/tools/source_zh_cn/tools/cjcov_manual_cjnative.md): CJCov代码覆盖率工具使用、覆盖率统计、报告生成、覆盖率分析、测试质量评估等覆盖率检测指南
+
+#### 性能分析工具 (cjprof)
+- [性能profiler手册](/tools/source_zh_cn/tools/cjprof_manual_cjnative.md): CJProf性能分析工具使用、性能采样、热点分析、内存profiling、性能优化建议等性能分析完整指南
+
+#### 跟踪恢复工具 (cjtrace_recover)
+- [跟踪恢复手册](/tools/source_zh_cn/tools/cjtrace_recover_manual_cjnative.md): CJTrace Recover跟踪恢复工具使用、调用跟踪、异常恢复、运行时分析、故障诊断等跟踪分析工具指南
