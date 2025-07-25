@@ -4,23 +4,35 @@
 
 元组的长度是固定的，即一旦定义了一个元组类型的实例，它的长度不能再被更改。
 
-元组类型是不可变类型，即一旦定义了一个元组类型的实例，它的内容不能再被更新。例如
+元组类型是不可变类型，即一旦定义了一个元组类型的实例，它的内容（即单个元素）不能再被更新。但整个元组可被覆盖替换，例如：
+
+<!-- compile.error -->
 
 ```cangjie
-var tuple = (true, false)
-tuple[0] = false // Error, 'tuple element' can not be assigned
+let tuple1 = (8, false)
+var tuple2 = (true, 9, 20)
+tuple2 = tuple1         // Error, mismatched types
+tuple2[0] = false       // Error, 'tuple element' can not be assigned
+
+var tuple3 = (9, true)
+tuple3 = tuple1
+println(tuple3[0])      // 8
+println(tuple3[1])      // false
 ```
 
 ## 元组类型的字面量
 
 元组类型的字面量使用 `(e1, e2, ..., eN)` 表示，其中 `e1` 到 `eN` 是表达式，多个表达式之间使用逗号分隔。下面的例子中，分别定义了一个 `(Int64, Float64)` 类型的变量 `x`，以及一个 `(Int64, Float64, String)` 类型的变量 `y`，并且使用元组类型的字面量为它们定义了初值：
 
+<!-- compile -->
+
 ```cangjie
 let x: (Int64, Float64) = (3, 3.141592)
 let y: (Int64, Float64, String) = (3, 3.141592, "PI")
 ```
 
-元组支持通过 `t[index]` 的方式访问某个具体位置的元素，其中 `t` 是一个元组，`index` 是下标，并且 `index` 只能是从 `0` 开始且小于元组元素个数的整数类型字面量，否则，编译报错。下面的例子中，使用 `pi[0]` 和 `pi[1]` 可以分别访问二元组 `pi` 的第一个元素和第二个元素。
+元组支持通过 `t[index]` 的方式访问某个具体位置的元素，其中 `t` 是一个元组，`index` 是下标，并且 `index` 只能是从 `0` 开始且小于元组元素个数的整数类型字面量，否则编译报错。下面的例子中，使用 `pi[0]` 和 `pi[1]` 可以分别访问二元组 `pi` 的第一个元素和第二个元素。
+<!-- verify -->
 
 ```cangjie
 main() {
@@ -37,20 +49,13 @@ main() {
 PI
 ```
 
-在赋值表达式中，可使用元组字面量对表达式的右值进行解构，这要求赋值表达式等号左边必须是一个元组字面量，这个元组字面量里面的元素必须都是左值（左值即出现在赋值操作符左边的，可保存值的表达式，具体参见各章节对赋值操作的描述）或者一个元组字面量，当元组字面量中出现 `_` 时，表示忽略等号右侧 `tuple` 对应位置处的求值结果（意味着这个位置处的类型检查总是可以通过的），等号右边的表达式也必须是 `tuple` 类型，右边 `tuple` 每个元素的类型必须是对应位置左值类型的子类型。注意，复合赋值不支持这种解构方式。求值顺序上先计算等号右边表达式的值，再对左值部分从左往右逐个赋值，例如：
-
-```cangjie
-var a: Int64
-var b: String
-var c: Unit
-func f() { ((1, "abc"), ()) }
-((a, b), c) = f() // value of a is 1, value of b is "abc", value of c is '()'
-((a, b), _) = ((2, "def"), 3.0) // value of a is 2, value of b is "def", 3.0 is ignored
-```
+在赋值表达式中，可使用元组进行多赋值，参见[赋值操作符](./basic_operators.md#赋值操作符)章节。
 
 ## 元组类型的类型参数
 
 可以为元组类型标记显式的类型参数名，下面例子中的 `name` 和 `price` 就是 `类型参数名`。
+
+<!-- compile -->
 
 ```cangjie
 func getFruitPrice (): (name: String, price: Int64) {
@@ -58,8 +63,12 @@ func getFruitPrice (): (name: String, price: Int64) {
 }
 ```
 
-对于一个元组类型，只允许统一写类型参数名，或者统一不写类型参数名，不允许交替存在。
+对于一个元组类型，只允许统一写类型参数名，或者统一不写类型参数名，不允许交替存在，并且参数名本身不能作为变量使用或用于访问元组中元素。
+
+<!-- compile.error -->
 
 ```cangjie
-let c: (name: String, Int64) = ("banana", 5)   // Error
+let a: (name: String, Int64) = ("banana", 5)   // Error
+let b: (name: String, price: Int64) = ("banana", 5) // OK
+b.name // Error
 ```

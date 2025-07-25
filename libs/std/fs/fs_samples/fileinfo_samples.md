@@ -10,8 +10,8 @@ import std.fs.*
 import std.time.DateTime
 
 main() {
-    // 在当前目录下创建个临时文件以便下面 FileInfo 的演示
-    let curDirPath: Path = Path("./").toCanonical()
+    // 在当前目录下创建一个临时文件，以便下面 FileInfo 的演示
+    let curDirPath: Path = canonicalize(Path("./"))
     let file: File =  File.createTemp(curDirPath)
     file.write("123456789\n".toArray())
     let fileInfo: FileInfo = file.info
@@ -27,10 +27,6 @@ main() {
     let filePath: Path = fileInfo.path
     */
 
-    /* 如果文件是软链接，获得其链接文件的 Path，这里的文件不是软链接故是 Option<Path>.None */
-    let symbolicLinkTarget: Option<Path> = fileInfo.symbolicLinkTarget
-    checkResult(symbolicLinkTarget == None, "It's not a symbolic link, there's no `symbolicLinkTarget`.")
-
     /* 获取这个文件的创建时间、最后访问时间、最后修改时间 */
     /*
     let creationTime: DateTime = fileInfo.creationTime
@@ -44,12 +40,12 @@ main() {
      * 如果是目录代表这个目录的所有文件占用磁盘空间的大小(不包含子目录)
      */
     /*
-    let length: Int64 = fileInfo.length
+    let length: Int64 = fileInfo.size
     */
 
     /* 判断这个文件是否是软链接、普通文件、目录 */
     checkResult(fileInfo.isSymbolicLink(), "The file is a symbolic link.")
-    checkResult(fileInfo.isFile(), "The file is a common file.")
+    checkResult(fileInfo.isRegular(), "The file is a regular file.")
     checkResult(fileInfo.isDirectory(), "The file is a directory.")
 
     /* 判断这个文件对于当前用户是否是只读、隐藏、可执行、可读、可写 */
@@ -75,12 +71,11 @@ func checkResult(result: Bool, message: String): Unit {
 }
 ```
 
-运行结果如下：
+运行结果：
 
 ```text
 The 'parentFileInfo' is obtained successfully.
-It's not a symbolic link, there's no `symbolicLinkTarget`.
-The file is a common file.
+The file is a regular file.
 The file is readable.
 The file is writable.
 The file was successfully set to executable.

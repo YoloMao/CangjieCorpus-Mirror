@@ -1,6 +1,6 @@
 # I/O 处理流
 
-处理流是指代理其它数据流进行处理的流。
+处理流是指代理其他数据流进行处理的流。
 
 仓颉编程语言中常见的处理流包含 `BufferedInputStream`、`BufferedOutputStream`、`StringReader`、`StringWriter`、`ChainedInputStream` 等。
 
@@ -26,21 +26,21 @@ import std.io.*
 
 当通过 `BufferedInputStream` 来读取流的数据时，`BufferedInputStream` 会一次性读取整个缓冲区大小的数据，再使用 `read` 函数就可以分多次读取更小规模的数据；当缓冲区中的数据被读完之后，输入流就会再次填充缓冲区；如此反复，直到读完数据流的所有数据。
 
-构造一个 `BufferedInputStream` 很简单，只需要在构造函数中传入另一个输入流就可以了。如果需要指定缓冲区的大小，也可以额外传入 `capacity` 参数进行指定。
+如果构造一个 `BufferedInputStream`，只需要在构造函数中传入另一个输入流。如果需要指定缓冲区的大小，也可以额外传入 `capacity` 参数进行指定。
 
 BufferedInputStream 构造示例：
 
 <!-- run -->
 
 ```cangjie
-import std.io.*
+import std.io.{ByteBuffer, BufferedInputStream}
 
 main(): Unit {
     let arr1 = "0123456789".toArray()
-    let byteArrayStream = ByteArrayStream()
-    byteArrayStream.write(arr1)
-    let bufferedInputStream = BufferedInputStream(byteArrayStream)
-    let arr2 = Array<Byte>(20, item: 0)
+    let byteBuffer = ByteBuffer()
+    byteBuffer.write(arr1)
+    let bufferedInputStream = BufferedInputStream(byteBuffer)
+    let arr2 = Array<Byte>(20, repeat: 0)
 
     /* 读取流中数据，返回读取到的数据的长度 */
     let readLen = bufferedInputStream.read(arr2)
@@ -54,7 +54,7 @@ main(): Unit {
 
 需要注意的是，由于没写够缓冲区时不会触发输出流的写入操作，所以当往 `BufferedOutputStream` 写完所有的数据后，需要额外调用 `flush` 函数来最终完成写入。
 
-构造一个 `BufferedOutputStream` 也很简单，只需要在构造函数中传入另一个输出流就可以了。如果需要指定缓冲区的大小，也可以额外传入 `capacity` 参数指定。
+如果构造一个 `BufferedOutputStream`，只需要在构造函数中传入另一个输出流。如果需要指定缓冲区的大小，也可以额外传入 `capacity` 参数指定。
 
 BufferedOutputStream 构造示例：
 
@@ -65,9 +65,9 @@ import std.io.*
 
 main(): Unit {
     let arr1 = "01234".toArray()
-    let byteArrayStream = ByteArrayStream()
-    byteArrayStream.write(arr1)
-    let bufferedOutputStream = BufferedOutputStream(byteArrayStream)
+    let byteBuffer = ByteBuffer()
+    byteBuffer.write(arr1)
+    let bufferedOutputStream = BufferedOutputStream(byteBuffer)
     let arr2 = "56789".toArray()
 
     /* 向流中写入数据，此时数据在外部流的缓冲区中 */
@@ -75,7 +75,7 @@ main(): Unit {
 
     /* 调用 flush 函数，真正将数据写入内部流中 */
     bufferedOutputStream.flush()
-    println(String.fromUtf8(byteArrayStream.readToEnd())) // 0123456789
+    println(String.fromUtf8(readToEnd(byteBuffer))) // 0123456789
 }
 ```
 
@@ -97,7 +97,7 @@ import std.io.*
 
 `StringReader` 提供了按行读、按筛选条件读的能力，相比将字节数据读出来再手动转换成字符串，具有更好的性能表现和易用性。
 
-构造 `StringReader` 很简单，传入另一个输入流就可以了。
+如果构造 `StringReader`，传入另一个输入流即可。
 
 StringReader 使用示例：
 
@@ -108,9 +108,9 @@ import std.io.*
 
 main(): Unit {
     let arr1 = "012\n346789".toArray()
-    let byteArrayStream = ByteArrayStream()
-    byteArrayStream.write(arr1)
-    let stringReader = StringReader(byteArrayStream)
+    let byteBuffer = ByteBuffer()
+    byteBuffer.write(arr1)
+    let stringReader = StringReader(byteBuffer)
 
     /* 读取一行数据 */
     let line = stringReader.readln()
@@ -120,7 +120,7 @@ main(): Unit {
 
 `StringWriter` 提供了直接写字符串、按行直接写字符串的能力，相比将字节数据手动转换成字符串再写入，具有更好的性能表现和易用性。
 
-构造 `StringWriter` 也很简单，传入另一个输出流就可以了。
+如果构造 `StringWriter`，传入另一个输出流即可。
 
 StringWriter 使用示例：
 
@@ -130,8 +130,8 @@ StringWriter 使用示例：
 import std.io.*
 
 main(): Unit {
-    let byteArrayStream = ByteArrayStream()
-    let stringWriter = StringWriter(byteArrayStream)
+    let byteBuffer = ByteBuffer()
+    let stringWriter = StringWriter(byteBuffer)
 
     /* 写入字符串 */
     stringWriter.write("number")
@@ -144,6 +144,6 @@ main(): Unit {
 
     stringWriter.flush()
 
-    println(String.fromUtf8(byteArrayStream.readToEnd())) // number is:\n100.000000
+    println(String.fromUtf8(readToEnd(byteBuffer))) // number is:\n100.000000
 }
 ```

@@ -23,7 +23,7 @@ main() {
     var identifier = classDecl.identifier
     // 为该节点增加一个成员函数用于获取a的值
     var funcdecl = FuncDecl(quote(func getValue() {a}))
-    classDecl.body.decls.append(funcdecl)
+    classDecl.body.decls.add(funcdecl)
     println("Identifier value is ${identifier.value}")
     println("ClassDecl body size is ${classDecl.body.decls.size}")
     0

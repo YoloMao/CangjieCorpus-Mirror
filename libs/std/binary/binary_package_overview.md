@@ -1,4 +1,4 @@
-# std.binary 包
+# std.binary
 
 ## 功能介绍
 

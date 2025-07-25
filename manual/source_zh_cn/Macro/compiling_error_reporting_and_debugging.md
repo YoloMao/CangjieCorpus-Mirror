@@ -8,16 +8,17 @@
 
 源码目录结构如下：
 
-```
+```text
 // Directory layout.
-src
-`-- macros
-      |-- m.cj
-
-`-- demo.cj
+root_path
+├── macros
+│    └── m.cj
+├── src
+│    └── demo.cj
+└─ target
 ```
 
-宏定义放在 _macros_子目录下：
+宏定义放在 _macros_ 子目录下：
 
 <!-- run -macro0 -->
 <!-- cfg="--compile-macro" -->
@@ -38,12 +39,12 @@ public macro Outer(input: Tokens) {
 
 ```
 
-宏调用代码如下：
+宏调用放在 _src_ 子目录下：
 
 <!-- run -macro0 -->
 
 ```cangjie
-// demo.cj
+// src/demo.cj
 import define.*
 @Outer
 class Demo {
@@ -57,19 +58,17 @@ main() {
 }
 ```
 
-以下为 Linux 平台的编译命令（具体编译选项会随着 cjc 更新而演进，以最新 cjc 的编译选项为准）：
+当宏定义文件的编译产物和使用宏的文件不在同一目录下时，需要通过添加 `--import-path` 编译选项来指定宏定义文件编译产物的路径。以下为 Linux 平台的编译命令（具体编译选项会随着 cjc 更新而演进，以最新 cjc 的编译选项为准）：
 
 ```shell
-# 当前目录: src
-
-# 先编译宏定义文件在当前目录产生默认的动态库文件（允许指定动态库的路径，但不能指定动态库的名字）
-cjc macros/m.cj --compile-macro
+# 先编译宏定义文件在指定目录产生默认的动态库文件（允许指定动态库的路径，但不能指定动态库的名字）
+cjc macros/m.cj --compile-macro --output-dir ./target
 
 # 编译使用宏的文件，宏替换完成，产生可执行文件
-cjc demo.cj -o demo
+cjc src/demo.cj -o demo --import-path ./target --output-dir ./target
 
 # 运行可执行文件
-./demo
+./target/demo
 ```
 
 在 Linux 平台上，将生成用于包管理的 `macro_define.cjo` 和实际的动态库文件。
@@ -79,14 +78,16 @@ cjc demo.cj -o demo
 ```shell
 # 当前目录: src
 
-# 先编译宏定义文件在当前目录产生默认的动态库文件（允许指定动态库的路径，但不能指定动态库的名字）
-cjc macros/m.cj --compile-macro
+# 先编译宏定义文件在指定目录产生默认的动态库文件（允许指定动态库的路径，但不能指定动态库的名字）
+cjc macros/m.cj --compile-macro --output-dir ./target
 
 # 编译使用宏的文件，宏替换完成，产生可执行文件
-cjc demo.cj -o demo.exe
+cjc src/demo.cj -o demo.exe --import-path ./target --output-dir ./target
 ```
 
-> 说明：
+如果宏包还依赖其他动态库，则需要保证宏包在运行态（宏展开依赖宏包内方法的执行）下能够找到这些依赖。在 Linux 下可以通过设置 `LD_LIBRAYR_PATH`（Windows 下设置 `PATH`）环境变量添加所依赖动态库的路径。
+
+> **说明：**
 >
 > 宏替换过程依赖仓颉 runtime ，宏替换过程中仓颉 runtime 的初始化配置采用宏提供的默认配置，配置参数支持使用仓颉 runtime 运维日志进行查询，其中 cjHeapSize 与 cjStackSize 支持用户修改，其余暂不支持，仓颉 runtime 初始化配置可参见[runtime 初始化可选配置](../Appendix/runtime_env.md#runtime初始化可选配置)章节。
 
@@ -133,7 +134,7 @@ public macro B(input: Tokens) {
 
 ## diagReport 报错机制
 
-仓颉 ast 包提供了自定义报错接口 `diagReport`。方便定义宏的用户，在解析传入 tokens 时，对错误 tokens 内容进行自定义报错。
+仓颉标准库 `std.ast` 包提供了自定义报错接口 `diagReport`。方便定义宏的用户，在解析传入 Tokens 时，对错误 Tokens 内容进行自定义报错。
 
 自定义报错接口提供同原生编译器报错一样的输出格式，允许用户报 warning 和 error 两类错误提示信息。
 
@@ -146,7 +147,7 @@ public func diagReport(level: DiagReportLevel, tokens: Tokens, message: String, 
 其参数含义如下：
 
 - level: 报错信息等级
-- tokens: 报错信息中所引用源码内容对应的 tokens
+- tokens: 报错信息中所引用源码内容对应的 Tokens
 - message: 报错的主信息
 - hint: 辅助提示信息
 
@@ -196,7 +197,7 @@ main(): Int64 {
 
 编译宏调用文件过程中，会出现如下报错信息：
 
-```
+```text
 error: This expression is not allowed to contain identifier
  ==> call.cj:9:22:
   |
@@ -245,7 +246,7 @@ public macro Outer(input: Tokens): Tokens {
     let funcDecl = parseDecl(getTotalFunc)
 
     let decl = (parseDecl(input) as ClassDecl).getOrThrow()
-    decl.body.decls.append(funcDecl)
+    decl.body.decls.add(funcDecl)
     return decl.toTokens()
 
 }
@@ -283,8 +284,16 @@ main(): Int64 {
 在编译使用宏的文件时，在选项中，增加 `--debug-macro`，即使用仓颉宏的 _debug_ 模式。
 
 ```shell
-cjc --debug-macro demo.cj
+cjc --debug-macro demo.cj --import-path ./target
 ```
+
+> **注意：**
+>
+> 如果使用仓颉的 `CJPM` 包管理工具进行编译，可在配置文件 `cjpm.toml` 中添加 `--debug-macro` 的编译选项来使用宏的 _debug_ 模式。
+>
+> ```text
+> compile-option = "--debug-macro"
+> ```
 
 在 _debug_ 模式下，会生成临时文件 _demo.cj.macrocall_，对应宏展开的部分如下：
 
@@ -304,7 +313,7 @@ cjc --debug-macro demo.cj
 
 如果宏展开后的代码有语义错误，则编译器的错误信息会溯源到宏展开后代码的具体行列号。仓颉宏的 _debug_ 模式有以下注意事项：
 
-- 宏的 _debug_ 模式会重排源码的行列号信息，不适用于某些特殊的换行场景。比如
+- 宏的 _debug_ 模式会重排源码的行列号信息，不适用于某些特殊的换行场景。例如：
 
   ```cangjie
   // before expansion

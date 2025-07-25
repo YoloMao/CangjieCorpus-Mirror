@@ -33,13 +33,13 @@ public mut prop arguments: ArrayList<Argument>
 public mut prop at: Token
 ```
 
-功能：获取或设置 [Annotation](ast_package_classes.md#class-annotation) 节点中的 `@` 操作符。
+功能：获取或设置 [Annotation](ast_package_classes.md#class-annotation) 节点中的 `@` 操作符或 `@!` 操作符。
 
 类型：[Token](ast_package_structs.md#struct-token)
 
 异常：
 
-- [ASTException](ast_package_exceptions.md#class-astexception) - 当设置的 [Token](ast_package_structs.md#struct-token) 不是 `@` 操作符时，抛出异常。
+- [ASTException](ast_package_exceptions.md#class-astexception) - 当设置的 [Token](ast_package_structs.md#struct-token) 不是 `@` 操作符或 `@!` 操作符时，抛出异常。
 
 ### prop attributes
 
@@ -148,6 +148,10 @@ public mut prop identifier: Token
 功能：获取或设置 [Argument](ast_package_classes.md#class-argument) 节点中的标识符，如 `arg:value` 中的 `arg`，可能为 [ILLEGAL](ast_package_enums.md#illegal) 的词法单元。
 
 类型：[Token](ast_package_structs.md#struct-token)
+
+异常：
+
+- [ASTException](ast_package_exceptions.md#class-astexception) - 当获取和设置的 [Token](ast_package_structs.md#struct-token) 类型不是 [IDENTIFIER](ast_package_enums.md#identifier) 标识符或 [Token](ast_package_structs.md#struct-token) 的字面量值是空时，抛出异常。
 
 ### prop keyword
 
@@ -985,7 +989,7 @@ public mut open prop identifier: Token
 
 类型：[Token](ast_package_structs.md#struct-token)
 
-### prop isGenericDecl()
+### prop isGenericDecl
 
 ```cangjie
 public mut prop isGenericDecl: Bool
@@ -1185,15 +1189,39 @@ public mut prop constructors: ArrayList<Constructor>
 
 类型：[ArrayList](../../collection/collection_package_api/collection_package_class.md#class-arraylistt)\<[Constructor](ast_package_classes.md#class-constructor)>
 
+### prop annotations
+
+```cangjie
+public mut prop annotations: ArrayList<Annotation>
+```
+
+功能：获取或设置作用于 [EnumDecl](ast_package_classes.md#class-enumdecl) 节点的注解列表。
+
+类型：[ArrayList](../../collection/collection_package_api/collection_package_class.md#class-arraylistt)\<[Annotation](ast_package_classes.md#class-annotation)>
+
 ### prop decls
 
 ```cangjie
 public mut prop decls: ArrayList<Decl>
 ```
 
-功能：获取或设置 [EnumDecl](ast_package_classes.md#class-enumdecl) 节点内除 constructor 的其它成员。
+功能：获取或设置 [EnumDecl](ast_package_classes.md#class-enumdecl) 节点内除 constructor 的其他成员。
 
 类型：[ArrayList](../../collection/collection_package_api/collection_package_class.md#class-arraylistt)\<[Decl](ast_package_classes.md#class-decl)>
+
+### prop ellipsis
+
+```cangjie
+public mut prop ellipsis: Token
+```
+
+功能：获取或设置 [EnumDecl](ast_package_classes.md#class-enumdecl) 节点中可选的 `...` 词法单元，可能为 [ILLEGAL](ast_package_enums.md#illegal) 的词法单元类型。
+
+类型：[Token](ast_package_structs.md#struct-token)
+
+异常：
+
+- [ASTException](ast_package_exceptions.md#class-astexception) - 当设置的 [Token](ast_package_structs.md#struct-token) 不是 `...` 词法单元时，抛出异常。
 
 ### prop lBrace
 
@@ -1418,7 +1446,6 @@ public mut prop colon: Token
 异常：
 
 - [ASTException](ast_package_exceptions.md#class-astexception) - 当设置的 [Token](ast_package_structs.md#struct-token) 不是 ":" 操作符时，抛出异常。
-
 
 ### prop pattern
 
@@ -2141,7 +2168,7 @@ public class GenericConstraint <: Node {
 
 功能：表示一个泛型约束节点。
 
-一个 [GenericConstraint](ast_package_classes.md#class-genericconstraint) 节点：`interface Enumerable<U> where U <: Bounded {}` 中的 `where where U <: Bounded`。
+一个 [GenericConstraint](ast_package_classes.md#class-genericconstraint) 节点：`interface Enumerable<U> where U <: Bounded {}` 中的 `where U <: Bounded`。
 
 > **说明：**
 >
@@ -2202,7 +2229,6 @@ public mut prop upperBound: Token
 异常：
 
 - [ASTException](ast_package_exceptions.md#class-astexception) - 当设置的 [Token](ast_package_structs.md#struct-token) 不是 `<:` 运算符时，抛出异常。
-
 
 ### prop upperBounds
 
@@ -2520,7 +2546,7 @@ public mut prop items: ArrayList<ImportContent>
 
 功能：获取或设置 [ImportContent](ast_package_classes.md#class-importcontent) 节点中被导入的所有项，只有 `importKind` 为 `ImportKind.Multi` 时非空。
 
-类型：ArrayList<[ImportContent](ast_package_classes.md#class-importcontent)>
+类型：ArrayList\<[ImportContent](ast_package_classes.md#class-importcontent)>
 
 ### prop commas
 
@@ -3380,7 +3406,6 @@ public mut prop lSquare: Token
 
 - [ASTException](ast_package_exceptions.md#class-astexception) - 当设置的 [Token](ast_package_structs.md#struct-token) 不是 "[" 时，抛出异常。
 
-
 ### prop macroAttrs
 
 ```cangjie
@@ -3800,6 +3825,26 @@ public func getString(key: String): String
 
 - [Exception](../../core/core_package_api/core_package_exceptions.md#class-exception) - 当不存在 key 值对应的 [String](../../core/core_package_api/core_package_structs.md#struct-string) 类型的信息时，抛出异常。
 
+### func getTokens(String)
+
+```cangjie
+public func getTokens(key: String): Tokens
+```
+
+功能：获取对应 key 值的 [Tokens](ast_package_classes.md#class-tokens) 类型信息。
+
+参数：
+
+- key: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 用于检索的关键字的名字。
+
+返回值：
+
+- [Tokens](ast_package_classes.md#class-tokens) - 返回存在 key 值对应的 [Tokens](ast_package_classes.md#class-tokens) 类型的信息。
+
+异常：
+
+- [Exception](../../core/core_package_api/core_package_exceptions.md#class-exception) - 当不存在 key 值对应的 [Tokens](ast_package_classes.md#class-tokens) 类型的信息时，抛出异常。
+
 ### func hasItem(String)
 
 ```cangjie
@@ -3941,7 +3986,7 @@ public class MatchCase <: Node {
 }
 ```
 
-功能：表示一个 [MatchCase](ast_package_classes.md#class-matchcase) 类型。
+功能：表示 `match` 表达式中的一个 `case` 节点。
 
 一个 [MatchCase](ast_package_classes.md#class-matchcase) 节点：`case failScore where score > 0 => 0`。
 
@@ -4423,7 +4468,7 @@ public func dump(): Unit
 - 节点属性后紧跟该节点的具体类型， 如 `-declType: PrimitiveType` 表示节点类型是一个 [PrimitiveType](ast_package_classes.md#class-primitivetype) 节点。
 - 每个类型使用大括号表示类型的作用区间。
 
-语法树输出的详细格式请参考示例代码中[语法树节点打印](../ast_samples/dump.md)的内容。
+语法树输出的详细格式请参见[语法树节点打印](../ast_samples/dump.md)。
 
 ### func toTokens()
 
@@ -4443,7 +4488,7 @@ public func toTokens(): Tokens
 public func traverse(v: Visitor): Unit
 ```
 
-功能：遍历当前语法树节点及其子节点。若提前终止遍历子节点的行为，可重写 `visit` 函数并调用 `breakTraverse` 函数提前终止遍历行为，详细见 示例代码中 [自定义访问函数遍历 AST 对象示例](../ast_samples/traverse.md) 的内容。
+功能：遍历当前语法树节点及其子节点。若提前终止遍历子节点的行为，可重写 `visit` 函数并调用 `breakTraverse` 函数提前终止遍历行为，请参见[自定义访问函数遍历 AST 对象示例](../ast_samples/traverse.md)。
 
 参数：
 
@@ -5151,7 +5196,7 @@ public class PropDecl <: Decl {
 
 功能：表示一个属性定义节点。
 
-一个 [PropDecl](ast_package_classes.md#class-propdecl) 节点：`prop var X: Int64 { get() { 0 } }`。
+一个 [PropDecl](ast_package_classes.md#class-propdecl) 节点：`prop X: Int64 { get() { 0 } }`。
 
 父类型：
 
@@ -5193,7 +5238,7 @@ public mut prop getter: FuncDecl
 
 异常：
 
--[ASTException](ast_package_exceptions.md#class-astexception)：当 [PropDecl](ast_package_classes.md#class-propdecl) 节点不存在 getter 函数时，抛出异常。
+- [ASTException](ast_package_exceptions.md#class-astexception) - 当 [PropDecl](ast_package_classes.md#class-propdecl) 节点不存在 getter 函数时，抛出异常。
 
 ### prop lBrace
 
@@ -5235,7 +5280,7 @@ public mut prop setter: FuncDecl
 
 异常：
 
--[ASTException](ast_package_exceptions.md#class-astexception)：当 [PropDecl](ast_package_classes.md#class-propdecl) 节点不存在 setter 函数时，抛出异常。
+- [ASTException](ast_package_exceptions.md#class-astexception) - 当 [PropDecl](ast_package_classes.md#class-propdecl) 节点不存在 setter 函数时，抛出异常。
 
 ### init()
 
@@ -5743,7 +5788,6 @@ public mut prop commas: Tokens
 异常：
 
 - [ASTException](ast_package_exceptions.md#class-astexception) - 当设置的 [Tokens](ast_package_classes.md#class-tokens) 不是 "," 词法单元序列时，抛出异常。
-
 
 ### prop identifier
 
@@ -6391,7 +6435,7 @@ public init(inputs: Tokens)
 ## class Tokens
 
 ```cangjie
-public open class Tokens <: ToString & Iterable<Token> {
+public open class Tokens <: ToString & Iterable<Token> & ToBytes {
     public init()
     public init(tokArray: Array<Token>)
     public init(tokArrayList: ArrayList<Token>)
@@ -6404,6 +6448,7 @@ public open class Tokens <: ToString & Iterable<Token> {
 
 - [ToString](../../core/core_package_api/core_package_interfaces.md#interface-tostring)
 - [Iterable](../../core/core_package_api/core_package_interfaces.md#interface-iterablee)\<[Token](ast_package_structs.md#struct-token)>
+- [ToBytes](ast_package_interfaces.md#interface-tobytes)
 
 ### prop size
 
@@ -6535,6 +6580,10 @@ public open func get(index: Int64): Token
 
 - [Token](ast_package_structs.md#struct-token) - 指定索引的 [Token](ast_package_structs.md#struct-token)。
 
+异常：
+
+- [IndexOutOfBoundsException](../../core/core_package_api/core_package_exceptions.md#class-indexoutofboundsexception) - 当 `index` 无效时，抛出异常。
+
 ### func iterator()
 
 ```cangjie
@@ -6562,6 +6611,18 @@ public func remove(index: Int64): Tokens
 返回值：
 
 - [Tokens](ast_package_classes.md#class-tokens) - 删除指定位置的 [Token](ast_package_structs.md#struct-token) 后的 [Tokens](ast_package_classes.md#class-tokens) 对象。
+
+### func toBytes()
+
+```cangjie
+public func toBytes(): Array<UInt8>
+```
+
+功能：Tokens 类型的序列化。
+
+返回值：
+
+- [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8)> - 序列化后的字节序列。
 
 ### func toString()
 
@@ -6618,6 +6679,10 @@ public operator func [](index: Int64): Token
 返回值：
 
 - [Token](ast_package_structs.md#struct-token) - 返回索引对应的 [Token](ast_package_structs.md#struct-token)。
+
+异常：
+
+- [IndexOutOfBoundsException](../../core/core_package_api/core_package_exceptions.md#class-indexoutofboundsexception) - 当 `index` 无效时，抛出异常。
 
 ### operator func \[](Range\<Int64>)
 
@@ -7357,7 +7422,6 @@ public mut prop colon: Token
 
 类型：[Token](ast_package_structs.md#struct-token)
 
-
 异常：
 
 - [ASTException](ast_package_exceptions.md#class-astexception) - 当设置的 [Token](ast_package_structs.md#struct-token) 不是 ":" 操作符时，抛出异常。
@@ -7392,7 +7456,6 @@ public mut prop colon: Token
 异常：
 
 - [ASTException](ast_package_exceptions.md#class-astexception) - 当设置的 [Token](ast_package_structs.md#struct-token) 不是 ":" 操作符时，抛出异常。
-
 
 ### prop pattern
 
@@ -7508,7 +7571,7 @@ public class VArrayExpr <: Expr {
 
 功能：表示 `VArray` 的实例节点。
 
-一个 [VArrayExpr](ast_package_classes.md#class-varrayexpr) 节点：`let arr: VArray<Int64, $5> = VArray<Int64, $5> { i => i}` 中的 `VArray<Int64, $5> { i => i}`。
+一个 [VArrayExpr](ast_package_classes.md#class-varrayexpr) 节点：`let arr: VArray<Int64, $5> = VArray<Int64, $5>({ i => i })` 中的 `VArray<Int64, $5>({ i => i })`。
 
 父类型：
 
@@ -7871,7 +7934,7 @@ public init(identifier: Token)
 
 参数：
 
-- identifier: [Token](ast_package_structs.md#struct-token) - 当将要构造 [VarOrEnumPattern](ast_package_classes.md#class-varorenumpattern) 类型的词法单元。
+- identifier: [Token](ast_package_structs.md#struct-token) - 将要构造 [VarOrEnumPattern](ast_package_classes.md#class-varorenumpattern) 类型的词法单元。
 
 异常：
 

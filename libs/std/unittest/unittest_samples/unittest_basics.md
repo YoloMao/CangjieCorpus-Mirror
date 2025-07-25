@@ -133,7 +133,7 @@ func testAddIncorrectAssert() {
 
 使用 `unittest` 提供的两种断言宏时，可采用如下方式：
 
-- 相等断言，其中 `@Assert(a, b)` 或 `@Expect(a, b)` 的两个参数 `a` 和 `b` ，检查他们的参数值是否相等；假设 `a` 的类型为 `A` ， `b` 的类型为 `B` ， `A` 必须实现了 Equatable\<B> 。
+- 相等断言，其中 `@Assert(a, b)` 或 `@Expect(a, b)` 的两个参数 `a` 和 `b` ，检查它们的参数值是否相等；假设 `a` 的类型为 `A` ， `b` 的类型为 `B` ， `A` 必须实现了 Equatable\<B> 。
 - 布尔断言 `@Assert(c)` 或 `@Expect(c)` ，其参数 `c` 为 `Bool` 类型，参数值 `true` 或 `false` 。
 
 断言的第二种形式 `@Assert(c)` 可以视为 `@Assert(c, true)` 的简写形式。
@@ -174,19 +174,19 @@ func validate_even_number_generator() {
 ```cangjie
 // No.1
 @AssertThrows(throw Exception())
- 
+
 // 语义上与 No.1 相同
 @AssertThrows[Exception](throw Exception())
- 
+
 @AssertThrows[IllegalStateException | NoneValueException](random.seed = 42u64)
- 
+
 @ExpectThrows[OutOfMemoryError](foo())
- 
+
 @ExpectThrows({
     foo()
     boo()
 })
- 
+
 @ExpectThrows[OutOfMemoryError]({
     for (i in list) {
         foo(i)
@@ -212,7 +212,7 @@ let e: C = @AssertThrows[A | B](foo())
 
 #### `@ExpectThrows` 的返回类型
 
-`@ExpectThrows` 检查失败后也会继续执行，在指定的异常不超过一个时，它返回的类型是 Option\<T>，其中 `T` 是预期的异常类型:
+`@ExpectThrows` 检查失败后也会继续执行，在指定的异常不超过一个时，它返回的类型是 Option\<T>，其中 `T` 是预期的异常类型：
 
 ```cangjie
 let e: ?NoneValueException = @ExpectThrows[NoneValueException](foo())
@@ -242,7 +242,7 @@ let e: ?Exception = @ExpectThrows[NoneValueException | IllegalMemoryException](f
 class FooTest {
     @BeforeAll
     func setup() {
-        //在测试执行前运行这段代码。
+        // 在测试执行前运行这段代码。
     }
 }
 ```
@@ -277,13 +277,13 @@ class FooTest {
 class Foo {
     @BeforeEach
     func prepareData(testCaseName: String) {
-        //测试用例函数的名称作为参数
-        //本例中的"bar"
+        // 测试用例函数的名称作为参数
+        // 本例中的"bar"
     }
 
     @AfterEach
     func cleanup() {
-        //不指定参数也可以
+        // 不指定参数也可以
     }
 
     @TestCase
@@ -315,7 +315,7 @@ class Foo {
 运行 cjc 编译的可执行文件 test ，添加参数选项
 
 ```shell
-./test --bench --filter MyTest.*Test,-stringTest
+./test --bench --filter=MyTest.*Test,-stringTest
 ```
 
 ### `--bench`
@@ -331,7 +331,34 @@ class Foo {
 3. `--filter=*.*Test,*.*case*` 匹配所有测试类中以 Test 结尾的用例，或者所有测试类中名字中带有 case 的测试用例
 4. `--filter=MyTest*.*Test,*.*case*,-*.*myTest` 匹配所有 MyTest 开头测试类中以 Test 结尾的用例，或者名字中带有 case的用例，或者名字中不带有 myTest 的测试用例
 
-另外，`--filter` 后有 `=` 和无 `=` 均支持。
+### `--dry-run`
+
+执行单元测试框架而不实际运行测试。可用于查看测试用例列表。
+
+### `--include-tags`
+
+若需按 [`@Tag`](../../unittest_testmacro/unittest_testmacro_package_api/unittest_testmacro_package_macros.md#tag-宏) 宏中指定的类别选择测试的子集，则可使用 `--include-tags` 或 `--exclude-tags` 运行选项。例如：
+
+1. `--include-tags=Unittest` 运行所有的带有 `@Tag[Unittest]` 的测试用例。
+2. `--include-tags=Unittest,Smoke` 运行所有的带有 `@Tag[Unittest]`和/或`@Tag[Smoke]` 的测试用例。
+3. `--include-tags=Unittest+Smoke` 运行所有的带有 `@Tag[Unittest]`和`@Tag[Smoke]` 的测试用例。
+4. `--include-tags=Unittest+Smoke+JiraTask3271,Backend` 运行所有的带有 `@Tag[Backend]`和/或`@Tag[Unittest, Smoke, JiraTask3271]` 的测试用例。
+
+> ** 注意 **
+> 如果没有符合指定标签类别的测试用例。框架将不运行任何内容。
+> 可以与 `exclude-tags` 结合。详见 [`--exclude-tags`](./unittest_basics.md#--exclude-tags)。
+
+### `--exclude-tags`
+
+若需按 [`@Tag`](../../unittest_testmacro/unittest_testmacro_package_api/unittest_testmacro_package_macros.md#tag-宏) 宏中指定的类别选择测试的子集，则可使用 `--include-tags` 或 `--exclude-tags` 运行选项。例如：
+
+1. `--exclude-tags=Unittest` 运行所有的**未**带有 `@Tag[Unittest]` 的测试用例。
+2. `--exclude-tags=Unittest,Smoke` 运行所有的**未**带有 `@Tag[Unittest]`和/或`@Tag[Smoke]` 的测试用例。
+3. `--exclude-tags=Unittest+Smoke` 运行所有的**未**同时带有 `@Tag[Unittest]`、`@Tag[Smoke]` 的测试用例。
+4. `--include-tags=Unittest --exclude-tags=Smoke` 运行所有带有 `@Tag[Unittest]` 但不带有 `@Tag[Smoke]` 的测试用例。
+
+> ** 注意 **
+> `exclude-tags` 的优先级高于 `include-tags`，如果用例被排除，则必定不会被执行，例如 `--include-tags=Unittest+Smoke --exclude-tags=Smoke` 则带有 `@Tag[Smoke]` 的用例不会被执行。
 
 ### `--timeout-each=timeout`
 
@@ -385,9 +412,62 @@ class Foo {
 
 基准测试支持：
 
-- `csv`：csv 报告中有统计数据。
-- `csv-raw`： csv-raw 报告中只有批次的原始测量值。
+- `csv`: csv 报告中有统计数据。
+- `csv-raw`: csv-raw 报告中只有批次的原始测量值。
+- `html`: html 报告包含显示的所有结果和各种统计属性。可以在任何浏览器中查看。对于每个基准测试函数，html 报告包含：
+    - 每个基准参数的摘要。
+    - 执行环境相关信息的汇总，例如硬件信息、操作系统信息、编译信息、环境变量。
+    - 每个基准参数的选项卡包含详细的统计信息。
+    - 核密度估计图。这是对基准函数的单次执行实际花费的时间的概率估计。
+    - 原始测量值及其线性回归图。
+    - 具有统计属性（例如平均值、中位数、R 平方、框架开销、标准差）及其置信区间的表。
 
 基准测试的默认使用的格式为:
 
 - `csv`
+
+### `--baseline-path=path`
+
+此选项指定用于比较的性能报告所在的路径。默认情况下，使用 ['--report-path'](#--report-pathpath) 的值。
+
+### `--capture-output`
+
+此选项使能测试用例的打印输出捕获。
+默认情况下，在 `cjpm test` 执行时使能捕获，否则禁用捕获。
+当测试用例打印输出捕获未使能时，打印输出将立即传播到单元测试输出。否则，单元测试将收集和处理测试用例的打印输出。
+
+需要捕获打印输出的场景如下：
+
+- 使用 `--parallel` 执行时防止测试输出交错。
+- 隐藏已通过测试的输出以使单元测试报告更加清晰。
+- 将每个测试用例的输出分开，以查看哪个测试用例打印了什么。
+
+### `--no-capture-output`
+
+此选项禁用测试用例打印输出捕获。
+默认情况下，在 `cjpm test` 执行中启用捕获，否则禁用捕获。
+
+使测试用例打印输出立即传播到单元测试输出。
+
+### `--show-all-output`
+
+单元测试框架将打印报告中的所有输出，包括通过的测试用例的输出。
+如果禁用测试输出捕获，则此选项失效。
+
+### `--coverage-guided`
+
+单元测试框架将使能[覆盖率引导的随机参数化测试](./unittest_parameterized_tests.md#覆盖率引导的随机参数化测试)。
+
+### `--progress-brief`
+
+启用单元测试的简短（单行）动态进度报告。
+
+### `--progress-entries-limit=limit`
+
+限制进度输出中显示的最大条目数。 `limit` 的合法值：非负整数值。
+值 `0` 表示没有限制。默认值：无限制。
+
+### `--no-progress`
+
+禁用动态进度报告。
+如果指定选项 `--dry-run`，则隐含选项 `--no-progress`。

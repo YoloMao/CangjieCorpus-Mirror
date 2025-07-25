@@ -13,10 +13,10 @@ public class ConcurrentModificationException <: Exception {
 
 由于 collection 包提供的容器类都不支持并发修改，因此在执行某些操作时，会抛出 [ConcurrentModificationException](collection_package_exception.md#class-concurrentmodificationexception)。
 
-典型的抛异常场景有：
+典型的抛出异常场景有：
 
-- 使用 for-in 遍历一个容器过程中对容器进行修改时([HashMapIterator](collection_package_class.md#class-hashmapiteratork-v-where-k--hashable--equatablek)的[remove](../../os_posix/os_posix_package_api/os_posix_package_funcs.md#func-removestring)() 方法除外)。
-- 在使用声明周期较短的类型，如 [EntryView](colleciton_package_struct.md#struct-entryviewk-v-where-k--hashable--equatablek)、[TreeMapNode](colleciton_package_struct.md#struct-treemapnodek-v-where-k--comparablek) 时，如果其所在的容器内容被修改，也会抛出异常。
+- 使用 for-in 遍历一个容器过程中对容器进行修改时([HashMapIterator](collection_package_class.md#class-hashmapiteratork-v-where-k--hashable--equatablek)的[remove](../../posix/posix_package_api/posix_package_funcs.md#func-removestring-deprecated)() 方法除外)。
+- 在使用声明周期较短的类型，如 [MapEntryView](collection_package_interface.md#interface-mapentryviewk-v) 时，如果其所在的容器内容被修改，也会抛出异常。
 
 父类型：
 

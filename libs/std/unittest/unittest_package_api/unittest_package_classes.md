@@ -1,5 +1,119 @@
 # 类
 
+## class AssertionCtx
+
+```cangjie
+public class AssertionCtx
+```
+
+功能：存储用户定义的断言的状态。提供用于编写​​用户定义断言的方法。
+
+### prop args
+
+```cangjie
+public prop args: String
+```
+
+功能：返回以逗号分隔的未解析的用户定义断言参数的字符串。
+
+类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)。
+
+### prop caller
+
+```cangjie
+public prop caller: String
+```
+
+功能：获取用户定义的断言函数的标识符。
+
+类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)。
+
+### prop hasErrors
+
+```cangjie
+public prop hasErrors: Bool
+```
+
+功能：如果用户定义内的任何断言失败，则为 `true` 。否则为 `false`。
+
+类型：[Bool](../../core/core_package_api/core_package_intrinsics.md#bool)
+
+### func arg(String)
+
+```cangjie
+public func arg(key: String): String
+```
+
+功能：返回表示原始传递的标识符的参数值的字符串表达，与参数列表中的标识符匹配。
+
+参数：
+
+- key: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 函数参数列表中的标识符。
+
+返回值：
+
+- [String](../../core/core_package_api/core_package_structs.md#struct-string) - 对应标识符的参数值字符串表达。
+
+### func fail(String)
+
+```cangjie
+public func fail(message: String): Nothing
+```
+
+功能：存储失败信息，在用户定义的断言函数中提供并抛出 [`AssertExpection`](./unittest_package_exceptions.md#class-assertexception)。
+
+参数：
+
+- message: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 失败信息。
+
+### func fail\<PP>(PP)
+
+```cangjie
+public func fail<PP>(pt: PP): Nothing where PP <: PrettyPrintable
+```
+
+功能：存储失败信息，在用户定义的断言函数中提供并抛出 [`AssertExpection`](./unittest_package_exceptions.md#class-assertexception)。
+
+参数：
+
+- pt: PP <: [PrettyPrintable](../../unittest_common/unittest_common_package_api/unittest_common_package_interfaces.md#interface-prettyprintable) - 失败信息。
+
+### func failExpect(String)
+
+```cangjie
+public func failExpect(message: String): Unit
+```
+
+功能：存储失败信息，在用户定义的断言函数内提供并继续函数执行。
+
+参数：
+
+- message: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 失败信息。
+
+### func failExpect\<PP>(PP)
+
+```cangjie
+public func failExpect<PP>(pt: PP): Unit where PP <: PrettyPrintable
+```
+
+功能：存储失败信息，在用户定义的断言函数内提供并继续函数执行。
+
+参数：
+
+- pt: PP <: [PrettyPrintable](../../unittest_common/unittest_common_package_api/unittest_common_package_interfaces.md#interface-prettyprintable) - 失败信息。
+
+### func setArgsAliases(Array\<String>)
+
+```cangjie
+public func setArgsAliases(aliases: Array<String>): Unit
+```
+
+功能：设置别名以通过函数 [`arg`](#func-argstring) 访问未解析的用户定义的断言函数参数。框架内部使用，用户无需使用该函数。
+
+参数：
+
+- aliases: [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[String](../../core/core_package_api/core_package_structs.md#struct-string)> - 标识符数组。数组的大小应与参数列表匹配(除 [`AssertionCtx`](#class-assertionctx) 外)。
+
 ## class Benchmark
 
 ```cangjie
@@ -21,7 +135,7 @@ public prop name: String
 ### func run()
 
 ```cangjie
-public func run(): BenchReport 
+public func run(): BenchReport
 ```
 
 功能：运行该性能用例。
@@ -78,7 +192,7 @@ public static func createParameterized<T>(name: String, strategy: DataStrategyPr
 参数：
 
 - name : [String](../../core/core_package_api/core_package_structs.md#struct-string) - 用例名称。
-- strategy : [DataStrategyProcessor](#class-datastrategyprocessor) - 参数数据处理器。
+- strategy : [DataStrategyProcessor](#class-datastrategyprocessort) - 参数数据处理器。
 - configuration!: [Configuration](../../unittest_common/unittest_common_package_api/unittest_common_package_classes.md#class-configuration) - 用例配置信息。
 - body!: () -> Unit - 用例执行体。
 
@@ -108,36 +222,38 @@ public func reportTo<T>(reporter: Reporter<BenchReport, T>): T
 
 参数：
 
-- reporter : [Reporter](#class-report)<[BenchReport](#class-benchreport), T> - 性能用例结果报告
+- reporter : [Reporter](#class-report)\<[BenchReport](#class-benchreport), T> - 性能用例结果报告。
 
 返回值：
 
 - T : 打印结果返回值。一般为 Unit 类型。
 
-## class CartesianProductProcessor
+## class CartesianProductProcessor\<T0,T1>
 
 ```cangjie
-public class CartesianProductProcessor<T0,T1> <: DataStrategyProcessor<(T0,T1)> {}
+public class CartesianProductProcessor<T0,T1> <: DataStrategyProcessor<(T0,T1)> {
+    public CartesianProductProcessor(let left: DataStrategyProcessor<T0>, let right: DataStrategyProcessor<T1>)
+}
 ```
 
 功能：笛卡尔积处理器。
 
 父类型：
 
-- [DataStrategyProcessor](#class-datastrategyprocessor)\<(T0, T1)>
+- [DataStrategyProcessor](#class-datastrategyprocessort)\<(T0, T1)>
 
-### init(DataStrategyProcessor\<T0>, DataStrategyProcessor\<T1>)
+### CartesianProductProcessor(DataStrategyProcessor\<T0>, DataStrategyProcessor\<T1>)
 
 ```cangjie
 public CartesianProductProcessor(let left: DataStrategyProcessor<T0>, let right: DataStrategyProcessor<T1>)
 ```
 
-功能：构造函数
+功能：CartesianProductProcessor主构造函数。
 
 参数：
 
-- left : [DataStrategyProcessor](#class-datastrategyprocessor)\<T0> - 数据策略处理器。
-- right : [DataStrategyProcessor](#class-datastrategyprocessor)\<T1> - 数据策略处理器。
+- left : [DataStrategyProcessor](#class-datastrategyprocessort)\<T0> - 数据策略处理器。
+- right : [DataStrategyProcessor](#class-datastrategyprocessort)\<T1> - 数据策略处理器。
 
 ## class ConsoleReporter
 
@@ -154,23 +270,51 @@ public class ConsoleReporter <: Reporter<TestReport, Unit> & Reporter<BenchRepor
 - [Reporter](unittest_package_interfaces.md#interface-reporter)\<[TestReport](#class-testreport), [Unit](../../core/core_package_api/core_package_intrinsics.md#unit)>
 - [Reporter](unittest_package_interfaces.md#interface-reporter)\<[BenchReport](#class-benchreport), [Unit](../../core/core_package_api/core_package_intrinsics.md#unit)>
 
-### init(Bool)
+### ConsoleReporter(Bool)
 
 ```cangjie
 public ConsoleReporter(let colored!: Bool = true)
 ```
 
-功能：构造函数。
+功能：ConsoleReporter构造函数。
 
 参数：
 
-- colored!: [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) -  是否使用带颜色的打印，默认带颜色。
+- colored!: [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 是否使用带颜色的打印，默认带颜色。
+
+## class TextReporter\<PP>
+
+```cangjie
+public class TextReporter<PP> <: Reporter<TestReport, PP> & Reporter<BenchReport, PP>
+        where PP <: PrettyPrinter {
+    public TextReporter(let into!: PP)
+}
+```
+
+功能：将单元测试用例结果或性能测试结果打印到 [PrettyPrinter](../../unittest_common/unittest_common_package_api/unittest_common_package_classes.md#class-prettyprinter) 的子类。格式与 [ConsoleReporter](#class-consolereporter) 相同。
+
+父类型：
+
+- [Reporter](unittest_package_interfaces.md#interface-reporter)\<[TestReport](#class-testreport), PP>
+- [Reporter](unittest_package_interfaces.md#interface-reporter)\<[BenchReport](#class-benchreport), PP>
+
+### TextReporter(PP)
+
+```cangjie
+public TextReporter(let into!: PP)
+```
+
+功能：TextReporter构造函数。
+
+参数：
+
+- into!: PP - [PrettyPrinter](../../unittest_common/unittest_common_package_api/unittest_common_package_classes.md#class-prettyprinter) 的子类。打印报告。
 
 ## class CsvReporter
 
 ```cangjie
 public class CsvReporter <: Reporter<BenchReport, Unit> {
-    public CsvReporter(let directory: Directory)
+    public CsvReporter(let directory: Path)
 }
 ```
 
@@ -180,23 +324,23 @@ public class CsvReporter <: Reporter<BenchReport, Unit> {
 
 - [Reporter](unittest_package_interfaces.md#interface-reporter)\<[BenchReport](#class-benchreport), [Unit](../../core/core_package_api/core_package_intrinsics.md#unit)>
 
-### init(Directory)
+### CsvReporter(Path)
 
 ```cangjie
-public CsvReporter(let directory: Directory)
+public CsvReporter(let directory: Path)
 ```
 
-功能：构造函数。
+功能：CsvReporter构造函数。
 
 参数：
 
-- directory: [Directory](../../fs/fs_package_api/fs_package_classes.md#class-directory) - 打印文件生成地址。
+- directory: [Path](../../fs/fs_package_api/fs_package_structs.md#struct-path) - 打印文件生成地址。
 
 ## class CsvRawReporter
 
 ```cangjie
 public class CsvRawReporter <: Reporter<BenchReport, Unit> {
-    public CsvRawReporter(let directory: Directory)
+    public CsvRawReporter(let directory: Path)
 }
 ```
 
@@ -206,19 +350,19 @@ public class CsvRawReporter <: Reporter<BenchReport, Unit> {
 
 - [Reporter](unittest_package_interfaces.md#interface-reporter)\<[BenchReport](#class-benchreport), [Unit](../../core/core_package_api/core_package_intrinsics.md#unit)>
 
-### init(Directory)
+### CsvRawReporter(Path)
 
 ```cangjie
-public CsvRawReporter(let directory: Directory)
+public CsvRawReporter(let directory: Path)
 ```
 
-功能：构造函数。
+功能：CsvRawReporter构造函数。
 
 参数：
 
-- directory: [Directory](../../fs/fs_package_api/fs_package_classes.md#class-directory) - 打印文件生成地址。
+- directory: [Path](../../fs/fs_package_api/fs_package_structs.md#struct-path) - 打印文件生成地址。
 
-## class CsvStrategy
+## class CsvStrategy\<T>
 
 ```cangjie
 public class CsvStrategy<T> <: DataStrategy<T> where T <: Serializable<T> {}
@@ -244,9 +388,9 @@ public override func provider(configuration: Configuration): SerializableProvide
 
 返回值：
 
-- [SerializableProvider](#class-serializableprovider)\<T> - 序列化迭代器对象。
+- [SerializableProvider\<T>](#class-serializableprovidert) - 序列化迭代器对象。
 
-## class DataStrategyProcessor
+## class DataStrategyProcessor\<T>
 
 ```cangjie
 abstract sealed class DataStrategyProcessor<T> {}
@@ -260,7 +404,7 @@ abstract sealed class DataStrategyProcessor<T> {}
 protected prop isInfinite: Bool
 ```
 
-功能： 获取该策略是否为无限。
+功能：获取该策略是否为无限。
 
 类型：[Bool](../../core/core_package_api/core_package_intrinsics.md#bool)。
 
@@ -318,7 +462,7 @@ protected func lastItemInfo(): Array<InputParameter>
 
 返回值：
 
-- Array<[InputParameter](./unittest_package_classes.md#class-inputparameter)> - 上一个处理条目的信息。
+- Array\<[InputParameter](./unittest_package_classes.md#class-inputparameter)> - 上一个处理条目的信息。
 
 ### func lastItem(Configuration)
 
@@ -384,7 +528,7 @@ public static func start(s: DataStrategy<T>, name: String): SimpleProcessor<T>
 
 返回值：
 
-- [SimpleProcessor](#class-simpleprocessor)\<T> - 测试用例处理器。
+- [SimpleProcessor\<T>](#class-simpleprocessort) - 测试用例处理器。
 
 ### static func start\<U>(() -> DataStrategy\<U>, String)
 
@@ -401,7 +545,7 @@ public static func start<U>(f: () -> DataStrategy<U>, name: String): DataStrateg
 
 返回值：
 
-- [DataStrategyProcessor](#class-datastrategyprocessor)\<T> - 数据策略处理器。
+- [DataStrategyProcessor](#class-datastrategyprocessort)\<T> - 数据策略处理器。
 
 ### static func start(() -> DataStrategy\<T>, String, Int64)
 
@@ -415,11 +559,11 @@ public static func start(f: () -> DataStrategy<T>, name: String, x!: Int64 = 0):
 
 - s: () -> [DataStrategy](../../unittest_common/unittest_common_package_api/unittest_common_package_interfaces.md#interface-datastrategy)\<T> - 生成数据策略的闭包。
 - name: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 用例名称。
-- x!: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) -  为实现不同返回值的重构增加的参数。
+- x!: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 为实现不同返回值的重构增加的参数。
 
 返回值：
 
-- [SimpleProcessor](#class-simpleprocessor)\<T> - 测试用例处理器。
+- [SimpleProcessor\<T>](#class-simpleprocessort) - 测试用例处理器。
 
 ### static func start(() -> DataStrategyProcessor\<T>, String)
 
@@ -431,12 +575,12 @@ public static func start(f: () -> DataStrategyProcessor<T>, name: String): DataS
 
 参数：
 
-- s: () -> [DataStrategyProcessor](#class-datastrategyprocessor)\<T> - 生成数据策略处理器的闭包。
+- s: () -> [DataStrategyProcessor](#class-datastrategyprocessort)\<T> - 生成数据策略处理器的闭包。
 - name: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 用例名称。
 
 返回值：
 
-- [DataStrategyProcessor](#class-datastrategyprocessor)\<T> - 数据策略处理器。
+- [DataStrategyProcessor](#class-datastrategyprocessort)\<T> - 数据策略处理器。
 
 ### static func start\<U>(() -> DataStrategyProcessor\<U>, String, Int64)
 
@@ -449,13 +593,13 @@ public static func start<U>(f: () -> DataStrategyProcessor<U>, name: String, x!:
 
 参数：
 
-- s: () -> [DataStrategyProcessor](#class-datastrategyprocessor)\<U> - 生成数据策略处理器的闭包。
+- s: () -> [DataStrategyProcessor](#class-datastrategyprocessort)\<U> - 生成数据策略处理器的闭包。
 - name: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 用例名称。
-- x!: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) -  为实现不同返回值的重构增加的参数。
+- x!: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 为实现不同返回值的重构增加的参数。
 
 返回值：
 
-- [DataStrategyProcessor](#class-datastrategyprocessor)\<U> where U <: [BenchInputProvider](./unittest_package_interfaces.md#interface-benchinputprovider)\<T> - 数据策略处理器。
+- [DataStrategyProcessor](#class-datastrategyprocessort)\<U> where U <: [BenchInputProvider](./unittest_package_interfaces.md#interface-benchinputprovider)\<T> - 数据策略处理器。
 
 ### extend \<T> DataStrategyProcessor\<T>
 
@@ -466,7 +610,7 @@ extend <T> DataStrategyProcessor<T> {}
 #### func map\<R>((T) -> R)
 
 ```cangjie
-public func map<R>(f: (T) -> R): MapProcessor<T, R> 
+public func map<R>(f: (T) -> R): MapProcessor<T, R>
 ```
 
 功能：简单地将 `f` 应用于原始数据策略的每个项目。 [Shrink](../../unittest_prop_test/unittest_prop_test_package_api/unittest_prop_test_package_interfaces.md#interface-shrinkt) 也会发生在原始输入上，然后进行映射。
@@ -477,7 +621,7 @@ public func map<R>(f: (T) -> R): MapProcessor<T, R>
 
 返回值：
 
-- [MapProcessor](#class-mapprocessor)\<T, R> - 应用 `f` 后的处理器。
+- [MapProcessor\<T, R>](#class-mapprocessortr) - 应用 `f` 后的处理器。
 
 #### func mapWithConfig\<R>((T, Configuration) -> R)
 
@@ -493,7 +637,7 @@ public func mapWithConfig<R>(f: (T, Configuration) -> R): MapProcessor<T, R>
 
 返回值：
 
-- [MapProcessor](#class-mapprocessor)\<T, R> - 应用 `f` 后的处理器。
+- [MapProcessor\<T, R>](#class-mapprocessortr) - 应用 `f` 后的处理器。
 
 #### func flatMap\<R>((T) -> DataProvider\<R>)
 
@@ -509,7 +653,7 @@ public func flatMap<R>(f: (T) -> DataProvider<R>): FlatMapProcessor<T, R>
 
 返回值：
 
-- [FlatMapProcessor](#class-flatmapprocessor)\<T, R> - 应用 `f` 后的处理器。
+- [FlatMapProcessor\<T, R>](#class-flatmapprocessortr) - 应用 `f` 后的处理器。
 
 #### func flatMapStrategy((T) -> DataStrategy\<R>)
 
@@ -525,7 +669,7 @@ public func flatMapStrategy<R>(f: (T) -> DataStrategy<R>): FlatMapStrategyProces
 
 返回值：
 
-- [FlatMapStrategyProcessor](#class-flatmapstrategyprocessor)\<T, R> - 应用 `f` 后的处理器。
+- [FlatMapStrategyProcessor\<T, R>](#class-flatmapstrategyprocessortr) - 应用 `f` 后的处理器。
 
 #### func product(DataStrategyProcessor\<R>)
 
@@ -539,13 +683,13 @@ public func product<R>(p: DataStrategyProcessor<R>): CartesianProductProcessor<T
 
 参数：
 
-- p: [DataStrategyProcessor](#class-datastrategyprocessor)\<R> - 数据策略处理器。
+- p: [DataStrategyProcessor](#class-datastrategyprocessort)\<R> - 数据策略处理器。
 
 返回值：
 
-- [CartesianProductProcessor](#class-cartesianproductprocessor)\<T, R> - 笛卡尔积处理器。
+- [CartesianProductProcessor\<T, R>](#class-cartesianproductprocessort0t1) - 笛卡尔积处理器。
 
-## class FlatMapProcessor
+## class FlatMapProcessor\<T,R>
 
 ```cangjie
 public class FlatMapProcessor<T,R> <: DataStrategyProcessor<R> {}
@@ -555,9 +699,9 @@ public class FlatMapProcessor<T,R> <: DataStrategyProcessor<R> {}
 
 父类型：
 
-- [DataStrategyProcessor](#class-datastrategyprocessor)\<R>
+- [DataStrategyProcessor](#class-datastrategyprocessort)\<R>
 
-## class FlatMapStrategyProcessor
+## class FlatMapStrategyProcessor\<T,R>
 
 ```cangjie
 public class FlatMapStrategyProcessor<T,R> <: DataStrategyProcessor<R> {}
@@ -567,7 +711,7 @@ public class FlatMapStrategyProcessor<T,R> <: DataStrategyProcessor<R> {}
 
 父类型：
 
-- [DataStrategyProcessor](#class-datastrategyprocessor)\<R>
+- [DataStrategyProcessor](#class-datastrategyprocessort)\<R>
 
 ## class InputParameter
 
@@ -575,9 +719,9 @@ public class FlatMapStrategyProcessor<T,R> <: DataStrategyProcessor<R> {}
 public class InputParameter {}
 ```
 
-功能：入参对象类型
+功能：入参对象类型。
 
-## class JsonStrategy
+## class JsonStrategy\<T>
 
 ```cangjie
 public class JsonStrategy<T> <: DataStrategy<T> where T <: Serializable<T> {}
@@ -631,9 +775,9 @@ protected open func advance(): ?Unit
 protected open func recover(): Unit
 ```
 
-功能： 恢复或后退一个值。
+功能：恢复或后退一个值。
 
-## class MapProcessor
+## class MapProcessor\<T,R>
 
 ```cangjie
 public class MapProcessor<T,R> <: DataStrategyProcessor<R> {}
@@ -643,22 +787,22 @@ public class MapProcessor<T,R> <: DataStrategyProcessor<R> {}
 
 父类型：
 
-- [DataStrategyProcessor](#class-datastrategyprocessor)\<R>
+- [DataStrategyProcessor](#class-datastrategyprocessort)\<R>
 
 ## class PowerAssertDiagramBuilder
 
 ```cangjie
 public class PowerAssertDiagramBuilder {
-    public init(expression: String, initialPosition: Int64)
+    public init(expression: String)
 }
 ```
 
 功能：[PowerAssert](../../unittest_testmacro/unittest_testmacro_package_api/unittest_testmacro_package_macros.md#powerassert-宏) 输出结果构造器。
 
-### init(String, Int64)
+### init(String)
 
 ```cangjie
-public init(expression: String, initialPosition: Int64)
+public init(expression: String)
 ```
 
 功能：构造函数。
@@ -666,12 +810,11 @@ public init(expression: String, initialPosition: Int64)
 参数：
 
 - expression: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 表达式字符串。
-- initialPosition: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) -  表达式的初始位置。
 
 ### func r\<T>(T, String, Int64)
 
 ```cangjie
-public func r<T>(value: T, exprAsText: String, position: Int64): T 
+public func r<T>(value: T, exprAsText: String, position: Int64): T
 ```
 
 功能：记录对比数据。
@@ -680,7 +823,7 @@ public func r<T>(value: T, exprAsText: String, position: Int64): T
 
 - value: T - 被记录的数据。
 - exprAsText: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 表达式字符串。
-- position: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) -  位置信息。
+- position: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 位置信息。
 
 返回值：
 
@@ -698,11 +841,29 @@ public func r(value: String, exprAsText: String, position: Int64): String
 
 - value: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 被记录的数据。
 - exprAsText: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 表达式字符串。
-- position: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) -  位置信息。
+- position: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 位置信息。
 
 返回值：
 
 - [String](../../core/core_package_api/core_package_structs.md#struct-string) - 被记录的数据。
+
+### func r(Rune, String, Int64)
+
+```cangjie
+public func r(value: Rune, exprAsText: String, position: Int64): Rune
+```
+
+功能：记录对比数据。
+
+参数：
+
+- value: [Rune](../../core/core_package_api/core_package_intrinsics.md#rune) - 被记录的数据。
+- exprAsText: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 表达式字符串。
+- position: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 位置信息。
+
+返回值：
+
+- [Rune](../../core/core_package_api/core_package_structs.md#struct-string) - 被记录的数据。
 
 ### func h(Exception, String, Int64)
 
@@ -716,7 +877,7 @@ public func h(exception: Exception, exprAsText: String, position: Int64): Nothin
 
 - exception: Exception - 需要被处理的异常。
 - exprAsText: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 表达式字符串。
-- position: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) -  位置信息。
+- position: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 位置信息。
 
 ### func w(Bool)
 
@@ -730,7 +891,7 @@ public func w(passed: Bool): Unit
 
 - passed: [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 用例是否通过。
 
-## class RandomDataProvider
+## class RandomDataProvider\<T>
 
 ```cangjie
 public class RandomDataProvider<T> <: DataProvider<T> where T <: Arbitrary<T> {
@@ -744,13 +905,13 @@ public class RandomDataProvider<T> <: DataProvider<T> where T <: Arbitrary<T> {
 
 - [DataProvider](../../unittest_common/unittest_common_package_api/unittest_common_package_interfaces.md#interface-dataprovider)\<T>
 
-### init(Configuration)
+### RandomDataProvider(Configuration)
 
 ```cangjie
 public RandomDataProvider(private let configuration: Configuration)
 ```
 
-功能：构造一个随机数据提供者的对象。
+功能：构造一个随机数据提供者RandomDataProvider的对象。
 
 参数：
 
@@ -782,7 +943,7 @@ public override func provide(): Iterable<T>
 
 - [Iterable](../../core/core_package_api/core_package_interfaces.md#interface-iterablee)\<T> - 从 T 的任意实例创建的无限迭代器。
 
-## class RandomDataShrinker
+## class RandomDataShrinker\<T>
 
 ```cangjie
 public class RandomDataShrinker<T> <: DataShrinker<T> {}
@@ -810,7 +971,7 @@ public override func shrink(value: T): Iterable<T>
 
 - [Iterable](../../core/core_package_api/core_package_interfaces.md#interface-iterablee)\<T> - 如果参数实现了 [Shrink](../../unittest_prop_test/unittest_prop_test_package_api/unittest_prop_test_package_interfaces.md#interface-shrinkt) 接口，则返回缩减后的迭代器，如果未实现，则返回空的数组。
 
-## class RandomDataStrategy
+## class RandomDataStrategy\<T>
 
 ```cangjie
 public class RandomDataStrategy<T> <: DataStrategy<T> where T <: Arbitrary<T>{}
@@ -836,7 +997,7 @@ public override func provider(configuration: Configuration): RandomDataProvider<
 
 返回值：
 
-- [RandomDataProvider](unittest_package_classes.md#class-randomdataprovider) - 随机数提供者。
+- [RandomDataProvider](unittest_package_classes.md#class-randomdataprovidert) - 随机数提供者。
 
 ### func shrinker(Configuration)
 
@@ -852,7 +1013,7 @@ public override func shrinker(_: Configuration): RandomDataShrinker<T>
 
 返回值：
 
-- [RandomDataShrinker](unittest_package_classes.md#class-randomdatashrinker) - 随机数据的缩减器。
+- [RandomDataShrinker](unittest_package_classes.md#class-randomdatashrinkert) - 随机数据的缩减器。
 
 ## class Report
 
@@ -926,15 +1087,15 @@ public class RawStatsReporter <: Reporter<BenchReport, HashMap<String, (Float64,
 
 - [Reporter](unittest_package_interfaces.md#interface-reporter)\<[BenchReport](#class-benchreport), [HashMap](../../collection/collection_package_api/collection_package_class.md#class-hashmapk-v-where-k--hashable--equatablek)\<[String](../../core/core_package_api/core_package_structs.md#struct-string), ([Float64](../../core/core_package_api/core_package_intrinsics.md#float64), [Float64](../../core/core_package_api/core_package_intrinsics.md#float64))>>
 
-### init()
+### RawStatsReporter()
 
 ```cangjie
 public RawStatsReporter()
 ```
 
-功能：构造器。
+功能：RawStatsReporter构造函数。
 
-## class SerializableProvider
+## class SerializableProvider\<T>
 
 ```cangjie
 public class SerializableProvider<T> <: DataProvider<T> where T <: Serializable<T> {}
@@ -959,7 +1120,7 @@ public prop isInfinite: Bool
 ### func provide()
 
 ```cangjie
-public override func provide(): Iterable<T> 
+public override func provide(): Iterable<T>
 ```
 
 功能：获取数据迭代器。
@@ -968,25 +1129,27 @@ public override func provide(): Iterable<T>
 
 - [Iterable](../../core/core_package_api/core_package_interfaces.md#interface-iterablee)\<T> - 数据迭代器。
 
-## class SimpleProcessor
+## class SimpleProcessor\<T>
 
 ```cangjie
-public class SimpleProcessor<T> <: DataStrategyProcessor<T> {}
+public class SimpleProcessor<T> <: DataStrategyProcessor<T> {
+    public SimpleProcessor(let buildDelegate:() -> DataStrategy<T>, let name: String)
+}
 ```
 
-功能：简单的数据策略处理器。对 [DataStrategyProcessor](#class-datastrategyprocessor) 的一种实现。
+功能：简单的数据策略处理器。对 [DataStrategyProcessor](#class-datastrategyprocessort) 的一种实现。
 
 父类型：
 
-- [DataStrategyProcessor](#class-datastrategyprocessor)\<T>
+- [DataStrategyProcessor](#class-datastrategyprocessort)\<T>
 
-### init(() -> DataStrategy\<T>, String)
+### SimpleProcessor(() -> DataStrategy\<T>, String)
 
 ```cangjie
 public SimpleProcessor(let buildDelegate:() -> DataStrategy<T>, let name: String)
 ```
 
-功能：构造函数。
+功能：SimpleProcessor构造函数。
 
 参数：
 
@@ -1121,7 +1284,7 @@ public func add(benchmark: Benchmark): TestGroupBuilder
 
 返回值：
 
-- [TestGroupBuilder](#class-testgroupbuilder)  - 测试组合构造器。
+- [TestGroupBuilder](#class-testgroupbuilder) - 测试组合构造器。
 
 ### func add(TestSuite)
 
@@ -1137,7 +1300,7 @@ public func add(suite: TestSuite): TestGroupBuilder
 
 返回值：
 
-- [TestGroupBuilder](#class-testgroupbuilder)  - 测试组合构造器。
+- [TestGroupBuilder](#class-testgroupbuilder) - 测试组合构造器。
 
 ### func add(UnitTestCase)
 
@@ -1209,13 +1372,13 @@ public class TestPackage {
 
 功能：用例包对象。
 
-### init(String)
+### TestPackage(String)
 
 ```cangjie
 public TestPackage(let name: String)
 ```
 
-功能：构造函数。
+功能：TestPackage构造函数。
 
 参数：
 
@@ -1279,7 +1442,7 @@ public func reportTo<T>(reporter: Reporter<TestReport, T>): T
 
 参数：
 
-- reporter : [Reporter](#class-report)<[TestReport](#class-testreport), T> - 单元测试报告打印器。
+- reporter : [Reporter](#class-report)\<[TestReport](#class-testreport), T> - 单元测试报告打印器。
 
 返回值：
 
@@ -1306,7 +1469,7 @@ public prop name: String
 ### func runBenchmarks()
 
 ```cangjie
-public func runBenchmarks(): BenchReport 
+public func runBenchmarks(): BenchReport
 ```
 
 功能：运行所有性能测试用例。
@@ -1399,7 +1562,7 @@ public class TestSuiteBuilder {}
 
 功能：提供配置测试套方法的测试套构造器。
 
-### add(Benchmark)
+### func add(Benchmark)
 
 ```cangjie
 public func add(benchmark: Benchmark): TestSuiteBuilder
@@ -1415,7 +1578,7 @@ public func add(benchmark: Benchmark): TestSuiteBuilder
 
 - [TestGroupBuilder](#class-testgroupbuilder) - 测试组合构造器。
 
-### add(UnitTestCase)
+### func add(UnitTestCase)
 
 ```cangjie
 public func add(test: UnitTestCase): TestSuiteBuilder
@@ -1431,7 +1594,7 @@ public func add(test: UnitTestCase): TestSuiteBuilder
 
 - [TestGroupBuilder](#class-testgroupbuilder) - 测试组合构造器。
 
-### afterAll(() -> Unit)
+### func afterAll(() -> Unit)
 
 ```cangjie
 public func afterAll(body: () -> Unit): TestSuiteBuilder
@@ -1447,7 +1610,7 @@ public func afterAll(body: () -> Unit): TestSuiteBuilder
 
 - [TestGroupBuilder](#class-testgroupbuilder) - 测试组合构造器。
 
-### afterEach(() -> Unit)
+### func afterEach(() -> Unit)
 
 ```cangjie
 public func afterEach(body: () -> Unit): TestSuiteBuilder
@@ -1463,7 +1626,7 @@ public func afterEach(body: () -> Unit): TestSuiteBuilder
 
 - [TestGroupBuilder](#class-testgroupbuilder) - 测试组合构造器。
 
-### afterEach((String) -> Unit)
+### func afterEach((String) -> Unit)
 
 ```cangjie
 public func afterEach(body: (String) -> Unit): TestSuiteBuilder
@@ -1479,7 +1642,7 @@ public func afterEach(body: (String) -> Unit): TestSuiteBuilder
 
 - [TestGroupBuilder](#class-testgroupbuilder) - 测试组合构造器。
 
-### beforeAll(() -> Unit)
+### func beforeAll(() -> Unit)
 
 ```cangjie
 public func beforeAll(body: () -> Unit): TestSuiteBuilder
@@ -1495,7 +1658,7 @@ public func beforeAll(body: () -> Unit): TestSuiteBuilder
 
 - [TestGroupBuilder](#class-testgroupbuilder) - 测试组合构造器。
 
-### beforeEach(() -> Unit)
+### func beforeEach(() -> Unit)
 
 ```cangjie
 public func beforeEach(body: () -> Unit): TestSuiteBuilder
@@ -1511,7 +1674,7 @@ public func beforeEach(body: () -> Unit): TestSuiteBuilder
 
 - [TestGroupBuilder](#class-testgroupbuilder) - 测试组合构造器。
 
-### beforeEach((String) -> Unit)
+### func beforeEach((String) -> Unit)
 
 ```cangjie
 public func beforeEach(body: (String) -> Unit): TestSuiteBuilder
@@ -1527,7 +1690,23 @@ public func beforeEach(body: (String) -> Unit): TestSuiteBuilder
 
 - [TestGroupBuilder](#class-testgroupbuilder) - 测试组合构造器。
 
-### build()
+### func template(TestSuite)
+
+```cangjie
+public func template(template: TestSuite): TestSuiteBuilder
+```
+
+功能：执行此方法可为测试套件设置模板。
+
+参数
+
+- template : TestSuite - 将作为模板的测试套件。
+
+返回值：
+
+- [TestGroupBuilder](#class-testgroupbuilder) - 测试组合构造器。
+
+### func build()
 
 ```cangjie
 public func build(): TestSuite
@@ -1539,7 +1718,7 @@ public func build(): TestSuite
 
 - [TestSuite](#class-testsuite) - 测试套。
 
-### configure(Configuration)
+### func configure(Configuration)
 
 ```cangjie
 public func configure(configuration: Configuration): TestSuiteBuilder
@@ -1555,7 +1734,7 @@ public func configure(configuration: Configuration): TestSuiteBuilder
 
 - [TestGroupBuilder](#class-testgroupbuilder) - 测试组合构造器。
 
-### setName(String)
+### func setName(String)
 
 ```cangjie
 public func setName(name: String): TestSuiteBuilder
@@ -1592,7 +1771,7 @@ public prop name: String
 ### func run()
 
 ```cangjie
-public func run(): TestReport 
+public func run(): TestReport
 ```
 
 功能：运行单元测试用例。
@@ -1649,7 +1828,7 @@ public static func createParameterized<T>(name: String, strategy: DataStrategyPr
 参数：
 
 - name : [String](../../core/core_package_api/core_package_structs.md#struct-string) - 用例名称。
-- strategy : [DataStrategyProcessor](#class-datastrategyprocessor) - 参数数据处理器。
+- strategy : [DataStrategyProcessor](#class-datastrategyprocessort) - 参数数据处理器。
 - configuration!: [Configuration](../../unittest_common/unittest_common_package_api/unittest_common_package_classes.md#class-configuration) - 用例配置信息。
 - body!: () -> Unit - 用例执行体。
 
@@ -1661,7 +1840,7 @@ public static func createParameterized<T>(name: String, strategy: DataStrategyPr
 
 ```cangjie
 public class XmlReporter <: Reporter<TestReport, Unit> {
-    public XmlReporter(let directory: Directory)
+    public XmlReporter(let directory: Path)
 }
 ```
 
@@ -1671,14 +1850,14 @@ public class XmlReporter <: Reporter<TestReport, Unit> {
 
 - [Reporter](unittest_package_interfaces.md#interface-reporter)\<[TestReport](#class-testreport), [Unit](../../core/core_package_api/core_package_intrinsics.md#unit)>
 
-### init(Directory)
+### XmlReporter(Path)
 
 ```cangjie
-public XmlReporter(let directory: Directory)
+public XmlReporter(let directory: Path)
 ```
 
-功能：构造函数。
+功能：XmlReporter构造函数。
 
 参数：
 
-- directory: [Directory](../../fs/fs_package_api/fs_package_classes.md#class-directory) - 打印文件生成地址。
+- directory: [Path](../../fs/fs_package_api/fs_package_structs.md#struct-path) - 打印文件生成地址。

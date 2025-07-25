@@ -5,8 +5,7 @@
 ```cangjie
 public struct Array<T> {
     public const init()
-    public init(elements: Collection<T>)
-    public init(size: Int64, item!: T)
+    public init(size: Int64, repeat!: T)
     public init(size: Int64, initElement: (Int64) -> T)
 }
 ```
@@ -15,6 +14,26 @@ public struct Array<T> {
 
 T 表示数组的元素类型，T 可以是任意类型。
 
+### prop first
+
+```cangjie
+public prop first: Option<T>
+```
+
+功能：获取当前数组的第一个元素，如果当前数组为空，返回 None。
+
+类型：[Option](core_package_enums.md#enum-optiont)\<T>
+
+### prop last
+
+```cangjie
+public prop last: Option<T>
+```
+
+功能：获取当前数组的最后一个元素，如果当前数组为空，返回 None。
+
+类型：[Option](core_package_enums.md#enum-optiont)\<T>
+
 ### init()
 
 ```cangjie
@@ -22,18 +41,6 @@ public const init()
 ```
 
 功能：构造一个空数组。
-
-### init(Collection\<T>)
-
-```cangjie
-public init(elements: Collection<T>)
-```
-
-功能：根据 [Collection](core_package_interfaces.md#interface-collectiont) 实例创建数组，把 [Collection](core_package_interfaces.md#interface-collectiont) 实例中所有元素存入数组。
-
-参数：
-
-- elements: [Collection](core_package_interfaces.md#interface-collectiont)\<T> - 根据该 [Collection](core_package_interfaces.md#interface-collectiont) 实例创建数组。
 
 ### init(Int64, (Int64) -> T)
 
@@ -57,19 +64,19 @@ public init(size: Int64, initElement: (Int64) -> T)
 ### init(Int64, T)
 
 ```cangjie
-public init(size: Int64, item!: T)
+public init(size: Int64, repeat!: T)
 ```
 
 功能：构造一个指定长度的数组，其中元素都用指定初始值进行初始化。
 
 > **注意：**
 >
-> 该构造函数不会拷贝 item， 如果 item 是一个引用类型，构造后数组的每一个元素都将指向相同的引用。
+> 该构造函数不会拷贝 repeat， 如果 repeat 是一个引用类型，构造后数组的每一个元素都将指向相同的引用。
 
 参数：
 
 - size: [Int64](core_package_intrinsics.md#int64) - 数组大小，取值范围为 [0, [Int64](core_package_intrinsics.md#int64).Max]。
-- item!: T - 数组元素初始值。
+- repeat!: T - 数组元素初始值。
 
 异常：
 
@@ -116,7 +123,8 @@ public func clone(range: Range<Int64>) : Array<T>
 
 示例：
 
-```canjie
+<!-- verify -->
+```cangjie
 main() {
     let arr = [0, 1, 2, 3, 4, 5]
     let new = arr.clone(1..4)
@@ -148,7 +156,8 @@ public func concat(other: Array<T>): Array<T>
 
 示例：
 
-```canjie
+<!-- verify -->
+```cangjie
 main() {
     let arr = [0, 1, 2, 3, 4, 5]
     let new = arr.concat([6, 7, 8, 9, 10])
@@ -161,6 +170,24 @@ main() {
 ```text
 [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 ```
+
+### func copyTo(Array\<T>)
+
+```cangjie
+public func copyTo(dst: Array<T>): Unit
+```
+
+功能：将当前数组的全部元素拷贝到目标数组 dst 中。
+
+拷贝长度为当前数组的长度，从目标数组的起始位置开始写入，要求当前数组的长度不大于目标数组的长度。
+
+参数：
+
+- dst: [Array](core_package_structs.md#struct-arrayt)\<T> - 目标数组。
+
+异常：
+
+- [IllegalArgumentException](core_package_exceptions.md#class-illegalargumentexception) - 当前数组的长度大于目标数组的长度。
 
 ### func copyTo(Array\<T>, Int64, Int64, Int64)
 
@@ -184,7 +211,8 @@ public func copyTo(dst: Array<T>, srcStart: Int64, dstStart: Int64, copyLen: Int
 
 示例：
 
-```canjie
+<!-- verify -->
+```cangjie
 main() {
     let arr = [0, 1, 2, 3, 4, 5]
     let new = [0, 0, 0, 0, 0, 0]
@@ -197,6 +225,35 @@ main() {
 
 ```text
 [0, 0, 2, 3, 4, 5]
+```
+
+### func fill(T)
+
+```cangjie
+public func fill(value: T): Unit
+```
+
+功能：将当前数组内所有元素都替换成指定的 value。
+
+参数：
+
+- value: T - 修改的目标值。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    let arr = [0, 1, 2]
+    arr[1..3].fill(-1)
+    println(arr)
+}
+```
+
+运行结果：
+
+```text
+[0, -1, -1]
 ```
 
 ### func get(Int64)
@@ -219,6 +276,95 @@ public func get(index: Int64): Option<T>
 
 - [Option](core_package_enums.md#enum-optiont)\<T> - 当前数组中下标 index 对应的值。
 
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    let arr = [0, 1, 2]
+    let num = arr.get(0)
+    println(num)
+}
+```
+
+运行结果：
+
+```text
+Some(0)
+```
+
+### func map\<R>((T)->R)
+
+```cangjie
+public func map<R>(transform: (T)->R): Array<R>
+```
+
+功能：将当前数组内所有 T 类型元素根据 transform 映射为 R 类型的元素，组成新的数组。
+
+参数：
+
+- transform: (T)->R - 映射函数。
+
+返回值：
+
+- [Array](./core_package_structs.md#struct-arrayt)\<R> - 原数组中所有元素映射后得到的元素组成的新数组。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main(): Int64 {
+    let arr = [0, 1, 2]
+    let arr1 = arr.map({value => value + 1})
+    println(arr1)
+    return 0
+}
+```
+
+运行结果：
+
+```text
+[1, 2, 3]
+```
+
+### func repeat(Int64)
+
+```cangjie
+public func repeat(n: Int64): Array<T>
+```
+
+功能：重复当前数组若干次，得到新数组。
+
+参数：
+
+- n: [Int64](core_package_intrinsics.md#int64) - 重复次数。
+
+返回值：
+
+- [Array](./core_package_structs.md#struct-arrayt)\<T> - 重复当前数组 n 次得到的新数组。
+
+异常：
+
+- [IllegalArgumentException](core_package_exceptions.md#class-illegalargumentexception) - 参数 n 小于等于 0。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main(): Int64 {
+    let arr = [0, 1, 2]
+    var arr1 = arr.repeat(2)
+    println(arr1)
+    return 0
+}
+```
+
+运行结果：
+
+```text
+[0, 1, 2, 0, 1, 2]
+```
+
 ### func reverse()
 
 ```cangjie
@@ -229,7 +375,8 @@ public func reverse(): Unit
 
 示例：
 
-```canjie
+<!-- verify -->
+```cangjie
 main() {
     let arr = [0, 1, 2, 3, 4, 5]
     arr.reverse()
@@ -242,25 +389,6 @@ main() {
 ```text
 [5, 4, 3, 2, 1, 0]
 ```
-
-### func set(Int64, T)
-
-```cangjie
-public func set(index: Int64, element: T): Unit
-```
-
-功能：修改数组中下标 index 对应的值。
-
-也可以通过 [] 操作符完成对指定下标元素的修改，这两个函数的行为一致。
-
-参数：
-
-- index: [Int64](core_package_intrinsics.md#int64) - 需要修改的值的下标，取值范围为 [0..this.size]。
-- element: T - 修改的目标值。
-
-异常：
-
-- [IndexOutOfBoundsException](core_package_exceptions.md#class-indexoutofboundsexception) - 如果 index 小于 0 或者大于或等于 [Array](core_package_structs.md#struct-arrayt) 的长度，抛出异常。
 
 ### func slice(Int64, Int64)
 
@@ -286,6 +414,101 @@ public func slice(start: Int64, len: Int64): Array<T>
 异常：
 
 - [IndexOutOfBoundsException](core_package_exceptions.md#class-indexoutofboundsexception) - 如果参数不符合上述取值范围，抛出异常。
+
+示例：
+
+<!-- verify -->
+```cangjie
+class Rectangle <: ToString {
+    var width: Int64
+    var height: Int64
+
+    public init(width: Int64, height: Int64) {
+        this.width = width
+        this.height = height
+    }
+
+    public func toString(): String {
+        return "width: ${this.width}, height: ${this.height}"
+    }
+}
+
+main(): Int64 {
+    let arr = [Rectangle(1, 2), Rectangle(3, 4), Rectangle(5, 6)]
+    let arr1 = arr.slice(1, 2)
+    println(arr1)
+    /* 由于 slice() 是对原数组的引用，在新数组上修改，原数组引用类型的元素也会变化 */
+    arr1[0].width = 5
+    println(arr)
+    return 0
+}
+```
+
+运行结果：
+
+```text
+[width: 3, height: 4, width: 5, height: 6]
+[width: 1, height: 2, width: 5, height: 4, width: 5, height: 6]
+```
+
+### func splitAt(Int64)
+
+```cangjie
+public func splitAt(mid: Int64): (Array<T>, Array<T>)
+```
+
+功能：从指定位置 mid 处分割数组。
+
+得到的两个数组是原数组的切片，取值范围为 [0, mid), [mid, this.size)。
+
+参数：
+
+- mid: [Int64](core_package_intrinsics.md#int64) - 分割的位置，取值范围为 [0, this.size]。
+
+返回值：
+
+- ([Array](./core_package_structs.md#struct-arrayt)\<T>, [Array](./core_package_structs.md#struct-arrayt)\<T>) - 分割原数组得到的两个切片。
+
+异常：
+
+- [IllegalArgumentException](core_package_exceptions.md#class-illegalargumentexception) - mid 小于 0 或大于 this.size。
+
+### func swap(Int64, Int64)
+
+```cangjie
+public func swap(index1: Int64, index2: Int64): Unit
+```
+
+功能：交换指定位置的两个元素。
+
+如果 index1 和 index2 指向同一个位置，将不做交换。
+
+参数：
+
+- index1: [Int64](core_package_intrinsics.md#int64) - 需要交换的两个元素的下标之一，取值范围为 [0, this.size)。
+- index2: [Int64](core_package_intrinsics.md#int64) - 需要交换的两个元素的下标之一，取值范围为 [0, this.size)。
+
+异常：
+
+- [IllegalArgumentException](core_package_exceptions.md#class-illegalargumentexception) - index1 / index2 小于 0 或大于等于 this.size。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main(): Int64 {
+    let arr = [1, 2, 3, 4]
+    arr.swap(1, 2)
+    println(arr)
+    return 0
+}
+```
+
+运行结果：
+
+```text
+[1, 3, 2, 4]
+```
 
 ### operator func \[](Int64)
 
@@ -358,7 +581,8 @@ public operator func [](range: Range<Int64>): Array<T>
 
 示例：
 
-```canjie
+<!-- verify -->
+```cangjie
 main() {
     let arr = [0, 1, 2, 3, 4, 5]
     let slice = arr[1..4]
@@ -402,7 +626,8 @@ range 表示的区见的长度和目标数组 value 的大小需相等。
 
 示例：
 
-```canjie
+<!-- verify -->
+```cangjie
 main() {
     let arr = [0, 1, 2, 3, 4, 5]
     arr[1..3] = [10, 11]
@@ -416,53 +641,13 @@ main() {
 [0, 10, 11, 3, 4, 5]
 ```
 
-### operator func \[](Range\<Int64>, T)
-
-```cangjie
-public operator func [](range: Range<Int64>, value!: T): Unit
-```
-
-功能：用指定的值对本数组一个连续范围的元素赋值。
-
-> **注意：**
->
-> 1. 如果参数 range 是使用 [Range](core_package_structs.md#struct-ranget-where-t--countablet--comparablet--equatablet) 构造函数构造的 [Range](core_package_structs.md#struct-ranget-where-t--countablet--comparablet--equatablet) 实例，有如下行为：
->    - start 的值就是构造函数传入的值本身，不受构造时传入的 hasStart 的值的影响。
->    - hasEnd 为 false 时，end 值不生效，且不受构造时传入的 isClosed 的值的影响，该数组切片取到原数组最后一个元素。
-> 2. range 的步长只能为 1。
-> 3. 切片不会对数组数据进行拷贝，是对原数据特定区间的引用。
-
-参数：
-
-- range: [Range](core_package_structs.md#struct-ranget-where-t--countablet--comparablet--equatablet)\<[Int64](core_package_intrinsics.md#int64)> - 需要修改的数组范围，range 表示的范围不能超过数组范围。
-- value!: T - 修改的目标值。
-
-异常：
-
-- [IllegalArgumentException](core_package_exceptions.md#class-illegalargumentexception) - 如果 range 的步长不等于 1，抛出异常。
-- [IndexOutOfBoundsException](core_package_exceptions.md#class-indexoutofboundsexception) - 如果 range 表示的数组范围无效，抛出异常。
-
-示例：
-
-```canjie
-main() {
-    let arr = [0, 1, 2, 3, 4, 5]
-    arr[1..3] = 10
-    println(arr)
-}
-```
-
-运行结果：
-
-```text
-[0, 10, 10, 3, 4, 5]
-```
-
 ### extend\<T> Array\<T> <: Collection\<T>
 
 ```cangjie
 extend<T> Array<T> <: Collection<T>
 ```
+
+功能：为 [Array](core_package_structs.md#struct-arrayt)\<T> 类型实现 [Collection](core_package_interfaces.md#interface-collectiont) 接口。
 
 父类型：
 
@@ -514,7 +699,7 @@ public func toArray(): Array<T>
 
 - [Array](core_package_structs.md#struct-arrayt)\<T> - 拷贝得到的新的 [Array](core_package_structs.md#struct-arrayt) 实例。
 
-### extend\<T> Array\<T> <: Equatable<Array\<T>> where T <: Equatable\<T>
+### extend\<T> Array\<T> <: Equatable\<Array\<T>> where T <: Equatable\<T>
 
 ```cangjie
 extend<T> Array<T> <: Equatable<Array<T>> where T <: Equatable<T>
@@ -542,6 +727,23 @@ public func contains(element: T): Bool
 
 - [Bool](core_package_intrinsics.md#bool) - 如果存在，则返回 true，否则返回 false。
 
+示例：
+
+<!-- verify -->
+```cangjie
+main(): Int64 {
+    let arr = [1, 2, 3, 4]
+    println(arr.contains(1))
+    return 0
+}
+```
+
+运行结果：
+
+```text
+true
+```
+
 #### func indexOf(Array\<T>)
 
 ```cangjie
@@ -562,6 +764,24 @@ public func indexOf(elements: Array<T>): Option<Int64>
 
 - [Option](core_package_enums.md#enum-optiont)\<[Int64](core_package_intrinsics.md#int64)> - 数组中子数组 `elements` 出现的第一个位置，如果数组中不包含此数组，返回 None。
 
+示例：
+
+<!-- verify -->
+```cangjie
+main(): Int64 {
+    let arr = [1, 2, 3, 4]
+    let subArr = [2, 3]
+    println(arr.indexOf(subArr))
+    return 0
+}
+```
+
+运行结果：
+
+```text
+Some(1)
+```
+
 #### func indexOf(Array\<T>, Int64)
 
 ```cangjie
@@ -580,6 +800,24 @@ public func indexOf(elements: Array<T>, fromIndex: Int64): Option<Int64>
 返回值：
 
 - [Option](core_package_enums.md#enum-optiont)\<[Int64](core_package_intrinsics.md#int64)> - 数组中在 `fromIndex`之后，子数组 `elements` 出现的第一个位置，未找到返回 None。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main(): Int64 {
+    let arr = [1, 2, 3, 4, 2, 3]
+    let subArr = [2, 3]
+    println(arr.indexOf(subArr, 3))
+    return 0
+}
+```
+
+运行结果：
+
+```text
+Some(4)
+```
 
 #### func indexOf(T)
 
@@ -615,6 +853,24 @@ public func indexOf(element: T, fromIndex: Int64): Option<Int64>
 返回值：
 
 - [Option](core_package_enums.md#enum-optiont)\<[Int64](core_package_intrinsics.md#int64)> - 返回数组中在 `fromIndex`之后， `element` 出现的第一个位置，未找到返回 None。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main(): Int64 {
+    let arr = [1, 2, 3, 4, 2, 3]
+    let subArr = [2, 3]
+    println(arr.lastIndexOf(subArr, 3))
+    return 0
+}
+```
+
+运行结果：
+
+```text
+Some(4)
+```
 
 #### func lastIndexOf(Array\<T>)
 
@@ -665,7 +921,7 @@ public func lastIndexOf(element: T): Option<Int64>
 
 返回值：
 
-- [Option](core_package_enums.md#enum-optiont)\<[Int64](core_package_intrinsics.md#int64)> - 数组中 `element` 出现的最后一个位置，如果数组中不存在此元素，返回 None
+- [Option](core_package_enums.md#enum-optiont)\<[Int64](core_package_intrinsics.md#int64)> - 数组中 `element` 出现的最后一个位置，如果数组中不存在此元素，返回 None。
 
 #### func lastIndexOf(T, Int64)
 
@@ -686,33 +942,169 @@ public func lastIndexOf(element: T, fromIndex: Int64): Option<Int64>
 
 - [Option](core_package_enums.md#enum-optiont)\<[Int64](core_package_intrinsics.md#int64)> - 从 `fromIndex` 开始向后搜索，返回数组中 `element` 出现的最后一个位置，如果数组中不存在此元素，返回 None。
 
-#### func trimLeft(Array\<T>)
+#### func removePrefix(Array\<T>)
 
 ```cangjie
-public func trimLeft(prefix: Array<T>): Array<T>
+public func removePrefix(prefix: Array<T>): Array<T>
 ```
 
-功能：修剪当前数组，去除掉前缀为 `prefix` 的部分，并且返回当前数组的切片。
+功能：删除前缀。
+
+如果当前数组开头与 prefix 完全匹配，删除其前缀。返回值为当前数组删除前缀后得到的切片。
 
 参数：
 
-- prefix: [Array](core_package_structs.md#struct-arrayt)\<T> - 要修剪的子串。
+- prefix: [Array](./core_package_structs.md#struct-arrayt)\<T> - 待删除的前缀。
+
+返回值：
+
+- [Array](./core_package_structs.md#struct-arrayt)\<T> - 删除前缀后得到的原数组切片。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main(): Int64 {
+    let arr = [1, 2, 1, 2, 3].removePrefix([1, 2])
+    println(arr)
+    return 0
+}
+```
+
+运行结果：
+
+```text
+[1, 2, 3]
+```
+
+#### func removeSuffix(Array\<T>)
+
+```cangjie
+public func removeSuffix(suffix: Array<T>): Array<T>
+```
+
+功能：删除后缀。
+
+如果当前数组结尾与 suffix 完全匹配，删除其后缀。返回值为当前数组删除后缀后得到的切片。
+
+参数：
+
+- suffix: [Array](./core_package_structs.md#struct-arrayt)\<T> - 待删除的后缀。
+
+返回值：
+
+- [Array](./core_package_structs.md#struct-arrayt)\<T> - 删除后缀后得到的原数组切片。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main(): Int64 {
+    let arr = [1, 2, 3, 2, 3].removeSuffix([2, 3])
+    println(arr)
+    return 0
+}
+```
+
+运行结果：
+
+```text
+[1, 2, 3]
+```
+
+#### func trimEnd(Array\<T>)
+
+```cangjie
+public func trimEnd(set: Array<T>): Array<T>
+```
+
+功能：修剪当前数组，从尾开始删除在指定集合 set 中的元素，直到第一个不在 set 中的元素为止，并返回当前数组的切片。
+
+参数：
+
+- set: [Array](core_package_structs.md#struct-arrayt)\<T> - 待删除的元素的集合。
 
 返回值：
 
 - [Array](core_package_structs.md#struct-arrayt)\<T> - 修剪后的数组切片。
 
-#### func trimRight(Array\<T>)
+示例：
 
+<!-- verify -->
 ```cangjie
-public func trimRight(suffix: Array<T>): Array<T>
+main(): Int64 {
+    let arr = [2, 1, 2, 2, 3].trimEnd([2, 3])
+    println(arr)
+    return 0
+}
 ```
 
-功能：修剪当前数组，去除掉后缀为 `suffix` 的部分，并且返回当前数组的切片。
+运行结果：
+
+```text
+[2, 1]
+```
+
+#### func trimEnd((T)->Bool)
+
+```cangjie
+public func trimEnd(predicate: (T)->Bool): Array<T>
+```
+
+功能：修剪当前数组，从尾开始删除符合过滤条件的函数，直到第一个不符合的元素为止，并返回当前数组的切片。
 
 参数：
 
-- suffix: [Array](core_package_structs.md#struct-arrayt)\<T> - 要修剪的子串。
+- predicate: (T)->[Bool](./core_package_intrinsics.md#bool) - 过滤条件。
+
+返回值：
+
+- [Array](core_package_structs.md#struct-arrayt)\<T> - 修剪后的数组切片。
+
+#### func trimStart(Array\<T>)
+
+```cangjie
+public func trimStart(set: Array<T>): Array<T>
+```
+
+功能：修剪当前数组，从头开始删除在指定集合 set 中的元素，直到第一个不在 set 中的元素为止，并返回当前数组的切片。
+
+参数：
+
+- set: [Array](core_package_structs.md#struct-arrayt)\<T> - 待删除的元素的集合。
+
+返回值：
+
+- [Array](core_package_structs.md#struct-arrayt)\<T> - 修剪后的数组切片。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main(): Int64 {
+    let arr = [1, 2, 1, 3, 1].trimStart([1, 2])
+    println(arr)
+    return 0
+}
+```
+
+运行结果：
+
+```text
+[3, 1]
+```
+
+#### func trimStart((T)->Bool)
+
+```cangjie
+public func trimStart(predicate: (T)->Bool): Array<T>
+```
+
+功能：修剪当前数组，从头开始删除符合过滤条件的函数，直到第一个不符合的元素为止，并返回当前数组的切片。
+
+参数：
+
+- predicate: (T)->[Bool](./core_package_intrinsics.md#bool) - 过滤条件。
 
 返回值：
 
@@ -778,6 +1170,45 @@ public func toString(): String
 
 - [String](core_package_structs.md#struct-string) - 转化后的字符串。
 
+### extend\<T> Array\<Array\<T>>
+
+```cangjie
+extend<T> Array<Array<T>>
+```
+
+功能：为二维数组进行扩展，提供将其展开为一维数组的方法。
+
+#### func flatten()
+
+```cangjie
+public func flatten(): Array<T>
+```
+
+功能：将当前二维数组展开为一维数组。
+
+例如将 [[1, 2], [3, 4]] 展开为 [1, 2, 3, 4]。
+
+返回值：
+
+- [Array](./core_package_structs.md#struct-arrayt)\<T> - 展开后的一维数组。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main(): Int64 {
+    let arr = [[1, 2], [3, 4]].flatten()
+    println(arr)
+    return 0
+}
+```
+
+运行结果：
+
+```text
+[1, 2, 3, 4]
+```
+
 ## struct CPointerHandle\<T> where T <: CType
 
 ```cangjie
@@ -811,7 +1242,7 @@ public let pointer: CPointer<T>
 
 类型：[CPointer](core_package_intrinsics.md#cpointert)\<T>
 
-### init()
+### init() <sup>(deprecated)</sup>
 
 ```cangjie
 public init()
@@ -819,7 +1250,11 @@ public init()
 
 功能：构造一个默认 [CPointerHandle](core_package_structs.md#struct-cpointerhandlet-where-t--ctype) 实例，其中原始指针为空指针，仓颉数组为空数组。
 
-### init(CPointer\<T>, Array\<T>)
+> **注意：**
+>
+> 未来版本即将废弃不再使用，可使用 [acquireArrayRawData](./core_package_funcs.md#func-acquirearrayrawdatatarrayt-where-t--ctype) 函数构造 CPointerHandle 实例。
+
+### init(CPointer\<T>, Array\<T>) <sup>(deprecated)</sup>
 
 ```cangjie
 public init(ptr: CPointer<T>, arr: Array<T>)
@@ -831,6 +1266,10 @@ public init(ptr: CPointer<T>, arr: Array<T>)
 
 - ptr: [CPointer](core_package_intrinsics.md#cpointert)\<T> - 数组原始指针。
 - arr: [Array](core_package_structs.md#struct-arrayt)\<T> - 指针对应的仓颉数组。
+
+> **注意：**
+>
+> 未来版本即将废弃不再使用，可使用 [acquireArrayRawData](./core_package_funcs.md#func-acquirearrayrawdatatarrayt-where-t--ctype) 函数构造 CPointerHandle 实例。
 
 ## struct CPointerResource\<T> where T <: CType
 
@@ -930,7 +1369,7 @@ public struct DefaultHasher <: Hasher {
 
 功能：该结构体提供了默认哈希算法实现。
 
-可以使用一系列 write 函数传入不同数据类型实例，并计算他们的组合哈希值。
+可以使用一系列 write 函数传入不同数据类型实例，并计算它们的组合哈希值。
 
 父类型：
 
@@ -1136,6 +1575,526 @@ public mut func write(value: UInt8): Unit
 
 - value: [UInt8](core_package_intrinsics.md#uint8) - 待运算的值。
 
+## struct Duration
+
+```cangjie
+public struct Duration <: ToString & Hashable & Comparable<Duration> {
+    public static const Max: Duration = Duration(0x7FFF_FFFF_FFFF_FFFF, 999999999)
+    public static const Min: Duration = Duration(-0x8000_0000_0000_0000, 0)
+    public static const Zero: Duration = Duration(0, 0)
+    public static const day: Duration = Duration(24 * 60 * 60, 0)
+    public static const hour: Duration = Duration(60 * 60, 0)
+    public static const microsecond: Duration = Duration(0, 1000u32)
+    public static const millisecond: Duration = Duration(0, 1000000u32)
+    public static const minute: Duration = Duration(60, 0)
+    public static const nanosecond: Duration = Duration(0, 1)
+    public static const second: Duration = Duration(1, 0)
+}
+```
+
+功能：[Duration](core_package_structs.md#struct-duration) 表示时间间隔，是一个描述一段时间的时间类型，提供了常用的静态实例，以及计算、比较等功能。
+
+> **说明：**
+>
+> - [Duration](core_package_structs.md#struct-duration) 表示范围为 [Duration](core_package_structs.md#struct-duration).Min 至 [Duration](core_package_structs.md#struct-duration).Max，数值表示为[-2<sup>63</sup>, 2<sup>63</sup>)（单位为秒），精度为纳秒。
+> - [Duration](core_package_structs.md#struct-duration) 每个时间单位均用整数表示，如果实际值不为整数，则向绝对值小的方向取整。例如表示 `1小时30分46秒` 的 [Duration](core_package_structs.md#struct-duration) 实例调用 `toHours` 方法，将返回结果 1 而不是 1.5 或 2。
+
+父类型：
+
+- [ToString](core_package_interfaces.md#interface-tostring)
+- [Hashable](core_package_interfaces.md#interface-hashable)
+- [Comparable](core_package_interfaces.md#interface-comparablet)\<[Duration](#struct-duration)>
+
+### static const Max
+
+```cangjie
+public static const Max: Duration = Duration(0x7FFF_FFFF_FFFF_FFFF, 999999999)
+```
+
+功能：表示最大时间间隔的 [Duration](core_package_structs.md#struct-duration) 实例。
+
+类型：[Duration](core_package_structs.md#struct-duration)
+
+### static const Min
+
+```cangjie
+public static const Min: Duration = Duration(-0x8000_0000_0000_0000, 0)
+```
+
+功能：表示最小时间间隔的 [Duration](core_package_structs.md#struct-duration) 实例。
+
+类型：[Duration](core_package_structs.md#struct-duration)
+
+### static const Zero
+
+```cangjie
+public static const Zero: Duration = Duration(0, 0)
+```
+
+功能：表示 0 纳秒时间间隔的 [Duration](core_package_structs.md#struct-duration) 实例。
+
+类型：[Duration](core_package_structs.md#struct-duration)
+
+### static const day
+
+```cangjie
+public static const day: Duration = Duration(24 * 60 * 60, 0)
+```
+
+功能：表示 1 天时间间隔的 [Duration](core_package_structs.md#struct-duration) 实例。
+
+类型：[Duration](core_package_structs.md#struct-duration)
+
+### static const hour
+
+```cangjie
+public static const hour: Duration = Duration(60 * 60, 0)
+```
+
+功能：表示 1 小时时间间隔的 [Duration](core_package_structs.md#struct-duration) 实例。
+
+类型：[Duration](core_package_structs.md#struct-duration)
+
+### static const microsecond
+
+```cangjie
+public static const microsecond: Duration = Duration(0, 1000u32)
+```
+
+功能：表示 1 微秒时间间隔的 [Duration](core_package_structs.md#struct-duration) 实例。
+
+类型：[Duration](core_package_structs.md#struct-duration)
+
+### static const millisecond
+
+```cangjie
+public static const millisecond: Duration = Duration(0, 1000000u32)
+```
+
+功能：表示 1 毫秒时间间隔的 [Duration](core_package_structs.md#struct-duration) 实例。
+
+类型：[Duration](core_package_structs.md#struct-duration)
+
+### static const minute
+
+```cangjie
+public static const minute: Duration = Duration(60, 0)
+```
+
+功能：表示 1 分钟时间间隔的 [Duration](core_package_structs.md#struct-duration) 实例。
+
+类型：[Duration](core_package_structs.md#struct-duration)
+
+### static const nanosecond
+
+```cangjie
+public static const nanosecond: Duration = Duration(0, 1)
+```
+
+功能：表示 1 纳秒时间间隔的 [Duration](core_package_structs.md#struct-duration) 实例。
+
+类型：[Duration](core_package_structs.md#struct-duration)
+
+### static const second
+
+```cangjie
+public static const second: Duration = Duration(1, 0)
+```
+
+功能：表示 1 秒时间间隔的 [Duration](core_package_structs.md#struct-duration) 实例。
+
+类型：[Duration](core_package_structs.md#struct-duration)
+
+### func abs()
+
+```cangjie
+public func abs(): Duration
+```
+
+功能：返回一个新的 [Duration](core_package_structs.md#struct-duration) 实例，其值大小为当前 [Duration](core_package_structs.md#struct-duration) 实例绝对值。
+
+返回值：
+
+- [Duration](core_package_structs.md#struct-duration) - 当前 [Duration](core_package_structs.md#struct-duration) 实例取绝对值的结果。
+
+异常：
+
+- [ArithmeticException](../../core/core_package_api/core_package_exceptions.md#class-arithmeticexception) - 如果当前 [Duration](core_package_structs.md#struct-duration) 实例等于 [Duration](core_package_structs.md#struct-duration).Min，会因为取绝对值超出 [Duration](core_package_structs.md#struct-duration) 表示范围而抛出异常。
+
+### func compare(Duration)
+
+```cangjie
+public func compare(rhs: Duration): Ordering
+```
+
+功能：比较当前 [Duration](core_package_structs.md#struct-duration) 实例与另一个 [Duration](core_package_structs.md#struct-duration) 实例的关系，如果大于，返回 [Ordering](../../core/core_package_api/core_package_enums.md#enum-ordering).GT；如果等于，返回 [Ordering](../../core/core_package_api/core_package_enums.md#enum-ordering).EQ；如果小于，返回 [Ordering](../../core/core_package_api/core_package_enums.md#enum-ordering).LT。
+
+参数：
+
+- rhs: [Duration](core_package_structs.md#struct-duration) - 参与比较的 [Duration](core_package_structs.md#struct-duration) 实例。
+
+返回值：
+
+- [Ordering](../../core/core_package_api/core_package_enums.md#enum-ordering) - 当前 [Duration](core_package_structs.md#struct-duration) 实例与 `rhs` 的大小关系。
+
+### func hashCode()
+
+```cangjie
+public func hashCode(): Int64
+```
+
+功能：获得当前 [Duration](core_package_structs.md#struct-duration) 实例的哈希值。
+
+返回值：
+
+- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 当前 [Duration](core_package_structs.md#struct-duration) 实例的哈希值。
+
+### func toDays()
+
+```cangjie
+public func toDays(): Int64
+```
+
+功能：获得当前 [Duration](core_package_structs.md#struct-duration) 实例以天为单位的整数大小。
+
+返回值：
+
+- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 当前 [Duration](core_package_structs.md#struct-duration) 实例以天为单位的大小。
+
+### func toHours()
+
+```cangjie
+public func toHours(): Int64
+```
+
+功能：获得当前 [Duration](core_package_structs.md#struct-duration) 实例以小时为单位的整数大小。
+
+返回值：
+
+- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 当前 [Duration](core_package_structs.md#struct-duration) 实例以小时为单位的大小。
+
+### func toMicroseconds()
+
+```cangjie
+public func toMicroseconds(): Int64
+```
+
+功能：获得当前 [Duration](core_package_structs.md#struct-duration) 实例以微秒为单位的整数大小。
+
+返回值：
+
+- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 当前 [Duration](core_package_structs.md#struct-duration) 实例以微秒为单位的大小。
+
+异常：
+
+- [ArithmeticException](../../core/core_package_api/core_package_exceptions.md#class-arithmeticexception) - 当 [Duration](core_package_structs.md#struct-duration) 实例以微秒为单位的大小超过 [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) 表示范围时，抛出异常。
+
+### func toMilliseconds()
+
+```cangjie
+public func toMilliseconds(): Int64
+```
+
+功能：获得当前 [Duration](core_package_structs.md#struct-duration) 实例以毫秒为单位的整数大小。
+
+返回值：
+
+- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 当前 [Duration](core_package_structs.md#struct-duration) 实例以毫秒为单位的大小。
+
+异常：
+
+- [ArithmeticException](../../core/core_package_api/core_package_exceptions.md#class-arithmeticexception) - 当 [Duration](core_package_structs.md#struct-duration) 实例以毫秒为单位的大小超过 [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) 表示范围时，抛出异常。
+
+### func toMinutes()
+
+```cangjie
+public func toMinutes(): Int64
+```
+
+功能：获得当前 [Duration](core_package_structs.md#struct-duration) 实例以分钟为单位的整数大小。
+
+返回值：
+
+- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 当前 [Duration](core_package_structs.md#struct-duration) 实例以分钟为单位的大小。
+
+### func toNanoseconds()
+
+```cangjie
+public func toNanoseconds(): Int64
+```
+
+功能：获得当前 [Duration](core_package_structs.md#struct-duration) 实例以纳秒为单位的整数大小，向绝对值小的方向取整。
+
+返回值：
+
+- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 当前 [Duration](core_package_structs.md#struct-duration) 实例以纳秒为单位的大小。
+
+异常：
+
+- [ArithmeticException](../../core/core_package_api/core_package_exceptions.md#class-arithmeticexception) - 当 [Duration](core_package_structs.md#struct-duration) 实例以“纳秒”为单位的大小超过 [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) 表示范围时，抛出异常。
+
+### func toSeconds()
+
+```cangjie
+public func toSeconds(): Int64
+```
+
+功能：获得当前 [Duration](core_package_structs.md#struct-duration) 实例以秒为单位的整数大小。
+
+返回值：
+
+- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 当前 [Duration](core_package_structs.md#struct-duration) 实例以秒为单位的大小。
+
+### func toString()
+
+```cangjie
+public func toString(): String
+```
+
+功能：获得当前 [Duration](core_package_structs.md#struct-duration) 实例的字符串表示，格式形如："1d2h3m4s5ms6us7ns"，表示“1天2小时3分钟4秒5毫秒6微秒7纳秒”。某个单位下数值为 0 时此项会被省略，特别地，当所有单位下数值都为 0 时，返回 "0s"。
+
+返回值：
+
+- [String](../../core/core_package_api/core_package_structs.md#struct-string) - 当前 [Duration](core_package_structs.md#struct-duration) 实例的字符串表示。
+
+### operator func !=(Duration)
+
+```cangjie
+public operator func !=(r: Duration): Bool
+```
+
+功能：判断当前 [Duration](core_package_structs.md#struct-duration) 实例是否不等于 `r`。
+
+参数：
+
+- r: [Duration](core_package_structs.md#struct-duration) - [Duration](core_package_structs.md#struct-duration) 实例。
+
+返回值：
+
+- [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - `true` 或 `false`。当前 [Duration](core_package_structs.md#struct-duration) 实例不等于 `r` 时，返回 `true`；否则，返回 `false`。
+
+### operator func *(Float64)
+
+```cangjie
+public operator func *(r: Float64): Duration
+```
+
+功能：实现 [Duration](core_package_structs.md#struct-duration) 类型与 [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) 类型的乘法，即 [Duration](core_package_structs.md#struct-duration) * [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) 运算。
+
+参数：
+
+- r: [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 乘法的右操作数。
+
+返回值：
+
+- [Duration](core_package_structs.md#struct-duration) - [Duration](core_package_structs.md#struct-duration) 类型实例和 `r` 的乘积。
+
+异常：
+
+- [ArithmeticException](../../core/core_package_api/core_package_exceptions.md#class-arithmeticexception) - 当相乘后的结果超出 [Duration](core_package_structs.md#struct-duration) 的表示范围时，抛出异常。
+
+### operator func *(Int64)
+
+```cangjie
+public operator func *(r: Int64): Duration
+```
+
+功能：实现 [Duration](core_package_structs.md#struct-duration) 类型与 [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) 类型的乘法，即 [Duration](core_package_structs.md#struct-duration) * [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) 运算。
+
+参数：
+
+- r: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 乘法的右操作数。
+
+返回值：
+
+- [Duration](core_package_structs.md#struct-duration) - [Duration](core_package_structs.md#struct-duration) 类型实例和 `r` 的乘积。
+
+异常：
+
+- [ArithmeticException](../../core/core_package_api/core_package_exceptions.md#class-arithmeticexception) - 当相乘后的结果超出 [Duration](core_package_structs.md#struct-duration) 的表示范围时，抛出异常。
+
+### operator func +(Duration)
+
+```cangjie
+public operator func +(r: Duration): Duration
+```
+
+功能：实现 [Duration](core_package_structs.md#struct-duration) 类型之间的加法，即 [Duration](core_package_structs.md#struct-duration) + [Duration](core_package_structs.md#struct-duration) 运算。
+
+参数：
+
+- r: [Duration](core_package_structs.md#struct-duration) - 加法的右操作数。
+
+返回值：
+
+- [Duration](core_package_structs.md#struct-duration) - [Duration](core_package_structs.md#struct-duration) 类型实例和 `r` 的和。
+
+异常：
+
+- [ArithmeticException](../../core/core_package_api/core_package_exceptions.md#class-arithmeticexception) - 当相加后的结果超出 [Duration](core_package_structs.md#struct-duration) 的表示范围时，抛出异常。
+
+### operator func -(Duration)
+
+```cangjie
+public operator func -(r: Duration): Duration
+```
+
+功能：实现 [Duration](core_package_structs.md#struct-duration) 类型之间的减法，即 [Duration](core_package_structs.md#struct-duration) - [Duration](core_package_structs.md#struct-duration) 运算。
+
+参数：
+
+- r: [Duration](core_package_structs.md#struct-duration) - 减法的右操作数。
+
+返回值：
+
+- [Duration](core_package_structs.md#struct-duration) - [Duration](core_package_structs.md#struct-duration) 类型实例和 `r` 的差。
+
+异常：
+
+- [ArithmeticException](../../core/core_package_api/core_package_exceptions.md#class-arithmeticexception) - 当相减后的结果超出 [Duration](core_package_structs.md#struct-duration) 的表示范围时，抛出异常。
+
+### operator func /(Duration)
+
+```cangjie
+public operator func /(r: Duration): Float64
+```
+
+功能：实现 [Duration](core_package_structs.md#struct-duration) 类型与 [Duration](core_package_structs.md#struct-duration) 类型的除法，即 [Duration](core_package_structs.md#struct-duration) / [Duration](core_package_structs.md#struct-duration) 运算。
+
+参数：
+
+- r: [Duration](core_package_structs.md#struct-duration) - 除数。
+
+返回值：
+
+- [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - [Duration](core_package_structs.md#struct-duration) 类型实例和 `r` 的商。
+
+异常：
+
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当 `r` 等于 [Duration](core_package_structs.md#struct-duration).Zero 时，抛出异常。
+
+### operator func /(Float64)
+
+```cangjie
+public operator func /(r: Float64): Duration
+```
+
+功能：实现 [Duration](core_package_structs.md#struct-duration) 类型与 [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) 类型的除法，即 [Duration](core_package_structs.md#struct-duration) / [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) 运算。
+
+参数：
+
+- r: [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 除数。
+
+返回值：
+
+- [Duration](core_package_structs.md#struct-duration) - [Duration](core_package_structs.md#struct-duration) 类型实例和 `r` 的商。
+
+异常：
+
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当 `r` 等于 0 时，抛出异常。
+- [ArithmeticException](../../core/core_package_api/core_package_exceptions.md#class-arithmeticexception) - 当相除后的结果超出 [Duration](core_package_structs.md#struct-duration) 的表示范围时，抛出异常。
+
+### operator func /(Int64)
+
+```cangjie
+public operator func /(r: Int64): Duration
+```
+
+功能：实现 [Duration](core_package_structs.md#struct-duration) 类型与 [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) 类型的除法，即 [Duration](core_package_structs.md#struct-duration) / [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) 运算。
+
+参数：
+
+- r: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 除数。
+
+返回值：
+
+- [Duration](core_package_structs.md#struct-duration) - [Duration](core_package_structs.md#struct-duration) 类型实例和 `r` 的商。
+
+异常：
+
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当 `r` 等于 0 时，抛出异常。
+- [ArithmeticException](../../core/core_package_api/core_package_exceptions.md#class-arithmeticexception) - 当相除后的结果超出 [Duration](core_package_structs.md#struct-duration) 的表示范围时，抛出异常。
+
+### operator func <(Duration)
+
+```cangjie
+public operator func <(r: Duration): Bool
+```
+
+功能：判断当前 [Duration](core_package_structs.md#struct-duration) 实例是否小于 `r`。
+
+参数：
+
+- r: [Duration](core_package_structs.md#struct-duration) - [Duration](core_package_structs.md#struct-duration) 实例。
+
+返回值：
+
+- [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - `true` 或 `false`。当前 [Duration](core_package_structs.md#struct-duration) 实例小于 `r` 时，返回 `true`；否则，返回 `false`。
+
+### operator func <=(Duration)
+
+```cangjie
+public operator func <=(r: Duration): Bool
+```
+
+功能：判断当前 [Duration](core_package_structs.md#struct-duration) 实例是否小于等于 `r`。
+
+参数：
+
+- r: [Duration](core_package_structs.md#struct-duration) - [Duration](core_package_structs.md#struct-duration) 实例。
+
+返回值：
+
+- [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - `true` 或 `false`。当前 [Duration](core_package_structs.md#struct-duration) 实例小于等于 `r` 时，返回 `true`；否则，返回 `false`。
+
+### operator func ==(Duration)
+
+```cangjie
+public operator func ==(r: Duration): Bool
+```
+
+功能：判断当前 [Duration](core_package_structs.md#struct-duration) 实例是否等于 `r`。
+
+参数：
+
+- r: [Duration](core_package_structs.md#struct-duration) - [Duration](core_package_structs.md#struct-duration) 实例。
+
+返回值：
+
+- [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - `true` 或 `false`。当前 [Duration](core_package_structs.md#struct-duration) 实例等于 `r` 时，返回 `true`；否则，返回 `false`。
+
+### operator func >(Duration)
+
+```cangjie
+public operator func >(r: Duration): Bool
+```
+
+功能：判断当前 [Duration](core_package_structs.md#struct-duration) 实例是否大于 `r`。
+
+参数：
+
+- r: [Duration](core_package_structs.md#struct-duration) - [Duration](core_package_structs.md#struct-duration) 实例。
+
+返回值：
+
+- [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - `true` 或 `false`。当前 [Duration](core_package_structs.md#struct-duration) 实例大于 `r` 时，返回 `true`；否则，返回 `false`。
+
+### operator func >=(Duration)
+
+```cangjie
+public operator func >=(r: Duration): Bool
+```
+
+功能：判断当前 [Duration](core_package_structs.md#struct-duration) 实例是否大于等于 `r`。
+
+参数：
+
+- r: [Duration](core_package_structs.md#struct-duration) - [Duration](core_package_structs.md#struct-duration) 实例。
+
+返回值：
+
+- [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - `true` 或 `false`。当前 [Duration](core_package_structs.md#struct-duration) 实例大于等于 `r` 时，返回 `true`；否则，返回 `false`。
+
 ## struct LibC
 
 ```cangjie
@@ -1176,7 +2135,7 @@ public static unsafe func mallocCString(str: String): CString
 
 功能：通过 [String](core_package_structs.md#struct-string) 申请与之字符内容相同的 C 风格字符串。
 
-构造的 C 风格字符串将以 '\0' 结束。
+构造的 C 风格字符串将以 '\0' 结束。当异常场景如系统内存不足时，返回字符串指针可能为空，故使用前需要进行空指针检查。
 
 参数：
 
@@ -1189,6 +2148,23 @@ public static unsafe func mallocCString(str: String): CString
 异常：
 
 - [IllegalMemoryException](core_package_exceptions.md#class-illegalmemoryexception) - 内存不足时，抛出异常。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var str = unsafe { LibC.mallocCString("I like Cangjie") }
+    println(str)
+    unsafe { LibC.free(str) }
+}
+```
+
+运行结果：
+
+```text
+I like Cangjie
+```
 
 ### static func malloc\<T>(Int64) where T <: CType
 
@@ -1212,6 +2188,25 @@ public static func malloc<T>(count!: Int64 = 1): CPointer<T> where T <: CType
 
 - [IllegalArgumentException](core_package_exceptions.md#class-illegalargumentexception) - 入参为负数时，抛出异常。
 
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var p = unsafe { LibC.malloc<Int64>(count: 1) }
+    unsafe { p.write(8) }
+    let value: Int64 = unsafe { p.read() }
+    println(value)
+    unsafe { LibC.free<Int64>(p) }
+}
+```
+
+运行结果：
+
+```text
+8
+```
+
 ## struct Range\<T> where T <: Countable\<T> & Comparable\<T> & Equatable\<T>
 
 ```cangjie
@@ -1230,13 +2225,13 @@ public struct Range<T> <: Iterable<T> where T <: Countable<T> & Comparable<T> & 
 
 区间类型有对应的字面量表示，其格式为：
 
-- 左闭右开区间：`start..end : step`，它表示一个从 start 开始，以 [step](../../collection/collection_package_api/collection_package_function.md#func-steptint64) 为步长，到 end（不包含 end）为止的区间。
-- 左闭右闭区间：`start..=end : step`，它表示一个从 start 开始，以 [step](../../collection/collection_package_api/collection_package_function.md#func-steptint64) 为步长，到 end（包含 end）为止的区间。
+- 左闭右开区间：`start..end : step`，它表示一个从 start 开始，以 [step](#let-step) 为步长，到 end（不包含 end）为止的区间。
+- 左闭右闭区间：`start..=end : step`，它表示一个从 start 开始，以 [step](#let-step) 为步长，到 end（包含 end）为止的区间。
 
 > **注意：**
 >
-> - 当 [step](../../collection/collection_package_api/collection_package_function.md#func-steptint64) > 0 且 start >= end，或者 [step](../../collection/collection_package_api/collection_package_function.md#func-steptint64) < 0 且 start <= end 时，该 [Range](core_package_structs.md#struct-ranget-where-t--countablet--comparablet--equatablet) 实例将是一个空区间。
-> - 当 [step](../../collection/collection_package_api/collection_package_function.md#func-steptint64) > 0 且 start > end，或者 [step](../../collection/collection_package_api/collection_package_function.md#func-steptint64) < 0 且 start < end 时，该 [Range](core_package_structs.md#struct-ranget-where-t--countablet--comparablet--equatablet) 实例将是一个空区间。
+> - 当 [step](#let-step) > 0 且 start >= end，或者 [step](#let-step) < 0 且 start <= end 时，该 [Range](core_package_structs.md#struct-ranget-where-t--countablet--comparablet--equatablet) 实例将是一个空区间。
+> - 当 [step](#let-step) > 0 且 start > end，或者 [step](#let-step) < 0 且 start < end 时，该 [Range](core_package_structs.md#struct-ranget-where-t--countablet--comparablet--equatablet) 实例将是一个空区间。
 
 父类型：
 
@@ -1314,14 +2309,14 @@ public const init(start: T, end: T, step: Int64, hasStart: Bool, hasEnd: Bool, i
 
 - start: T - 开始值。
 - end: T - 结束值。
-- [step](../../collection/collection_package_api/collection_package_function.md#func-steptint64): [Int64](core_package_intrinsics.md#int64) - 步长，取值不能为 0。
+- [step](#let-step): [Int64](core_package_intrinsics.md#int64) - 步长，取值不能为 0。
 - hasStart: [Bool](core_package_intrinsics.md#bool) - 是否有开始值。
 - hasEnd: [Bool](core_package_intrinsics.md#bool) - 是否有结束值。
 - isClosed: [Bool](core_package_intrinsics.md#bool) - true 代表左闭右闭，false 代表左闭右开。
 
 异常：
 
-- [IllegalArgumentException](core_package_exceptions.md#class-illegalargumentexception) - 当 [step](../../collection/collection_package_api/collection_package_function.md#func-steptint64) 等于 0 时, 抛出异常。
+- [IllegalArgumentException](core_package_exceptions.md#class-illegalargumentexception) - 当 [step](#let-step) 等于 0 时, 抛出异常。
 
 ### func isEmpty()
 
@@ -1359,22 +2354,6 @@ extend<T> Range<T> <: Equatable<Range<T>> where T <: Countable<T> & Comparable<T
 
 - [Equatable](core_package_interfaces.md#interface-equatablet)\<[Range](#struct-ranget-where-t--countablet--comparablet--equatablet)\<T>>
 
-#### operator func !=(Range\<T>)
-
-```cangjie
-public operator func !=(that: Range<T>): Bool
-```
-
-功能：判断两个 [Range](core_package_structs.md#struct-ranget-where-t--countablet--comparablet--equatablet) 是否不相等。
-
-参数：
-
-- that: [Range](core_package_structs.md#struct-ranget-where-t--countablet--comparablet--equatablet)\<T> - 待比较的 [Range](core_package_structs.md#struct-ranget-where-t--countablet--comparablet--equatablet) 实例。
-
-返回值：
-
-- [Bool](core_package_intrinsics.md#bool) - true 代表不相等，false 代表相等。
-
 #### operator func ==(Range\<T>)
 
 ```cangjie
@@ -1383,7 +2362,7 @@ public operator func ==(that: Range<T>): Bool
 
 功能：判断两个 [Range](core_package_structs.md#struct-ranget-where-t--countablet--comparablet--equatablet) 实例是否相等。
 
-两个 [Range](core_package_structs.md#struct-ranget-where-t--countablet--comparablet--equatablet) 实例相等指的是它们表示同一个区间，即 `start`、`end`、[step](../../collection/collection_package_api/collection_package_function.md#func-steptint64)、`isClosed` 值相等。
+两个 [Range](core_package_structs.md#struct-ranget-where-t--countablet--comparablet--equatablet) 实例相等指的是它们表示同一个区间，即 `start`、`end`、[step](#let-step)、`isClosed` 值相等。
 
 参数：
 
@@ -1411,7 +2390,7 @@ extend<T> Range<T> <: Hashable where T <: Hashable & Countable<T> & Comparable<T
 public func hashCode(): Int64
 ```
 
-功能：获取哈希值，该值为 `start`、`end`、[step](../../collection/collection_package_api/collection_package_function.md#func-steptint64)、`isClosed` 的组合哈希运算结果。
+功能：获取哈希值，该值为 `start`、`end`、[step](#let-step)、`isClosed` 的组合哈希运算结果。
 
 返回值：
 
@@ -1421,7 +2400,7 @@ public func hashCode(): Int64
 
 ```cangjie
 public struct String <: Collection<Byte> & Equatable<String> & Comparable<String> & Hashable & ToString {
-    public static const empty: String
+    public static const empty: String = String()
     public const init()
     public init(value: Array<Rune>)
     public init(value: Collection<Rune>)
@@ -1432,7 +2411,8 @@ public struct String <: Collection<Byte> & Equatable<String> & Comparable<String
 
 > **注意：**
 >
-> [String](core_package_structs.md#struct-string) 类型仅支持 UTF-8 编码。
+> - `String` 类型仅支持 UTF-8 编码。
+> - 出于 `String` 对象内存开销方面的优化，`String` 的长度被限制在 `4GB`大小，即 `String`的最大长度不超过 [UInt32 的最大值](./core_package_intrinsics.md#uint32)。
 
 父类型：
 
@@ -1482,6 +2462,10 @@ public init(value: Array<Rune>)
 
 - value: [Array](core_package_structs.md#struct-arrayt)\<Rune> - 根据该字符数组构造字符串。
 
+异常：
+
+- [IllegalArgumentException](core_package_exceptions.md#class-illegalargumentexception) - 当试图构造长度超过 [UInt32 的最大值](./core_package_intrinsics.md#uint32) 的字符串时，抛出异常。
+
 ### init(Collection\<Rune>)
 
 ```cangjie
@@ -1493,6 +2477,10 @@ public init(value: Collection<Rune>)
 参数：
 
 - value: [Collection](core_package_interfaces.md#interface-collectiont)\<Rune> - 根据该字符集合构造字符串。
+
+异常：
+
+- [IllegalArgumentException](core_package_exceptions.md#class-illegalargumentexception) - 当试图构造长度超过 [UInt32 的最大值](./core_package_intrinsics.md#uint32) 的字符串时，抛出异常。
 
 ### static func fromUtf8(Array\<UInt8>)
 
@@ -1512,7 +2500,7 @@ public static func fromUtf8(utf8Data: Array<UInt8>): String
 
 异常：
 
-- [IllegalArgumentException](core_package_exceptions.md#class-illegalargumentexception) - 入参不符合 utf-8 序列规则，抛出异常。
+- [IllegalArgumentException](core_package_exceptions.md#class-illegalargumentexception) - 入参不符合 utf-8 序列规则，或者试图构造长度超过 [UInt32 的最大值](./core_package_intrinsics.md#uint32) 的字符串时，抛出异常。
 
 ### static func fromUtf8Unchecked(Array\<UInt8>)
 
@@ -1532,6 +2520,10 @@ public static unsafe func fromUtf8Unchecked(utf8Data: Array<UInt8>): String
 
 - [String](core_package_structs.md#struct-string) - 构造的字符串。
 
+异常：
+
+- [IllegalArgumentException](core_package_exceptions.md#class-illegalargumentexception) - 当试图构造长度超过 [UInt32 的最大值](./core_package_intrinsics.md#uint32) 的字符串时，抛出异常。
+
 ### static func join(Array\<String>, String)
 
 ```cangjie
@@ -1548,6 +2540,27 @@ public static func join(strArray: Array<String>, delimiter!: String = String.emp
 返回值：
 
 - [String](core_package_structs.md#struct-string) - 连接后的新字符串。
+
+异常：
+
+- [IllegalArgumentException](core_package_exceptions.md#class-illegalargumentexception) - 当试图构造长度超过 [UInt32 的最大值](./core_package_intrinsics.md#uint32) 的字符串时，抛出异常。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var arr = ["I", "like", "Cangjie"]
+    var str = String.join(arr, delimiter: " ")
+    println(str)
+}
+```
+
+运行结果：
+
+```text
+I like Cangjie
+```
 
 ### func clone()
 
@@ -1629,21 +2642,37 @@ public func endsWith(suffix: String): Bool
 
 - [Bool](core_package_intrinsics.md#bool) - 如果字符串 str 是原字符串的后缀，返回 true，否则返回 false，特别地，如果 str 字符串长度为 0，返回 true。
 
-### func getRaw()
+### func equalsIgnoreAsciiCase(String): Bool
 
 ```cangjie
-public unsafe func getRaw(): CPointerHandle<UInt8>
+public func equalsIgnoreAsciiCase(that: String): Bool
 ```
 
-功能：获取当前 [String](core_package_structs.md#struct-string) 的原始指针，用于和C语言交互，使用完后需要 releaseRaw 函数释放该指针。
+功能：判断当前字符串和指定字符串是否相等，忽略大小写。
 
-> **注意：**
->
-> getRaw 与 releaseRaw 之间仅可包含简单的 foreign C 函数调用等逻辑，不构造例如 [CString](core_package_intrinsics.md#cstring) 等的仓颉对象，否则可能造成不可预知的错误。
+参数：
+
+- that: [String](./core_package_structs.md#struct-string) - 待比较的字符串。
 
 返回值：
 
-- [CPointerHandle](core_package_structs.md#struct-cpointerhandlet-where-t--ctype)\<[UInt8](core_package_intrinsics.md#uint8)> - 当前字符串的原始指针实例。
+- [Bool](./core_package_intrinsics.md#bool) - 如果当前字符串与待比较字符串相等，返回 true，否则返回 false。
+
+### func get(Int64)
+
+```cangjie
+public func get(index: Int64): Option<Byte>
+```
+
+功能：返回字符串下标 index 对应的 UTF-8 编码字节值。
+
+参数：
+
+- index: [Int64](core_package_intrinsics.md#int64) - 要获取的字节值的下标。
+
+返回值：
+
+- [Option](core_package_enums.md#enum-optiont)\<[Byte](core_package_types.md#type-byte)> - 获取得到下标对应的 UTF-8 编码字节值，当 index 小于 0 或者大于等于字符串长度，则返回 [Option](core_package_enums.md#enum-optiont)\<[Byte](core_package_types.md#type-byte)>.None。
 
 ### func hashCode()
 
@@ -1671,7 +2700,7 @@ public func indexOf(b: Byte): Option<Int64>
 
 返回值：
 
-- [Option](core_package_enums.md#enum-optiont)\<[Int64](core_package_intrinsics.md#int64)> - 如果原字符串中包含指定字节，返回其第一次出现的索引，如果原字符串中没有此字节，返回 `None`。
+- [Option](core_package_enums.md#enum-optiont)\<[Int64](core_package_intrinsics.md#int64)> - 如果原字符串中包含指定字节，返回其第一次出现的索引，如果原字符串中没有此字节，返回 [Option](core_package_enums.md#enum-optiont)\<[Int64](core_package_intrinsics.md#int64)>.None。
 
 ### func indexOf(Byte, Int64)
 
@@ -1688,7 +2717,7 @@ public func indexOf(b: Byte, fromIndex: Int64): Option<Int64>
 
 返回值：
 
-- [Option](core_package_enums.md#enum-optiont)\<[Int64](core_package_intrinsics.md#int64)> - 如果搜索成功，返回指定字节第一次出现的索引，否则返回 `None`。特别地，当 fromIndex 小于零，效果同 0，当 fromIndex 大于等于原字符串长度，返回 `None`。
+- [Option](core_package_enums.md#enum-optiont)\<[Int64](core_package_intrinsics.md#int64)> - 如果搜索成功，返回指定字节第一次出现的索引，否则返回 `None`。特别地，当 fromIndex 小于零，效果同 0，当 fromIndex 大于等于原字符串长度，返回 [Option](core_package_enums.md#enum-optiont)\<[Int64](core_package_intrinsics.md#int64)>.None。
 
 ### func indexOf(String)
 
@@ -1770,6 +2799,28 @@ public func iterator(): Iterator<Byte>
 返回值：
 
 - [Iterator](core_package_classes.md#class-iteratort)\<[Byte](core_package_types.md#type-byte)> - 字符串的 UTF-8 编码字节迭代器。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var str = "abc"
+
+    /* 迭代器元素为每个字符的 utf-8 编码 */
+    for (i in str) {
+        println(i)
+    }
+}
+```
+
+运行结果：
+
+```text
+97
+98
+99
+```
 
 ### func lastIndexOf(Byte)
 
@@ -1856,6 +2907,30 @@ public func lazySplit(str: String, removeEmpty!: Bool = false): Iterator<String>
 
 - [Iterator](core_package_classes.md#class-iteratort)\<[String](core_package_structs.md#struct-string)> - 分割后的字符串迭代器。
 
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var str = "I like Cangjie"
+    var iter = str.lazySplit(" ")
+    while (true) {
+        match (iter.next()) {
+            case Some(i) => println(i)
+            case None => break
+        }
+    }
+}
+```
+
+运行结果：
+
+```text
+I
+like
+Cangjie
+```
+
 ### func lazySplit(String, Int64, Bool)
 
 ```cangjie
@@ -1893,33 +2968,34 @@ public func lines(): Iterator<String>
 
 - [Iterator](core_package_classes.md#class-iteratort)\<[String](core_package_structs.md#struct-string)> - 字符串的行迭代器。
 
-### func padLeft(Int64, String)
+示例：
 
+<!-- verify -->
 ```cangjie
-public func padLeft(totalWidth: Int64, padding!: String = " "): String
+main() {
+    var str = "I\rlike\nCangjie\r"
+    var iter = str.lines()
+    while (true) {
+        match (iter.next()) {
+            case Some(i) => println(i)
+            case None => break
+        }
+    }
+}
 ```
 
-功能：按指定长度右对齐原字符串，如果原字符串长度小于指定长度，在其左侧添加指定字符串。
+运行结果：
 
-当指定长度小于字符串长度时，返回字符串本身，不会发生截断；当指定长度大于字符串长度时，在左侧添加 padding 字符串，当 padding 长度大于 1 时，返回字符串的长度可能大于指定长度。
+```text
+I
+like
+Cangjie
+```
 
-参数：
-
-- totalWidth: [Int64](core_package_intrinsics.md#int64) - 指定对齐后字符串长度，取值需大于等于 0。
-- padding!: [String](core_package_structs.md#struct-string) - 当长度不够时，在左侧用指定的字符串 padding 进行填充
-
-返回值：
-
-- [String](core_package_structs.md#struct-string) - 填充后的字符串。
-
-异常：
-
-- [IllegalArgumentException](core_package_exceptions.md#class-illegalargumentexception) - 如果 totalWidth 小于 0，抛出异常。
-
-### func padRight(Int64, String)
+### func padEnd(Int64, String)
 
 ```cangjie
-public func padRight(totalWidth: Int64, padding!: String = " "): String
+public func padEnd(totalWidth: Int64, padding!: String = " "): String
 ```
 
 功能：按指定长度左对齐原字符串，如果原字符串长度小于指定长度，在其右侧添加指定字符串。
@@ -1930,6 +3006,29 @@ public func padRight(totalWidth: Int64, padding!: String = " "): String
 
 - totalWidth: [Int64](core_package_intrinsics.md#int64) - 指定对齐后字符串长度，取值需大于等于 0。
 - padding!: [String](core_package_structs.md#struct-string) - 当长度不够时，在右侧用指定的字符串 padding 进行填充。
+
+返回值：
+
+- [String](core_package_structs.md#struct-string) - 填充后的字符串。
+
+异常：
+
+- [IllegalArgumentException](core_package_exceptions.md#class-illegalargumentexception) - 如果 totalWidth 小于 0，抛出异常。
+
+### func padStart(Int64, String)
+
+```cangjie
+public func padStart(totalWidth: Int64, padding!: String = " "): String
+```
+
+功能：按指定长度右对齐原字符串，如果原字符串长度小于指定长度，在其左侧添加指定字符串。
+
+当指定长度小于字符串长度时，返回字符串本身，不会发生截断；当指定长度大于字符串长度时，在左侧添加 padding 字符串，当 padding 长度大于 1 时，返回字符串的长度可能大于指定长度。
+
+参数：
+
+- totalWidth: [Int64](core_package_intrinsics.md#int64) - 指定对齐后字符串长度，取值需大于等于 0。
+- padding!: [String](core_package_structs.md#struct-string) - 当长度不够时，在左侧用指定的字符串 padding 进行填充
 
 返回值：
 
@@ -1955,21 +3054,37 @@ public unsafe func rawData(): Array<Byte>
 
 - [Array](core_package_structs.md#struct-arrayt)\<[Byte](core_package_types.md#type-byte)> - 当前字符串对应的原始字节数组。
 
-### func releaseRaw(CPointerHandle\<UInt8>)
+### func removePrefix(String)
 
 ```cangjie
-public unsafe func releaseRaw(cp: CPointerHandle<UInt8>): Unit
+public func removePrefix(prefix: String): String
 ```
 
-功能：释放 getRaw 函数获取的指针。
-
-> **注意：**
->
-> 释放时只能释放同一个 [String](core_package_structs.md#struct-string) 获取的指针，如果释放了其他 [String](core_package_structs.md#struct-string) 获取的指针，会出现不可预知的错误。
+功能：去除字符串的 prefix 前缀。
 
 参数：
 
-- cp: [CPointerHandle](core_package_structs.md#struct-cpointerhandlet-where-t--ctype)\<[UInt8](core_package_intrinsics.md#uint8)> - 待释放的指针实例。
+- prefix: [String](core_package_structs.md#struct-string) - 待去除的前缀。
+
+返回值：
+
+- [String](core_package_structs.md#struct-string) - 去除前缀后得到的新字符串。
+
+### func removeSuffix(String)
+
+```cangjie
+public func removeSuffix(suffix: String): String
+```
+
+功能：去除字符串的 suffix 后缀。
+
+参数：
+
+- suffix: [String](core_package_structs.md#struct-string) - 待去除的后缀。
+
+返回值：
+
+- [String](core_package_structs.md#struct-string) - 去除后缀后得到的新字符串。
 
 ### func replace(String, String)
 
@@ -2156,22 +3271,10 @@ whitespace 的 unicode 码点范围为 [0009, 000D] 和 [0020]。
 
 - [String](core_package_structs.md#struct-string) - 转换后的新字符串。
 
-### func trimAsciiLeft()
+### func trimAsciiEnd()
 
 ```cangjie
-public func trimAsciiLeft(): String
-```
-
-功能：去除原字符串开头以 whitespace 字符组成的子字符串。
-
-返回值：
-
-- [String](core_package_structs.md#struct-string) - 转换后的新字符串。
-
-### func trimAsciiRight()
-
-```cangjie
-public func trimAsciiRight(): String
+public func trimAsciiEnd(): String
 ```
 
 功能：去除原字符串结尾以 whitespace 字符组成的子字符串。
@@ -2180,53 +3283,168 @@ public func trimAsciiRight(): String
 
 - [String](core_package_structs.md#struct-string) - 转换后的新字符串。
 
-### func trimLeft(String)
+### func trimAsciiStart()
 
 ```cangjie
-public func trimLeft(prefix: String): String
+public func trimAsciiStart(): String
 ```
 
-功能：去除字符串的 prefix 前缀。
-
-参数：
-
-- prefix: [String](core_package_structs.md#struct-string) - 待去除的前缀。
+功能：去除原字符串开头以 whitespace 字符组成的子字符串。
 
 返回值：
 
 - [String](core_package_structs.md#struct-string) - 转换后的新字符串。
 
-### func trimRight(String)
+### func trimEnd((Rune)->Bool)
 
 ```cangjie
-public func trimRight(suffix: String): String
+public func trimEnd(predicate: (Rune)->Bool): String
 ```
 
-功能：去除字符串的 suffix 后缀。
+功能：修剪当前字符串，从尾开始删除符合过滤条件的 [Rune](./core_package_intrinsics.md#rune) 字符，直到第一个不符合过滤条件的 [Rune](./core_package_intrinsics.md#rune) 字符为止。
 
 参数：
 
-- suffix: [String](core_package_structs.md#struct-string) - 待去除的后缀。
+- predicate: ([Rune](./core_package_intrinsics.md#rune))->[Bool](./core_package_intrinsics.md#bool) - 过滤条件。
 
 返回值：
 
-- [String](core_package_structs.md#struct-string) - 转换后的新字符串。
+- [String](./core_package_structs.md#struct-string) - 修剪后得到的新字符串。
 
-### func tryGet(Int64)
+示例：
 
+<!-- verify -->
 ```cangjie
-public func tryGet(index: Int64): Option<Byte>
+main() {
+    var str = "14122"
+    var subStr = str.trimEnd({c => c == r'2'})
+    println(subStr)
+}
 ```
 
-功能：返回字符串下标 index 对应的 UTF-8 编码字节值。
+运行结果：
+
+```text
+141
+```
+
+### func trimEnd(Array\<Rune>)
+
+```cangjie
+public func trimEnd(set: Array<Rune>): String
+```
+
+功能：修剪当前字符串，从尾开始删除在 set 中的 [Rune](./core_package_intrinsics.md#rune) 字符，直到第一个不在 set 中的 [Rune](./core_package_intrinsics.md#rune) 字符为止。
 
 参数：
 
-- index: [Int64](core_package_intrinsics.md#int64) - 要获取的字节值的下标。
+- set: [Array](./core_package_structs.md#struct-arrayt)\<[Rune](./core_package_intrinsics.md#rune)> - 待删除的字符的集合。
 
 返回值：
 
-- [Option](core_package_enums.md#enum-optiont)\<[Byte](core_package_types.md#type-byte)> - 获取得到下标对应的 UTF-8 编码字节值，当 index 小于 0 或者大于等于字符串长度，则返回 [Option](core_package_enums.md#enum-optiont)\<[Byte](core_package_types.md#type-byte)>.None。
+- [String](./core_package_structs.md#struct-string) - 修剪后得到的新字符串。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var str = "14122"
+    var subStr = str.trimEnd([r'1', r'2'])
+    println(subStr)
+}
+```
+
+运行结果：
+
+```text
+14
+```
+
+### func trimEnd(String)
+
+```cangjie
+public func trimEnd(set: String): String
+```
+
+功能：修剪当前字符串，从尾开始删除在 set 中的 [Rune](./core_package_intrinsics.md#rune) 字符，直到第一个不在 set 中的 [Rune](./core_package_intrinsics.md#rune) 字符为止。
+
+参数：
+
+- set: [String](./core_package_structs.md#struct-string) - 待删除的字符的集合。
+
+返回值：
+
+- [String](./core_package_structs.md#struct-string) - 修剪后得到的新字符串。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var str = "14122"
+    var subStr = str.trimEnd("12")
+    println(subStr)
+}
+```
+
+运行结果：
+
+```text
+14
+```
+
+### func trimStart((Rune)->Bool)
+
+```cangjie
+public func trimStart(predicate: (Rune)->Bool): String
+```
+
+功能：修剪当前字符串，从头开始删除符合过滤条件的 [Rune](./core_package_intrinsics.md#rune) 字符，直到第一个不符合过滤条件的 [Rune](./core_package_intrinsics.md#rune) 字符为止。
+
+参数：
+
+- predicate: ([Rune](./core_package_intrinsics.md#rune))->[Bool](./core_package_intrinsics.md#bool) - 过滤条件。
+
+返回值：
+
+- [String](./core_package_structs.md#struct-string) - 修剪后得到的新字符串。
+
+### func trimStart(Array\<Rune>)
+
+```cangjie
+public func trimStart(set: Array<Rune>): String
+```
+
+功能：修剪当前字符串，从头开始删除在 set 中的 [Rune](./core_package_intrinsics.md#rune) 字符，直到第一个不在 set 中的 [Rune](./core_package_intrinsics.md#rune) 字符为止。
+
+例如 "12241".trimStart([r'1', r'2']) = "41"。
+
+参数：
+
+- set: [Array](./core_package_structs.md#struct-arrayt)\<[Rune](./core_package_intrinsics.md#rune)> - 待删除的字符的集合。
+
+返回值：
+
+- [String](./core_package_structs.md#struct-string) - 修剪后得到的新字符串。
+
+### func trimStart(String)
+
+```cangjie
+public func trimStart(set: String): String
+```
+
+功能：修剪当前字符串，从头开始删除在 set 中的 [Rune](./core_package_intrinsics.md#rune) 字符，直到第一个不在 set 中的 [Rune](./core_package_intrinsics.md#rune) 字符为止。
+
+例如 "12241".trimStart("12") = "41"。
+
+参数：
+
+- set: [String](./core_package_structs.md#struct-string) - 待删除的字符的集合。
+
+返回值：
+
+- [String](./core_package_structs.md#struct-string) - 修剪后得到的新字符串。
 
 ### operator func !=(String)
 
@@ -2260,6 +3478,10 @@ public const operator func *(count: Int64): String
 
 - [String](core_package_structs.md#struct-string) - 返回重复 [count](../../collection/collection_package_api/collection_package_function.md#func-counttiterablet) 次后的新字符串。
 
+异常：
+
+- [IllegalArgumentException](core_package_exceptions.md#class-illegalargumentexception) - 当试图构造长度超过 [UInt32 的最大值](./core_package_intrinsics.md#uint32) 的字符串时，抛出异常。
+
 ### operator func +(String)
 
 ```cangjie
@@ -2275,6 +3497,10 @@ public const operator func +(right: String): String
 返回值：
 
 - [String](core_package_structs.md#struct-string) - 返回拼接后的字符串。
+
+异常：
+
+- [IllegalArgumentException](core_package_exceptions.md#class-illegalargumentexception) - 当试图构造长度超过 [UInt32 的最大值](./core_package_intrinsics.md#uint32) 的字符串时，抛出异常。
 
 ### operator func <(String)
 
@@ -2402,4 +3628,4 @@ public const operator func [](range: Range<Int64>): String
 异常：
 
 - [IndexOutOfBoundsException](core_package_exceptions.md#class-indexoutofboundsexception) - 如果切片范围超过原字符串边界，抛出异常。
-- [IllegalArgumentException](core_package_exceptions.md#class-illegalargumentexception) - 如果 range.[step](../../collection/collection_package_api/collection_package_function.md#func-steptint64) 不等于 1或者范围起止点不是字符边界，抛出异常。
+- [IllegalArgumentException](core_package_exceptions.md#class-illegalargumentexception) - 如果 range.[step](#let-step) 不等于 1 或者范围起止点不是字符边界，抛出异常。

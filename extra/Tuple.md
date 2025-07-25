@@ -26,22 +26,22 @@ known beforehand.
 
 ```
 let x: (Int64, Float64) = (3, 3.141592)
-let x: (Int64, Float64, String) = (3, 3.141592, "PI")
+let y: (Int64, Float64, String) = (3, 3.141592, "PI")
 var a: Int64
 var b: String
 var c: Unit
-var f: { => ((1, "abc"), ())}
+var f = { => ((1, "abc"), ())}
 ((a, b), c) = f()  // value of a is 1, value of b is "abc", value of c is '()'
 ((a, b), _) = ((2, "def"), 3.0)  // value of a is 2, value of b is "def", 3.0 is ignored
-let c: (name: String, Int64) = ("banana", 5)  // Error
+let d: (name: String, Int64) = ("banana", 5)  // Error
 ```
 
 ### To iterate over an array of tuples:
 
 ```
-var a = Array<(Int64, Int64)>([(2, 3), (3, 4)])
+var a: Array<(Int64, Int64)> = [(2, 3), (3, 4)]
 for (pair in a) {
-    println("(${pair[0]}, {pair[1]})")
+    println("(${pair[0]}, ${pair[1]})")
 }
 ```
 
@@ -65,7 +65,7 @@ var tuple2 = (false, tuple[1])
 ### Type parameter of the typle type:
 
 ```
-func getFruitPrice (): (name: String, price: Int64) {
+func getFruitPrice(): (name: String, price: Int64) {
     return ("banana", 10)
 }
 ```
@@ -92,9 +92,9 @@ keys in a `HashMap`. The following code is incorrect:
 
 ```
 let set = HashSet<(Int64, Int64)>()  // compiler error: (Int64, Int64) is not Hashable
-set.put((0, 0))
+set.add((0, 0))
 for (pair in set) {
-    println(pair)
+    println("${pair[0]}, ${pair[1]}")
 }
 ```
 
@@ -102,10 +102,12 @@ Instead, create a new structure for the pair. The structure need to implement bo
 `Hashable` and `Equatable`:
 
 ```
+import std.collection.*
+
 struct IntPair <: Hashable & Equatable<IntPair> {
     let x: Int64
     let y: Int64
-    public init(x: Int64, y: Int 64) {
+    public init(x: Int64, y: Int64) {
         this.x = x
         this.y = y
     }
@@ -122,7 +124,7 @@ struct IntPair <: Hashable & Equatable<IntPair> {
 
 main() {
     let set = HashSet<IntPair>()
-    set.put(IntPair(0, 0))
+    set.add(IntPair(0, 0))
     for (pair in set) {
         let (x, y) = (pair.x, pair.y)
         println("(${x}, ${y})")  // prints (0, 0)

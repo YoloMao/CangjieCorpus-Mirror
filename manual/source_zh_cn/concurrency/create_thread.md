@@ -5,9 +5,6 @@
 下方示例代码中，主线程和新线程均会尝试打印一些文本：
 
 ```cangjie
-import std.sync.*
-import std.time.*
-
 main(): Int64 {
     spawn { =>
         println("New thread before sleeping")
@@ -28,4 +25,4 @@ New thread before sleeping
 Main thread
 ```
 
-`sleep()` 函数会让当前线程睡眠指定的时长，之后再恢复执行，其时间由指定的 Duration 类型决定，详细介绍请参考[线程睡眠指定时长](./sleep.md)章节。
+`sleep()` 函数会让当前线程睡眠指定的时长，之后再恢复执行，其时间由指定的 Duration 类型决定，详细介绍请参见[线程睡眠指定时长](./sleep.md)章节。

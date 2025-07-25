@@ -17,7 +17,7 @@ public func abs(x: Float16): Float16
 - [Float16](../../core/core_package_api/core_package_intrinsics.md#float16) - 返回传入参数的绝对值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.abs
 
@@ -28,7 +28,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 23.000000
@@ -51,7 +51,7 @@ public func abs(x: Float32): Float32
 - [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) - 返回传入参数的绝对值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.abs
 
@@ -62,7 +62,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 23.000000
@@ -86,6 +86,7 @@ public func abs(x: Float64): Float64
 
 示例：
 
+<!-- verify -->
 ```cangjie
 import std.math.abs
 
@@ -96,7 +97,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 23.000000
@@ -123,7 +124,7 @@ public func abs(x: Int16): Int16
 - [OverflowException](../../core/core_package_api/core_package_exceptions.md#class-overflowexception) - 当输入参数是有符号整数的最小值，抛出异常。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.abs
 
@@ -134,10 +135,32 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 23
+```
+
+以下示例抛出异常：
+<!-- verify -->
+```cangjie
+import std.math.abs
+
+main(): Unit {
+    try {
+        let n = Int16(-2 ** 15)
+        let abs: Int16 = abs(n)
+        println(abs)
+    } catch (e: OverflowException) {
+        println("异常：输入参数是有符号整数的最小值")
+    }
+}
+```
+
+运行结果：
+
+```text
+异常：输入参数是有符号整数的最小值
 ```
 
 ## func abs(Int32)
@@ -161,7 +184,7 @@ public func abs(x: Int32): Int32
 - [OverflowException](../../core/core_package_api/core_package_exceptions.md#class-overflowexception) - 当输入参数是有符号整数的最小值，抛出异常。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.abs
 
@@ -172,7 +195,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 23
@@ -199,7 +222,7 @@ public func abs(x: Int64): Int64
 - [OverflowException](../../core/core_package_api/core_package_exceptions.md#class-overflowexception) - 当输入参数是有符号整数的最小值，抛出异常。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.abs
 
@@ -210,7 +233,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 23
@@ -237,7 +260,7 @@ public func abs(x: Int8): Int8
 - [OverflowException](../../core/core_package_api/core_package_exceptions.md#class-overflowexception) - 当输入参数是有符号整数的最小值，抛出异常。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.abs
 
@@ -248,7 +271,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 23
@@ -275,7 +298,7 @@ public func acos(x: Float16): Float16
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当参数 `x` 大于 1.0 或小于 -1.0 时，抛出异常。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.acos
 
@@ -286,10 +309,22 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 0.000000
+```
+
+以下示例将抛出异常：
+<!-- run.error -->
+```cangjie
+import std.math.acos
+
+main(): Unit {
+    let n = -1.5
+    let acos = acos(n)
+    println(acos)
+}
 ```
 
 ## func acos(Float32)
@@ -313,7 +348,7 @@ public func acos(x: Float32): Float32
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当参数 `x` 大于 1.0 或小于 -1.0 时，抛出异常。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.acos
 
@@ -324,7 +359,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 0.000000
@@ -351,7 +386,7 @@ public func acos(x: Float64): Float64
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当参数 `x` 大于 1.0 或小于 -1.0 时，抛出异常。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.acos
 
@@ -362,7 +397,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 0.000000
@@ -389,7 +424,7 @@ public func acosh(x: Float16): Float16
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当参数 `x` 小于 1.0 时，抛出异常。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.acosh
 
@@ -400,10 +435,22 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 0.000000
+```
+
+以下示例将抛出异常：
+<!-- run.error -->
+```cangjie
+import std.math.acosh
+
+main(): Unit {
+    let n = 0.4
+    let acosh = acosh(n)
+    println(acosh)
+}
 ```
 
 ## func acosh(Float32)
@@ -427,7 +474,7 @@ public func acosh(x: Float32): Float32
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当参数 `x` 小于 1.0 时，抛出异常。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.acosh
 
@@ -438,7 +485,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 0.000000
@@ -465,7 +512,7 @@ public func acosh(x: Float64): Float64
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当参数 `x` 小于 1.0 时，抛出异常。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.acosh
 
@@ -476,7 +523,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 0.000000
@@ -503,7 +550,7 @@ public func asin(x: Float16): Float16
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当参数 `x` 大于 1.0 或小于 -1.0 时，抛出异常。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.asin
 
@@ -514,10 +561,22 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 0.000000
+```
+
+以下示例将抛出异常：
+<!-- run.error -->
+```cangjie
+import std.math.asin
+
+main(): Unit {
+    let n = 1.4
+    let asin = asin(n)
+    println(asin)
+}
 ```
 
 ## func asin(Float32)
@@ -541,7 +600,7 @@ public func asin(x: Float32): Float32
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当参数 `x` 大于 1.0 或小于 -1.0 时，抛出异常。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.asin
 
@@ -552,7 +611,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 0.000000
@@ -579,7 +638,7 @@ public func asin(x: Float64): Float64
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当参数 `x` 大于 1.0 或小于 -1.0 时，抛出异常。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.asin
 
@@ -590,7 +649,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 0.000000
@@ -613,7 +672,7 @@ public func asinh(x: Float16): Float16
 - [Float16](../../core/core_package_api/core_package_intrinsics.md#float16) - 返回传入参数的反双曲正弦函数值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.asinh
 
@@ -624,7 +683,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 0.000000
@@ -647,7 +706,7 @@ public func asinh(x: Float32): Float32
 - [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) - 返回传入参数的反双曲正弦函数值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.asinh
 
@@ -658,7 +717,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 0.000000
@@ -681,7 +740,7 @@ public func asinh(x: Float64): Float64
 - [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 返回传入参数的反双曲正弦函数值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.asinh
 
@@ -692,7 +751,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 0.000000
@@ -715,7 +774,7 @@ public func atan(x: Float16): Float16
 - [Float16](../../core/core_package_api/core_package_intrinsics.md#float16) - 返回传入参数的反正切函数值，单位为弧度。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.atan
 
@@ -726,7 +785,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 0.000000
@@ -749,7 +808,7 @@ public func atan(x: Float32): Float32
 - [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) - 返回传入参数的反正切函数值，单位为弧度。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.atan
 
@@ -760,7 +819,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 0.000000
@@ -783,7 +842,7 @@ public func atan(x: Float64): Float64
 - [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 返回传入参数的反正切函数值，单位为弧度。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.atan
 
@@ -794,10 +853,121 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 0.000000
+```
+
+## func atan2(Float16, Float16)
+
+```cangjie
+public func atan2(y: Float16, x: Float16): Float16
+```
+
+功能：计算两个半精度浮点数 y/x 的反正切函数值，单位为弧度。
+
+参数：
+
+- y: [Float16](../../core/core_package_api/core_package_intrinsics.md#float16) - 传入的半精度浮点数。
+- x: [Float16](../../core/core_package_api/core_package_intrinsics.md#float16) - 传入的半精度浮点数。
+
+返回值：
+
+- [Float16](../../core/core_package_api/core_package_intrinsics.md#float16) - 返回 y/x 的反正切函数值，单位为弧度。
+
+示例：
+<!-- verify -->
+```cangjie
+import std.math.*
+import std.convert.Formattable
+
+main() {
+    let y: Float16 = 1.0
+    let x: Float16 = 1.0
+    let atan2 = atan2(y, x) / Float16.getPI() * 180.0 // 将弧度值转为角度值打印
+    println("${atan2.format(".1")}°")
+}
+```
+
+运行结果：
+
+```text
+45.0°
+```
+
+## func atan2(Float32, Float32)
+
+```cangjie
+public func atan2(y: Float32, x: Float32): Float32
+```
+
+功能：计算两个单精度浮点数 y/x 的反正切函数值，单位为弧度。
+
+参数：
+
+- y: [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) - 传入的单精度浮点数。
+- x: [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) - 传入的单精度浮点数。
+
+返回值：
+
+- [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) - 返回 y/x 的反正切函数值，单位为弧度。
+
+示例：
+<!-- verify -->
+```cangjie
+import std.math.*
+import std.convert.Formattable
+
+main() {
+    let y: Float32 = 1.0
+    let x: Float32 = 1.0
+    let atan2 = atan2(y, x) / Float32.getPI() * 180.0 // 将弧度值转为角度值打印
+    println("${atan2.format(".1")}°")
+}
+```
+
+运行结果：
+
+```text
+45.0°
+```
+
+## func atan2(Float64, Float64)
+
+```cangjie
+public func atan2(y: Float64, x: Float64): Float64
+```
+
+功能：计算两个双精度浮点数 y/x 的反正切函数值，单位为弧度。
+
+参数：
+
+- y: [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 传入的双精度浮点数。
+- x: [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 传入的双精度浮点数。
+
+返回值：
+
+- [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 返回 y/x 的反正切函数值，单位为弧度。
+
+示例：
+<!-- verify -->
+```cangjie
+import std.math.*
+import std.convert.Formattable
+
+main() {
+    let y: Float64 = 1.0
+    let x: Float64 = 1.0
+    let atan2 = atan2(y, x) / Float64.getPI() * 180.0 // 将弧度值转为角度值打印
+    println("${atan2.format(".1")}°")
+}
+```
+
+运行结果：
+
+```text
+45.0°
 ```
 
 ## func atanh(Float16)
@@ -821,7 +991,7 @@ public func atanh(x: Float16): Float16
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当参数 `x` 大于等于 1.0 或小于等于 -1.0 时，抛出异常。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.atanh
 
@@ -832,10 +1002,22 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 0.000000
+```
+
+以下示例将抛出异常：
+<!-- run.error -->
+```cangjie
+import std.math.atanh
+
+main(): Unit {
+    let n = -1.4
+    let atanh = atanh(n)
+    println(atanh)
+}
 ```
 
 ## func atanh(Float32)
@@ -859,7 +1041,7 @@ public func atanh(x: Float32): Float32
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当参数 `x` 大于等于 1.0 或小于等于 -1.0 时，抛出异常。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.atanh
 
@@ -870,7 +1052,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 0.000000
@@ -897,7 +1079,7 @@ public func atanh(x: Float64): Float64
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当参数 `x` 大于等于 1.0 或小于等于 -1.0 时，抛出异常。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.atanh
 
@@ -908,7 +1090,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 0.000000
@@ -931,7 +1113,7 @@ public func cbrt(x: Float16): Float16
 - [Float16](../../core/core_package_api/core_package_intrinsics.md#float16) - 返回传入参数的立方根。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.cbrt
 
@@ -942,7 +1124,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 -10.000000
@@ -965,7 +1147,7 @@ public func cbrt(x: Float32): Float32
 - [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) - 返回传入参数的立方根。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.cbrt
 
@@ -976,7 +1158,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 -10.000000
@@ -999,7 +1181,7 @@ public func cbrt(x: Float64): Float64
 - [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 返回传入参数的立方根。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.cbrt
 
@@ -1010,7 +1192,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 -10.000000
@@ -1033,7 +1215,7 @@ public func ceil(x: Float16): Float16
 - [Float16](../../core/core_package_api/core_package_intrinsics.md#float16) - 返回传入参数的向上取整值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.ceil
 
@@ -1044,7 +1226,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 1.000000
@@ -1067,7 +1249,7 @@ public func ceil(x: Float32): Float32
 - [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) - 返回传入参数的向上取整值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.ceil
 
@@ -1078,7 +1260,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 1.000000
@@ -1101,7 +1283,7 @@ public func ceil(x: Float64): Float64
 - [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 返回传入参数的向上取整值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.ceil
 
@@ -1112,7 +1294,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 1.000000
@@ -1135,7 +1317,7 @@ public func checkedAbs(x: Int16): Option<Int16>
 - [Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<[Int16](../../core/core_package_api/core_package_intrinsics.md#int16)> - 返回传入参数的绝对值的 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont) 类型。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.checkedAbs
 
@@ -1146,7 +1328,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 Some(23)
@@ -1169,7 +1351,7 @@ public func checkedAbs(x: Int32): Option<Int32>
 - [Option](../../../std/core/core_package_api/core_package_enums.md#enum-optiont)\<[Int32](../../core/core_package_api/core_package_intrinsics.md#int32)> - 返回传入参数的绝对值的 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont) 类型。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.checkedAbs
 
@@ -1180,7 +1362,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 Some(23)
@@ -1203,7 +1385,7 @@ public func checkedAbs(x: Int64): Option<Int64>
 - [Option](../../../std/core/core_package_api/core_package_enums.md#enum-optiont)\<[Int64](../../core/core_package_api/core_package_intrinsics.md#int64)> - 返回传入参数的绝对值的 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont) 类型。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.checkedAbs
 
@@ -1214,7 +1396,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 Some(23)
@@ -1237,7 +1419,7 @@ public func checkedAbs(x: Int8): Option<Int8>
 - [Option](../../../std/core/core_package_api/core_package_enums.md#enum-optiont)\<[Int8](../../core/core_package_api/core_package_intrinsics.md#int8)> - 返回传入参数的绝对值的 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont) 类型。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.checkedAbs
 
@@ -1248,7 +1430,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 Some(23)
@@ -1272,8 +1454,12 @@ public func clamp(v: Float16, min: Float16, max: Float16): Float16
 
 - [Float16](../../core/core_package_api/core_package_intrinsics.md#float16) - 如果 `v` 在 `min` 与 `max` 之间则返回 `v`；如果 `v` 小于等于 `min` 则返回 `min`；如果 `v` 大于等于 `max`，则返回 `max`；如果是 `NaN` 则返回 `NaN`。
 
-示例：
+异常：
 
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当参数 `min` 大于参数 `max` 或者 `min` 和 `max` 是 `NaN` 时，抛出异常。
+
+示例：
+<!-- verify -->
 ```cangjie
 import std.math.clamp
 
@@ -1284,7 +1470,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 -23.000000
@@ -1308,22 +1494,37 @@ public func clamp(v: Float32, min: Float32, max: Float32): Float32
 
 - [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) - 如果 `v` 在 `min` 与 `max` 之间则返回 `v`；如果 `v` 小于等于 `min` 则返回 `min`；如果 `v` 大于等于 `max`，则返回 `max`；如果是 `NaN` 则返回 `NaN`。
 
+异常：
+
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当参数 `min` 大于参数 `max` 或者 `min` 和 `max` 是 `NaN` 时，抛出异常。
+
 示例：
 
+<!-- verify -->
 ```cangjie
 import std.math.clamp
 
 main() {
-    let n: Float32 = -23.0
-    let clamp = clamp(n, -100.0, 100.0)
-    println(clamp)
+    var m: Float32 = -23.0
+    var clamp1 = clamp(m, -100.0, 100.0)
+    println(clamp1)
+
+    var n: Float32 = -123.0
+    var clamp2 = clamp(n, -100.0, 100.0)
+    println(clamp2)
+
+    var p: Float32 = 123.0
+    var clamp3 = clamp(p, -100.0, 100.0)
+    println(clamp3)
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 -23.000000
+-100.000000
+100.000000
 ```
 
 ## func clamp(Float64, Float64, Float64)
@@ -1344,8 +1545,12 @@ public func clamp(v: Float64, min: Float64, max: Float64): Float64
 
 - [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 如果 `v` 在 `min` 与 `max` 之间则返回 `v`；如果 `v` 小于等于 `min` 则返回 `min`；如果 `v` 大于等于 `max`，则返回 `max`；如果是 `NaN` 则返回 `NaN`。
 
-示例：
+异常：
 
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当参数 `min` 大于参数 `max` 或者 `min` 和 `max` 是 `NaN` 时，抛出异常。
+
+示例：
+<!-- verify -->
 ```cangjie
 import std.math.clamp
 
@@ -1356,7 +1561,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 -23.000000
@@ -1379,7 +1584,7 @@ public func cos(x: Float16): Float16
 - [Float16](../../core/core_package_api/core_package_intrinsics.md#float16) - 返回传入参数的余弦函数值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.cos
 
@@ -1390,7 +1595,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 -1.000000
@@ -1413,7 +1618,7 @@ public func cos(x: Float32): Float32
 - [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) - 返回传入参数的余弦函数值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.cos
 
@@ -1424,7 +1629,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 -1.000000
@@ -1447,7 +1652,7 @@ public func cos(x: Float64): Float64
 - [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 返回传入参数的余弦函数值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.cos
 
@@ -1458,7 +1663,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 -1.000000
@@ -1481,7 +1686,7 @@ public func cosh(x: Float16): Float16
 - [Float16](../../core/core_package_api/core_package_intrinsics.md#float16) - 返回传入参数的双曲余弦函数值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.cosh
 
@@ -1492,7 +1697,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 1.000000
@@ -1515,7 +1720,7 @@ public func cosh(x: Float32): Float32
 - [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) - 返回传入参数的双曲余弦函数值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.cosh
 
@@ -1526,7 +1731,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 1.000000
@@ -1549,7 +1754,7 @@ public func cosh(x: Float64): Float64
 - [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 返回传入参数的双曲余弦函数值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.cosh
 
@@ -1560,16 +1765,36 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 1.000000
 ```
 
-## func countOne(Int16)
+## func countOne(Int16) <sup>(deprecated)<sup>
 
 ```cangjie
 public func countOne(x: Int16): Int8
+```
+
+功能：求 16 位整型的二进制表达中 1 的个数。
+
+> **注意：**
+>
+> 未来版本即将废弃，使用 [countOnes(Int16)](#func-countonesint16) 替代。
+
+参数：
+
+- x: [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 传入的 16 位有符号整数。
+
+返回值：
+
+- [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 返回传入参数的二进制表达中的 1 的位的个数。
+
+## func countOnes(Int16)
+
+```cangjie
+public func countOnes(x: Int16): Int64
 ```
 
 功能：求 16 位整型的二进制表达中 1 的个数。
@@ -1580,30 +1805,50 @@ public func countOne(x: Int16): Int8
 
 返回值：
 
-- [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 返回传入参数的二进制表达中的 1 的位的个数。
+- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 返回传入参数的二进制表达中的 1 的位的个数。
 
 示例：
-
+<!-- verify -->
 ```cangjie
-import std.math.countOne
+import std.math.countOnes
 
 main() {
     let n: Int16 = 15
-    let countOne = countOne(n)
-    println(countOne)
+    let countOnes = countOnes(n)
+    println(countOnes)
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 4
 ```
 
-## func countOne(Int32)
+## func countOne(Int32) <sup>(deprecated)<sup>
 
 ```cangjie
 public func countOne(x: Int32): Int8
+```
+
+功能：求 32 位整型的二进制表达中 1 的个数。
+
+> **注意：**
+>
+> 未来版本即将废弃，使用 [countOnes(Int32)](#func-countonesint32) 替代。
+
+参数：
+
+- x: [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 传入的 32 位有符号整数。
+
+返回值：
+
+- [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 返回传入参数的二进制表达中的 1 的位的个数。
+
+## func countOnes(Int32)
+
+```cangjie
+public func countOnes(x: Int32): Int64
 ```
 
 功能：求 32 位整型的二进制表达中 1 的个数。
@@ -1614,30 +1859,50 @@ public func countOne(x: Int32): Int8
 
 返回值：
 
-- [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 返回传入参数的二进制表达中的 1 的位的个数。
+- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 返回传入参数的二进制表达中的 1 的位的个数。
 
 示例：
-
+<!-- verify -->
 ```cangjie
-import std.math.countOne
+import std.math.countOnes
 
 main() {
     let n: Int32 = 15
-    let countOne = countOne(n)
-    println(countOne)
+    let countOnes = countOnes(n)
+    println(countOnes)
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 4
 ```
 
-## func countOne(Int64)
+## func countOne(Int64) <sup>(deprecated)<sup>
 
 ```cangjie
 public func countOne(x: Int64): Int8
+```
+
+功能：求 64 位整型的二进制表达中 1 的个数。
+
+> **注意：**
+>
+> 未来版本即将废弃，使用 [countOnes(Int64)](#func-countonesint64) 替代。
+
+参数：
+
+- x: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 传入的 64 位有符号整数。
+
+返回值：
+
+- [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 返回传入参数的二进制表达中的 1 的位的个数。
+
+## func countOnes(Int64)
+
+```cangjie
+public func countOnes(x: Int64): Int64
 ```
 
 功能：求 64 位整型的二进制表达中 1 的个数。
@@ -1648,30 +1913,50 @@ public func countOne(x: Int64): Int8
 
 返回值：
 
-- [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 返回传入参数的二进制表达中的 1 的位的个数。
+- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 返回传入参数的二进制表达中的 1 的位的个数。
 
 示例：
-
+<!-- verify -->
 ```cangjie
-import std.math.countOne
+import std.math.countOnes
 
 main() {
     let n: Int64 = 15
-    let countOne = countOne(n)
-    println(countOne)
+    let countOnes = countOnes(n)
+    println(countOnes)
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 4
 ```
 
-## func countOne(Int8)
+## func countOne(Int8) <sup>(deprecated)<sup>
 
 ```cangjie
 public func countOne(x: Int8): Int8
+```
+
+功能：求 8 位整型的二进制表达中 1 的个数。
+
+> **注意：**
+>
+> 未来版本即将废弃，使用 [countOnes(Int8)](#func-countonesint8) 替代。
+
+参数：
+
+- x: [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 传入的 8 位有符号整数。
+
+返回值：
+
+- [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 返回传入参数的二进制表达中的 1 的位的个数。
+
+## func countOnes(Int8)
+
+```cangjie
+public func countOnes(x: Int8): Int64
 ```
 
 功能：求 8 位整型的二进制表达中 1 的个数。
@@ -1682,30 +1967,50 @@ public func countOne(x: Int8): Int8
 
 返回值：
 
-- [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 返回传入参数的二进制表达中的 1 的位的个数。
+- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 返回传入参数的二进制表达中的 1 的位的个数。
 
 示例：
-
+<!-- verify -->
 ```cangjie
-import std.math.countOne
+import std.math.countOnes
 
 main() {
     let n: Int8 = 15
-    let countOne = countOne(n)
-    println(countOne)
+    let countOnes = countOnes(n)
+    println(countOnes)
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 4
 ```
 
-## func countOne(UInt16)
+## func countOne(UInt16) <sup>(deprecated)<sup>
 
 ```cangjie
 public func countOne(x: UInt16): Int8
+```
+
+功能：求 16 位无符号整型的二进制表达中的 1 的位的个数。
+
+> **注意：**
+>
+> 未来版本即将废弃，使用 [countOnes(UInt16)](#func-countonesuint16) 替代。
+
+参数：
+
+- x: [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 传入的 16 位无符号整数。
+
+返回值：
+
+- [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 返回传入参数的二进制表达中的 1 的位的个数。
+
+## func countOnes(UInt16)
+
+```cangjie
+public func countOnes(x: UInt16): Int64
 ```
 
 功能：求 16 位无符号整型的二进制表达中的 1 的位的个数。
@@ -1716,30 +2021,50 @@ public func countOne(x: UInt16): Int8
 
 返回值：
 
-- [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 返回传入参数的二进制表达中的 1 的位的个数。
+- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 返回传入参数的二进制表达中的 1 的位的个数。
 
 示例：
-
+<!-- verify -->
 ```cangjie
-import std.math.countOne
+import std.math.countOnes
 
 main() {
     let n: UInt16 = 15
-    let countOne = countOne(n)
-    println(countOne)
+    let countOnes = countOnes(n)
+    println(countOnes)
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 4
 ```
 
-## func countOne(UInt32)
+## func countOne(UInt32) <sup>(deprecated)<sup>
 
 ```cangjie
 public func countOne(x: UInt32): Int8
+```
+
+功能：求 32 位无符号整型的二进制表达中的 1 的位的个数。
+
+> **注意：**
+>
+> 未来版本即将废弃，使用 [countOnes(UInt32)](#func-countonesuint32) 替代。
+
+参数：
+
+- x: [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 传入的 32 位无符号整数。
+
+返回值：
+
+- [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 返回传入参数的二进制表达中的 1 的位的个数。
+
+## func countOnes(UInt32)
+
+```cangjie
+public func countOnes(x: UInt32): Int64
 ```
 
 功能：求 32 位无符号整型的二进制表达中的 1 的位的个数。
@@ -1750,30 +2075,50 @@ public func countOne(x: UInt32): Int8
 
 返回值：
 
-- [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 返回传入参数的二进制表达中的 1 的位的个数。
+- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 返回传入参数的二进制表达中的 1 的位的个数。
 
 示例：
-
+<!-- verify -->
 ```cangjie
-import std.math.countOne
+import std.math.countOnes
 
 main() {
     let n: UInt32 = 15
-    let countOne = countOne(n)
-    println(countOne)
+    let countOnes = countOnes(n)
+    println(countOnes)
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 4
 ```
 
-## func countOne(UInt64)
+## func countOne(UInt64) <sup>(deprecated)<sup>
 
 ```cangjie
 public func countOne(x: UInt64): Int8
+```
+
+功能：求 64 位无符号整型的二进制表达中的 1 的位的个数。
+
+> **注意：**
+>
+> 未来版本即将废弃，使用 [countOnes(UInt64)](#func-countonesuint64) 替代。
+
+参数：
+
+- x: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 传入的 64 位无符号整数。
+
+返回值：
+
+- [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 返回传入参数的二进制表达中的 1 的位的个数。
+
+## func countOnes(UInt64)
+
+```cangjie
+public func countOnes(x: UInt64): Int64
 ```
 
 功能：求 64 位无符号整型的二进制表达中的 1 的位的个数。
@@ -1784,30 +2129,50 @@ public func countOne(x: UInt64): Int8
 
 返回值：
 
-- [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 返回传入参数的二进制表达中的 1 的位的个数。
+- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 返回传入参数的二进制表达中的 1 的位的个数。
 
 示例：
-
+<!-- verify -->
 ```cangjie
-import std.math.countOne
+import std.math.countOnes
 
 main() {
     let n: UInt64 = 15
-    let countOne = countOne(n)
-    println(countOne)
+    let countOnes = countOnes(n)
+    println(countOnes)
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 4
 ```
 
-## func countOne(UInt8)
+## func countOne(UInt8) <sup>(deprecated)<sup>
 
 ```cangjie
 public func countOne(x: UInt8): Int8
+```
+
+功能：求 8 位无符号整型的二进制表达中的 1 的位的个数。
+
+> **注意：**
+>
+> 未来版本即将废弃，使用 [countOnes(UInt8)](#func-countonesuint8) 替代。
+
+参数：
+
+- x: [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 传入的 8 位无符号整数。
+
+返回值：
+
+- [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 返回传入参数的二进制表达中的 1 的位的个数。
+
+## func countOnes(UInt8)
+
+```cangjie
+public func countOnes(x: UInt8): Int64
 ```
 
 功能：求 8 位无符号整型的二进制表达中的 1 的位的个数。
@@ -1818,21 +2183,21 @@ public func countOne(x: UInt8): Int8
 
 返回值：
 
-- [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 返回传入参数的二进制表达中的 1 的位的个数。
+- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 返回传入参数的二进制表达中的 1 的位的个数。
 
 示例：
-
+<!-- verify -->
 ```cangjie
-import std.math.countOne
+import std.math.countOnes
 
 main() {
     let n: UInt8 = 15
-    let countOne = countOne(n)
-    println(countOne)
+    let countOnes = countOnes(n)
+    println(countOnes)
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 4
@@ -1844,7 +2209,7 @@ main() {
 public func erf(x: Float16): Float16
 ```
 
-功能：求半精度浮点数的误差值。相关定义是：$$erf(x) = \frac{2}{\sqrt{\pi}}\int_0^xe^{-t^2}dt$$
+功能：求半精度浮点数的误差值。相关定义是：$$erf(x) = \frac{2}{\sqrt{\pi}}\int_0^xe^{-t^2}dt$$。
 
 参数：
 
@@ -1855,7 +2220,7 @@ public func erf(x: Float16): Float16
 - [Float16](../../core/core_package_api/core_package_intrinsics.md#float16) - 返回传入参数的半精度浮点数的误差值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.erf
 
@@ -1866,7 +2231,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 1.000000
@@ -1878,7 +2243,7 @@ main() {
 public func erf(x: Float32): Float32
 ```
 
-功能：求单精度浮点数的误差值。相关定义是：$$erf(x) = \frac{2}{\sqrt{\pi}}\int_0^xe^{-t^2}dt$$
+功能：求单精度浮点数的误差值。相关定义是：$$erf(x) = \frac{2}{\sqrt{\pi}}\int_0^xe^{-t^2}dt$$。
 
 参数：
 
@@ -1889,7 +2254,7 @@ public func erf(x: Float32): Float32
 - [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) - 返回传入参数的单精度浮点数的误差值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.erf
 
@@ -1900,7 +2265,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 1.000000
@@ -1912,7 +2277,7 @@ main() {
 public func erf(x: Float64): Float64
 ```
 
-功能：求双精度浮点数的误差值。相关定义是：$$erf(x) = \frac{2}{\sqrt{\pi}}\int_0^xe^{-t^2}dt$$
+功能：求双精度浮点数的误差值。相关定义是：$$erf(x) = \frac{2}{\sqrt{\pi}}\int_0^xe^{-t^2}dt$$。
 
 参数：
 
@@ -1923,7 +2288,7 @@ public func erf(x: Float64): Float64
 - [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 返回传入参数的双精度浮点数的误差值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.erf
 
@@ -1934,7 +2299,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 1.000000
@@ -1957,7 +2322,7 @@ public func exp(x: Float16): Float16
 - [Float16](../../core/core_package_api/core_package_intrinsics.md#float16) - 返回自然常数 e 的 `x` 次幂。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.exp
 
@@ -1968,7 +2333,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 2.718750
@@ -1991,7 +2356,7 @@ public func exp(x: Float32): Float32
 - [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) - 返回自然常数 e 的 `x` 次幂。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.exp
 
@@ -2002,7 +2367,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 2.718282
@@ -2025,7 +2390,7 @@ public func exp(x: Float64): Float64
 - [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 返回自然常数 e 的 `x` 次幂。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.exp
 
@@ -2036,7 +2401,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 2.718282
@@ -2059,7 +2424,7 @@ public func exp2(x: Float16): Float16
 - [Float16](../../core/core_package_api/core_package_intrinsics.md#float16) - 返回 2 的 `x` 次幂。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.exp2
 
@@ -2070,7 +2435,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 1024.000000
@@ -2093,7 +2458,7 @@ public func exp2(x: Float32): Float32
 - [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) - 返回 2 的 `x` 次幂。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.exp2
 
@@ -2104,7 +2469,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 1024.000000
@@ -2127,7 +2492,7 @@ public func exp2(x: Float64): Float64
 - [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 返回 2 的 `x` 次幂。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.exp2
 
@@ -2138,7 +2503,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 1024.000000
@@ -2161,7 +2526,7 @@ public func floor(x: Float16): Float16
 - [Float16](../../core/core_package_api/core_package_intrinsics.md#float16) - 返回传入浮点数的向下取整值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.floor
 
@@ -2172,7 +2537,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 10.000000
@@ -2195,7 +2560,7 @@ public func floor(x: Float32): Float32
 - [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) - 返回传入浮点数的向下取整值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.floor
 
@@ -2206,7 +2571,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 10.000000
@@ -2229,7 +2594,7 @@ public func floor(x: Float64): Float64
 - [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 返回传入浮点数的向下取整值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.floor
 
@@ -2240,10 +2605,133 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 10.000000
+```
+
+## func fmod(Float16, Float16)
+
+```cangjie
+public func fmod(x: Float16, y: Float16): Float16
+```
+
+功能：求两个半精度浮点数 x/y 的余数。
+
+参数：
+
+- x: [Float16](../../core/core_package_api/core_package_intrinsics.md#float16) - 传入的被除数。
+- y: [Float16](../../core/core_package_api/core_package_intrinsics.md#float16) - 传入的除数。
+
+返回值：
+
+- [Float16](../../core/core_package_api/core_package_intrinsics.md#float16) - 返回 x/y 的余数, 当 x 或 y 为 `NaN` 时 返回 `NaN`。
+
+异常：
+
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当 x 为 `Inf` 或 y 为 0 时，抛出异常。
+
+示例：
+<!-- verify -->
+```cangjie
+import std.math.fmod
+import std.convert.Formattable
+
+main() {
+    let x: Float16 = 3.3
+    let y: Float16 = 2.2
+    let fmod = fmod(x, y)
+    println(fmod.format(".1"))
+}
+```
+
+运行结果：
+
+```text
+1.1
+```
+
+## func fmod(Float32, Float32)
+
+```cangjie
+public func fmod(x: Float32, y: Float32): Float32
+```
+
+功能：求两个单精度浮点数 x/y 的余数。
+
+参数：
+
+- x: [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) - 传入的被除数。
+- y: [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) - 传入的除数。
+
+返回值：
+
+- [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) - 返回 x/y 的余数, 当 x 或 y 为 `NaN` 时 返回 `NaN`。
+
+异常：
+
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当 x 为 `Inf` 或 y 为 0 时，抛出异常。
+
+示例：
+<!-- verify -->
+```cangjie
+import std.math.fmod
+import std.convert.Formattable
+
+main() {
+    let x: Float32 = 3.3
+    let y: Float32 = 2.2
+    let fmod = fmod(x, y)
+    println(fmod.format(".1"))
+}
+```
+
+运行结果：
+
+```text
+1.1
+```
+
+## func fmod(Float64, Float64)
+
+```cangjie
+public func fmod(x: Float64, y: Float64): Float64
+```
+
+功能：求两个双精度浮点数 x/y 的余数。
+
+参数：
+
+- x: [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 传入的被除数。
+- y: [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 传入的除数。
+
+返回值：
+
+- [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 返回 x/y 的余数, 当 x 或 y 为 `NaN` 时 返回 `NaN`。
+
+异常：
+
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当 x 为 `Inf` 或 y 为 0 时，抛出异常。
+
+示例：
+<!-- verify -->
+```cangjie
+import std.math.fmod
+import std.convert.Formattable
+
+main() {
+    let x: Float64 = 3.3
+    let y: Float64 = 2.2
+    let fmod = fmod(x, y)
+    println(fmod.format(".1"))
+}
+```
+
+运行结果：
+
+```text
+1.1
 ```
 
 ## func gamma(Float16)
@@ -2252,7 +2740,9 @@ main() {
 public func gamma(x: Float16): Float16
 ```
 
-功能：求浮点数的伽马函数值，该函数是阶乘概念在实数上的推广。
+功能：求浮点数的伽马函数值，该函数是阶乘概念在实数上的推广，其求值公式为：
+
+$${\displaystyle \Gamma (x)=\int _{0}^{\infty }t^{x-1}\mathrm {e} ^{-t}{\rm {{d}t,}}}$$
 
 参数：
 
@@ -2263,7 +2753,7 @@ public func gamma(x: Float16): Float16
 - [Float16](../../core/core_package_api/core_package_intrinsics.md#float16) - 返回传入浮点数的伽马函数值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.gamma
 
@@ -2274,7 +2764,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 9.750000
@@ -2297,7 +2787,7 @@ public func gamma(x: Float32): Float32
 - [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) - 返回传入浮点数的伽马函数值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.gamma
 
@@ -2308,7 +2798,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 9.714804
@@ -2331,7 +2821,7 @@ public func gamma(x: Float64): Float64
 - [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 返回传入浮点数的伽马函数值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.gamma
 
@@ -2342,7 +2832,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 9.714806
@@ -2370,7 +2860,7 @@ public func gcd(x: Int16, y: Int16): Int16
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当两参数都为有符号整数最小值，或一个参数为有符号整数的最小值且另一个参数为 0 时，抛出异常。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.gcd
 
@@ -2382,7 +2872,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 3
@@ -2410,7 +2900,7 @@ public func gcd(x: Int32, y: Int32): Int32
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当两参数都为有符号整数最小值，或一个参数为有符号整数的最小值且另一个参数为 0 时，抛出异常。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.gcd
 
@@ -2422,7 +2912,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 3
@@ -2450,7 +2940,7 @@ public func gcd(x: Int64, y: Int64): Int64
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当两参数都为有符号整数最小值，或一个参数为有符号整数的最小值且另一个参数为 0 时，抛出异常。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.gcd
 
@@ -2462,7 +2952,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 3
@@ -2490,7 +2980,7 @@ public func gcd(x: Int8, y: Int8): Int8
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当两参数都为有符号整数最小值，或一个参数为有符号整数的最小值且另一个参数为 0 时，抛出异常。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.gcd
 
@@ -2502,7 +2992,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 3
@@ -2526,7 +3016,7 @@ public func gcd(x: UInt16, y: UInt16): UInt16
 - [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 返回两个整数的最大公约数。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.gcd
 
@@ -2538,7 +3028,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 3
@@ -2562,7 +3052,7 @@ public func gcd(x: UInt32, y: UInt32): UInt32
 - [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 返回两个整数的最大公约数。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.gcd
 
@@ -2574,7 +3064,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 3
@@ -2598,7 +3088,7 @@ public func gcd(x: UInt64, y: UInt64): UInt64
 - [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 返回两个整数的最大公约数。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.gcd
 
@@ -2610,7 +3100,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 3
@@ -2634,7 +3124,7 @@ public func gcd(x: UInt8, y: UInt8): UInt8
 - [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 返回两个整数的最大公约数。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.gcd
 
@@ -2646,7 +3136,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 3
@@ -2674,7 +3164,7 @@ public func lcm(x: Int16, y: Int16): Int16
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当返回值超出 16 位有符号整数的最大值时抛出异常。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.lcm
 
@@ -2686,7 +3176,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 45
@@ -2714,7 +3204,7 @@ public func lcm(x: Int32, y: Int32): Int32
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当返回值超出 32 位有符号整数的最大值时抛出异常。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.lcm
 
@@ -2726,7 +3216,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 45
@@ -2754,7 +3244,7 @@ public func lcm(x: Int64, y: Int64): Int64
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当返回值超出 64 位有符号整数的最大值时抛出异常。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.lcm
 
@@ -2766,7 +3256,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 45
@@ -2794,7 +3284,7 @@ public func lcm(x: Int8, y: Int8): Int8
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当返回值超出 8 位有符号整数的最大值时抛出异常。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.lcm
 
@@ -2806,7 +3296,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 45
@@ -2834,7 +3324,7 @@ public func lcm(x: UInt16, y: UInt16): UInt16
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当返回值超出 16 位无符号整数的最大值时抛出异常。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.lcm
 
@@ -2846,7 +3336,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 45
@@ -2874,7 +3364,7 @@ public func lcm(x: UInt32, y: UInt32): UInt32
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当返回值超出 32 位无符号整数的最大值时抛出异常。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.lcm
 
@@ -2886,7 +3376,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 45
@@ -2914,7 +3404,7 @@ public func lcm(x: UInt64, y: UInt64): UInt64
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当返回值超出 64 位无符号整数的最大值时抛出异常。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.lcm
 
@@ -2926,7 +3416,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 45
@@ -2954,7 +3444,7 @@ public func lcm(x: UInt8, y: UInt8): UInt8
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当返回值超出 8 位无符号整数的最大值时抛出异常。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.lcm
 
@@ -2966,7 +3456,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 45
@@ -2975,7 +3465,7 @@ main() {
 ## func leadingZeros(Int16)
 
 ```cangjie
-public func leadingZeros(x: Int16): Int8
+public func leadingZeros(x: Int16): Int64
 ```
 
 功能：求 16 位有符号整数的二进制表达中的从最高位算起，连续位为 0 的个数。如果最高位不是 0，则返回 0。
@@ -2986,10 +3476,10 @@ public func leadingZeros(x: Int16): Int8
 
 返回值：
 
-- [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 返回前导 0 的位数。
+- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 返回前导 0 的位数。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.leadingZeros
 
@@ -3000,7 +3490,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 6
@@ -3009,7 +3499,7 @@ main() {
 ## func leadingZeros(Int32)
 
 ```cangjie
-public func leadingZeros(x: Int32): Int8
+public func leadingZeros(x: Int32): Int64
 ```
 
 功能：求 32 位有符号整数的二进制表达中的从最高位算起，连续位为 0 的个数。如果最高位不是 0，则返回 0。
@@ -3020,10 +3510,10 @@ public func leadingZeros(x: Int32): Int8
 
 返回值：
 
-- [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 返回前导 0 的位数。
+- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 返回前导 0 的位数。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.leadingZeros
 
@@ -3034,7 +3524,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 22
@@ -3043,7 +3533,7 @@ main() {
 ## func leadingZeros(Int64)
 
 ```cangjie
-public func leadingZeros(x: Int64): Int8
+public func leadingZeros(x: Int64): Int64
 ```
 
 功能：求 64 位有符号整数的二进制表达中的从最高位算起，连续位为 0 的个数。如果最高位不是 0，则返回 0。
@@ -3054,10 +3544,10 @@ public func leadingZeros(x: Int64): Int8
 
 返回值：
 
-- [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 返回前导 0 的位数。
+- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 返回前导 0 的位数。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.leadingZeros
 
@@ -3068,7 +3558,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 54
@@ -3077,7 +3567,7 @@ main() {
 ## func leadingZeros(Int8)
 
 ```cangjie
-public func leadingZeros(x: Int8): Int8
+public func leadingZeros(x: Int8): Int64
 ```
 
 功能：求 8 位有符号整数的二进制表达中的从最高位算起，连续位为 0 的个数。如果最高位不是 0，则返回 0。
@@ -3088,10 +3578,10 @@ public func leadingZeros(x: Int8): Int8
 
 返回值：
 
-- [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 返回前导 0 的位数。
+- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 返回前导 0 的位数。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.leadingZeros
 
@@ -3102,7 +3592,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 5
@@ -3111,7 +3601,7 @@ main() {
 ## func leadingZeros(UInt16)
 
 ```cangjie
-public func leadingZeros(x: UInt16): Int8
+public func leadingZeros(x: UInt16): Int64
 ```
 
 功能：求 16 位无符号整数的二进制表达中的从最高位算起，连续位为 0 的个数。如果最高位不是 0，则返回 0。
@@ -3122,10 +3612,10 @@ public func leadingZeros(x: UInt16): Int8
 
 返回值：
 
-- [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 返回前导 0 的位数。
+- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 返回前导 0 的位数。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.leadingZeros
 
@@ -3136,7 +3626,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 6
@@ -3145,7 +3635,7 @@ main() {
 ## func leadingZeros(UInt32)
 
 ```cangjie
-public func leadingZeros(x: UInt32): Int8
+public func leadingZeros(x: UInt32): Int64
 ```
 
 功能：求 32 位无符号整数的二进制表达中的从最高位算起，连续位为 0 的个数。如果最高位不是 0，则返回 0。
@@ -3156,10 +3646,10 @@ public func leadingZeros(x: UInt32): Int8
 
 返回值：
 
-- [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 返回前导 0 的位数。
+- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 返回前导 0 的位数。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.leadingZeros
 
@@ -3170,7 +3660,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 22
@@ -3179,7 +3669,7 @@ main() {
 ## func leadingZeros(UInt64)
 
 ```cangjie
-public func leadingZeros(x: UInt64): Int8
+public func leadingZeros(x: UInt64): Int64
 ```
 
 功能：求 64 位无符号整数的二进制表达中的从最高位算起，连续位为 0 的个数。如果最高位不是 0，则返回 0。
@@ -3190,10 +3680,10 @@ public func leadingZeros(x: UInt64): Int8
 
 返回值：
 
-- [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 返回前导 0 的位数。
+- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 返回前导 0 的位数。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.leadingZeros
 
@@ -3204,7 +3694,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 54
@@ -3213,7 +3703,7 @@ main() {
 ## func leadingZeros(UInt8)
 
 ```cangjie
-public func leadingZeros(x: UInt8): Int8
+public func leadingZeros(x: UInt8): Int64
 ```
 
 功能：求 8 位无符号整数的二进制表达中的从最高位算起，连续位为 0 的个数。如果最高位不是 0，则返回 0。
@@ -3224,10 +3714,10 @@ public func leadingZeros(x: UInt8): Int8
 
 返回值：
 
-- [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 返回前导 0 的位数。
+- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 返回前导 0 的位数。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.leadingZeros
 
@@ -3238,7 +3728,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 1
@@ -3264,26 +3754,37 @@ public func log(x: Float16): Float16
 >
 > 返回值存在如下特殊场景：
 >
-> - 如果传入 `x` 小于 0 或为 [NaN](./math_package_interfaces.md#static-prop-nan)，返回 [NaN](./math_package_interfaces.md#static-prop-nan)。
-> - 如果传入 `x` 等于 0，返回 -[Inf](./math_package_interfaces.md#static-prop-inf)。
-> - 如果传入 `x` 为 [Inf](./math_package_interfaces.md#static-prop-inf)，返回 [Inf](./math_package_interfaces.md#static-prop-inf)。
+> - 如果传入 `x` 小于 0 或为 [NaN](../../core/core_package_api/core_package_intrinsics.md#static-prop-nan)，返回 [NaN](../../core/core_package_api/core_package_intrinsics.md#static-prop-nan)。
+> - 如果传入 `x` 等于 0，返回 -[Inf](../../core/core_package_api/core_package_intrinsics.md#static-prop-inf)。
+> - 如果传入 `x` 为 [Inf](../../core/core_package_api/core_package_intrinsics.md#static-prop-inf)，返回 [Inf](../../core/core_package_api/core_package_intrinsics.md#static-prop-inf)。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.log
 
 main() {
     let x: Float16 = 2.718282
-    let log = log(x)
-    println(log)
+    let log1 = log(x)
+    let log2 = log(-x)
+    let log3 = log(0.0)
+
+    println(log1)
+    println(log2)
+    println(log3)
+
+    let log4 = -log3
+    println(log4)
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 1.000000
+nan
+-inf
+inf
 ```
 
 ## func log(Float32)
@@ -3306,12 +3807,12 @@ public func log(x: Float32): Float32
 >
 > 返回值存在如下特殊场景：
 >
-> - 如果传入 `x` 小于 0 或为 [NaN](./math_package_interfaces.md#static-prop-nan)，返回 [NaN](./math_package_interfaces.md#static-prop-nan)。
-> - 如果传入 `x` 等于 0，返回 -[Inf](./math_package_interfaces.md#static-prop-inf)。
-> - 如果传入 `x` 为 [Inf](./math_package_interfaces.md#static-prop-inf)，返回 [Inf](./math_package_interfaces.md#static-prop-inf)。
+> - 如果传入 `x` 小于 0 或为 [NaN](../../core/core_package_api/core_package_intrinsics.md#static-prop-nan-1)，返回 [NaN](../../core/core_package_api/core_package_intrinsics.md#static-prop-nan-1)。
+> - 如果传入 `x` 等于 0，返回 -[Inf](../../core/core_package_api/core_package_intrinsics.md#static-prop-inf-1)。
+> - 如果传入 `x` 为 [Inf](../../core/core_package_api/core_package_intrinsics.md#static-prop-inf-1)，返回 [Inf](../../core/core_package_api/core_package_intrinsics.md#static-prop-inf-1)。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.log
 
@@ -3322,7 +3823,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 1.000000
@@ -3348,12 +3849,12 @@ public func log(x: Float64): Float64
 >
 > 返回值存在如下特殊场景：
 >
-> - 如果传入 `x` 小于 0 或为 [NaN](./math_package_interfaces.md#static-prop-nan)，返回 [NaN](./math_package_interfaces.md#static-prop-nan)。
-> - 如果传入 `x` 等于 0，返回 -[Inf](./math_package_interfaces.md#static-prop-inf)。
-> - 如果传入 `x` 为 [Inf](./math_package_interfaces.md#static-prop-inf)，返回 [Inf](./math_package_interfaces.md#static-prop-inf)。
+> - 如果传入 `x` 小于 0 或为 [NaN](../../core/core_package_api/core_package_intrinsics.md#static-prop-nan-2)，返回 [NaN](../../core/core_package_api/core_package_intrinsics.md#static-prop-nan-2)。
+> - 如果传入 `x` 等于 0，返回 -[Inf](../../core/core_package_api/core_package_intrinsics.md#static-prop-inf-2)。
+> - 如果传入 `x` 为 [Inf](../../core/core_package_api/core_package_intrinsics.md#static-prop-inf-2)，返回 [Inf](../../core/core_package_api/core_package_intrinsics.md#static-prop-inf-2)。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.log
 
@@ -3364,7 +3865,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 1.000000
@@ -3390,12 +3891,12 @@ public func log10(x: Float16): Float16
 >
 > 返回值存在如下特殊场景：
 >
-> - 如果传入 `x` 小于 0 或为 [NaN](./math_package_interfaces.md#static-prop-nan)，返回 [NaN](./math_package_interfaces.md#static-prop-nan)。
-> - 如果传入 `x` 等于 0，返回 -[Inf](./math_package_interfaces.md#static-prop-inf)。
-> - 如果传入 `x` 为 [Inf](./math_package_interfaces.md#static-prop-inf)，返回 [Inf](./math_package_interfaces.md#static-prop-inf)。
+> - 如果传入 `x` 小于 0 或为 [NaN](../../core/core_package_api/core_package_intrinsics.md#static-prop-nan)，返回 [NaN](../../core/core_package_api/core_package_intrinsics.md#static-prop-nan)。
+> - 如果传入 `x` 等于 0，返回 -[Inf](../../core/core_package_api/core_package_intrinsics.md#static-prop-inf)。
+> - 如果传入 `x` 为 [Inf](../../core/core_package_api/core_package_intrinsics.md#static-prop-inf)，返回 [Inf](../../core/core_package_api/core_package_intrinsics.md#static-prop-inf)。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.log10
 
@@ -3406,7 +3907,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 3.000000
@@ -3432,12 +3933,12 @@ public func log10(x: Float32): Float32
 >
 > 返回值存在如下特殊场景：
 >
-> - 如果传入 `x` 小于 0 或为 [NaN](./math_package_interfaces.md#static-prop-nan)，返回 [NaN](./math_package_interfaces.md#static-prop-nan)。
-> - 如果传入 `x` 等于 0，返回 -[Inf](./math_package_interfaces.md#static-prop-inf)。
-> - 如果传入 `x` 为 [Inf](./math_package_interfaces.md#static-prop-inf)，返回 [Inf](./math_package_interfaces.md#static-prop-inf)。
+> - 如果传入 `x` 小于 0 或为 [NaN](../../core/core_package_api/core_package_intrinsics.md#static-prop-nan-1)，返回 [NaN](../../core/core_package_api/core_package_intrinsics.md#static-prop-nan-1)。
+> - 如果传入 `x` 等于 0，返回 -[Inf](../../core/core_package_api/core_package_intrinsics.md#static-prop-inf-1)。
+> - 如果传入 `x` 为 [Inf](../../core/core_package_api/core_package_intrinsics.md#static-prop-inf-1)，返回 [Inf](../../core/core_package_api/core_package_intrinsics.md#static-prop-inf-1)。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.log10
 
@@ -3448,7 +3949,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 3.000000
@@ -3474,12 +3975,12 @@ public func log10(x: Float64): Float64
 >
 > 返回值存在如下特殊场景：
 >
-> - 如果传入 `x` 小于 0 或为 [NaN](./math_package_interfaces.md#static-prop-nan)，返回 [NaN](./math_package_interfaces.md#static-prop-nan)。
-> - 如果传入 `x` 等于 0，返回 -[Inf](./math_package_interfaces.md#static-prop-inf)。
-> - 如果传入 `x` 为 [Inf](./math_package_interfaces.md#static-prop-inf)，返回 [Inf](./math_package_interfaces.md#static-prop-inf)。
+> - 如果传入 `x` 小于 0 或为 [NaN](../../core/core_package_api/core_package_intrinsics.md#static-prop-nan-2)，返回 [NaN](../../core/core_package_api/core_package_intrinsics.md#static-prop-nan-2)。
+> - 如果传入 `x` 等于 0，返回 -[Inf](../../core/core_package_api/core_package_intrinsics.md#static-prop-inf-2)。
+> - 如果传入 `x` 为 [Inf](../../core/core_package_api/core_package_intrinsics.md#static-prop-inf-2)，返回 [Inf](../../core/core_package_api/core_package_intrinsics.md#static-prop-inf-2)。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.log10
 
@@ -3490,7 +3991,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 3.000000
@@ -3516,12 +4017,12 @@ public func log2(x: Float16): Float16
 >
 > 返回值存在如下特殊场景：
 >
-> - 如果传入 `x` 小于 0 或为 [NaN](./math_package_interfaces.md#static-prop-nan)，返回 [NaN](./math_package_interfaces.md#static-prop-nan)。
-> - 如果传入 `x` 等于 0，返回 -[Inf](./math_package_interfaces.md#static-prop-inf)。
-> - 如果传入 `x` 为 [Inf](./math_package_interfaces.md#static-prop-inf)，返回 [Inf](./math_package_interfaces.md#static-prop-inf)。
+> - 如果传入 `x` 小于 0 或为 [NaN](../../core/core_package_api/core_package_intrinsics.md#static-prop-nan)，返回 [NaN](../../core/core_package_api/core_package_intrinsics.md#static-prop-nan)。
+> - 如果传入 `x` 等于 0，返回 -[Inf](../../core/core_package_api/core_package_intrinsics.md#static-prop-inf)。
+> - 如果传入 `x` 为 [Inf](../../core/core_package_api/core_package_intrinsics.md#static-prop-inf)，返回 [Inf](../../core/core_package_api/core_package_intrinsics.md#static-prop-inf)。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.log2
 
@@ -3532,7 +4033,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 10.000000
@@ -3558,12 +4059,12 @@ public func log2(x: Float32): Float32
 >
 > 返回值存在如下特殊场景：
 >
-> - 如果传入 `x` 小于 0 或为 [NaN](./math_package_interfaces.md#static-prop-nan)，返回 [NaN](./math_package_interfaces.md#static-prop-nan)。
-> - 如果传入 `x` 等于 0，返回 -[Inf](./math_package_interfaces.md#static-prop-inf)。
-> - 如果传入 `x` 为 [Inf](./math_package_interfaces.md#static-prop-inf)，返回 [Inf](./math_package_interfaces.md#static-prop-inf)。
+> - 如果传入 `x` 小于 0 或为 [NaN](../../core/core_package_api/core_package_intrinsics.md#static-prop-nan-1)，返回 [NaN](../../core/core_package_api/core_package_intrinsics.md#static-prop-nan-1)。
+> - 如果传入 `x` 等于 0，返回 -[Inf](../../core/core_package_api/core_package_intrinsics.md#static-prop-inf-1)。
+> - 如果传入 `x` 为 [Inf](../../core/core_package_api/core_package_intrinsics.md#static-prop-inf-1)，返回 [Inf](../../core/core_package_api/core_package_intrinsics.md#static-prop-inf-1)。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.log2
 
@@ -3574,7 +4075,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 10.000000
@@ -3600,12 +4101,12 @@ public func log2(x: Float64): Float64
 >
 > 返回值存在如下特殊场景：
 >
-> - 如果传入 `x` 小于 0 或为 [NaN](./math_package_interfaces.md#static-prop-nan)，返回 [NaN](./math_package_interfaces.md#static-prop-nan)。
-> - 如果传入 `x` 等于 0，返回 -[Inf](./math_package_interfaces.md#static-prop-inf)。
-> - 如果传入 `x` 为 [Inf](./math_package_interfaces.md#static-prop-inf)，返回 [Inf](./math_package_interfaces.md#static-prop-inf)。
+> - 如果传入 `x` 小于 0 或为 [NaN](../../core/core_package_api/core_package_intrinsics.md#static-prop-nan-2)，返回 [NaN](../../core/core_package_api/core_package_intrinsics.md#static-prop-nan-2)。
+> - 如果传入 `x` 等于 0，返回 -[Inf](../../core/core_package_api/core_package_intrinsics.md#static-prop-inf-2)。
+> - 如果传入 `x` 为 [Inf](../../core/core_package_api/core_package_intrinsics.md#static-prop-inf-2)，返回 [Inf](../../core/core_package_api/core_package_intrinsics.md#static-prop-inf-2)。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.log2
 
@@ -3616,7 +4117,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 10.000000
@@ -3644,7 +4145,7 @@ public func logBase(x: Float16, base: Float16): Float16
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当真数或底数不为正，或底数为 1 时，抛出异常。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.logBase
 
@@ -3656,10 +4157,53 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 9.000000
+```
+
+以下示例将抛出相应异常：
+<!-- verify -->
+```cangjie
+import std.math.logBase
+
+main() {
+    let x: Float16 = 512.0
+    let base: Float16 = -2.0
+
+    // 示例1：底数为负数
+    try {
+        let logBase1 = logBase(x, base)
+        println(logBase1)
+    } catch (e: IllegalArgumentException) {
+        println("异常1：底数为负数")
+    }
+
+    // 示例2：真数为负数
+    try {
+        let logBase2 = logBase(-x, base)
+        println(logBase2)
+    } catch (e: IllegalArgumentException) {
+        println("异常2：真数为负数")
+    }
+
+    // 示例3：底数为1
+    try {
+        let logBase3 = logBase(x, 1.0)
+        println(logBase3)
+    } catch (e: IllegalArgumentException) {
+        println("异常3：底数为1")
+    }
+}
+```
+
+运行结果：
+
+```text
+异常1：底数为负数
+异常2：真数为负数
+异常3：底数为1
 ```
 
 ## func logBase(Float32, Float32)
@@ -3684,7 +4228,7 @@ public func logBase(x: Float32, base: Float32): Float32
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当真数或底数不为正，或底数为 1 时，抛出异常。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.logBase
 
@@ -3696,7 +4240,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 10.000000
@@ -3724,7 +4268,7 @@ public func logBase(x: Float64, base: Float64): Float64
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当真数或底数不为正，或底数为 1 时，抛出异常。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.logBase
 
@@ -3736,1018 +4280,10 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 10.000000
-```
-
-## func max(Float16, Float16)
-
-```cangjie
-public func max(a: Float16, b: Float16): Float16
-```
-
-功能：求两个数的最大值。若入参有 [NaN](./math_package_interfaces.md#static-prop-nan)，则返回 [NaN](./math_package_interfaces.md#static-prop-nan)。
-
-参数：
-
-- a: [Float16](../../core/core_package_api/core_package_intrinsics.md#float16) - 需要比较大小的第一个数。
-- b: [Float16](../../core/core_package_api/core_package_intrinsics.md#float16) - 需要比较大小的第二个数。
-
-返回值：
-
-- [Float16](../../core/core_package_api/core_package_intrinsics.md#float16) - 返回两个数的最大值。若入参有 [NaN](./math_package_interfaces.md#static-prop-nan)，则返回 [NaN](./math_package_interfaces.md#static-prop-nan)。
-
-示例：
-
-```cangjie
-import std.math.max
-
-main() {
-    let a: Float16 = 1.0
-    let b: Float16 = 2.0
-    let max = max(a, b)
-    println(max)
-}
-```
-
-运行结果:
-
-```text
-2.000000
-```
-
-## func max(Float32, Float32)
-
-```cangjie
-public func max(a: Float32, b: Float32): Float32
-```
-
-功能：求两个数的最大值。若入参有 [NaN](./math_package_interfaces.md#static-prop-nan-1)，则返回 [NaN](./math_package_interfaces.md#static-prop-nan-1)。
-
-参数：
-
-- a: [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) - 需要比较大小的第一个数。
-- b: [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) - 需要比较大小的第二个数。
-
-返回值：
-
-- [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) - 返回两个数的最大值。若入参有 [NaN](./math_package_interfaces.md#static-prop-nan-1)，则返回 [NaN](./math_package_interfaces.md#static-prop-nan-1)。
-
-示例：
-
-```cangjie
-import std.math.max
-
-main() {
-    let a: Float32 = 1.0
-    let b: Float32 = 2.0
-    let max = max(a, b)
-    println(max)
-}
-```
-
-运行结果:
-
-```text
-2.000000
-```
-
-## func max(Float64, Float64)
-
-```cangjie
-public func max(a: Float64, b: Float64): Float64
-```
-
-功能：求两个数的最大值。若入参有 [NaN](./math_package_interfaces.md#static-prop-nan-2)，则返回 [NaN](./math_package_interfaces.md#static-prop-nan-2)。
-
-参数：
-
-- a: [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 需要比较大小的第一个数。
-- b: [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 需要比较大小的第二个数。
-
-返回值：
-
-- [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 返回两个数的最大值。若入参有 [NaN](./math_package_interfaces.md#static-prop-nan-2)，则返回 [NaN](./math_package_interfaces.md#static-prop-nan-2)。
-
-示例：
-
-```cangjie
-import std.math.max
-
-main() {
-    let a: Float64 = 1.0
-    let b: Float64 = 2.0
-    let max = max(a, b)
-    println(max)
-}
-```
-
-运行结果:
-
-```text
-2.000000
-```
-
-## func max(Int16, Int16)
-
-```cangjie
-public func max(a: Int16, b: Int16): Int16
-```
-
-功能：求两个数的最大值。
-
-参数：
-
-- a: [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 需要比较大小的第一个数。
-- b: [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 需要比较大小的第二个数。
-
-返回值：
-
-- [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 返回两个数的最大值。
-
-示例：
-
-```cangjie
-import std.math.max
-
-main() {
-    let a: Int16 = -1
-    let b: Int16 = 2
-    let max = max(a, b)
-    println(max)
-}
-```
-
-运行结果:
-
-```text
-2
-```
-
-## func max(Int32, Int32)
-
-```cangjie
-public func max(a: Int32, b: Int32): Int32
-```
-
-功能：求两个数的最大值。
-
-参数：
-
-- a: [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 需要比较大小的第一个数。
-- b: [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 需要比较大小的第二个数。
-
-返回值：
-
-- [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 返回两个数的最大值。
-
-示例：
-
-```cangjie
-import std.math.max
-
-main() {
-    let a: Int32 = -1
-    let b: Int32 = 2
-    let max = max(a, b)
-    println(max)
-}
-```
-
-运行结果:
-
-```text
-2
-```
-
-## func max(Int64, Int64)
-
-```cangjie
-public func max(a: Int64, b: Int64): Int64
-```
-
-功能：求两个数的最大值。
-
-参数：
-
-- a: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 需要比较大小的第一个数。
-- b: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 需要比较大小的第二个数。
-
-返回值：
-
-- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 返回两个数的最大值。
-
-示例：
-
-```cangjie
-import std.math.max
-
-main() {
-    let a: Int64 = -1
-    let b: Int64 = 2
-    let max = max(a, b)
-    println(max)
-}
-```
-
-运行结果:
-
-```text
-2
-```
-
-## func max(Int8, Int8)
-
-```cangjie
-public func max(a: Int8, b: Int8): Int8
-```
-
-功能：求两个数的最大值。
-
-参数：
-
-- a: [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 需要比较大小的第一个数。
-- b: [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 需要比较大小的第二个数。
-
-返回值：
-
-- [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 返回两个数的最大值。
-
-示例：
-
-```cangjie
-import std.math.max
-
-main() {
-    let a: Int8 = -1
-    let b: Int8 = 2
-    let max = max(a, b)
-    println(max)
-}
-```
-
-运行结果:
-
-```text
-2
-```
-
-## func max(UInt16, UInt16)
-
-```cangjie
-public func max(a: UInt16, b: UInt16): UInt16
-```
-
-功能：求两个数的最大值。
-
-参数：
-
-- a: [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 需要比较大小的第一个数。
-- b: [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 需要比较大小的第二个数。
-
-返回值：
-
-- [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 返回两个数的最大值。
-
-示例：
-
-```cangjie
-import std.math.max
-
-main() {
-    let a: UInt16 = 1
-    let b: UInt16 = 2
-    let max = max(a, b)
-    println(max)
-}
-```
-
-运行结果:
-
-```text
-2
-```
-
-## func max(UInt32, UInt32)
-
-```cangjie
-public func max(a: UInt32, b: UInt32): UInt32
-```
-
-功能：求两个数的最大值。
-
-参数：
-
-- a: [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 需要比较大小的第一个数。
-- b: [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 需要比较大小的第二个数。
-
-返回值：
-
-- [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 返回两个数的最大值。
-
-示例：
-
-```cangjie
-import std.math.max
-
-main() {
-    let a: UInt32 = 1
-    let b: UInt32 = 2
-    let max = max(a, b)
-    println(max)
-}
-```
-
-运行结果:
-
-```text
-2
-```
-
-## func max(UInt64, UInt64)
-
-```cangjie
-public func max(a: UInt64, b: UInt64): UInt64
-```
-
-功能：求两个数的最大值。
-
-参数：
-
-- a: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 需要比较大小的第一个数。
-- b: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 需要比较大小的第二个数。
-
-返回值：
-
-- [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 返回两个数的最大值。
-
-示例：
-
-```cangjie
-import std.math.max
-
-main() {
-    let a: UInt64 = 1
-    let b: UInt64 = 2
-    let max = max(a, b)
-    println(max)
-}
-```
-
-运行结果:
-
-```text
-2
-```
-
-## func max(UInt8, UInt8)
-
-```cangjie
-public func max(a: UInt8, b: UInt8): UInt8
-```
-
-功能：求两个数的最大值。
-
-参数：
-
-- a: [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 需要比较大小的第一个数。
-- b: [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 需要比较大小的第二个数。
-
-返回值：
-
-- [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 返回两个数的最大值。
-
-示例：
-
-```cangjie
-import std.math.max
-
-main() {
-    let a: UInt8 = 1
-    let b: UInt8 = 2
-    let max = max(a, b)
-    println(max)
-}
-```
-
-运行结果:
-
-```text
-2
-```
-
-## func maxNaN(Float16, Float16)
-
-```cangjie
-public func maxNaN(a: Float16, b: Float16): Float16
-```
-
-功能：求两个数的最大值。`maxNaN` 仅支持浮点数，若入参有 [NaN](./math_package_interfaces.md#static-prop-nan)，则返回 [NaN](./math_package_interfaces.md#static-prop-nan)。
-
-参数：
-
-- a: [Float16](../../core/core_package_api/core_package_intrinsics.md#float16) - 需要比较大小的第一个数。
-- b: [Float16](../../core/core_package_api/core_package_intrinsics.md#float16) - 需要比较大小的第二个数。
-
-返回值：
-
-- [Float16](../../core/core_package_api/core_package_intrinsics.md#float16) - 返回两个数的最大值。若入参有 [NaN](./math_package_interfaces.md#static-prop-nan)，则返回 [NaN](./math_package_interfaces.md#static-prop-nan)。
-
-示例：
-
-```cangjie
-import std.math.maxNaN
-
-main() {
-    let a: Float16 = 1.0
-    let b: Float16 = 2.0
-    let maxNaN = maxNaN(a, b)
-    println(maxNaN)
-}
-```
-
-运行结果:
-
-```text
-2.000000
-```
-
-## func maxNaN(Float32, Float32)
-
-```cangjie
-public func maxNaN(a: Float32, b: Float32): Float32
-```
-
-功能：求两个数的最大值。`maxNaN` 仅支持浮点数，若入参有 [NaN](./math_package_interfaces.md#static-prop-nan-1)，则返回 [NaN](./math_package_interfaces.md#static-prop-nan-1)。
-
-参数：
-
-- a: [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) - 需要比较大小的第一个数。
-- b: [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) - 需要比较大小的第二个数。
-
-返回值：
-
-- [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) - 返回两个数的最大值。若入参有 [NaN](./math_package_interfaces.md#static-prop-nan-1)，则返回 [NaN](./math_package_interfaces.md#static-prop-nan-1)。
-
-示例：
-
-```cangjie
-import std.math.maxNaN
-
-main() {
-    let a: Float32 = 1.0
-    let b: Float32 = 2.0
-    let maxNaN = maxNaN(a, b)
-    println(maxNaN)
-}
-```
-
-运行结果:
-
-```text
-2.000000
-```
-
-## func maxNaN(Float64, Float64)
-
-```cangjie
-public func maxNaN(a: Float64, b: Float64): Float64
-```
-
-功能：求两个数的最大值。`maxNaN` 仅支持浮点数，若入参有 [NaN](./math_package_interfaces.md#static-prop-nan-2)，则返回 [NaN](./math_package_interfaces.md#static-prop-nan-2)。
-
-参数：
-
-- a: [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 需要比较大小的第一个数。
-- b: [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 需要比较大小的第二个数。
-
-返回值：
-
-- [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 返回两个数的最大值。若入参有 [NaN](./math_package_interfaces.md#static-prop-nan-2)，则返回 [NaN](./math_package_interfaces.md#static-prop-nan-2)。
-
-示例：
-
-```cangjie
-import std.math.maxNaN
-
-main() {
-    let a: Float64 = 1.0
-    let b: Float64 = 2.0
-    let maxNaN = maxNaN(a, b)
-    println(maxNaN)
-}
-```
-
-运行结果:
-
-```text
-2.000000
-```
-
-## func min(Float16, Float16)
-
-```cangjie
-public func min(a: Float16, b: Float16): Float16
-```
-
-功能：求两个数的最小值。若入参有 [NaN](./math_package_interfaces.md#static-prop-nan)，则返回 [NaN](./math_package_interfaces.md#static-prop-nan)。
-
-参数：
-
-- a: [Float16](../../core/core_package_api/core_package_intrinsics.md#float16) - 需要比较大小的第一个数。
-- b: [Float16](../../core/core_package_api/core_package_intrinsics.md#float16) - 需要比较大小的第二个数。
-
-返回值：
-
-- [Float16](../../core/core_package_api/core_package_intrinsics.md#float16) - 返回两个数的最小值。若入参有 [NaN](./math_package_interfaces.md#static-prop-nan)，则返回 [NaN](./math_package_interfaces.md#static-prop-nan)。
-
-示例：
-
-```cangjie
-import std.math.min
-
-main() {
-    let a: Float16 = 1.0
-    let b: Float16 = 2.0
-    let min = min(a, b)
-    println(min)
-}
-```
-
-运行结果:
-
-```text
-1.000000
-```
-
-## func min(Float32, Float32)
-
-```cangjie
-public func min(a: Float32, b: Float32): Float32
-```
-
-功能：求两个数的最小值。若入参有 [NaN](./math_package_interfaces.md#static-prop-nan-1)，则返回 [NaN](./math_package_interfaces.md#static-prop-nan-1)。
-
-参数：
-
-- a: [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) - 需要比较大小的第一个数。
-- b: [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) - 需要比较大小的第二个数。
-
-返回值：
-
-- [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) - 返回两个数的最小值。若入参有 [NaN](./math_package_interfaces.md#static-prop-nan-1)，则返回 [NaN](./math_package_interfaces.md#static-prop-nan-1)。
-
-示例：
-
-```cangjie
-import std.math.min
-
-main() {
-    let a: Float32 = 1.0
-    let b: Float32 = 2.0
-    let min = min(a, b)
-    println(min)
-}
-```
-
-运行结果:
-
-```text
-1.000000
-```
-
-## func min(Float64, Float64)
-
-```cangjie
-public func min(a: Float64, b: Float64): Float64
-```
-
-功能：求两个数的最小值。若入参有 [NaN](./math_package_interfaces.md#static-prop-nan-2)，则返回 [NaN](./math_package_interfaces.md#static-prop-nan-2)。
-
-参数：
-
-- a: [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 需要比较大小的第一个数。
-- b: [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 需要比较大小的第二个数。
-
-返回值：
-
-- [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 返回两个数的最小值。若入参有 [NaN](./math_package_interfaces.md#static-prop-nan-2)，则返回 [NaN](./math_package_interfaces.md#static-prop-nan-2)。
-
-示例：
-
-```cangjie
-import std.math.min
-
-main() {
-    let a: Float64 = 1.0
-    let b: Float64 = 2.0
-    let min = min(a, b)
-    println(min)
-}
-```
-
-运行结果:
-
-```text
-1.000000
-```
-
-## func min(Int16, Int16)
-
-```cangjie
-public func min(a: Int16, b: Int16): Int16
-```
-
-功能：求两个数的最小值。
-
-参数：
-
-- a: [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 需要比较大小的第一个数。
-- b: [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 需要比较大小的第一个数。
-
-返回值：
-
-- [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 返回两个数的最小值。
-
-示例：
-
-```cangjie
-import std.math.min
-
-main() {
-    let a: Int16 = -1
-    let b: Int16 = 2
-    let min = min(a, b)
-    println(min)
-}
-```
-
-运行结果:
-
-```text
--1
-```
-
-## func min(Int32, Int32)
-
-```cangjie
-public func min(a: Int32, b: Int32): Int32
-```
-
-功能：求两个数的最小值。
-
-参数：
-
-- a: [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 需要比较大小的第一个数。
-- b: [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 需要比较大小的第一个数。
-
-返回值：
-
-- [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 返回两个数的最小值。
-
-示例：
-
-```cangjie
-import std.math.min
-
-main() {
-    let a: Int32 = -1
-    let b: Int32 = 2
-    let min = min(a, b)
-    println(min)
-}
-```
-
-运行结果:
-
-```text
--1
-```
-
-## func min(Int64, Int64)
-
-```cangjie
-public func min(a: Int64, b: Int64): Int64
-```
-
-功能：求两个数的最小值。
-
-参数：
-
-- a: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 需要比较大小的第一个数。
-- b: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 需要比较大小的第一个数。
-
-返回值：
-
-- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 返回两个数的最小值。
-
-示例：
-
-```cangjie
-import std.math.min
-
-main() {
-    let a: Int64 = -1
-    let b: Int64 = 2
-    let min = min(a, b)
-    println(min)
-}
-```
-
-运行结果:
-
-```text
--1
-```
-
-## func min(Int8, Int8)
-
-```cangjie
-public func min(a: Int8, b: Int8): Int8
-```
-
-功能：求两个数的最小值。
-
-参数：
-
-- a: [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 需要比较大小的第一个数。
-- b: [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 需要比较大小的第一个数。
-
-返回值：
-
-- [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 返回两个数的最小值。
-
-示例：
-
-```cangjie
-import std.math.min
-
-main() {
-    let a: Int8 = -1
-    let b: Int8 = 2
-    let min = min(a, b)
-    println(min)
-}
-```
-
-运行结果:
-
-```text
--1
-```
-
-## func min(UInt16, UInt16)
-
-```cangjie
-public func min(a: UInt16, b: UInt16): UInt16
-```
-
-功能：求两个数的最小值。
-
-参数：
-
-- a: [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 需要比较大小的第一个数。
-- b: [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 需要比较大小的第一个数。
-
-返回值：
-
-- [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 返回两个数的最小值。
-
-示例：
-
-```cangjie
-import std.math.min
-
-main() {
-    let a: UInt16 = 1
-    let b: UInt16 = 2
-    let min = min(a, b)
-    println(min)
-}
-```
-
-运行结果:
-
-```text
-1
-```
-
-## func min(UInt32, UInt32)
-
-```cangjie
-public func min(a: UInt32, b: UInt32): UInt32
-```
-
-功能：求两个数的最小值。
-
-参数：
-
-- a: [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 需要比较大小的第一个数。
-- b: [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 需要比较大小的第一个数。
-
-返回值：
-
-- [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 返回两个数的最小值。
-
-示例：
-
-```cangjie
-import std.math.min
-
-main() {
-    let a: UInt32 = 1
-    let b: UInt32 = 2
-    let min = min(a, b)
-    println(min)
-}
-```
-
-运行结果:
-
-```text
-1
-```
-
-## func min(UInt64, UInt64)
-
-```cangjie
-public func min(a: UInt64, b: UInt64): UInt64
-```
-
-功能：求两个数的最小值。
-
-参数：
-
-- a: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 需要比较大小的第一个数。
-- b: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 需要比较大小的第一个数。
-
-返回值：
-
-- [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 返回两个数的最小值。
-
-示例：
-
-```cangjie
-import std.math.min
-
-main() {
-    let a: UInt64 = 1
-    let b: UInt64 = 2
-    let min = min(a, b)
-    println(min)
-}
-```
-
-运行结果:
-
-```text
-1
-```
-
-## func min(UInt8, UInt8)
-
-```cangjie
-public func min(a: UInt8, b: UInt8): UInt8
-```
-
-功能：求两个数的最小值。
-
-参数：
-
-- a: [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 需要比较大小的第一个数。
-- b: [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 需要比较大小的第一个数。
-
-返回值：
-
-- [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 返回两个数的最小值。
-
-示例：
-
-```cangjie
-import std.math.min
-
-main() {
-    let a: UInt8 = 1
-    let b: UInt8 = 2
-    let min = min(a, b)
-    println(min)
-}
-```
-
-运行结果:
-
-```text
-1
-```
-
-## func minNaN(Float16, Float16)
-
-```cangjie
-public func minNaN(a: Float16, b: Float16): Float16
-```
-
-功能：求两个数的最小值。`minNaN` 仅支持浮点数，若入参有 [NaN](./math_package_interfaces.md#static-prop-nan)，则返回 [NaN](./math_package_interfaces.md#static-prop-nan)。
-
-参数：
-
-- a: [Float16](../../core/core_package_api/core_package_intrinsics.md#float16) - 需要比较大小的第一个数。
-- b: [Float16](../../core/core_package_api/core_package_intrinsics.md#float16) - 需要比较大小的第二个数。
-
-返回值：
-
-- [Float16](../../core/core_package_api/core_package_intrinsics.md#float16) - 返回两个数的最小值。若入参有 [NaN](./math_package_interfaces.md#static-prop-nan)，则返回 [NaN](./math_package_interfaces.md#static-prop-nan)。
-
-示例：
-
-```cangjie
-import std.math.minNaN
-
-main() {
-    let a: Float16 = 1.0
-    let b: Float16 = 2.0
-    let minNaN = minNaN(a, b)
-    println(minNaN)
-}
-```
-
-运行结果:
-
-```text
-1.000000
-```
-
-## func minNaN(Float32, Float32)
-
-```cangjie
-public func minNaN(a: Float32, b: Float32): Float32
-```
-
-功能：求两个数的最小值。`minNaN` 仅支持浮点数，若入参有 [NaN](./math_package_interfaces.md#static-prop-nan-1)，则返回 [NaN](./math_package_interfaces.md#static-prop-nan-1)。
-
-参数：
-
-- a: [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) - 需要比较大小的第一个数。
-- b: [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) - 需要比较大小的第二个数。
-
-返回值：
-
-- [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) - 返回两个数的最小值。若入参有 [NaN](./math_package_interfaces.md#static-prop-nan-1)，则返回 [NaN](./math_package_interfaces.md#static-prop-nan-1)。
-
-示例：
-
-```cangjie
-import std.math.minNaN
-
-main() {
-    let a: Float32 = 1.0
-    let b: Float32 = 2.0
-    let minNaN = minNaN(a, b)
-    println(minNaN)
-}
-```
-
-运行结果:
-
-```text
-1.000000
-```
-
-## func minNaN(Float64, Float64)
-
-```cangjie
-public func minNaN(a: Float64, b: Float64): Float64
-```
-
-功能：求两个数的最小值。`minNaN` 仅支持浮点数，若入参有 [NaN](./math_package_interfaces.md#static-prop-nan-2)，则返回 [NaN](./math_package_interfaces.md#static-prop-nan-2)。
-
-参数：
-
-- a: [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 需要比较大小的第一个数。
-- b: [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 需要比较大小的第二个数。
-
-返回值：
-
-- [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 返回两个数的最小值。若入参有 [NaN](./math_package_interfaces.md#static-prop-nan-2)，则返回 [NaN](./math_package_interfaces.md#static-prop-nan-2)。
-
-示例：
-
-```cangjie
-import std.math.minNaN
-
-main() {
-    let a: Float64 = 1.0
-    let b: Float64 = 2.0
-    let minNaN = minNaN(a, b)
-    println(minNaN)
-}
-```
-
-运行结果:
-
-```text
-1.000000
 ```
 
 ## func pow(Float32, Float32)
@@ -4768,7 +4304,7 @@ public func pow(base: Float32, exponent: Float32): Float32
 - [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) - 返回传入浮点数 `base` 的 `exponent` 次幂。如果值不存在，则返回 `nan`。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.pow
 
@@ -4780,7 +4316,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 nan
@@ -4804,7 +4340,7 @@ public func pow(base: Float32, exponent: Int32): Float32
 - [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) - 返回传入浮点数 `base` 的 `exponent` 次幂。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.pow
 
@@ -4816,7 +4352,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 1.000000
@@ -4840,7 +4376,7 @@ public func pow(base: Float64, exponent: Float64): Float64
 - [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 返回传入浮点数 `base` 的 `exponent` 次幂。如果值不存在，则返回 `nan`。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.pow
 
@@ -4852,7 +4388,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 nan
@@ -4876,7 +4412,7 @@ public func pow(base: Float64, exponent: Int64): Float64
 - [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 返回传入浮点数 `base` 的 `exponent` 次幂。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.pow
 
@@ -4888,7 +4424,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 1.000000
@@ -4911,7 +4447,7 @@ public func reverse(x: UInt16): UInt16
 - [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 返回反转后的无符号数。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.reverse
 
@@ -4922,7 +4458,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 1
@@ -4945,7 +4481,7 @@ public func reverse(x: UInt32): UInt32
 - [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 返回反转后的无符号数。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.reverse
 
@@ -4956,7 +4492,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 1
@@ -4979,7 +4515,7 @@ public func reverse(x: UInt64): UInt64
 - [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 返回反转后的无符号数。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.reverse
 
@@ -4990,7 +4526,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 1
@@ -5013,7 +4549,7 @@ public func reverse(x: UInt8): UInt8
 - [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 返回反转后的无符号数。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.reverse
 
@@ -5024,7 +4560,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 1
@@ -5048,7 +4584,7 @@ public func rotate(num: Int16, d: Int8): Int16
 - [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 返回旋转后的整数。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.rotate
 
@@ -5059,7 +4595,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 4
@@ -5083,7 +4619,7 @@ public func rotate(num: Int32, d: Int8): Int32
 - [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 返回旋转后的整数。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.rotate
 
@@ -5094,7 +4630,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 4
@@ -5118,7 +4654,7 @@ public func rotate(num: Int64, d: Int8): Int64
 - [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 返回旋转后的整数。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.rotate
 
@@ -5129,7 +4665,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 4
@@ -5153,7 +4689,7 @@ public func rotate(num: Int8, d: Int8): Int8
 - [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 返回旋转后的整数。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.rotate
 
@@ -5164,7 +4700,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 4
@@ -5188,7 +4724,7 @@ public func rotate(num: UInt16, d: Int8): UInt16
 - [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 返回旋转后的整数。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.rotate
 
@@ -5199,7 +4735,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 4
@@ -5223,7 +4759,7 @@ public func rotate(num: UInt32, d: Int8): UInt32
 - [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 返回旋转后的整数。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.rotate
 
@@ -5234,7 +4770,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 4
@@ -5258,7 +4794,7 @@ public func rotate(num: UInt64, d: Int8): UInt64
 - [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 返回旋转后的整数。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.rotate
 
@@ -5269,7 +4805,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 4
@@ -5293,7 +4829,7 @@ public func rotate(num: UInt8, d: Int8): UInt8
 - [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 返回旋转后的整数。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.rotate
 
@@ -5304,7 +4840,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 4
@@ -5327,7 +4863,7 @@ public func round(x: Float16): Float16
 - [Float16](../../core/core_package_api/core_package_intrinsics.md#float16) - 返回浮点数向最近整数方向的舍入值。如果该浮点数有两个最近整数，则返回向偶数舍入值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.round
 
@@ -5338,7 +4874,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 2.000000
@@ -5361,7 +4897,7 @@ public func round(x: Float32): Float32
 - [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) - 返回浮点数向最近整数方向的舍入值。如果该浮点数有两个最近整数，则返回向偶数舍入值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.round
 
@@ -5372,7 +4908,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 2.000000
@@ -5395,7 +4931,7 @@ public func round(x: Float64): Float64
 - [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 返回浮点数向最近整数方向的舍入值。如果该浮点数有两个最近整数，则返回向偶数舍入值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.round
 
@@ -5406,7 +4942,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 2.000000
@@ -5429,7 +4965,7 @@ public func sin(x: Float16): Float16
 - [Float16](../../core/core_package_api/core_package_intrinsics.md#float16) - 返回传入参数的正弦函数值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.sin
 
@@ -5440,7 +4976,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 1.000000
@@ -5463,7 +4999,7 @@ public func sin(x: Float32): Float32
 - [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) - 返回传入参数的正弦函数值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.sin
 
@@ -5474,7 +5010,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 1.000000
@@ -5497,7 +5033,7 @@ public func sin(x: Float64): Float64
 - [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 返回传入参数的正弦函数值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.sin
 
@@ -5508,7 +5044,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 1.000000
@@ -5531,7 +5067,7 @@ public func sinh(x: Float16): Float16
 - [Float16](../../core/core_package_api/core_package_intrinsics.md#float16) - 返回传入参数的双曲正弦函数值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.sinh
 
@@ -5542,7 +5078,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 0.000000
@@ -5565,7 +5101,7 @@ public func sinh(x: Float32): Float32
 - [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) - 返回传入参数的双曲正弦函数值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.sinh
 
@@ -5576,7 +5112,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 0.000000
@@ -5599,7 +5135,7 @@ public func sinh(x: Float64): Float64
 - [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 返回传入参数的双曲正弦函数值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.sinh
 
@@ -5610,7 +5146,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 0.000000
@@ -5637,7 +5173,7 @@ public func sqrt(x: Float16): Float16
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当参数为负数时，抛出异常。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.sqrt
 
@@ -5648,7 +5184,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 4.000000
@@ -5675,7 +5211,7 @@ public func sqrt(x: Float32): Float32
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当参数为负数时，抛出异常。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.sqrt
 
@@ -5686,7 +5222,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 4.000000
@@ -5713,7 +5249,7 @@ public func sqrt(x: Float64): Float64
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当参数为负数时，抛出异常。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.sqrt
 
@@ -5724,7 +5260,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 4.000000
@@ -5747,7 +5283,7 @@ public func tan(x: Float16): Float16
 - [Float16](../../core/core_package_api/core_package_intrinsics.md#float16) - 返回传入参数的正切函数值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.tan
 
@@ -5758,7 +5294,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 0.000000
@@ -5781,7 +5317,7 @@ public func tan(x: Float32): Float32
 - [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) - 返回传入参数的正切函数值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.tan
 
@@ -5792,7 +5328,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 0.000000
@@ -5815,7 +5351,7 @@ public func tan(x: Float64): Float64
 - [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 返回传入参数的正切函数值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.tan
 
@@ -5826,7 +5362,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 0.000000
@@ -5849,7 +5385,7 @@ public func tanh(x: Float16): Float16
 - [Float16](../../core/core_package_api/core_package_intrinsics.md#float16) - 返回传入参数的双曲正切函数值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.tanh
 
@@ -5860,7 +5396,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 0.000000
@@ -5883,7 +5419,7 @@ public func tanh(x: Float32): Float32
 - [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) - 返回传入参数的双曲正切函数值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.tanh
 
@@ -5894,7 +5430,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 0.000000
@@ -5917,7 +5453,7 @@ public func tanh(x: Float64): Float64
 - [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 返回传入参数的双曲正切函数值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.tanh
 
@@ -5928,32 +5464,16 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 0.000000
 ```
 
-## func throwIllegalArgumentException()
-
-```cangjie
-public func throwIllegalArgumentException(): Int64
-```
-
-功能：此函数用于抛出非法参数异常。
-
-返回值：
-
-- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 返回 0。
-
-异常：
-
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当函数被调用时，抛出异常。
-
 ## func trailingZeros(Int16)
 
 ```cangjie
-public func trailingZeros(x: Int16): Int8
+public func trailingZeros(x: Int16): Int64
 ```
 
 功能：求 16 位有符号整数的二进制表达中的从最低位算起，连续位为 0 的个数。如果最低位不是 0，则返回 0。
@@ -5964,10 +5484,10 @@ public func trailingZeros(x: Int16): Int8
 
 返回值：
 
-- [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 后置 0 的位数。
+- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 后置 0 的位数。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.trailingZeros
 
@@ -5978,7 +5498,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 9
@@ -5987,7 +5507,7 @@ main() {
 ## func trailingZeros(Int32)
 
 ```cangjie
-public func trailingZeros(x: Int32): Int8
+public func trailingZeros(x: Int32): Int64
 ```
 
 功能：求 32 位有符号整数的二进制表达中的从最低位算起，连续位为 0 的个数。如果最低位不是 0，则返回 0。
@@ -5998,10 +5518,10 @@ public func trailingZeros(x: Int32): Int8
 
 返回值：
 
-- [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 后置 0 的位数。
+- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 后置 0 的位数。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.trailingZeros
 
@@ -6012,7 +5532,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 9
@@ -6021,7 +5541,7 @@ main() {
 ## func trailingZeros(Int64)
 
 ```cangjie
-public func trailingZeros(x: Int64): Int8
+public func trailingZeros(x: Int64): Int64
 ```
 
 功能：求 64 位有符号整数的二进制表达中的从最低位算起，连续位为 0 的个数。如果最低位不是 0，则返回 0。
@@ -6032,10 +5552,10 @@ public func trailingZeros(x: Int64): Int8
 
 返回值：
 
-- [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 后置 0 的位数。
+- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 后置 0 的位数。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.trailingZeros
 
@@ -6046,7 +5566,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 9
@@ -6055,7 +5575,7 @@ main() {
 ## func trailingZeros(Int8)
 
 ```cangjie
-public func trailingZeros(x: Int8): Int8
+public func trailingZeros(x: Int8): Int64
 ```
 
 功能：求 16 位有符号整数的二进制表达中的从最低位算起，连续位为 0 的个数。如果最低位不是 0，则返回 0。
@@ -6066,10 +5586,10 @@ public func trailingZeros(x: Int8): Int8
 
 返回值：
 
-- [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 后置 0 的位数。
+- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 后置 0 的位数。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.trailingZeros
 
@@ -6080,7 +5600,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 6
@@ -6089,7 +5609,7 @@ main() {
 ## func trailingZeros(UInt16)
 
 ```cangjie
-public func trailingZeros(x: UInt16): Int8
+public func trailingZeros(x: UInt16): Int64
 ```
 
 功能：求 16 位无符号整数的二进制表达中的从最低位算起，连续位为 0 的个数。如果最低位不是 0，则返回 0。
@@ -6100,10 +5620,10 @@ public func trailingZeros(x: UInt16): Int8
 
 返回值：
 
-- [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 后置 0 的位数。
+- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 后置 0 的位数。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.trailingZeros
 
@@ -6114,7 +5634,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 9
@@ -6123,7 +5643,7 @@ main() {
 ## func trailingZeros(UInt32)
 
 ```cangjie
-public func trailingZeros(x: UInt32): Int8
+public func trailingZeros(x: UInt32): Int64
 ```
 
 功能：求 32 位无符号整数的二进制表达中的从最低位算起，连续位为 0 的个数。如果最低位不是 0，则返回 0。
@@ -6134,10 +5654,10 @@ public func trailingZeros(x: UInt32): Int8
 
 返回值：
 
-- [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 后置 0 的位数。
+- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 后置 0 的位数。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.trailingZeros
 
@@ -6148,7 +5668,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 9
@@ -6157,7 +5677,7 @@ main() {
 ## func trailingZeros(UInt64)
 
 ```cangjie
-public func trailingZeros(x: UInt64): Int8
+public func trailingZeros(x: UInt64): Int64
 ```
 
 功能：求 64 位无符号整数的二进制表达中的从最低位算起，连续位为 0 的个数。如果最低位不是 0，则返回 0。
@@ -6168,10 +5688,10 @@ public func trailingZeros(x: UInt64): Int8
 
 返回值：
 
-- [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 后置 0 的位数。
+- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 后置 0 的位数。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.trailingZeros
 
@@ -6182,7 +5702,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 9
@@ -6191,7 +5711,7 @@ main() {
 ## func trailingZeros(UInt8)
 
 ```cangjie
-public func trailingZeros(x: UInt8): Int8
+public func trailingZeros(x: UInt8): Int64
 ```
 
 功能：求 8 位无符号整数的二进制表达中的从最低位算起，连续位为 0 的个数。如果最低位不是 0，则返回 0。
@@ -6202,10 +5722,10 @@ public func trailingZeros(x: UInt8): Int8
 
 返回值：
 
-- [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 后置 0 的位数。
+- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 后置 0 的位数。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.trailingZeros
 
@@ -6216,7 +5736,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 6
@@ -6239,7 +5759,7 @@ public func trunc(x: Float16): Float16
 - [Float16](../../core/core_package_api/core_package_intrinsics.md#float16) - 返回传入浮点数截断取整后的值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.trunc
 
@@ -6250,7 +5770,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 64.000000
@@ -6273,7 +5793,7 @@ public func trunc(x: Float32): Float32
 - [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) - 返回传入浮点数截断取整后的值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.trunc
 
@@ -6284,7 +5804,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 64.000000
@@ -6307,7 +5827,7 @@ public func trunc(x: Float64): Float64
 - [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 返回传入浮点数截断取整后的值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.trunc
 
@@ -6318,7 +5838,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 64.000000

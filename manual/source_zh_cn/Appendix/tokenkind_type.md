@@ -83,7 +83,6 @@ public enum TokenKind <: ToString {
     UNIT|                     /*  "Unit"        */
     STRUCT|                   /*  "struct"      */
     ENUM|                     /*  "enum"        */
-    CFUNC|                    /*  "CFunc"       */
     VARRAY|                   /*  "VArray"      */
     THISTYPE|                 /*  "This"        */
     PACKAGE|                  /*  "package"     */
@@ -117,7 +116,6 @@ public enum TokenKind <: ToString {
     IN|                       /*  "in"          */
     NOT_IN|                   /*  "!in"         */
     MATCH|                    /*  "match"       */
-    FROM|                     /*  "from"        */
     WHERE|                    /*  "where"       */
     EXTEND|                   /*  "extend"      */
     WITH|                     /*  "with"        */
@@ -125,6 +123,7 @@ public enum TokenKind <: ToString {
     STATIC|                   /*  "static"      */
     PUBLIC|                   /*  "public"      */
     PRIVATE|                  /*  "private"     */
+    INTERNAL|                 /*  "internal"    */
     PROTECTED|                /*  "protected"   */
     OVERRIDE|                 /*  "override"    */
     REDEF|                    /*  "redef"       */
@@ -151,6 +150,8 @@ public enum TokenKind <: ToString {
     SENTINEL|                 /*  ";"             */
     RUNE_LITERAL|             /*  e.g. "r'x'"      */
     STRING_LITERAL|           /*  e.g. ""xx""     */
+    SINGLE_QUOTED_STRING_LITERAL|  
+                              /*  e.g. "'xx'"    */
     JSTRING_LITERAL|          /*  e.g. "J"xx""     */
     MULTILINE_STRING|         /*  e.g. """"aaa""""   */
     MULTILINE_RAW_STRING|     /*  e.g. "#"aaa"#"     */
@@ -158,6 +159,8 @@ public enum TokenKind <: ToString {
     UNIT_LITERAL|             /*  "()"               */
     DOLLAR_IDENTIFIER|        /*  e.g. "$x"          */
     ANNOTATION|               /*  e.g. "@When"       */
-    ILLEGAL
+    AT_EXCL|                  /*  e.g. "@!"          */
+    ILLEGAL|
+    ...
 }
 ```

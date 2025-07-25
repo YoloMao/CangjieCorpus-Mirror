@@ -3,7 +3,11 @@
 ## class SqlException
 
 ```cangjie
-public open class SqlException <: Exception
+public open class SqlException <: Exception {
+    public init()
+    public init(message: String)
+    public init(message: String, sqlState: String, errorCode: Int64)
+}
 ```
 
 功能：用于处理 sql 相关的异常。

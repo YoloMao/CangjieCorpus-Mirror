@@ -3,10 +3,7 @@
 ## class Directory
 
 ```cangjie
-public class Directory <: Iterable<FileInfo> {
-    public init(path: Path)
-    public init(path: String)
-}
+public class Directory {}
 ```
 
 功能：对应文件系统中的目录，它提供创建、移动、复制、删除、查询属性以及遍历目录等能力。
@@ -22,94 +19,10 @@ public class Directory <: Iterable<FileInfo> {
 
 在输入路径时，应该避免使用非法字符，确保路径的合法性，以便正确地访问目标文件或目录。
 
-父类型：
-
-- [Iterable](../../core/core_package_api/core_package_interfaces.md#interface-iterablee)\<[FileInfo](fs_package_structs.md#struct-fileinfo)>
-
-### prop info
-
-```cangjie
-public prop info: FileInfo
-```
-
-功能：当前目录元数据信息。
-
-类型：[FileInfo](fs_package_structs.md#struct-fileinfo)
-
-### init(Path)
-
-```cangjie
-public init(path: Path)
-```
-
-功能：创建 [Directory](fs_package_classes.md#class-directory) 实例。
-
-参数：
-
-- path: [Path](fs_package_structs.md#struct-path) - [Path](fs_package_structs.md#struct-path) 形式的目录路径。
-
-异常：
-
-- [FSException](fs_package_exceptions.md#class-fsexception) - 如果路径非法，则抛异常。
-
-### init(String)
-
-```cangjie
-public init(path: String)
-```
-
-功能：创建 [Directory](fs_package_classes.md#class-directory) 实例，支持绝对路径和相对路径，路径非法抛异常。
-
-参数：
-
-- path: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 字符串形式的目录路径。
-
-异常：
-
-- [FSException](fs_package_exceptions.md#class-fsexception) - 当路径不存在时或路径为空时，抛出异常。
-
-### static func copy(Path, Path, Bool)
-
-```cangjie
-public static func copy(sourceDirPath: Path, destinationDirPath: Path, overwrite: Bool): Unit
-```
-
-功能：将该目录以及文件、子文件夹都拷贝到新的位置。
-
-参数：
-
-- sourceDirPath: [Path](fs_package_structs.md#struct-path) - [Path](fs_package_structs.md#struct-path) 形式的源目录路径。
-- destinationDirPath: [Path](fs_package_structs.md#struct-path) - [Path](fs_package_structs.md#struct-path) 形式的目标目录路径。
-- overwrite: [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 是否覆盖，为 true 时覆盖，为 false 时不覆盖。
-
-异常：
-
-- [FSException](fs_package_exceptions.md#class-fsexception) - 源目录不存在，或 overwrite 为 false 时目标目录已存在，或目标目录在源目录中，或复制失败，抛出异常。
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 源目录或目标目录名包含空字符则抛出异常。
-
-### static func copy(String, String, Bool)
-
-```cangjie
-public static func copy(sourceDirPath: String, destinationDirPath: String, overwrite: Bool): Unit
-```
-
-功能：将该目录以及文件、子文件夹都拷贝到新的位置，不成功则抛异常。
-
-参数：
-
-- sourceDirPath: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 字符串形式的源目录路径。
-- destinationDirPath: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 字符串形式的目标目录路径。
-- overwrite: [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 是否覆盖，为 true 时覆盖，为 false 时不覆盖。
-
-异常：
-
-- [FSException](fs_package_exceptions.md#class-fsexception) - 源目录不存在，或 overwrite 为 false 时目标目录已存在，或目标目录在源目录中，或复制失败，抛出异常。
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 源目录或目标目录名包含空字符则抛出异常。
-
 ### static func create(Path, Bool)
 
 ```cangjie
-public static func create(path: Path, recursive!: Bool = false): Directory
+public static func create(path: Path, recursive!: Bool = false): Unit
 ```
 
 功能：创建目录。
@@ -121,19 +34,15 @@ public static func create(path: Path, recursive!: Bool = false): Directory
 - path: [Path](fs_package_structs.md#struct-path) - 待创建的目录路径。
 - recursive!: [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 是否递归创建目录，true 代表递归创建，false 代表不递归创建，默认 false。
 
-返回值：
-
-- [Directory](fs_package_classes.md#class-directory) - 新创建的 [Directory](fs_package_classes.md#class-directory) 实例。
-
 异常：
 
 - [FSException](fs_package_exceptions.md#class-fsexception) - 目录已存在时，抛出异常；非递归时中间有不存在的目录时抛出异常。
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 目录为空、目录为当前目录、目录为根目录，或目录中存在空字符时抛出异常。
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 目录为空、目录为当前目录、目录为根目录或目录中存在空字符时抛出异常。
 
 ### static func create(String, Bool)
 
 ```cangjie
-public static func create(path: String, recursive!: Bool = false): Directory
+public static func create(path: String, recursive!: Bool = false): Unit
 ```
 
 功能：创建目录。
@@ -145,19 +54,15 @@ public static func create(path: String, recursive!: Bool = false): Directory
 - path: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 待创建的目录路径。
 - recursive!: [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 是否递归创建目录，true 代表递归创建，false 代表不递归创建，默认 false。
 
-返回值：
-
-- [Directory](fs_package_classes.md#class-directory) - 新创建的 [Directory](fs_package_classes.md#class-directory) 实例。
-
 异常：
 
 - [FSException](fs_package_exceptions.md#class-fsexception) - 目录已存在时，抛出异常；非递归时中间有不存在的目录时抛出异常。
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 目录为空、目录为当前目录、目录为根目录，或目录中存在空字符时抛出异常。
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 目录为空、目录为当前目录、目录为根目录或目录中存在空字符时抛出异常。
 
 ### static func createTemp(Path)
 
 ```cangjie
-public static func createTemp(directoryPath: Path): Directory
+public static func createTemp(directoryPath: Path): Path
 ```
 
 功能：在指定目录下创建临时目录。
@@ -168,7 +73,7 @@ public static func createTemp(directoryPath: Path): Directory
 
 返回值：
 
-- [Directory](fs_package_classes.md#class-directory) - 临时目录的 [Directory](fs_package_classes.md#class-directory) 实例。
+- [Path](./fs_package_structs.md#struct-path) - 临时目录对应的路径。
 
 异常：
 
@@ -178,7 +83,7 @@ public static func createTemp(directoryPath: Path): Directory
 ### static func createTemp(String)
 
 ```cangjie
-public static func createTemp(directoryPath: String): Directory
+public static func createTemp(directoryPath: String): Path
 ```
 
 功能：在指定目录下创建临时目录。
@@ -189,254 +94,24 @@ public static func createTemp(directoryPath: String): Directory
 
 返回值：
 
-- [Directory](fs_package_classes.md#class-directory) - 临时目录的 [Directory](fs_package_classes.md#class-directory) 实例。
+- [Path](./fs_package_structs.md#struct-path) - 临时目录对应的路径。
 
 异常：
 
 - [FSException](fs_package_exceptions.md#class-fsexception) - 目录不存在或创建失败时抛出异常。
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 目录为空或包含空字符时抛出异常。
 
-### static func delete(Path, Bool)
+### static func isEmpty(Path)
 
 ```cangjie
-public static func delete(path: Path, recursive!: Bool = false): Unit
+public static func isEmpty(path: Path): Bool
 ```
 
-功能：删除目录。
-
-可指定是否递归删除，如果需要递归删除，将逐级删除目录。
+功能：判断指定目录是否为空。
 
 参数：
 
-- path: [Path](fs_package_structs.md#struct-path) - [Path](fs_package_structs.md#struct-path) 形式的指定目录路径。
-- recursive!: [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 是否递归，true 代表递归，false 代表不递归，默认 false 不递归。
-
-异常：
-
-- [FSException](fs_package_exceptions.md#class-fsexception) - 如果目录不存在或递归删除失败，则抛出异常。
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 如果 path 为空字符串或包含空字符或长度大于 4096 ，则出抛异常。
-
-### static func delete(String, Bool)
-
-```cangjie
-public static func delete(path: String, recursive!: Bool = false): Unit
-```
-
-功能：删除目录。
-
-可指定是否递归删除，如果需要递归删除，将逐级删除目录。
-
-参数：
-
-- path: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 字符串形式的指定目录路径。
-- recursive!: [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 是否递归，true 代表递归，false 代表不递归，默认 false 不递归。
-
-异常：
-
-- [FSException](fs_package_exceptions.md#class-fsexception) - 如果目录不存在或递归删除失败，则抛出异常。
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 如果 path 为空字符串或包含空字符或长度大于 4096 ，则出抛异常。
-
-### static func exists(Path)
-
-```cangjie
-public static func exists(path: Path): Bool
-```
-
-功能：判断路径对应的目录是否存在。
-
-参数：
-
-- path: [Path](fs_package_structs.md#struct-path) - [Path](fs_package_structs.md#struct-path) 形式的目录路径。
-
-返回值：
-
-- [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - false 表示路径不存在或者路径对应的不是目录，true 表示路径对应的是目录或指向目录的软链接。
-
-### static func exists(String)
-
-```cangjie
-public static func exists(path: String): Bool
-```
-
-功能：判断路径对应的目录是否存在。
-
-参数：
-
-- path: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 字符串形式的目录路径。
-
-返回值：
-
-- [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - false 表示路径不存在，或者路径对应的不是目录，true 表示路径对应的是目录或指向目录的软链接。
-
-### static func move(Path, Path, Bool)
-
-```cangjie
-public static func move(sourceDirPath: Path, destinationDirPath: Path, overwrite: Bool): Unit
-```
-
-功能：将该目录以及文件、子文件夹都移动到指定路径。
-
-参数：
-
-- sourceDirPath: [Path](fs_package_structs.md#struct-path) - [Path](fs_package_structs.md#struct-path) 形式的源目录路径。
-- destinationDirPath: [Path](fs_package_structs.md#struct-path) - [Path](fs_package_structs.md#struct-path) 形式的目标目录路径。
-- overwrite: [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 是否覆盖，为 true 时将覆盖目标路径中的所有子文件夹和文件，为 false 时不覆盖。
-
-异常：
-
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 目标目录名为空，或目标目录名包含空字符。
-- [FSException](fs_package_exceptions.md#class-fsexception) - 源目录不存在，或 overwrite 为 false 时目标目录已存在，或移动失败。
-
-### static func move(String, String, Bool)
-
-```cangjie
-public static func move(sourceDirPath: String, destinationDirPath: String, overwrite: Bool): Unit
-```
-
-功能：将该目录以及文件、子文件夹都移动到指定路径。
-
-参数：
-
-- sourceDirPath: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 字符串形式的源目录路径。
-- destinationDirPath: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 字符串形式的目标目录路径。
-- overwrite: [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 是否覆盖，为 true 时将覆盖目标路径中的所有子文件夹和文件，为 false 时不覆盖。
-
-异常：
-
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 目标目录名为空，或目标目录名包含空字符。
-- [FSException](fs_package_exceptions.md#class-fsexception) - 源目录不存在，或 overwrite 为 false 时目标目录已存在，或移动失败。
-
-### func createFile(String)
-
-```cangjie
-public func createFile(name: String): File
-```
-
-功能：在当前 [Directory](fs_package_classes.md#class-directory) 下创建指定名字的子文件。
-
-参数：
-
-- name: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 子文件名，参数只接受不带路径前缀的字符串。
-
-返回值：
-
-- [File](fs_package_classes.md#class-file) - 子文件的 [File](fs_package_classes.md#class-file) 实例，该实例需要手动及时调用 [close](fs_package_classes.md#func-close) 函数关闭文件。
-
-异常：
-
-- [FSException](fs_package_exceptions.md#class-fsexception) - 当子文件名中含有路径信息或文件名已存在，抛出异常。
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当文件名包含空字符时抛出异常。
-
-### func createSubDirectory(String)
-
-```cangjie
-public func createSubDirectory(name: String): Directory
-```
-
-功能：在当前 [Directory](fs_package_classes.md#class-directory) 下创建指定名字的子目录。
-
-参数：
-
-- name: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 子目录名，参数只接受不带路径前缀的字符串。
-
-返回值：
-
-- [Directory](fs_package_classes.md#class-directory) - 子目录的 [Directory](fs_package_classes.md#class-directory) 实例。
-
-异常：
-
-- [FSException](fs_package_exceptions.md#class-fsexception) - 当子目录名中含有路径信息、路径已存在或创建目录失败时，抛出异常。
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当目录名中含有空字符时，抛出异常。
-
-### func directories()
-
-```cangjie
-public func directories(): Iterator<FileInfo>
-```
-
-功能：返回当前目录的子目录迭代器。
-
-返回值：
-
-- [Iterator](../../core/core_package_api/core_package_classes.md#class-iteratort)\<[FileInfo](fs_package_structs.md#struct-fileinfo)> - 当前目录的子目录迭代器。
-
-返回值：目录是否为空，true 为空，false 不为空。
-
-异常：
-
-- [FSException](fs_package_exceptions.md#class-fsexception) - 获取目录的成员信息失败时，抛出异常。
-
-### func directoryList()
-
-```cangjie
-public func directoryList(): ArrayList<FileInfo>
-```
-
-功能：返回当前目录的子目录列表。
-
-返回值：
-
-- [ArrayList](../../collection/collection_package_api/collection_package_class.md#class-arraylistt)\<[FileInfo](fs_package_structs.md#struct-fileinfo)> - 当前目录的所有子目录列表。
-
-异常：
-
-- [FSException](fs_package_exceptions.md#class-fsexception) - 获取目录的成员信息失败时，抛出异常。
-
-### func entryList()
-
-```cangjie
-public func entryList(): ArrayList<FileInfo>
-```
-
-功能：返回当前目录的文件或子目录列表。
-
-返回值：
-
-- [ArrayList](../../collection/collection_package_api/collection_package_class.md#class-arraylistt)\<[FileInfo](fs_package_structs.md#struct-fileinfo)> - 当前目录的文件或子目录列表。
-
-异常：
-
-- [FSException](fs_package_exceptions.md#class-fsexception) - 获取目录的成员信息失败时，抛出异常。
-
-### func fileList()
-
-```cangjie
-public func fileList(): ArrayList<FileInfo>
-```
-
-功能：返回当前目录的子文件列表。
-
-返回值：
-
-- [ArrayList](../../collection/collection_package_api/collection_package_class.md#class-arraylistt)\<[FileInfo](fs_package_structs.md#struct-fileinfo)> - 当前目录的子文件列表。
-
-异常：
-
-- [FSException](fs_package_exceptions.md#class-fsexception) - 获取目录的成员信息失败时，抛出异常。
-
-### func files()
-
-```cangjie
-public func files(): Iterator<FileInfo>
-```
-
-功能：返回当前目录的子文件迭代器。
-
-返回值：
-
-- [Iterator](../../core/core_package_api/core_package_classes.md#class-iteratort)\<[FileInfo](fs_package_structs.md#struct-fileinfo)> - 当前目录的子文件迭代器。
-
-异常：
-
-- [FSException](fs_package_exceptions.md#class-fsexception) - 获取目录的成员信息失败时，抛出异常。
-
-### func isEmpty()
-
-```cangjie
-public func isEmpty(): Bool
-```
-
-功能：判断当前目录是否为空。
+- path: [Path](./fs_package_structs.md#struct-path) - 待判断是否为空的目录对应的路径。
 
 返回值：
 
@@ -444,30 +119,122 @@ public func isEmpty(): Bool
 
 异常：
 
-- [FSException](fs_package_exceptions.md#class-fsexception) - 如果判断过程中底层调用的系统接口发生错误，则抛异常。
+- [FSException](fs_package_exceptions.md#class-fsexception) - 如果指定路径不存在、指定路径不是目录或判断过程中底层调用的系统接口发生错误，则抛出异常。
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当指定路径为空或包含空字符时，抛出异常。
 
-### func iterator()
+### static func isEmpty(String)
 
 ```cangjie
-public func iterator(): Iterator<FileInfo>
+public static func isEmpty(path: String): Bool
 ```
 
-功能：返回当前目录的文件或子目录迭代器。
+功能：判断指定目录是否为空。
+
+参数：
+
+- path: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 待判断是否为空的目录对应的路径。
 
 返回值：
 
-- [Iterator](../../core/core_package_api/core_package_classes.md#class-iteratort)\<[FileInfo](fs_package_structs.md#struct-fileinfo)> - 当前目录的文件或子目录迭代器。
+- [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 为 true 时目录为空，为 false 时不为空。
 
 异常：
 
-- [FSException](fs_package_exceptions.md#class-fsexception) - 获取目录的成员信息失败时，抛出异常。
+- [FSException](fs_package_exceptions.md#class-fsexception) - 如果指定路径不存在、指定路径不是目录或判断过程中底层调用的系统接口发生错误，则抛出异常。
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当指定路径为空或包含空字符时，抛出异常。
+
+### static func readFrom(Path)
+
+```cangjie
+public static func readFrom(path: Path): Array<FileInfo>
+```
+
+功能：获取当前目录的子项目列表。
+
+子项目在数组中的顺序取决于文件在系统中的排序。
+
+参数：
+
+- path: [Path](./fs_package_structs.md#struct-path) - 待读取其子项的目录对应的路径。
+
+返回值：
+
+- [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[FileInfo](fs_package_structs.md#struct-fileinfo)> - 当前目录的子项目列表。
+
+异常：
+
+- [FSException](fs_package_exceptions.md#class-fsexception) - 当指定路径不存在、指定路径不是目录或获取目录的成员信息失败时，抛出异常。
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当指定路径为空或包含空字符时，抛出异常。
+
+### static func readFrom(String)
+
+```cangjie
+public static func readFrom(path: String): Array<FileInfo>
+```
+
+功能：获取当前目录的子项目列表。
+
+子项目在数组中的顺序取决于文件在系统中的排序。
+
+参数：
+
+- path: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 待读取其子项目的目录对应的路径。
+
+返回值：
+
+- [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[FileInfo](./fs_package_structs.md#struct-fileinfo)> - 当前目录的子项目列表。
+
+异常：
+
+- [FSException](./fs_package_exceptions.md#class-fsexception) - 当指定路径不存在、指定路径不是目录或获取目录的成员信息失败时，抛出异常。
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当指定路径为空或包含空字符时，抛出异常。
+
+### static func walk(Path, (FileInfo)->Bool)
+
+```cangjie
+public static func walk(path: Path, f: (FileInfo)->Bool): Unit
+```
+
+功能：遍历 path 对应的目录下的子项目（非递归，即不包含子目录的子项目），对每一个子项目执行回调函数。
+
+walk 函数退出条件为遍历结束或回调函数 f 返回 false。遍历顺序取决于文件在系统中的排序。
+
+参数：
+
+- path: [Path](./fs_package_structs.md#struct-path) - 待遍历的目录对应的路径。
+- f: ([FileInfo](./fs_package_structs.md#struct-fileinfo)) -> [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 对每一个子项目执行的回调函数，入参为子项目对应的元信息，返回值表示是否继续遍历。
+
+异常：
+
+- [FSException](./fs_package_exceptions.md#class-fsexception) - 当指定路径不存在、指定路径不是目录或获取目录的成员信息失败时，抛出异常。
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当指定路径为空或包含空字符时，抛出异常。
+
+### static func walk(String, (FileInfo)->Bool)
+
+```cangjie
+public static func walk(path: String, f: (FileInfo)->Bool): Unit
+```
+
+功能：遍历 path 对应的目录下的子项目（非递归，即不包含子目录的子项目），对每一个子项目执行回调函数。
+
+walk 函数退出条件为遍历结束或回调函数 f 返回 false。遍历顺序取决于文件在系统中的排序。
+
+参数：
+
+- path: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 待遍历的目录对应的路径。
+- f: ([FileInfo](./fs_package_structs.md#struct-fileinfo)) -> [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 对每一子项目执行的回调函数，入参为子项目对应的元信息，返回值表示是否继续遍历。
+
+异常：
+
+- [FSException](./fs_package_exceptions.md#class-fsexception) - 当指定路径不存在、指定路径不是目录或获取目录的成员信息失败时，抛出异常。
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当指定路径为空或包含空字符时，抛出异常。
 
 ## class File
 
 ```cangjie
 public class File <: Resource & IOStream & Seekable {
-    public init(path: Path, openOption: OpenOption)
-    public init(path: String, openOption: OpenOption)
+    public init(path: String, mode: OpenMode)
+    public init(path: Path, mode: OpenMode)
 }
 ```
 
@@ -524,30 +291,10 @@ public prop length: Int64
 
 类型：[Int64](../../core/core_package_api/core_package_intrinsics.md#int64)
 
-### prop position
+### init(Path, OpenMode)
 
 ```cangjie
-public prop position: Int64
-```
-
-功能：获取文件当前光标位置。
-
-类型：[Int64](../../core/core_package_api/core_package_intrinsics.md#int64)
-
-### prop remainLength
-
-```cangjie
-public prop remainLength: Int64
-```
-
-功能：获取文件当前光标位置至文件尾的数据字节数。
-
-类型：[Int64](../../core/core_package_api/core_package_intrinsics.md#int64)
-
-### init(Path, OpenOption)
-
-```cangjie
-public init(path: Path, openOption: OpenOption)
+public init(path: Path, mode: OpenMode)
 ```
 
 功能：创建一个 [File](fs_package_classes.md#class-file) 对象。
@@ -557,17 +304,17 @@ public init(path: Path, openOption: OpenOption)
 参数：
 
 - path: [Path](fs_package_structs.md#struct-path) - 文件路径。
-- openOption: [OpenOption](fs_package_enums.md#enum-openoption) - 文件打开选项。
+- mode: [OpenMode](fs_package_enums.md#enum-openmode) - 文件打开模式。
 
 异常：
 
-- [FSException](fs_package_exceptions.md#class-fsexception) - 如果创建操作时文件已存在、进行操作时文件不存在、文件的父目录不存在，或其他原因导致无法打开文件，则抛异常。
+- [FSException](fs_package_exceptions.md#class-fsexception) - 如果以只读方式打开文件但文件不存在、文件的父目录不存在或其他原因导致无法打开文件，则抛出异常。
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 如果 path 为空路径或者 path 路径中包含空字符，则抛出异常。
 
-### init(String, OpenOption)
+### init(String, OpenMode)
 
 ```cangjie
-public init(path: String, openOption: OpenOption)
+public init(path: String, mode: OpenMode)
 ```
 
 功能：创建 [File](fs_package_classes.md#class-file) 对象。
@@ -577,50 +324,48 @@ public init(path: String, openOption: OpenOption)
 参数：
 
 - path: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 文件路径字符串。
-- openOption: [OpenOption](fs_package_enums.md#enum-openoption) - 文件打开选项。
+- mode: [OpenMode](fs_package_enums.md#enum-openmode) - 文件打开模式。
 
 异常：
 
-- [FSException](fs_package_exceptions.md#class-fsexception) - 如果创建操作时文件已存在、进行操作时文件不存在、文件的父目录不存在，或其他原因导致无法打开文件，则抛异常。
+- [FSException](fs_package_exceptions.md#class-fsexception) - 如果以只读方式打开文件但文件不存在、文件的父目录不存在或其他原因导致无法打开文件，则抛出异常。
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 如果 path 是空字符串或者 path 包含空字符，则抛出异常。
 
-### static func copy(Path, Path, Bool)
+### static func appendTo(Path, Array\<Byte>)
 
 ```cangjie
-public static func copy(sourcePath: Path, destinationPath: Path, overwrite: Bool): Unit
+public static func appendTo(path: Path, buffer: Array<Byte>): Unit
 ```
 
-功能：将文件拷贝到新的位置，不成功则抛异常。
+功能：打开指定路径的文件并将 buffer 以追加的方式写入，文件不存在则将创建文件。
 
 参数：
 
-- sourcePath: [Path](fs_package_structs.md#struct-path) - 文件原路径。
-- destinationPath: [Path](fs_package_structs.md#struct-path) - 文件目标路径。
-- overwrite: [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 是否覆盖，为 true 时覆盖，为 false 时不覆盖。
+- path: [Path](fs_package_structs.md#struct-path) - 文件路径。
+- buffer: [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[Byte](../../core/core_package_api/core_package_types.md#type-byte)> - 待写入的 bytes。
 
 异常：
 
-- [FSException](fs_package_exceptions.md#class-fsexception) - 文件路径为空，或源路径文件无读权限，或目标路径文件已存在且无写权限则抛出异常。
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 文件路径包含空字符则抛出异常。
+- [FSException](fs_package_exceptions.md#class-fsexception) - 文件打开失败或写入失败，则抛出异常。
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 如果文件路径为空或包含空字符，则抛出异常。
 
-### static func copy(String, String, Bool)
+### static func appendTo(String, Array\<Byte>)
 
 ```cangjie
-public static func copy(sourcePath: String, destinationPath: String, overwrite: Bool): Unit
+public static func appendTo(path: String, buffer: Array<Byte>): Unit
 ```
 
-功能：将文件拷贝到新的位置，不成功则抛异常。
+功能：打开指定路径的文件并将 buffer 以追加的方式写入，文件不存在则将创建文件。
 
 参数：
 
-- sourcePath: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 文件原路径。
-- destinationPath: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 文件目标路径。
-- overwrite: [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 是否覆盖，为 true 时覆盖，为 false 时不覆盖。
+- path: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 文件路径字符串。
+- buffer: [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[Byte](../../core/core_package_api/core_package_types.md#type-byte)> - 待写入的 bytes。
 
 异常：
 
-- [FSException](fs_package_exceptions.md#class-fsexception) - 文件路径为空，或源路径文件无读权限，或目标路径文件已存在且无写权限则抛出异常。
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 文件路径包含空字符则抛出异常。
+- [FSException](fs_package_exceptions.md#class-fsexception) - 文件打开失败或写入失败，则抛出异常。
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 如果文件路径为空或包含空字符，则抛出异常。
 
 ### static func create(Path)
 
@@ -710,158 +455,6 @@ public static func createTemp(directoryPath: String): File
 - [FSException](fs_package_exceptions.md#class-fsexception) - 创建文件失败或路径不存在则抛出异常。
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 如果文件路径为空字符串或包含空字符，则抛出异常。
 
-### static func delete(Path)
-
-```cangjie
-public static func delete(path: Path): Unit
-```
-
-功能：删除指定路径下的文件。
-
-删除文件前需保证文件存在并且已关闭，否则可能删除失败。
-
-参数：
-
-- path: [Path](fs_package_structs.md#struct-path) - 文件路径。
-
-异常：
-
-- [FSException](fs_package_exceptions.md#class-fsexception) - 如果指定文件不存在，或删除失败，则抛异常。
-
-### static func delete(String)
-
-```cangjie
-public static func delete(path: String): Unit
-```
-
-功能：删除指定路径下的文件。
-
-删除文件前需保证文件存在并且已关闭，否则可能删除失败。
-
-参数：
-
-- path: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 文件路径字符串。
-
-异常：
-
-- [FSException](fs_package_exceptions.md#class-fsexception) - 如果指定文件不存在，或删除失败，则抛异常。
-
-### static func exists(Path)
-
-```cangjie
-public static func exists(path: Path): Bool
-```
-
-功能：判断路径对应的文件是否存在。
-
-参数：
-
-- path: [Path](fs_package_structs.md#struct-path) - 文件路径。
-
-返回值：
-
-- [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - false 表示路径不存在或者路径对应的不是文件，true 表示路径对应的是文件或指向文件的软链接。
-
-### static func exists(String)
-
-```cangjie
-public static func exists(path: String): Bool
-```
-
-功能：判断路径对应的文件是否存在。
-
-参数：
-
-- path: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 文件路径字符串。
-
-返回值：
-
-- [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - false 表示路径不存在或者路径对应的不是文件，true 表示路径对应的是文件或指向文件的软链接。
-
-### static func move(Path, Path, Bool)
-
-```cangjie
-public static func move(sourcePath: Path, destinationPath: Path, overwrite: Bool): Unit
-```
-
-功能：移动文件。
-
-当 overwrite 为 true，如果指定路径中已有同名的文件，则会覆盖已存在的文件，当 overwrite 为 false，不覆盖，如果目标目录已存在会抛出异常。
-
-参数：
-
-- sourcePath: [Path](fs_package_structs.md#struct-path) - 文件原路径。
-- destinationPath: [Path](fs_package_structs.md#struct-path) - 文件目标路径。
-- overwrite: [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 是否覆盖，为 true 时覆盖，为 false 时不覆盖。
-
-异常：
-
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 目标目录名为空，或目标目录名包含空字符。
-- [FSException](fs_package_exceptions.md#class-fsexception) - 源目录不存在，或 overwrite 为 false 时目标目录已存在，或移动失败。
-
-### static func move(String, String, Bool)
-
-```cangjie
-public static func move(sourcePath: String, destinationPath: String, overwrite: Bool): Unit
-```
-
-功能：移动文件。
-
-当 overwrite 为 true，如果指定路径中已有同名的文件，则会覆盖已存在的文件，当 overwrite 为 false，不覆盖，如果目标目录已存在会抛出异常。
-
-参数：
-
-- sourcePath: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 文件原路径。
-- destinationPath: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 文件目标路径。
-- overwrite: [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 是否覆盖，为 true 时将覆盖目标路径中的文件，为 false 时不覆盖。
-
-异常：
-
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 目标目录名为空，或目标目录名包含空字符。
-- [FSException](fs_package_exceptions.md#class-fsexception) - 源目录不存在，或 overwrite 为 false 时目标目录已存在，或移动失败。
-
-### static func openRead(Path)
-
-```cangjie
-public static func openRead(path: Path): File
-```
-
-功能：以只读模式打开指定路径的文件。
-
-参数：
-
-- path: [Path](fs_package_structs.md#struct-path) - 文件路径。
-
-返回值：
-
-- [File](fs_package_classes.md#class-file) - [File](fs_package_classes.md#class-file) 实例，该实例需要手动及时调用 [close](fs_package_classes.md#func-close) 函数关闭文件。
-
-异常：
-
-- [FSException](fs_package_exceptions.md#class-fsexception) - 如果文件不存在，或文件不可读，则抛异常。
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 文件路径包含空字符则抛出异常。
-
-### static func openRead(String)
-
-```cangjie
-public static func openRead(path: String): File
-```
-
-功能：以只读模式打开指定路径的文件。
-
-参数：
-
-- path: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 文件路径字符串。
-
-返回值：
-
-- [File](fs_package_classes.md#class-file) - [File](fs_package_classes.md#class-file) 实例，该实例需要手动及时调用 [close](fs_package_classes.md#func-close) 函数关闭文件。
-
-异常：
-
-- [FSException](fs_package_exceptions.md#class-fsexception) - 如果文件不存在，或文件不可读，则抛异常。
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 文件路径包含空字符则抛出异常。
-
 ### static func readFrom(Path)
 
 ```cangjie
@@ -904,42 +497,40 @@ public static func readFrom(path: String): Array<Byte>
 - [FSException](fs_package_exceptions.md#class-fsexception) - 文件读取失败、文件关闭失败、文件路径为空、文件不可读，则抛出异常。
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 文件路径包含空字符则抛出异常。
 
-### static func writeTo(Path, Array\<Byte>, OpenOption)
+### static func writeTo(Path, Array\<Byte>)
 
 ```cangjie
-public static func writeTo(path: Path, buffer: Array<Byte>, openOption!: OpenOption = CreateOrAppend): Unit
+public static func writeTo(path: Path, buffer: Array<Byte>): Unit
 ```
 
-功能：按照 openOption 打开指定路径的文件并将 buffer 写入。
+功能：打开指定路径的文件并将 buffer 以覆盖的方式写入，即文件存在时会将该文件截断为零字节大小，文件不存在则将创建文件。
 
 参数：
 
 - path: [Path](fs_package_structs.md#struct-path) - 文件路径。
 - buffer: [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[Byte](../../core/core_package_api/core_package_types.md#type-byte)> - 待写入的 bytes。
-- openOption!: [OpenOption](fs_package_enums.md#enum-openoption) - 文件打开选项，默认为 CreateOrAppend。
 
 异常：
 
-- [FSException](fs_package_exceptions.md#class-fsexception) - 文件路径为空则抛出异常。
+- [FSException](fs_package_exceptions.md#class-fsexception) - 文件打开失败或写入失败，则抛出异常。
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 如果文件路径为空或包含空字符，则抛出异常。
 
-### static func writeTo(String, Array\<Byte>, OpenOption)
+### static func writeTo(String, Array\<Byte>)
 
 ```cangjie
-public static func writeTo(path: String, buffer: Array<Byte>, openOption!: OpenOption = CreateOrAppend): Unit
+public static func writeTo(path: String, buffer: Array<Byte>): Unit
 ```
 
-功能：按照 openOption 打开指定路径的文件并将 buffer 写入。
+功能：打开指定路径的文件并将 buffer 以覆盖的方式写入，即文件存在时会将该文件截断为零字节大小，文件不存在则将创建文件。
 
 参数：
 
 - path: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 文件路径字符串。
 - buffer: [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[Byte](../../core/core_package_api/core_package_types.md#type-byte)> - 待写入的 bytes。
-- openOption!: [OpenOption](fs_package_enums.md#enum-openoption) - 文件打开选项，默认为 CreateOrAppend。
 
 异常：
 
-- [FSException](fs_package_exceptions.md#class-fsexception) - 文件路径为空则抛出异常。
+- [FSException](fs_package_exceptions.md#class-fsexception) - 文件打开失败或写入失败，则抛出异常。
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 如果文件路径为空字符串或包含空字符，则抛出异常。
 
 ### func canRead()
@@ -950,7 +541,7 @@ public func canRead(): Bool
 
 功能：判断当前 [File](fs_package_classes.md#class-file) 对象是否可读。
 
-该函数返回值由创建文件对象的 openOption 所决定，文件对象关闭后返回 false。
+该函数返回值由创建文件对象的 openMode 所决定，文件对象关闭后返回 false。
 
 返回值：
 
@@ -964,7 +555,7 @@ public func canWrite(): Bool
 
 功能：判断当前 [File](fs_package_classes.md#class-file) 对象是否可写。
 
-该函数返回值由创建文件对象的 openOption 所决定，文件对象关闭后返回 false。
+该函数返回值由创建文件对象的 openMode 所决定，文件对象关闭后返回 false。
 
 返回值：
 
@@ -980,23 +571,7 @@ public func close(): Unit
 
 异常：
 
-- [FSException](fs_package_exceptions.md#class-fsexception) - 如果关闭失败，则抛异常。
-
-### func copyTo(OutputStream)
-
-```cangjie
-public func copyTo(out: OutputStream): Unit
-```
-
-功能：将当前 [File](fs_package_classes.md#class-file) 还没读取的数据全部写入到指定的 [OutputStream](../../io/io_package_api/io_package_interfaces.md#interface-outputstream) 中。
-
-参数：
-
-- out: [OutputStream](../../io/io_package_api/io_package_interfaces.md#interface-outputstream) - 待写入的 [OutputStream](../../io/io_package_api/io_package_interfaces.md#interface-outputstream)。
-
-异常：
-
-- [FSException](fs_package_exceptions.md#class-fsexception) - 文件读取时未被打开或文件没有读取权限，则抛出异常。
+- [FSException](fs_package_exceptions.md#class-fsexception) - 如果关闭失败，则抛出异常。
 
 ### func flush()
 
@@ -1037,23 +612,7 @@ public func read(buffer: Array<Byte>): Int64
 异常：
 
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 如果 buffer 为空，则抛出异常。
-- [FSException](fs_package_exceptions.md#class-fsexception) - 读取失败、文件已关闭，或文件不可读，则抛出异常。
-
-### func readToEnd()
-
-```cangjie
-public func readToEnd(): Array<Byte>
-```
-
-功能：读取当前 [File](fs_package_classes.md#class-file) 所有剩余数据，以 [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[Byte](../../core/core_package_api/core_package_types.md#type-byte)> 形式返回剩余的 bytes。
-
-返回值：
-
-- [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[Byte](../../core/core_package_api/core_package_types.md#type-byte)> - 文件内剩余的字节数组形式内容。
-
-异常：
-
-- [FSException](fs_package_exceptions.md#class-fsexception) - 如果读取失败，或文件不可读，则抛异常。
+- [FSException](fs_package_exceptions.md#class-fsexception) - 读取失败、文件已关闭或文件不可读，则抛出异常。
 
 ### func seek(SeekPosition)
 
@@ -1075,7 +634,24 @@ public func seek(sp: SeekPosition): Int64
 
 异常：
 
-- [FSException](fs_package_exceptions.md#class-fsexception) - 指定位置不满足以上情况时，或文件不能 seek 时均会抛异常。
+- [FSException](fs_package_exceptions.md#class-fsexception) - 指定位置不满足以上情况时或文件不能 seek 时均会抛出异常。
+
+### func setLength(Int64)
+
+```cangjie
+public func setLength(length: Int64): Unit
+```
+
+功能：将当前文件截断为指定长度。当 length 大于当前文件长度时，则将使用 0 填充文件直到目标长度。此方法不会改变文件光标的位置。
+
+参数：
+
+- length: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 指定截断的长度。
+
+异常：
+
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 指定的长度为负数时抛出异常。
+- [FSException](fs_package_exceptions.md#class-fsexception) - 文件截断操作失败时，抛出异常。
 
 ### func write(Array\<Byte>)
 
@@ -1092,3 +668,143 @@ public func write(buffer: Array<Byte>): Unit
 异常：
 
 - [FSException](fs_package_exceptions.md#class-fsexception) - 如果写入失败、只写入了部分数据、文件已关闭或文件不可写则抛出异常。
+
+## class HardLink
+
+```cangjie
+public class HardLink
+```
+
+功能：提供处理文件系统硬链接相关接口。
+
+### static func create(Path, Path)
+
+```cangjie
+public static func create(link: Path, to!: Path): Unit
+```
+
+功能：创建一个新的硬链接到现有路径。如果新的路径存在，则不会覆盖。
+
+参数：
+
+- link: [Path](fs_package_structs.md#struct-path) - 新路径的名称。
+- to!: [Path](fs_package_structs.md#struct-path) - 现有路径的名称。
+
+异常：
+
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 参数中路径为空、或者包含空字符时抛出异常。
+- [FSException](fs_package_exceptions.md#class-fsexception) - 创建硬链接失败时，抛出异常。
+
+### static func create(String, String)
+
+```cangjie
+public static func create(link: String, to!: String): Unit
+```
+
+功能：创建一个新的硬链接到现有路径。如果新的路径存在，则不会覆盖。
+
+参数：
+
+- link: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 新路径的名称。
+- to!: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 现有路径的名称。
+
+异常：
+
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 参数中路径为空、或者包含空字符时抛出异常。
+- [FSException](fs_package_exceptions.md#class-fsexception) - 创建硬链接失败时，抛出异常。
+
+## class SymbolicLink
+
+```cangjie
+public class SymbolicLink
+```
+
+功能：提供处理文件系统符号链接相关接口。
+
+### static func create(Path, Path)
+
+```cangjie
+public static func create(link: Path, to!: Path): Unit
+```
+
+功能：创建一个新的符号链接到现有路径。
+
+> **说明：**
+>
+> 在Windows上，创建一个目标不存在的符号链接时，会创建一个文件符号链接，如果目标路径后来被创建为目录，则符号链接将不起作用。
+
+参数：
+
+- link: [Path](fs_package_structs.md#struct-path) - 待创建的符号链接。
+- to!: [Path](fs_package_structs.md#struct-path) - 待创建的符号链接的目标的路径。
+
+异常：
+
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 参数中路径为空、或者包含空字符时抛出异常。
+- [FSException](fs_package_exceptions.md#class-fsexception) - 创建符号链接失败时，抛出异常。
+
+### static func create(String, String)
+
+```cangjie
+public static func create(link: String, to!: String): Unit
+```
+
+功能：创建一个新的符号链接到现有路径。
+
+> **说明：**
+>
+> 在Windows上，创建一个目标不存在的符号链接时，会创建一个文件符号链接，如果目标路径后来被创建为目录，则符号链接将不起作用。
+
+参数：
+
+- link: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 待创建的符号链接。
+- to!: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 待创建的符号链接的目标的路径。
+
+异常：
+
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 参数中路径为空、或者包含空字符时抛出异常。
+- [FSException](fs_package_exceptions.md#class-fsexception) - 创建符号链接失败时，抛出异常。
+
+### static func readFrom(Path, Bool)
+
+```cangjie
+public static func readFrom(path: Path, recursive!: Bool = false): Path
+```
+
+功能：获取指定符号链接的目标。当指定 'recursive' 为 'true' 时，表示跟踪指向最终目标的链接，并且返回目标的全路径，当指定 'recursive' 为 'false' 时，读取当前目标链接并且返回。
+
+参数：
+
+- path: [Path](fs_package_structs.md#struct-path) - 符号链接的地址。
+- recursive!: [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 是否递归读取目标地址，默认为 'false'。
+
+返回值：
+
+- [Path](fs_package_structs.md#struct-path) - 符号链接的目标地址。
+
+异常：
+
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 参数中路径为空、或者包含空字符时抛出异常。
+- [FSException](fs_package_exceptions.md#class-fsexception) - 读取符号链接失败时，抛出异常。
+
+### static func readFrom(String, Bool)
+
+```cangjie
+public static func readFrom(path: String, recursive!: Bool = false): Path
+```
+
+功能：获取指定符号链接的目标。当指定 'recursive' 为 'true' 时，表示跟踪指向最终目标的链接，并且返回目标的全路径，当指定 'recursive' 为 'false' 时，读取当前目标链接并且返回。
+
+参数：
+
+- path: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 符号链接的地址。
+- recursive!: [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 是否递归读取目标地址，默认为 'false'。
+
+返回值：
+
+- [Path](fs_package_structs.md#struct-path) - 符号链接的目标地址。
+
+异常：
+
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 参数中路径为空、或者包含空字符时抛出异常。
+- [FSException](fs_package_exceptions.md#class-fsexception) - 读取符号链接失败时，抛出异常。

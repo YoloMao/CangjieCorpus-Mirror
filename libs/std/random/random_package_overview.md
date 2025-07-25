@@ -1,4 +1,4 @@
-# std.random 包
+# std.random
 
 ## 功能介绍
 

@@ -18,7 +18,7 @@ let a = HashSet<String>()  // Created an empty HashSet whose element type is Str
 let b = HashSet<String>(100)  // Created a HashSet whose capacity is 100
 let c = HashSet<Int64>([0, 1, 2])  // Created a HashSet whose element type is Int64, containing elements 0, 1, 2
 let d = HashSet<Int64>(c)  // Use another Collection to initialize a HashSet
-let d = HashSet<Int64>(10, {x: Int64 => (x * x)})  // Created a HashSet whose element type is Int64 and size is 10. All elements are initialized by specified rule function
+let e = HashSet<Int64>(10, {x: Int64 => (x * x)})  // Created a HashSet whose element type is Int64 and size is 10. All elements are initialized by specified rule function
 ```
 
 ### Adding elements to a HashSet
@@ -27,11 +27,11 @@ Ways to add element to HashSet:
 
 ```
 let mySet = HashSet<Int64>()
-mySet.put(0)  // mySet contains elements 0
-mySet.put(0)  // mySet contains elements 0
-mySet.put(1)  // mySet contains elements 0, 1
+mySet.add(0)  // mySet contains elements 0
+mySet.add(0)  // mySet contains elements 0
+mySet.add(1)  // mySet contains elements 0, 1
 let li = [2, 3]
-mySet.putAll(li)  // mySet contains elements 0, 1, 2, 3
+mySet.add(all: li)  // mySet contains elements 0, 1, 2, 3
 ```
 
 ### Deleting elements of a HashSet
@@ -83,13 +83,19 @@ let b = mySet.contains(-1)  // b == false
 
 ### Taking the union of two HashSet
 
-Use `putAll` function to compute union of two `HashSet`s, by adding all elements
-of the second set to the first. For example:
+Use `add` function to compute union of two `HashSet`s, by adding all elements
+of the second set to the first. The signature is
+
+```
+public func add(all!: Collection<T>): Unit
+```
+
+For example:
 
 ```
 let a = HashSet<Int64>([1, 2, 3, 3])
 let b = HashSet<Int64>([2, 3, 4, 4])
-a.putAll(b)     // add all em=lements of b to a, so a is now union of a and b
+a.add(all: b)     // add all em=lements of b to a, so a is now union of a and b
 println(a)      // prints [1, 2, 3, 4]
 ```
 
@@ -100,7 +106,7 @@ For example:
 
 ```
 let a: Array<Int64> = [1, 1, 2, 3, 3]
-let s: HashSet<Int64> = ccollectHashSet(a)
+let s: HashSet<Int64> = collectHashSet(a)
 println(s)      // [1, 2, 3]
 ```
 
@@ -109,7 +115,7 @@ as a new array, use `toArray` after calling `collectHashSet`. For example:
 
 ```
 let a: Array<Int64> = [1, 1, 2, 3, 3]
-let b: Array<Int64> = ccollectHashSet(a).toArray()
+let b: Array<Int64> = collectHashSet(a).toArray()
 println(b)      // [1, 2, 3]
 ```
 

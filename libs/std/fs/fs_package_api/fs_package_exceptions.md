@@ -2,18 +2,18 @@
 
 ## class FSException
 
-文件流异常类，继承了异常类。
-
 ```cangjie
-public class FSException <: Exception {
+public class FSException <: IOException {
     public init()
     public init(message: String)
 }
 ```
 
+功能：文件流异常类，继承了 IO 流异常类。
+
 父类型：
 
-- [Exception](../../core/core_package_api/core_package_exceptions.md#class-exception)
+- [IOException](../../io/io_package_api/io_package_exceptions.md#class-ioexception)
 
 ### init()
 

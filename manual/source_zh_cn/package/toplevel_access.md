@@ -1,11 +1,11 @@
 # 顶层声明的可见性
 
-仓颉中，可以使用访问修饰符来控制对类型、变量、函数等顶层声明的可见性。仓颉有 4 种访问修饰符：`private`、`internal`、`protected`、`public`，在修饰顶层元素时不同访问修饰符的语义如下。
+仓颉编程语言中，可以使用访问修饰符来控制对类型、变量、函数等顶层声明的可见性。仓颉语言有 4 种访问修饰符：`private`、`internal`、`protected`、`public`，在修饰顶层元素时不同访问修饰符的语义如下。
 
-* `private` 表示仅当前文件内可见。不同的文件无法访问这类成员。
-* `internal` 表示仅当前包及子包（包括子包的子包）内可见。同一个包内可以不导入就访问这类成员，当前包的子包（包括子包的子包）内可以通过导入来访问这类成员。
-* `protected` 表示仅当前模块内可见。同一个包的文件可以不导入就访问这类成员，不同包但是在同一个模块内的其它包可以通过导入访问这些成员，不同模块的包无法访问这些成员。
-* `public` 表示模块内外均可见。同一个包的文件可以不导入就访问这类成员，其它包可以通过导入访问这些成员。
+- `private` 表示仅当前文件内可见。不同的文件无法访问这类成员。
+- `internal` 表示仅当前包及子包（包括子包的子包）内可见。同一个包内可以不导入就访问这类成员，当前包的子包（包括子包的子包）内可以通过导入来访问这类成员。
+- `protected` 表示仅当前模块内可见。同一个包的文件可以不导入就访问这类成员，不同包但是在同一个模块内的其他包可以通过导入访问这些成员，不同模块的包无法访问这些成员。
+- `public` 表示模块内外均可见。同一个包的文件可以不导入就访问这类成员，其他包可以通过导入访问这些成员。
 
 | 修饰符         | 文件 | 包及子包 | 模块 | 所有包 |
 |-------------|------|----------|------|--------|
@@ -16,9 +16,9 @@
 
 不同顶层声明支持的访问修饰符和默认修饰符（默认修饰符是指在省略情况下的修饰符语义，这些默认修饰符也允许显式写出）规定如下：
 
-* `pacakge` 支持使用 `internal`、`protected`、`public`，默认修饰符为 `public`。
-* `import` 支持使用全部访问修饰符，默认修饰符为 `private`。
-* 其他顶层声明支持使用全部访问修饰符，默认修饰符为 `internal`。
+- `package` 支持使用 `internal`、`protected`、`public`，默认修饰符为 `public`。
+- `import` 支持使用全部访问修饰符，默认修饰符为 `private`。
+- 其他顶层声明支持使用全部访问修饰符，默认修饰符为 `internal`。
 
 <!-- compile -->
 
@@ -33,7 +33,9 @@ public func f4() { 4 }    // f4 当前模块内外均可见
 
 仓颉的访问级别排序为 `public > protected > internal > private`。一个声明的访问修饰符不得高于该声明中用到的类型的访问修饰符的级别，参考如下示例：
 
-* 函数声明中的参数与返回值
+- 函数声明中的参数与返回值
+
+    <!-- compile.error -->
 
     ```cangjie
     // a.cj
@@ -53,7 +55,9 @@ public func f4() { 4 }    // f4 当前模块内外均可见
     }
     ```
 
-* 变量声明
+- 变量声明
+
+    <!-- compile.error -->
 
     ```cangjie
     // a.cj
@@ -63,25 +67,9 @@ public func f4() { 4 }    // f4 当前模块内外均可见
     public let v2 = C() // Error, public declaration v2 cannot use internal type C.
     ```
 
-* 类声明中继承的类
+- 泛型类型的类型实参
 
-    ```cangjie
-    // a.cj
-    package a
-    open class C1 {}
-    public class C2 <: C1 {} // Error, public declaration C2 cannot use internal type C1.
-    ```
-
-* 类型实现的接口
-
-    ```cangjie
-    // a.cj
-    package a
-    interface I {}
-    public enum E <: I { A } // Error, public declaration uses internal types.
-    ```
-
-* 泛型类型的类型实参
+    <!-- compile.error -->
 
     ```cangjie
     // a.cj
@@ -91,7 +79,9 @@ public func f4() { 4 }    // f4 当前模块内外均可见
     public let v1 = C1<C2>() // Error, public declaration v1 cannot use internal type C2.
     ```
 
-* `where` 约束中的类型上界
+- `where` 约束中的类型上界
+
+    <!-- compile.error -->
 
     ```cangjie
     // a.cj
@@ -102,7 +92,7 @@ public func f4() { 4 }    // f4 当前模块内外均可见
 
 值得注意的是：
 
-* `public` 修饰的声明在其初始化表达式或者函数体里面可以使用本包可见的任意类型，包括 `public` 修饰的类型和没有 `public` 修饰的类型。
+- `public` 修饰的声明在其初始化表达式或者函数体里面可以使用本包可见的任意类型，包括被 `public` 修饰的类型和不被 `public` 修饰的类型。
 
     <!-- compile -->
 
@@ -126,7 +116,7 @@ public func f4() { 4 }    // f4 当前模块内外均可见
     }
     ```
 
-* `public` 修饰的顶层声明能使用匿名函数，或者任意顶层函数，包括 `public` 修饰的类型和没有 `public` 修饰的顶层函数。
+- `public` 修饰的顶层声明能使用匿名函数，或者任意顶层函数，包括被 `public` 修饰的类型和不被 `public` 修饰的顶层函数。
 
     <!-- compile -toplevel-->
 
@@ -141,7 +131,7 @@ public func f4() { 4 }    // f4 当前模块内外均可见
     }
     ```
 
-* 内置类型诸如 `Rune`、`Int64` 等也都默认是 `public` 的。
+- 内置类型诸如 `Rune` 和 `Int64` 等默认的修饰符是 `public`。
 
     <!-- compile -toplevel-->
 

@@ -21,7 +21,7 @@ prop hasNestedDiff: Bool
 
 功能：获取是否有嵌套 diff 层级。
 
-类型：Bool 。
+类型：[Bool](../../core/core_package_api/core_package_intrinsics.md#bool)
 
 ### func pprintForAssertion(PrettyPrinter, T, String, String, Int64)
 
@@ -39,7 +39,7 @@ func pprintForAssertion(
 - that: T - 待打印的信息。
 - thisPrefix: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 预期内容的前缀。
 - thatPrefix: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 实际内容的前缀。
-- level: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) -  嵌套层级。
+- level: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 嵌套层级。
 
 返回值：
 

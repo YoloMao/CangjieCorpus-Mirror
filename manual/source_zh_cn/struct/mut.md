@@ -46,7 +46,7 @@ struct A {
 }
 ```
 
-mut 函数中的 `this` 不能被捕获，也不能作为表达式。不能在 `mut` 函数中对 struct 的实例成员变量进行捕获。
+mut 函数中的 `this` 不能被捕获，也不能作为表达式。`mut` 函数中的 lambda 或嵌套函数不能对 struct 的实例成员变量进行捕获。
 
 示例：
 
@@ -144,7 +144,7 @@ main() {
     var b = Foo()
     b.f() // Ok
     let c: I = Foo()
-    c.f() // Ok
+    c.f() // Ok, 变量 c 为接口 I 类型，非 struct 类型，此处允许访问。
 }
 ```
 

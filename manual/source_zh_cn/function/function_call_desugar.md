@@ -4,9 +4,9 @@
 
 尾随 lambda 可以使函数的调用看起来像是语言内置的语法一样，增加语言的可扩展性。
 
-当函数最后一个形参是函数类型，并且函数调用对应的实参是 lambda 时，我们可以使用尾随 lambda 语法，将 lambda 放在函数调用的尾部，圆括号外面。
+当函数最后一个形参是函数类型，并且函数调用对应的实参是 lambda 时，可以使用尾随 lambda 语法，将 lambda 放在函数调用的尾部，圆括号外面。
 
-例如，下例中我们定义了一个 `myIf` 函数，它的第一个参数是 `Bool` 类型，第二个参数是函数类型。当第一个参数的值为 `true` 时，返回第二个参数调用后的值，否则返回 `0`。调用 `myIf` 时可以像普通函数一样调用，也可以使用尾随 lambda 的方式调用。
+例如，下例中定义了一个 `myIf` 函数，它的第一个参数是 `Bool` 类型，第二个参数是函数类型。当第一个参数的值为 `true` 时，返回第二个参数调用后的值，否则返回 `0`。调用 `myIf` 时可以像普通函数一样调用，也可以使用尾随 lambda 的方式调用。
 
 <!-- compile -->
 
@@ -28,7 +28,7 @@ func test() {
 }
 ```
 
-当函数调用有且只有一个 lambda 实参时，我们还可以省略 `()`，只写 lambda。
+当函数调用有且只有一个 lambda 实参时，还可以省略 `()`，只写 lambda。
 
 示例：
 
@@ -67,7 +67,7 @@ func inc(x: Array<Int64>): Array<Int64> { // Increasing the value of each elemen
     x
 }
 
-func sum(y: Array<Int64>): Int64 { // Get the sum of elements in the array.
+func sum(y: Array<Int64>): Int64 { // Get the sum of elements in the array
     var s = 0
     for (j in y) {
         s += j
@@ -75,13 +75,13 @@ func sum(y: Array<Int64>): Int64 { // Get the sum of elements in the array.
     s
 }
 
-let arr: Array<Int64> = Array<Int64>([1, 3, 5])
+let arr: Array<Int64> = [1, 3, 5]
 let res = arr |> inc |> sum // res = 12
 ```
 
 ### Composition 表达式
 
-`composition` 表达式表示两个单参函数的组合。`composition` 表达式语法如下： `f ~> g`。等价于如下形式： `{ x => g(f(x)) }`。
+`composition` 表达式表示两个单参函数的组合。`composition` 表达式语法为 `f ~> g`，等价于 `{ x => g(f(x)) }`。
 
 其中 `f`，`g` 均为只有一个参数的函数类型的表达式。
 
@@ -136,7 +136,7 @@ func f(a!: Int64): Unit {}
 var a = 1 |> f  // Error
 ```
 
-如果需要使用，用户可以通过 lambda 表达式传入 `f` 函数的命名实参：
+如果需要使用，开发者可以通过 lambda 表达式传入 `f` 函数的命名实参：
 
 <!-- compile -->
 

@@ -19,6 +19,8 @@ main(): Int64 { // Ok.
 
 参数类型为 `Array<String>` 的 `main`：
 
+<!-- run -->
+
 ```cangjie
 // main.cj
 main(args: Array<String>): Unit { // Ok.
@@ -37,6 +39,8 @@ World
 
 以下是一些错误示例：
 
+<!-- compile.error  -->
+
 ```cangjie
 // main.cj
 main(): String { // Error, return type of 'main' is not 'Integer' or 'Unit'.
@@ -44,12 +48,16 @@ main(): String { // Error, return type of 'main' is not 'Integer' or 'Unit'.
 }
 ```
 
+<!-- compile.error  -->
+
 ```cangjie
 // main.cj
 main(args: Array<Int8>): Int64 { // Error, 'main' cannot be defined with parameter whose type is not Array<String>.
     return 0
 }
 ```
+
+<!-- compile.error  -->
 
 ```cangjie
 // main.cj

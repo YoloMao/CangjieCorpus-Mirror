@@ -1,12 +1,12 @@
 # 模式概述
 
-对于包含匹配值的 `match` 表达式，`case` 之后支持哪些模式决定了 `match` 表达式的表达能力，本节中我们将依次介绍仓颉支持的模式，包括：常量模式、通配符模式、绑定模式、tuple 模式、类型模式和 enum 模式。
+对于包含匹配值的 `match` 表达式，`case` 之后支持哪些模式决定了 `match` 表达式的表达能力。本节中将依次介绍仓颉支持的模式，包括：常量模式、通配符模式、绑定模式、tuple 模式、类型模式和 enum 模式。
 
 ## 常量模式
 
 常量模式可以是整数字面量、浮点数字面量、字符字面量、布尔字面量、字符串字面量（不支持字符串插值）、Unit 字面量。
 
-在包含匹配值的 `match` 表达式中使用常量模式时，要求常量模式表示的值的类型与待匹配值的类型相同，匹配成功的条件是待匹配的值与常量模式表示的值相等。
+在包含匹配值的 `match` 表达式（参见[match 表达式](./match.md)）中使用常量模式时，要求常量模式表示的值的类型与待匹配值的类型相同，匹配成功的条件是待匹配的值与常量模式表示的值相等。
 
 下面的例子中，根据 `score` 的值（假设 `score` 只能取 `0` 到 `100` 间被 `10` 整除的值），输出考试成绩的等级：
 
@@ -32,22 +32,22 @@ main() {
 A
 ```
 
-* 在模式匹配的目标是静态类型为 `Rune` 的值时，`Rune` 字面量和单字符字符串字面量都可用于表示 `Rune` 类型字面量的常量 pattern。
+- 在模式匹配的目标是静态类型为 `Rune` 的值时，`Rune` 字面量和单字符字符串字面量都可用于表示 `Rune` 类型字面量的常量 pattern。
 
   <!-- verify -->
 
   ```cangjie
   func translate(n: Rune) {
       match (n) {
-          case "一" => 1
-          case "二" => 2
-          case "三" => 3
+          case "A" => 1
+          case "B" => 2
+          case "C" => 3
           case _ => -1
       }
   }
 
   main() {
-      println(translate(r"三"))
+      println(translate(r"C"))
   }
   ```
 
@@ -57,7 +57,7 @@ A
   3
   ```
 
-* 在模式匹配的目标是静态类型为 `Byte` 的值时，一个表示 ASCII 字符的字符串字面量可用于表示 `Byte` 类型字面量的常量 pattern。
+- 在模式匹配的目标是静态类型为 `Byte` 的值时，一个表示 ASCII 字符的字符串字面量可用于表示 `Byte` 类型字面量的常量 pattern。
 
   <!-- verify -->
 
@@ -111,7 +111,9 @@ main() {
 x is not zero and x = -10
 ```
 
-使用 `|` 连接多个模式时不能使用绑定模式，也不可嵌套出现在其它模式中，否则会报错：
+使用 `|` 连接多个模式时不能使用绑定模式，也不可嵌套出现在其他模式中，否则会报错：
+
+<!-- compile.error -->
 
 ```cangjie
 main() {
@@ -126,6 +128,8 @@ main() {
 
 绑定模式 `id` 相当于新定义了一个名为 `id` 的不可变变量（其作用域从引入处开始到该 `case` 结尾处），因此在 `=>` 之后无法对 `id` 进行修改。例如，下例中最后一个 `case` 中对 `n` 的修改是不允许的。
 
+<!-- compile.error -->
+
 ```cangjie
 main() {
     let x = -10
@@ -139,6 +143,8 @@ main() {
 ```
 
 对于每个 `case` 分支，`=>` 之后变量作用域级别与 `case` 后 `=>` 前引入的变量作用域级别相同，在 `=>` 之后再次引入相同名字会触发重定义错误。例如：
+
+<!-- compile.error -->
 
 ```cangjie
 main() {
@@ -211,7 +217,9 @@ main() {
 Alice is 24 years old
 ```
 
-同一个 tuple 模式中不允许引入多个名字相同的绑定模式。例如，下例中最后一个 `case` 中的 `case (x, x)` 是不合法的。
+同一个 tuple 模式中不允许引入多个名称相同的绑定模式。例如，下例中最后一个 `case` 中的 `case (x, x)` 是不合法的。
+
+<!-- compile.error -->
 
 ```cangjie
 main() {
@@ -228,7 +236,7 @@ main() {
 
 ## 类型模式
 
-类型模式用于判断一个值的运行时类型是否是某个类型的子类型。类型模式有两种形式：`_: Type`（嵌套一个通配符模式 `_`）和 `id: Type`（嵌套一个绑定模式 `id`），它们的差别是后者会发生变量绑定，而前者并不会。
+类型模式用于判断一个值的运行时类型是否是某个类型的子类型。类型模式有两种形式：`_: Type`（嵌套一个通配符模式 `_`）和 `id: Type`（嵌套一个绑定模式 `id`），它们的区别是后者会发生变量绑定，而前者不会。
 
 对于待匹配值 `v` 和类型模式 `id: Type`（或 `_: Type`），首先判断 `v` 的运行时类型是否是 `Type` 的子类型，若成立则视为匹配成功，否则视为匹配失败；如匹配成功，则将 `v` 的类型转换为 `Type` 并与 `id` 进行绑定（对于 `_: Type`，不存在绑定这一操作）。
 
@@ -342,6 +350,8 @@ x has 24 months
 
 使用 `|` 连接多个 enum 模式：
 
+<!-- compile.error -->
+
 ```cangjie
 enum TimeUnit {
     | Year(UInt64)
@@ -361,6 +371,8 @@ main() {
 
 使用 `match` 表达式匹配 `enum` 值时，要求 `case` 之后的模式要覆盖待匹配 `enum` 类型中的所有构造器，如果未做到完全覆盖，编译器将报错：
 
+<!-- compile.error -->
+
 ```cangjie
 enum RGBColor {
     | Red | Green | Blue
@@ -376,7 +388,7 @@ main() {
 }
 ```
 
-我们可以通过加上 `case Blue` 来实现完全覆盖，也可以在 `match` 表达式的最后通过使用 `case _` 来覆盖其他 `case` 未覆盖的到的情况，如：
+可以通过加上 `case Blue` 来实现完全覆盖，也可以在 `match` 表达式的最后通过使用 `case _` 来覆盖其他 `case` 未覆盖的到的情况，如：
 
 <!-- verify -->
 
@@ -421,16 +433,16 @@ enum Command {
 }
 
 main() {
-    let command = SetTimeUnit(Year(2022))
+    let command = (SetTimeUnit(Year(2022)), SetTimeUnit(Year(2024)))
     match (command) {
-        case SetTimeUnit(Year(year)) => println("Set year ${year}")
-        case SetTimeUnit(Month(month)) => println("Set month ${month}")
+        case (SetTimeUnit(Year(year)), _) => println("Set year ${year}")
+        case (_, SetTimeUnit(Month(month))) => println("Set month ${month}")
         case _ => ()
     }
 }
 ```
 
-编译执行上述代码，输出结果为：
+编译并执行上述代码，输出结果为：
 
 ```text
 Set year 2022

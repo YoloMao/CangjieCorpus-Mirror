@@ -7,7 +7,14 @@ package pkg1      // root 包 pkg1
 package pkg1.sub1 // root 包 pkg1 的子包 sub1
 ```
 
+> **注意：**
+>
+> 当前 Windows 平台版本，包名暂不支持使用 Unicode 字符，包名必须是一个仅含 ASCII 字符的合法的普通标识符。
+
 包声明必须在源文件的非空非注释的首行，且同一个包中的不同源文件的包声明必须保持一致。
+
+<!-- compile.error -->
+<!-- cfg="-p test --output-type=staticlib" -->
 
 ```cangjie
 // file 1
@@ -25,9 +32,9 @@ package test
 
 需要注意的是：
 
-* 包所在的文件夹名必须与包名一致。
-* 源码根目录默认名为 `src`。
-* 源码根目录下的包可以没有包声明，此时编译器将默认为其指定包名 `default`。
+- 包所在的文件夹名必须与包名一致。
+- 源码根目录默认名为 `src`。
+- 源码根目录下的包可以没有包声明，此时编译器将默认为其指定包名 `default`。
 
 假设源代码目录结构如下：
 
@@ -65,7 +72,7 @@ package default.directory_0.directory_1
 package default.directory_0
 ```
 
-```cangjie_runnable
+```cangjie
 // main.cj
 // file main.cj is in the module root directory and may omit package declaration.
 
@@ -84,11 +91,21 @@ package a
 public class B { // Error, 'B' is conflicted with sub-package 'a.B'
     public static func f() {}
 }
+```
 
+<!-- compile.error -->
+<!-- cfg="-p a/B --output-type=staticlib" -->
+
+```cangjie
 // b.cj
 package a.B
 public func f {}
+```
 
+<!-- compile.error -->
+<!-- cfg="liba.a liba.B.a" -->
+
+```cangjie
 // main.cj
 import a.B // ambiguous use of 'a.B'
 

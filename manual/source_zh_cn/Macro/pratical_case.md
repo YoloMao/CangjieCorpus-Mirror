@@ -2,7 +2,7 @@
 
 ## 快速幂的计算
 
-通过一个简单的例子展示使用宏进行编译期求值，生成优化代码的应用。在计算幂 `n ^ e` 的时候，如果 `e` 是一个（比较大的）整数，可以通过重复取平方（而不是迭代相乘）的方式加速计算。这个算法可以直接使用 while 循环实现，例如：
+通过一个简单的例子展示使用宏进行编译期求值，生成优化代码的应用。在计算幂 `n ^ e` 时，如果 `e` 是一个（比较大的）整数，可以通过重复取平方（而不是迭代相乘）的方式加速计算。这个算法可以直接使用 while 循环实现，例如：
 
 <!-- run -->
 
@@ -48,7 +48,7 @@ public func power_10(n: Int64) {
 }
 ```
 
-这个宏展开的代码是（根据`.macrocall`文件）：
+这个宏展开的代码是（根据 `.macrocall` 文件）：
 
 ```cangjie
 public func power_10(n: Int64) {
@@ -77,7 +77,7 @@ import std.convert.*
 
 public macro power(attrib: Tokens, input: Tokens) {
     let attribExpr = parseExpr(attrib)
-    if (let Some(litExpr) <- attribExpr as LitConstExpr) {
+    if (let Some(litExpr) <- (attribExpr as LitConstExpr)) {
         let lit = litExpr.literal
         if (lit.kind != TokenKind.INTEGER_LITERAL) {
             diagReport(DiagReportLevel.ERROR, attrib,
@@ -120,8 +120,8 @@ public macro power(attrib: Tokens, input: Tokens) {
 
 - 首先，确认输入的属性 `attrib` 是一个整数字面量，否则通过 `diagReport` 报错。将这个字面量解析为整数 `n`。
 - 设 `result` 为当前积累的输出代码，首先添加 `var _power_vn` 的声明。这里为了避免变量名冲突，使用不易造成冲突的名字 `_power_vn`。
-- 下面进入 while 循环，布尔变量 `flag` 表示 `var _power_result` 是否已经被初始化。其余的代码结构和之前展示的 `power` 函数的实现类似，但区别是使用 while 循环和 if 判断在编译时决定生成的代码是什么，而不是在运行时做这些判断。最后生成由 `_power_result *= _power_vn` 和 `_power_vn *= _power_vn` 适当组合的代码。
-- 最后添加返回 `_power_result` 的代码。
+- 下面进入 while 循环，布尔变量 `flag` 表示 `var _power_result` 是否已经被初始化。其余的代码结构和之前展示的 `power` 函数的实现类似，但区别是使用 while 循环和 if 判断在编译时决定生成的代码是什么，而不是在运行时做这些判断。然后生成由 `_power_result *= _power_vn` 和 `_power_vn *= _power_vn` 适当组合的代码。
+- 最后添加返回 `_power_result` 的代码，并将这段代码作为宏的输出值返回。
 
 将这段代码放到 `macros/power.cj` 文件中，并在 `main.cj` 添加如下测试：
 
@@ -174,14 +174,14 @@ main() {
 
 在以上代码中，`fib` 函数采用简单的递归方式实现。如果没有 `@Memoize[true]` 标注，这个函数的运行时间将随着 `n` 指数增长。例如，如果在前面的代码中去掉 `@Memoize[true]` 这一行，或者把 `true` 改为 `false`，则 `main` 函数的运行结果为：
 
-```
+```text
 fib(35): 9227465
 execution time: 199500 us
 ```
 
 恢复 `@Memoize[true]`，运行结果为：
 
-```
+```text
 fib(35): 9227465
 execution time: 78 us
 ```
@@ -209,7 +209,7 @@ func fib(n: Int64): Int64 {
 
         return fib(n - 1) + fib(n - 2)
     }()
-    memoizeFibMap.put(n, memoizeEvalResult)
+    memoizeFibMap.add(n, memoizeEvalResult)
     return memoizeEvalResult
 }
 ```
@@ -220,7 +220,7 @@ func fib(n: Int64): Int64 {
 - 其次，在函数体中，检查入参是否在 `memoizeFibMap` 中，如果是则立即反馈哈希表中存储的值。否则，使用 `fib` 原来的函数体得到计算结果。这里使用了（不带参数的）匿名函数使 `fib` 的函数体不需要任何改变，并且能够处理任何从 `fib` 函数退出的方式（包括中间的 return，返回最后一个表达式等）。
 - 最后，把计算结果存储到 `memoizeFibMap` 中，然后将计算结果返回。
 
-有了这样一个“模版”之后，下面宏的实现就不难理解了。完整的代码如下。
+有了这样一个“模板”之后，下面宏的实现就不难理解了。完整的代码如下。
 
 <!-- compile -macro_def-->
 
@@ -256,14 +256,14 @@ public macro Memoize(attrib: Tokens, input: Tokens) {
             }
 
             let memoizeEvalResult = { => $(fd.block.nodes) }()
-            $(memoMap).put($(arg1.identifier), memoizeEvalResult)
+            $(memoMap).add($(arg1.identifier), memoizeEvalResult)
             return memoizeEvalResult
         }
     )
 }
 ```
 
-首先，对属性和输入做合法性检查。属性必须是布尔字面量，如果为 `false` 则直接返回输入。否则，检查输入必须能够解析为函数声明（`FuncDecl`），并且必须包含正好一个参数。下面，产生哈希表的变量，取不容易造成冲突的变量名。最后，通过 `quote` 模版生成返回的代码，其中用到哈希表的变量名，以及唯一参数的名称、类型和输入函数的返回类型。
+首先，对属性和输入做合法性检查。属性必须是布尔字面量，如果为 `false` 则直接返回输入。否则，检查输入必须能够解析为函数声明（`FuncDecl`），并且必须包含正好一个参数。下面，产生哈希表的变量，取不容易造成冲突的变量名。最后，通过 `quote`模板生成返回的代码，其中用到哈希表的变量名，以及唯一参数的名称、类型和输入函数的返回类型。
 
 ## 一个 dprint 宏的扩展
 
@@ -279,7 +279,7 @@ public macro dprint2(input: Tokens) {
     var index: Int64 = 0
     while (true) {
         let (expr, nextIndex) = parseExprFragment(input, startFrom: index)
-        exprs.append(expr)
+        exprs.add(expr)
         if (nextIndex == input.size) {
             break
         }
@@ -311,7 +311,7 @@ let y = 2
 
 输出结果为：
 
-```
+```text
 x = 3
 y = 2
 x + y = 5
@@ -325,7 +325,7 @@ x + y = 5
 
 希望支持的语法为：
 
-```
+```text
 from <variable> in <list> where <condition> select <expression>
 ```
 
@@ -378,13 +378,13 @@ public macro linq(input: Tokens) {
 
 使用案例：
 
-```
+```cangjie
 @linq(from x in 1..=10 where x % 2 == 1 select x * x)
 ```
 
 这个例子从 1, 2, ... 10 列表中筛选出奇数，然后返回所有奇数的平方。输出结果为：
 
-```
+```text
 1
 9
 25
@@ -392,4 +392,4 @@ public macro linq(input: Tokens) {
 81
 ```
 
-可以看到，宏的实现的很大部分用于解析并校验输入的 tokens，这对宏的可用性至关重要。实际的 LINQ 语言（以及大多数 DSL）的语法更加复杂，需要一整套解析的机制，通过识别不同的关键字或连接符来决定下一步解析的内容。
+可以看到，宏的实现的很大部分用于解析并校验输入的 Tokens，这对宏的可用性至关重要。实际的 LINQ 语言（以及大多数 DSL）的语法更加复杂，需要一整套解析的机制，通过识别不同的关键字或连接符来决定下一步解析的内容。

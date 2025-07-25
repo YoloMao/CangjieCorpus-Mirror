@@ -1,5 +1,2019 @@
 # 接口
 
+## interface CarryingOp\<T>
+
+```cangjie
+public interface CarryingOp<T> {
+  func carryingAdd(y: T): (Bool, T)
+  func carryingSub(y: T): (Bool, T)
+  func carryingMul(y: T): (Bool, T)
+  func carryingDiv(y: T): (Bool, T)
+  func carryingMod(y: T): (Bool, T)
+  func carryingInc(): (Bool, T)
+  func carryingDec(): (Bool, T)
+  func carryingNeg(): (Bool, T)
+  func carryingShl(y: UInt64): (Bool, T)
+  func carryingShr(y: UInt64): (Bool, T)
+}
+```
+
+功能：提供返回整数运算是否发生了截断以及运算结果的接口。
+
+### func carryingAdd(T)
+
+```cangjie
+func carryingAdd(y: T): (Bool, T)
+```
+
+功能：返回一个元组，元组的第一个元素表示加法运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+参数：
+
+- y: T - 加数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), T) - 加法运算是否发生截断以及运算的结果。
+
+### func carryingDec()
+
+```cangjie
+func carryingDec(): (Bool, T)
+```
+
+功能：返回一个元组，元组的第一个元素表示自减运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), T) - 自减运算是否发生截断以及运算的结果。
+
+### func carryingDiv(T)
+
+```cangjie
+func carryingDiv(y: T): (Bool, T)
+```
+
+功能：返回一个元组，元组的第一个元素表示除法运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+参数：
+
+- y: T - 除数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), T) - 除法运算是否发生截断以及运算的结果。
+
+### func carryingInc()
+
+```cangjie
+func carryingInc(): (Bool, T)
+```
+
+功能：返回一个元组，元组的第一个元素表示自增运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), T) - 自增运算是否发生截断以及运算的结果。
+
+### func carryingMod(T)
+
+```cangjie
+func carryingMod(y: T): (Bool, T)
+```
+
+功能：返回一个元组，元组的第一个元素表示取余运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+参数：
+
+- y: T - 除数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), T) - 取余运算是否发生截断以及运算的结果。
+
+### func carryingMul(T)
+
+```cangjie
+func carryingMul(y: T): (Bool, T)
+```
+
+功能：返回一个元组，元组的第一个元素表示乘法运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+参数：
+
+- y: T - 乘数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), T) - 乘法运算是否发生截断以及运算的结果。
+
+### func carryingNeg()
+
+```cangjie
+func carryingNeg(): (Bool, T)
+```
+
+功能：返回一个元组，元组的第一个元素表示负号运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), T) - 负号运算是否发生截断以及运算的结果。
+
+### func carryingShl(UInt64)
+
+```cangjie
+func carryingShl(y: UInt64): (Bool, T)
+```
+
+功能：返回一个元组，元组的第一个元素表示左移运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+参数：
+
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), T) - 左移运算是否发生截断以及运算的结果。
+
+### func carryingShr(UInt64)
+
+```cangjie
+func carryingShr(y: UInt64): (Bool, T)
+```
+
+功能：返回一个元组，元组的第一个元素表示右移运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+参数：
+
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), T) - 右移运算是否发生截断以及运算的结果。
+
+### func carryingSub(T)
+
+```cangjie
+func carryingSub(y: T): (Bool, T)
+```
+
+功能：返回一个元组，元组的第一个元素表示减法运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+参数：
+
+- y: T - 减数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), T) - 减法运算是否发生截断以及运算的结果。
+
+### extend Int16 <: CarryingOp\<Int16>
+
+```cangjie
+extend Int16 <: CarryingOp<Int16>
+```
+
+功能：为 [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) 实现 [CarryingOp](./overflow_package_interfaces.md#interface-carryingopt) 接口。
+
+父类型：
+
+- [CarryingOp](./overflow_package_interfaces.md#interface-carryingopt)\<[Int16](../../core/core_package_api/core_package_intrinsics.md#int16)>
+
+#### func carryingAdd(Int16)
+
+```cangjie
+public func carryingAdd(y: Int16): (Bool, Int16)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的加法运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 加数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [Int16](../../core/core_package_api/core_package_intrinsics.md#int16)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingDec()
+
+```cangjie
+public func carryingDec(): (Bool, Int16)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的自减运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [Int16](../../core/core_package_api/core_package_intrinsics.md#int16)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingDiv(Int16)
+
+```cangjie
+public func carryingDiv(y: Int16): (Bool, Int16)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的除法运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 除数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [Int16](../../core/core_package_api/core_package_intrinsics.md#int16)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingInc()
+
+```cangjie
+public func carryingInc(): (Bool, Int16)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的自增运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [Int16](../../core/core_package_api/core_package_intrinsics.md#int16)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingMod(Int16)
+
+```cangjie
+public func carryingMod(y: Int16): (Bool, Int16)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的取余运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 除数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [Int16](../../core/core_package_api/core_package_intrinsics.md#int16)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingMul(Int16)
+
+```cangjie
+public func carryingMul(y: Int16): (Bool, Int16)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的乘法运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 乘数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [Int16](../../core/core_package_api/core_package_intrinsics.md#int16)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingNeg()
+
+```cangjie
+public func carryingNeg(): (Bool, Int16)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的负号运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [Int16](../../core/core_package_api/core_package_intrinsics.md#int16)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingShl(UInt64)
+
+```cangjie
+public func carryingShl(y: UInt64): (Bool, Int16)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的左移运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [Int16](../../core/core_package_api/core_package_intrinsics.md#int16)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingShr(UInt64)
+
+```cangjie
+public func carryingShr(y: UInt64): (Bool, Int16)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的右移运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [Int16](../../core/core_package_api/core_package_intrinsics.md#int16)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingSub(Int16)
+
+```cangjie
+public func carryingSub(y: Int16): (Bool, Int16)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的减法运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 减数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [Int16](../../core/core_package_api/core_package_intrinsics.md#int16)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+### extend Int32 <: CarryingOp\<Int32>
+
+```cangjie
+extend Int32 <: CarryingOp<Int32>
+```
+
+功能：为 [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) 实现 [CarryingOp](#interface-carryingopt) 接口。
+
+父类型：
+
+- [CarryingOp](#interface-carryingopt)\<[Int32](../../core/core_package_api/core_package_intrinsics.md#int32)>
+
+#### func carryingAdd(Int32)
+
+```cangjie
+public func carryingAdd(y: Int32): (Bool, Int32)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的加法运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 加数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [Int32](../../core/core_package_api/core_package_intrinsics.md#int32)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingDec()
+
+```cangjie
+public func carryingDec(): (Bool, Int32)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的自减运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [Int32](../../core/core_package_api/core_package_intrinsics.md#int32)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingDiv(Int32)
+
+```cangjie
+public func carryingDiv(y: Int32): (Bool, Int32)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的除法运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 除数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [Int32](../../core/core_package_api/core_package_intrinsics.md#int32)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingInc()
+
+```cangjie
+public func carryingInc(): (Bool, Int32)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的自增运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [Int32](../../core/core_package_api/core_package_intrinsics.md#int32)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingMod(Int32)
+
+```cangjie
+public func carryingMod(y: Int32): (Bool, Int32)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的取余运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 除数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [Int32](../../core/core_package_api/core_package_intrinsics.md#int32)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingMul(Int32)
+
+```cangjie
+public func carryingMul(y: Int32): (Bool, Int32)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的乘法运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 乘数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [Int32](../../core/core_package_api/core_package_intrinsics.md#int32)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingNeg()
+
+```cangjie
+public func carryingNeg(): (Bool, Int32)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的负号运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [Int32](../../core/core_package_api/core_package_intrinsics.md#int32)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingShl(UInt64)
+
+```cangjie
+public func carryingShl(y: UInt64): (Bool, Int32)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的左移运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [Int32](../../core/core_package_api/core_package_intrinsics.md#int32)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingShr(UInt64)
+
+```cangjie
+public func carryingShr(y: UInt64): (Bool, Int32)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的右移运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [Int32](../../core/core_package_api/core_package_intrinsics.md#int32)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingSub(Int32)
+
+```cangjie
+public func carryingSub(y: Int32): (Bool, Int32)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的减法运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 减数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [Int32](../../core/core_package_api/core_package_intrinsics.md#int32)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+### extend Int64 <: CarryingOp\<Int64> & CarryingPow
+
+```cangjie
+extend Int64 <: CarryingOp<Int64> & CarryingPow
+```
+
+功能：为 [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) 实现 [CarryingOp](#interface-carryingopt) 接口和 [CarryingPow](#interface-carryingpow) 接口。
+
+父类型：
+
+- [CarryingOp](#interface-carryingopt)\<[Int64](../../core/core_package_api/core_package_intrinsics.md#int64)>
+- [CarryingPow](#interface-carryingpow)
+
+#### func carryingAdd(Int64)
+
+```cangjie
+public func carryingAdd(y: Int64): (Bool, Int64)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的加法运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 加数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [Int64](../../core/core_package_api/core_package_intrinsics.md#int64)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingDec()
+
+```cangjie
+public func carryingDec(): (Bool, Int64)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的自减运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [Int64](../../core/core_package_api/core_package_intrinsics.md#int64)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingDiv(Int64)
+
+```cangjie
+public func carryingDiv(y: Int64): (Bool, Int64)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的除法运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 除数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [Int64](../../core/core_package_api/core_package_intrinsics.md#int64)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingInc()
+
+```cangjie
+public func carryingInc(): (Bool, Int64)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的自增运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [Int64](../../core/core_package_api/core_package_intrinsics.md#int64)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingMod(Int64)
+
+```cangjie
+public func carryingMod(y: Int64): (Bool, Int64)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的取余运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 除数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [Int64](../../core/core_package_api/core_package_intrinsics.md#int64)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingMul(Int64)
+
+```cangjie
+public func carryingMul(y: Int64): (Bool, Int64)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的乘法运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 乘数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [Int64](../../core/core_package_api/core_package_intrinsics.md#int64)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingNeg()
+
+```cangjie
+public func carryingNeg(): (Bool, Int64)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的负号运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [Int64](../../core/core_package_api/core_package_intrinsics.md#int64)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingPow(UInt64)
+
+```cangjie
+public func carryingPow(y: UInt64): (Bool, Int64)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的幂运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 指数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [Int64](../../core/core_package_api/core_package_intrinsics.md#int64)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingShl(UInt64)
+
+```cangjie
+public func carryingShl(y: UInt64): (Bool, Int64)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的左移运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [Int64](../../core/core_package_api/core_package_intrinsics.md#int64)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingShr(UInt64)
+
+```cangjie
+public func carryingShr(y: UInt64): (Bool, Int64)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的右移运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [Int64](../../core/core_package_api/core_package_intrinsics.md#int64)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingSub(Int64)
+
+```cangjie
+public func carryingSub(y: Int64): (Bool, Int64)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的减法运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 减数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [Int64](../../core/core_package_api/core_package_intrinsics.md#int64)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+### extend Int8 <: CarryingOp\<Int8>
+
+```cangjie
+extend Int8 <: CarryingOp<Int8>
+```
+
+功能：为 [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) 实现 [CarryingOp](#interface-carryingopt) 接口。
+
+父类型：
+
+- [CarryingOp](#interface-carryingopt)\<[Int8](../../core/core_package_api/core_package_intrinsics.md#int8)>
+
+#### func carryingAdd(Int8)
+
+```cangjie
+public func carryingAdd(y: Int8): (Bool, Int8)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的加法运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 加数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [Int8](../../core/core_package_api/core_package_intrinsics.md#int8)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingDec()
+
+```cangjie
+public func carryingDec(): (Bool, Int8)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的自减运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [Int8](../../core/core_package_api/core_package_intrinsics.md#int8)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingDiv(Int8)
+
+```cangjie
+public func carryingDiv(y: Int8): (Bool, Int8)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的除法运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 除数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [Int8](../../core/core_package_api/core_package_intrinsics.md#int8)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingInc()
+
+```cangjie
+public func carryingInc(): (Bool, Int8)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的自增运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [Int8](../../core/core_package_api/core_package_intrinsics.md#int8)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingMod(Int8)
+
+```cangjie
+public func carryingMod(y: Int8): (Bool, Int8)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的取余运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 除数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [Int8](../../core/core_package_api/core_package_intrinsics.md#int8)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingMul(Int8)
+
+```cangjie
+public func carryingMul(y: Int8): (Bool, Int8)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的乘法运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 乘数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [Int8](../../core/core_package_api/core_package_intrinsics.md#int8)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingNeg()
+
+```cangjie
+public func carryingNeg(): (Bool, Int8)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的负号运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [Int8](../../core/core_package_api/core_package_intrinsics.md#int8)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingShl(UInt64)
+
+```cangjie
+public func carryingShl(y: UInt64): (Bool, Int8)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的左移运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [Int8](../../core/core_package_api/core_package_intrinsics.md#int8)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingShr(UInt64)
+
+```cangjie
+public func carryingShr(y: UInt64): (Bool, Int8)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的右移运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [Int8](../../core/core_package_api/core_package_intrinsics.md#int8)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingSub(Int8)
+
+```cangjie
+public func carryingSub(y: Int8):(Bool, Int8)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的减法运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 减数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [Int8](../../core/core_package_api/core_package_intrinsics.md#int8)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+### extend IntNative <: CarryingOp\<IntNative>
+
+```cangjie
+extend IntNative <: CarryingOp<IntNative>
+```
+
+功能：为 [IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative) 实现 [CarryingOp](#interface-carryingopt) 接口。
+
+父类型：
+
+- [CarryingOp](#interface-carryingopt)\<[IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative)>
+
+#### func carryingAdd(IntNative)
+
+```cangjie
+public func carryingAdd(y: IntNative): (Bool, IntNative)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的加法运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative) - 加数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingDec()
+
+```cangjie
+public func carryingDec(): (Bool, IntNative)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的自减运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingDiv(IntNative)
+
+```cangjie
+public func carryingDiv(y: IntNative): (Bool, IntNative)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的除法运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative) - 除数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingInc()
+
+```cangjie
+public func carryingInc(): (Bool, IntNative)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的自增运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingMod(IntNative)
+
+```cangjie
+public func carryingMod(y: IntNative): (Bool, IntNative)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的取余运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative) - 除数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingMul(IntNative)
+
+```cangjie
+public func carryingMul(y: IntNative): (Bool, IntNative)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的乘法运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative) - 乘数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingNeg()
+
+```cangjie
+public func carryingNeg(): (Bool, IntNative)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的负号运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingShl(UInt64)
+
+```cangjie
+public func carryingShl(y: UInt64): (Bool, IntNative)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的左移运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingShr(UInt64)
+
+```cangjie
+public func carryingShr(y: UInt64): (Bool, IntNative)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的右移运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingSub(IntNative)
+
+```cangjie
+public func carryingSub(y: IntNative): (Bool, IntNative)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的减法运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative) - 减数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+### extend UInt16 <: CarryingOp\<UInt16>
+
+```cangjie
+extend UInt16 <: CarryingOp<UInt16>
+```
+
+功能：为 [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) 实现 [CarryingOp](#interface-carryingopt) 接口。
+
+父类型：
+
+- [CarryingOp](#interface-carryingopt)\<[UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16)>
+
+#### func carryingAdd(UInt16)
+
+```cangjie
+public func carryingAdd(y: UInt16): (Bool, UInt16)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的加法运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 加数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingDec()
+
+```cangjie
+public func carryingDec(): (Bool, UInt16)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的自减运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingDiv(UInt16)
+
+```cangjie
+public func carryingDiv(y: UInt16): (Bool, UInt16)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的除法运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 除数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingInc()
+
+```cangjie
+public func carryingInc(): (Bool, UInt16)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的自增运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingMod(UInt16)
+
+```cangjie
+public func carryingMod(y: UInt16): (Bool, UInt16)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的取余运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 除数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingMul(UInt16)
+
+```cangjie
+public func carryingMul(y: UInt16): (Bool, UInt16)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的乘法运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 乘数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingNeg()
+
+```cangjie
+public func carryingNeg(): (Bool, UInt16)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的负号运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingShl(UInt64)
+
+```cangjie
+public func carryingShl(y: UInt64): (Bool, UInt16)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的左移运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingShr(UInt64)
+
+```cangjie
+public func carryingShr(y: UInt64): (Bool, UInt16)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的右移运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingSub(UInt16)
+
+```cangjie
+public func carryingSub(y: UInt16): (Bool, UInt16)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的减法运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 减数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+### extend UInt32 <: CarryingOp\<UInt32>
+
+```cangjie
+extend UInt32 <: CarryingOp<UInt32>
+```
+
+功能：为 [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) 实现 [CarryingOp](#interface-carryingopt) 接口。
+
+父类型：
+
+- [CarryingOp](#interface-carryingopt)\<[UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32)>
+
+#### func carryingAdd(UInt32)
+
+```cangjie
+public func carryingAdd(y: UInt32): (Bool, UInt32)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的加法运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 加数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingDec()
+
+```cangjie
+public func carryingDec(): (Bool, UInt32)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的自减运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingDiv(UInt32)
+
+```cangjie
+public func carryingDiv(y: UInt32): (Bool, UInt32)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的除法运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 除数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingInc()
+
+```cangjie
+public func carryingInc(): (Bool, UInt32)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的自增运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingMod(UInt32)
+
+```cangjie
+public func carryingMod(y: UInt32): (Bool, UInt32)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的取余运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 除数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingMul(UInt32)
+
+```cangjie
+public func carryingMul(y: UInt32): (Bool, UInt32)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的乘法运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 乘数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingNeg()
+
+```cangjie
+public func carryingNeg(): (Bool, UInt32)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的负号运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingShl(UInt64)
+
+```cangjie
+public func carryingShl(y: UInt64): (Bool, UInt32)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的左移运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingShr(UInt64)
+
+```cangjie
+public func carryingShr(y: UInt64): (Bool, UInt32)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的右移运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingSub(UInt32)
+
+```cangjie
+public func carryingSub(y: UInt32): (Bool, UInt32)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的减法运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 减数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+### extend UInt64 <: CarryingOp\<UInt64>
+
+```cangjie
+extend UInt64 <: CarryingOp<UInt64>
+```
+
+功能：为 [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) 实现 [CarryingOp](#interface-carryingopt) 接口。
+
+父类型：
+
+- [CarryingOp](#interface-carryingopt)\<[UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64)>
+
+#### func carryingAdd(UInt64)
+
+```cangjie
+public func carryingAdd(y: UInt64): (Bool, UInt64)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的加法运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 加数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingDec()
+
+```cangjie
+public func carryingDec(): (Bool, UInt64)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的自减运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingDiv(UInt64)
+
+```cangjie
+public func carryingDiv(y: UInt64): (Bool, UInt64)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的除法运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 除数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingInc()
+
+```cangjie
+public func carryingInc(): (Bool, UInt64)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的自增运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingMod(UInt64)
+
+```cangjie
+public func carryingMod(y: UInt64): (Bool, UInt64)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的取余运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 除数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingMul(UInt64)
+
+```cangjie
+public func carryingMul(y: UInt64): (Bool, UInt64)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的乘法运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 乘数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingNeg()
+
+```cangjie
+public func carryingNeg(): (Bool, UInt64)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的负号运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingShl(UInt64)
+
+```cangjie
+public func carryingShl(y: UInt64): (Bool, UInt64)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的左移运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingShr(UInt64)
+
+```cangjie
+public func carryingShr(y: UInt64): (Bool, UInt64)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的右移运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingSub(UInt64)
+
+```cangjie
+public func carryingSub(y: UInt64): (Bool, UInt64)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的减法运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 减数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+### extend UInt8 <: CarryingOp\<UInt8>
+
+```cangjie
+extend UInt8 <: CarryingOp<UInt8>
+```
+
+功能：为 [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) 实现 [CarryingOp](#interface-carryingopt) 接口。
+
+父类型：
+
+- [CarryingOp](#interface-carryingopt)\<[UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8)>
+
+#### func carryingAdd(UInt8)
+
+```cangjie
+public func carryingAdd(y: UInt8): (Bool, UInt8)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的加法运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 加数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingDec()
+
+```cangjie
+public func carryingDec(): (Bool, UInt8)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的自减运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingDiv(UInt8)
+
+```cangjie
+public func carryingDiv(y: UInt8): (Bool, UInt8)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的除法运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 除数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingInc()
+
+```cangjie
+public func carryingInc(): (Bool, UInt8)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的自增运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingMod(UInt8)
+
+```cangjie
+public func carryingMod(y: UInt8): (Bool, UInt8)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的取余运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 除数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingMul(UInt8)
+
+```cangjie
+public func carryingMul(y: UInt8): (Bool, UInt8)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的乘法运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 乘数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingNeg()
+
+```cangjie
+public func carryingNeg(): (Bool, UInt8)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的负号运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingShl(UInt64)
+
+```cangjie
+public func carryingShl(y: UInt64): (Bool, UInt8)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的左移运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingShr(UInt64)
+
+```cangjie
+public func carryingShr(y: UInt64): (Bool, UInt8)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的右移运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingSub(UInt8)
+
+```cangjie
+public func carryingSub(y: UInt8): (Bool, UInt8)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的减法运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 减数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+### extend UIntNative <: CarryingOp\<UIntNative>
+
+```cangjie
+extend UIntNative <: CarryingOp<UIntNative>
+```
+
+功能：为 [UIntNative](../../core/core_package_api/core_package_intrinsics.md#uintnative) 实现 [CarryingOp](#interface-carryingopt) 接口。
+
+父类型：
+
+- [CarryingOp](#interface-carryingopt)\<[UIntNative](../../core/core_package_api/core_package_intrinsics.md#uintnative)>
+
+#### func carryingAdd(UIntNative)
+
+```cangjie
+public func carryingAdd(y: UIntNative): (Bool, UIntNative)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的加法运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UIntNative](../../core/core_package_api/core_package_intrinsics.md#uintnative) - 加数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UIntNative](../../core/core_package_api/core_package_intrinsics.md#uintnative)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingDec()
+
+```cangjie
+public func carryingDec(): (Bool, UIntNative)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的自减运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UIntNative](../../core/core_package_api/core_package_intrinsics.md#uintnative)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingDiv(UIntNative)
+
+```cangjie
+public func carryingDiv(y: UIntNative): (Bool, UIntNative)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的除法运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UIntNative](../../core/core_package_api/core_package_intrinsics.md#uintnative) - 除数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UIntNative](../../core/core_package_api/core_package_intrinsics.md#uintnative)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingInc()
+
+```cangjie
+public func carryingInc(): (Bool, UIntNative)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的自增运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UIntNative](../../core/core_package_api/core_package_intrinsics.md#uintnative)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingMod(UIntNative)
+
+```cangjie
+public func carryingMod(y: UIntNative): (Bool, UIntNative)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的取余运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UIntNative](../../core/core_package_api/core_package_intrinsics.md#uintnative) - 除数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UIntNative](../../core/core_package_api/core_package_intrinsics.md#uintnative)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingMul(UIntNative)
+
+```cangjie
+public func carryingMul(y: UIntNative): (Bool, UIntNative)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的乘法运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UIntNative](../../core/core_package_api/core_package_intrinsics.md#uintnative) - 乘数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UIntNative](../../core/core_package_api/core_package_intrinsics.md#uintnative)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingNeg()
+
+```cangjie
+public func carryingNeg(): (Bool, UIntNative)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的负号运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UIntNative](../../core/core_package_api/core_package_intrinsics.md#uintnative)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingShl(UInt64)
+
+```cangjie
+public func carryingShl(y: UInt64): (Bool, UIntNative)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的左移运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UIntNative](../../core/core_package_api/core_package_intrinsics.md#uintnative)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingShr(UInt64)
+
+```cangjie
+public func carryingShr(y: UInt64): (Bool, UIntNative)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的右移运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UIntNative](../../core/core_package_api/core_package_intrinsics.md#uintnative)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+#### func carryingSub(UIntNative)
+
+```cangjie
+public func carryingSub(y: UIntNative): (Bool, UIntNative)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的减法运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UIntNative](../../core/core_package_api/core_package_intrinsics.md#uintnative) - 减数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [UIntNative](../../core/core_package_api/core_package_intrinsics.md#uintnative)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
+## interface CarryingPow
+
+```cangjie
+public interface CarryingPow {
+  func carryingPow(y: UInt64): (Bool, Int64)
+}
+```
+
+功能：提供使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的幂运算接口。
+
+### func carryingPow(UInt64)
+
+```cangjie
+func carryingPow(y: UInt64): (Bool, Int64)
+```
+
+功能：使用 [wrapping](./overflow_package_interfaces.md#interface-wrappingopt) 策略的幂运算。
+
+当运算出现溢出时，返回 `true` 和运算结果，否则返回 `false` 和运算结果。
+
+参数：
+
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 指数。
+
+返回值：
+
+- ([Bool](../../core/core_package_api/core_package_intrinsics.md#bool), [Int64](../../core/core_package_api/core_package_intrinsics.md#int64)) - 返回一个元组，元组的第一个元素表示运算是否发生了截断，发生截断时为 `true`，元组的第二个元素是运算的结果。
+
 ## interface CheckedOp\<T>
 
 ```cangjie
@@ -11,8 +2025,8 @@ public interface CheckedOp<T> {
     func checkedMod(y: T): ?T
     func checkedMul(y: T): ?T
     func checkedNeg(): ?T
-    func checkedShl(y: T): ?T
-    func checkedShr(y: T): ?T
+    func checkedShl(y: UInt64): ?T
+    func checkedShr(y: UInt64): ?T
     func checkedSub(y: T): ?T
 }
 ```
@@ -133,37 +2147,37 @@ func checkedNeg(): ?T
 
 - ?T - 负号运算结果。
 
-### func checkedShl(T)
+### func checkedShl(UInt64)
 
 ```cangjie
-func checkedShl(y: T): ?T
+func checkedShl(y: UInt64): ?T
 ```
 
 功能：使用返回 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont) 策略的左移运算。
 
-当移位位数大于等于操作数位数或小于 0 时，返回 `?T.None`，否则返回运算结果。
+当移位位数大于等于操作数位数时，返回 `?T.None`，否则返回运算结果。
 
 参数：
 
-- y: T - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
 - ?T - 左移运算结果。
 
-### func checkedShr(T)
+### func checkedShr(UInt64)
 
 ```cangjie
-func checkedShr(y: T): ?T
+func checkedShr(y: UInt64): ?T
 ```
 
 功能：使用返回 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont) 策略的右移运算。
 
-当移位位数大于等于操作数位数或小于 0 时，返回 `?T.None`，否则返回运算结果。
+当移位位数大于等于操作数位数时，返回 `?T.None`，否则返回运算结果。
 
 参数：
 
-- y: T - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -313,37 +2327,37 @@ public func checkedNeg(): ?Int16
 
 - ?[Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 负号运算结果。
 
-#### func checkedShl(Int16)
+#### func checkedShl(UInt64)
 
 ```cangjie
-public func checkedShl(y: Int16): ?Int16
+public func checkedShl(y: UInt64): ?Int16
 ```
 
 功能：使用返回 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont) 策略的左移运算。
 
-当移位位数大于等于操作数位数或小于 0 时，返回 ?[Int16](../../core/core_package_api/core_package_intrinsics.md#int16).None，否则返回运算结果。
+当移位位数大于等于操作数位数时，返回 ?[Int16](../../core/core_package_api/core_package_intrinsics.md#int16).None，否则返回运算结果。
 
 参数：
 
-- y: [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
 - ?[Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 左移运算结果。
 
-#### func checkedShr(Int16)
+#### func checkedShr(UInt64)
 
 ```cangjie
-public func checkedShr(y: Int16): ?Int16
+public func checkedShr(y: UInt64): ?Int16
 ```
 
 功能：使用返回 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont) 策略的右移运算。
 
-当移位位数大于等于操作数位数或小于 0 时，返回 ?[Int16](../../core/core_package_api/core_package_intrinsics.md#int16).None，否则返回运算结果。
+当移位位数大于等于操作数位数时，返回 ?[Int16](../../core/core_package_api/core_package_intrinsics.md#int16).None，否则返回运算结果。
 
 参数：
 
-- y: [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -493,37 +2507,37 @@ public func checkedNeg(): ?Int32
 
 - ?[Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 负号运算结果。
 
-#### func checkedShl(Int32)
+#### func checkedShl(UInt64)
 
 ```cangjie
-public func checkedShl(y: Int32): ?Int32
+public func checkedShl(y: UInt64): ?Int32
 ```
 
 功能：使用返回 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont) 策略的左移运算。
 
-当移位位数大于等于操作数位数或小于 0 时，返回 ?[Int32](../../core/core_package_api/core_package_intrinsics.md#int32).None，否则返回运算结果。
+当移位位数大于等于操作数位数时，返回 ?[Int32](../../core/core_package_api/core_package_intrinsics.md#int32).None，否则返回运算结果。
 
 参数：
 
-- y: [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
 - ?[Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 左移运算结果。
 
-#### func checkedShr(Int32)
+#### func checkedShr(UInt64)
 
 ```cangjie
-public func checkedShr(y: Int32): ?Int32
+public func checkedShr(y: UInt64): ?Int32
 ```
 
 功能：使用返回 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont) 策略的右移运算。
 
-当移位位数大于等于操作数位数或小于 0 时，返回 ?[Int32](../../core/core_package_api/core_package_intrinsics.md#int32).None，否则返回运算结果。
+当移位位数大于等于操作数位数时，返回 ?[Int32](../../core/core_package_api/core_package_intrinsics.md#int32).None，否则返回运算结果。
 
 参数：
 
-- y: [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -547,17 +2561,18 @@ public func checkedSub(y: Int32): ?Int32
 
 - ?[Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 减法运算结果。
 
-### extend Int64 <: CheckedOp\<Int64>
+### extend Int64 <: CheckedOp\<Int64> & CheckedPow
 
 ```cangjie
-extend Int64 <: CheckedOp<Int64>
+extend Int64 <: CheckedOp<Int64> & CheckedPow
 ```
 
-功能：为 [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) 实现 [CheckedOp](#interface-checkedopt) 接口。
+功能：为 [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) 实现 [CheckedOp](#interface-checkedopt) 和 [CheckedPow](#interface-checkedpow) 接口。
 
 父类型：
 
 - [CheckedOp](#interface-checkedopt)\<[Int64](../../core/core_package_api/core_package_intrinsics.md#int64)>
+- [CheckedPow](#interface-checkedpow)
 
 #### func checkedAdd(Int64)
 
@@ -691,37 +2706,37 @@ public func checkedPow(y: UInt64): ?Int64
 
 - ?[Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 幂运算结果。
 
-#### func checkedShl(Int64)
+#### func checkedShl(UInt64)
 
 ```cangjie
-public func checkedShl(y: Int64): ?Int64
+public func checkedShl(y: UInt64): ?Int64
 ```
 
 功能：使用返回 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont) 策略的左移运算。
 
-当移位位数大于等于操作数位数或小于 0 时，返回 ?[Int64](../../core/core_package_api/core_package_intrinsics.md#int64).None，否则返回运算结果。
+当移位位数大于等于操作数位数时，返回 ?[Int64](../../core/core_package_api/core_package_intrinsics.md#int64).None，否则返回运算结果。
 
 参数：
 
-- y: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
 - ?[Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 左移运算结果。
 
-#### func checkedShr(Int64)
+#### func checkedShr(UInt64)
 
 ```cangjie
-public func checkedShr(y: Int64): ?Int64
+public func checkedShr(y: UInt64): ?Int64
 ```
 
 功能：使用返回 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont) 策略的右移运算。
 
-当移位位数大于等于操作数位数或小于 0 时，返回 ?[Int64](../../core/core_package_api/core_package_intrinsics.md#int64).None，否则返回运算结果。
+当移位位数大于等于操作数位数时，返回 ?[Int64](../../core/core_package_api/core_package_intrinsics.md#int64).None，否则返回运算结果。
 
 参数：
 
-- y: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -871,37 +2886,37 @@ public func checkedNeg(): ?Int8
 
 - ?[Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 负号运算结果。
 
-#### func checkedShl(Int8)
+#### func checkedShl(UInt64)
 
 ```cangjie
-public func checkedShl(y: Int8): ?Int8
+public func checkedShl(y: UInt64): ?Int8
 ```
 
 功能：使用返回 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont) 策略的左移运算。
 
-当移位位数大于等于操作数位数或小于 0 时，返回 ?[Int8](../../core/core_package_api/core_package_intrinsics.md#int8).None，否则返回运算结果。
+当移位位数大于等于操作数位数时，返回 ?[Int8](../../core/core_package_api/core_package_intrinsics.md#int8).None，否则返回运算结果。
 
 参数：
 
-- y: [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
 - ?[Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 左移运算结果。
 
-#### func checkedShr(Int8)
+#### func checkedShr(UInt64)
 
 ```cangjie
-public func checkedShr(y: Int8): ?Int8
+public func checkedShr(y: UInt64): ?Int8
 ```
 
 功能：使用返回 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont) 策略的右移运算。
 
-当移位位数大于等于操作数位数或小于 0 时，返回 ?[Int8](../../core/core_package_api/core_package_intrinsics.md#int8).None，否则返回运算结果。
+当移位位数大于等于操作数位数时，返回 ?[Int8](../../core/core_package_api/core_package_intrinsics.md#int8).None，否则返回运算结果。
 
 参数：
 
-- y: [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -1051,37 +3066,37 @@ public func checkedNeg(): ?IntNative
 
 - ?[IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative) - 负号运算结果。
 
-#### func checkedShl(IntNative)
+#### func checkedShl(UInt64)
 
 ```cangjie
-public func checkedShl(y: IntNative): ?IntNative
+public func checkedShl(y: UInt64): ?IntNative
 ```
 
 功能：使用返回 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont) 策略的左移运算。
 
-当移位位数大于等于操作数位数或小于 0 时，返回 ?[IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative).None，否则返回运算结果。
+当移位位数大于等于操作数位数时，返回 ?[IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative).None，否则返回运算结果。
 
 参数：
 
-- y: [IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
 - ?[IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative) - 左移运算结果。
 
-#### func checkedShr(IntNative)
+#### func checkedShr(UInt64)
 
 ```cangjie
-public func checkedShr(y: IntNative): ?IntNative
+public func checkedShr(y: UInt64): ?IntNative
 ```
 
 功能：使用返回 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont) 策略的右移运算。
 
-当移位位数大于等于操作数位数或小于 0 时，返回 ?[IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative).None，否则返回运算结果。
+当移位位数大于等于操作数位数时，返回 ?[IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative).None，否则返回运算结果。
 
 参数：
 
-- y: [IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -1231,10 +3246,10 @@ public func checkedNeg(): ?UInt16
 
 - ?[UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 负号运算结果。
 
-#### func checkedShl(UInt16)
+#### func checkedShl(UInt64)
 
 ```cangjie
-public func checkedShl(y: UInt16): ?UInt16
+public func checkedShl(y: UInt64): ?UInt16
 ```
 
 功能：使用返回 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont) 策略的左移运算。
@@ -1243,16 +3258,16 @@ public func checkedShl(y: UInt16): ?UInt16
 
 参数：
 
-- y: [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
 - ?[UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 左移运算结果。
 
-#### func checkedShr(UInt16)
+#### func checkedShr(UInt64)
 
 ```cangjie
-public func checkedShr(y: UInt16): ?UInt16
+public func checkedShr(y: UInt64): ?UInt16
 ```
 
 功能：使用返回 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont) 策略的右移运算。
@@ -1261,7 +3276,7 @@ public func checkedShr(y: UInt16): ?UInt16
 
 参数：
 
-- y: [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -1411,10 +3426,10 @@ public func checkedNeg(): ?UInt32
 
 - ?[UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 负号运算结果。
 
-#### func checkedShl(UInt32)
+#### func checkedShl(UInt64)
 
 ```cangjie
-public func checkedShl(y: UInt32): ?UInt32
+public func checkedShl(y: UInt64): ?UInt32
 ```
 
 功能：使用返回 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont) 策略的左移运算。
@@ -1423,16 +3438,16 @@ public func checkedShl(y: UInt32): ?UInt32
 
 参数：
 
-- y: [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
 - ?[UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 左移运算结果。
 
-#### func checkedShr(UInt32)
+#### func checkedShr(UInt64)
 
 ```cangjie
-public func checkedShr(y: UInt32): ?UInt32
+public func checkedShr(y: UInt64): ?UInt32
 ```
 
 功能：使用返回 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont) 策略的右移运算。
@@ -1441,7 +3456,7 @@ public func checkedShr(y: UInt32): ?UInt32
 
 参数：
 
-- y: [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -1771,10 +3786,10 @@ public func checkedNeg(): ?UInt8
 
 - ?[UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 负号运算结果。
 
-#### func checkedShl(UInt8)
+#### func checkedShl(UInt64)
 
 ```cangjie
-public func checkedShl(y: UInt8): ?UInt8
+public func checkedShl(y: UInt64): ?UInt8
 ```
 
 功能：使用返回 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont) 策略的左移运算。
@@ -1783,16 +3798,16 @@ public func checkedShl(y: UInt8): ?UInt8
 
 参数：
 
-- y: [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
 - ?[UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 左移运算结果。
 
-#### func checkedShr(UInt8)
+#### func checkedShr(UInt64)
 
 ```cangjie
-public func checkedShr(y: UInt8): ?UInt8
+public func checkedShr(y: UInt64): ?UInt8
 ```
 
 功能：使用返回 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont) 策略的右移运算。
@@ -1801,7 +3816,7 @@ public func checkedShr(y: UInt8): ?UInt8
 
 参数：
 
-- y: [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -1951,10 +3966,10 @@ public func checkedNeg(): ?UIntNative
 
 - ?[UIntNative](../../core/core_package_api/core_package_intrinsics.md#uintnative) - 负号运算结果。
 
-#### func checkedShl(UIntNative)
+#### func checkedShl(UInt64)
 
 ```cangjie
-public func checkedShl(y: UIntNative): ?UIntNative
+public func checkedShl(y: UInt64): ?UIntNative
 ```
 
 功能：使用返回 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont) 策略的左移运算。
@@ -1963,16 +3978,16 @@ public func checkedShl(y: UIntNative): ?UIntNative
 
 参数：
 
-- y: [UIntNative](../../core/core_package_api/core_package_intrinsics.md#uintnative) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
 - ?[UIntNative](../../core/core_package_api/core_package_intrinsics.md#uintnative) - 左移运算结果。
 
-#### func checkedShr(UIntNative)
+#### func checkedShr(UInt64)
 
 ```cangjie
-public func checkedShr(y: UIntNative): ?UIntNative
+public func checkedShr(y: UInt64): ?UIntNative
 ```
 
 功能：使用返回 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont) 策略的右移运算。
@@ -1981,7 +3996,7 @@ public func checkedShr(y: UIntNative): ?UIntNative
 
 参数：
 
-- y: [UIntNative](../../core/core_package_api/core_package_intrinsics.md#uintnative) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -2005,6 +4020,34 @@ public func checkedSub(y: UIntNative): ?UIntNative
 
 - ?[UIntNative](../../core/core_package_api/core_package_intrinsics.md#uintnative) - 减法运算结果。
 
+## interface CheckedPow
+
+```cangjie
+public interface CheckedPow {
+    func checkedPow(y: UInt64): ?Int64
+}
+```
+
+功能：提供返回 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont) 策略的幂运算接口。
+
+### func checkedPow(UInt64)
+
+```cangjie
+func checkedPow(y: UInt64): ?Int64
+```
+
+功能：使用返回 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont) 策略的幂运算。
+
+当运算出现溢出时，返回 ?[Int64](../../core/core_package_api/core_package_intrinsics.md#int64).None，否则返回运算结果。
+
+参数：
+
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 指数。
+
+返回值：
+
+- ?[Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 幂运算结果。
+
 ## interface SaturatingOp\<T>
 
 ```cangjie
@@ -2016,8 +4059,8 @@ public interface SaturatingOp<T> {
     func saturatingMod(y: T): T
     func saturatingMul(y: T): T
     func saturatingNeg(): T
-    func saturatingShl(y: T): T
-    func saturatingShr(y: T): T
+    func saturatingShl(y: UInt64): T
+    func saturatingShr(y: UInt64): T
     func saturatingSub(y: T): T
 }
 ```
@@ -2138,37 +4181,37 @@ func saturatingNeg(): T
 
 - T - 负号运算结果。
 
-### func saturatingShl(T)
+### func saturatingShl(UInt64)
 
 ```cangjie
-func saturatingShl(y: T): T
+func saturatingShl(y: UInt64): T
 ```
 
 功能：使用饱和策略的左移运算。
 
-当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，移位位数小于 0 时，将移位位数置为 0，否则返回运算结果。
+当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，返回运算结果。
 
 参数：
 
-- y: T - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
 - T - 左移运算结果。
 
-### func saturatingShr(T)
+### func saturatingShr(UInt64)
 
 ```cangjie
-func saturatingShr(y: T): T
+func saturatingShr(y: UInt64): T
 ```
 
 功能：使用饱和策略的右移运算。
 
-当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，移位位数小于 0 时，将移位位数置为 0，否则返回运算结果。
+当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，返回运算结果。
 
 参数：
 
-- y: T - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -2318,37 +4361,37 @@ public func saturatingNeg(): Int16
 
 - [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 负号运算结果。
 
-#### func saturatingShl(Int16)
+#### func saturatingShl(UInt64)
 
 ```cangjie
-public func saturatingShl(y: Int16): Int16
+public func saturatingShl(y: UInt64): Int16
 ```
 
 功能：使用饱和策略的左移运算。
 
-当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，移位位数小于 0 时，将移位位数置为 0，否则返回运算结果。
+当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，返回运算结果。
 
 参数：
 
-- y: [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
 - [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 左移运算结果。
 
-#### func saturatingShr(Int16)
+#### func saturatingShr(UInt64)
 
 ```cangjie
-public func saturatingShr(y: Int16): Int16
+public func saturatingShr(y: UInt64): Int16
 ```
 
 功能：使用饱和策略的右移运算。
 
-当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，移位位数小于 0 时，将移位位数置为 0，否则返回运算结果。
+当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，返回运算结果。
 
 参数：
 
-- y: [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -2498,37 +4541,37 @@ public func saturatingNeg(): Int32
 
 - [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 负号运算结果。
 
-#### func saturatingShl(Int32)
+#### func saturatingShl(UInt64)
 
 ```cangjie
-public func saturatingShl(y: Int32): Int32
+public func saturatingShl(y: UInt64): Int32
 ```
 
 功能：使用饱和策略的左移运算。
 
-当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，移位位数小于 0 时，将移位位数置为 0，否则返回运算结果。
+当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，返回运算结果。
 
 参数：
 
-- y: [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
 - [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 左移运算结果。
 
-#### func saturatingShr(Int32)
+#### func saturatingShr(UInt64)
 
 ```cangjie
-public func saturatingShr(y: Int32): Int32
+public func saturatingShr(y: UInt64): Int32
 ```
 
 功能：使用饱和策略的右移运算。
 
-当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，移位位数小于 0 时，将移位位数置为 0，否则返回运算结果。
+当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，返回运算结果。
 
 参数：
 
-- y: [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -2552,17 +4595,18 @@ public func saturatingSub(y: Int32): Int32
 
 - [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 减法运算结果。
 
-### extend Int64 <: SaturatingOp\<Int64>
+### extend Int64 <: SaturatingOp\<Int64> & SaturatingPow
 
 ```cangjie
-extend Int64 <: SaturatingOp<Int64>
+extend Int64 <: SaturatingOp<Int64> & SaturatingPow
 ```
 
-功能：为 [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) 实现 [SaturatingOp](#interface-saturatingopt) 接口。
+功能：为 [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) 实现 [SaturatingOp](#interface-saturatingopt) 和 [SaturatingPow](#interface-saturatingpow) 接口。
 
 父类型：
 
 - [SaturatingOp](#interface-saturatingopt)\<[Int64](../../core/core_package_api/core_package_intrinsics.md#int64)>
+- [SaturatingPow](#interface-saturatingpow)
 
 #### func saturatingAdd(Int64)
 
@@ -2696,37 +4740,37 @@ public func saturatingPow(y: UInt64): Int64
 
 - [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 幂运算结果。
 
-#### func saturatingShl(Int64)
+#### func saturatingShl(UInt64)
 
 ```cangjie
-public func saturatingShl(y: Int64): Int64
+public func saturatingShl(y: UInt64): Int64
 ```
 
 功能：使用饱和策略的左移运算。
 
-当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，移位位数小于 0 时，将移位位数置为 0，否则返回运算结果。
+当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，返回运算结果。
 
 参数：
 
-- y: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
 - [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 左移运算结果。
 
-#### func saturatingShr(Int64)
+#### func saturatingShr(UInt64)
 
 ```cangjie
-public func saturatingShr(y: Int64): Int64
+public func saturatingShr(y: UInt64): Int64
 ```
 
 功能：使用饱和策略的右移运算。
 
-当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，移位位数小于 0 时，将移位位数置为 0，否则返回运算结果。
+当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，返回运算结果。
 
 参数：
 
-- y: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -2876,37 +4920,37 @@ public func saturatingNeg(): Int8
 
 - [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 负号运算结果。
 
-#### func saturatingShl(Int8)
+#### func saturatingShl(UInt64)
 
 ```cangjie
-public func saturatingShl(y: Int8): Int8
+public func saturatingShl(y: UInt64): Int8
 ```
 
 功能：使用饱和策略的左移运算。
 
-当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，移位位数小于 0 时，将移位位数置为 0，否则返回运算结果。
+当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，返回运算结果。
 
 参数：
 
-- y: [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
 - [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 左移运算结果。
 
-#### func saturatingShr(Int8)
+#### func saturatingShr(UInt64)
 
 ```cangjie
-public func saturatingShr(y: Int8): Int8
+public func saturatingShr(y: UInt64): Int8
 ```
 
 功能：使用饱和策略的右移运算。
 
-当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，移位位数小于 0 时，将移位位数置为 0，否则返回运算结果。
+当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，返回运算结果。
 
 参数：
 
-- y: [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -3056,37 +5100,37 @@ public func saturatingNeg(): IntNative
 
 - [IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative) - 负号运算结果。
 
-#### func saturatingShl(IntNative)
+#### func saturatingShl(UInt64)
 
 ```cangjie
-public func saturatingShl(y: IntNative): IntNative
+public func saturatingShl(y: UInt64): IntNative
 ```
 
 功能：使用饱和策略的左移运算。
 
-当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，移位位数小于 0 时，将移位位数置为 0，否则返回运算结果。
+当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，返回运算结果。
 
 参数：
 
-- y: [IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
 - [IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative) - 左移运算结果。
 
-#### func saturatingShr(IntNative)
+#### func saturatingShr(UInt64)
 
 ```cangjie
-public func saturatingShr(y: IntNative): IntNative
+public func saturatingShr(y: UInt64): IntNative
 ```
 
 功能：使用饱和策略的右移运算。
 
-当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，移位位数小于 0 时，将移位位数置为 0，否则返回运算结果。
+当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，返回运算结果。
 
 参数：
 
-- y: [IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -3236,37 +5280,37 @@ public func saturatingNeg(): UInt16
 
 - [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 负号运算结果。
 
-#### func saturatingShl(UInt16)
+#### func saturatingShl(UInt64)
 
 ```cangjie
-public func saturatingShl(y: UInt16): UInt16
+public func saturatingShl(y: UInt64): UInt16
 ```
 
 功能：使用饱和策略的左移运算。
 
-当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，移位位数小于 0 时，将移位位数置为 0，否则返回运算结果。
+当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，返回运算结果。
 
 参数：
 
-- y: [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
 - [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 左移运算结果。
 
-#### func saturatingShr(UInt16)
+#### func saturatingShr(UInt64)
 
 ```cangjie
-public func saturatingShr(y: UInt16): UInt16
+public func saturatingShr(y: UInt64): UInt16
 ```
 
 功能：使用饱和策略的右移运算。
 
-当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，移位位数小于 0 时，将移位位数置为 0，否则返回运算结果。
+当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，返回运算结果。
 
 参数：
 
-- y: [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -3416,37 +5460,37 @@ public func saturatingNeg(): UInt32
 
 - [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 负号运算结果。
 
-#### func saturatingShl(UInt32)
+#### func saturatingShl(UInt64)
 
 ```cangjie
-public func saturatingShl(y: UInt32): UInt32
+public func saturatingShl(y: UInt64): UInt32
 ```
 
 功能：使用饱和策略的左移运算。
 
-当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，移位位数小于 0 时，将移位位数置为 0，否则返回运算结果。
+当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，返回运算结果。
 
 参数：
 
-- y: [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
 - [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 左移运算结果。
 
-#### func saturatingShr(UInt32)
+#### func saturatingShr(UInt64)
 
 ```cangjie
-public func saturatingShr(y: UInt32): UInt32
+public func saturatingShr(y: UInt64): UInt32
 ```
 
 功能：使用饱和策略的右移运算。
 
-当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，移位位数小于 0 时，将移位位数置为 0，否则返回运算结果。
+当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，返回运算结果。
 
 参数：
 
-- y: [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -3604,7 +5648,7 @@ public func saturatingShl(y: UInt64): UInt64
 
 功能：使用饱和策略的左移运算。
 
-当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，移位位数小于 0 时，将移位位数置为 0，否则返回运算结果。
+当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，返回运算结果。
 
 参数：
 
@@ -3622,7 +5666,7 @@ public func saturatingShr(y: UInt64): UInt64
 
 功能：使用饱和策略的右移运算。
 
-当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，移位位数小于 0 时，将移位位数置为 0，否则返回运算结果。
+当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，返回运算结果。
 
 参数：
 
@@ -3776,37 +5820,37 @@ public func saturatingNeg(): UInt8
 
 - [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 负号运算结果。
 
-#### func saturatingShl(UInt8)
+#### func saturatingShl(UInt64)
 
 ```cangjie
-public func saturatingShl(y: UInt8): UInt8
+public func saturatingShl(y: UInt64): UInt8
 ```
 
 功能：使用饱和策略的左移运算。
 
-当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，移位位数小于 0 时，将移位位数置为 0，否则返回运算结果。
+当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，返回运算结果。
 
 参数：
 
-- y: [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
 - [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 左移运算结果。
 
-#### func saturatingShr(UInt8)
+#### func saturatingShr(UInt64)
 
 ```cangjie
-public func saturatingShr(y: UInt8): UInt8
+public func saturatingShr(y: UInt64): UInt8
 ```
 
 功能：使用饱和策略的右移运算。
 
-当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，移位位数小于 0 时，将移位位数置为 0，否则返回运算结果。
+当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，返回运算结果。
 
 参数：
 
-- y: [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -3956,37 +6000,37 @@ public func saturatingNeg(): UIntNative
 
 - [UIntNative](../../core/core_package_api/core_package_intrinsics.md#uintnative) - 负号运算结果。
 
-#### func saturatingShl(UIntNative)
+#### func saturatingShl(UInt64)
 
 ```cangjie
-public func saturatingShl(y: UIntNative): UIntNative
+public func saturatingShl(y: UInt64): UIntNative
 ```
 
 功能：使用饱和策略的左移运算。
 
-当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，移位位数小于 0 时，将移位位数置为 0，否则返回运算结果。
+当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，返回运算结果。
 
 参数：
 
-- y: [UIntNative](../../core/core_package_api/core_package_intrinsics.md#uintnative) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
 - [UIntNative](../../core/core_package_api/core_package_intrinsics.md#uintnative) - 左移运算结果。
 
-#### func saturatingShr(UIntNative)
+#### func saturatingShr(UInt64)
 
 ```cangjie
-public func saturatingShr(y: UIntNative): UIntNative
+public func saturatingShr(y: UInt64): UIntNative
 ```
 
 功能：使用饱和策略的右移运算。
 
-当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，移位位数小于 0 时，将移位位数置为 0，否则返回运算结果。
+当移位位数大于等于操作数位数时，将移位位数置为操作数位数 - 1，返回运算结果。
 
 参数：
 
-- y: [UIntNative](../../core/core_package_api/core_package_intrinsics.md#uintnative) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -4010,20 +6054,48 @@ public func saturatingSub(y: UIntNative): UIntNative
 
 - [UIntNative](../../core/core_package_api/core_package_intrinsics.md#uintnative) - 减法运算结果。
 
+## interface SaturatingPow
+
+```cangjie
+public interface SaturatingPow {
+    public func saturatingPow(y: UInt64): Int64
+}
+```
+
+功能：提供饱和策略的幂运算接口。
+
+### func saturatingPow(UInt64)
+
+```cangjie
+public func saturatingPow(y: UInt64): Int64
+```
+
+功能：使用饱和策略的幂运算。
+
+当运算出现上溢时，返回操作数类型的最大值，运算出现下溢时，返回操作数类型的最小值，否则返回运算结果。
+
+参数：
+
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 指数。
+
+返回值：
+
+- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 幂运算结果。
+
 ## interface ThrowingOp\<T>
 
 ```cangjie
 public interface ThrowingOp<T> {
     func throwingAdd(y: T): T
-    func throwingDec(): T
-    func throwingDiv(y: T): T
-    func throwingInc(): T
-    func throwingMod(y: T): T
-    func throwingMul(y: T): T
-    func throwingNeg(): T
-    func throwingShl(y: T): T
-    func throwingShr(y: T): T
     func throwingSub(y: T): T
+    func throwingMul(y: T): T
+    func throwingDiv(y: T): T
+    func throwingMod(y: T): T
+    func throwingInc(): T
+    func throwingDec(): T
+    func throwingNeg(): T
+    func throwingShl(y: UInt64): T
+    func throwingShr(y: UInt64): T
 }
 ```
 
@@ -4171,19 +6243,19 @@ func throwingNeg(): T
 
 - [OverflowException](../../core/core_package_api/core_package_exceptions.md#class-overflowexception) - 当负号运算出现溢出时，抛出异常。
 
-### func throwingShl(T)
+### func throwingShl(UInt64)
 
 ```cangjie
-func throwingShl(y: T): T
+func throwingShl(y: UInt64): T
 ```
 
 功能：使用抛出异常策略的左移运算。
 
-当移位位数大于等于操作数位数或小于 0 时，抛出异常，否则返回运算结果。
+当移位位数大于等于操作数位数时，抛出异常，否则返回运算结果。
 
 参数：
 
-- y: T - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -4192,12 +6264,11 @@ func throwingShl(y: T): T
 异常：
 
 - [OvershiftException](overflow_package_exceptions.md#class-overshiftexception) - 当移位位数大于等于操作数位数时，抛出异常。
-- [UndershiftException](overflow_package_exceptions.md#class-undershiftexception) - 当移位位数小于 0 时，抛出异常。
 
-### func throwingShr(T)
+### func throwingShr(UInt64)
 
 ```cangjie
-func throwingShr(y: T): T
+func throwingShr(y: UInt64): T
 ```
 
 功能：右移运算。
@@ -4206,7 +6277,7 @@ func throwingShr(y: T): T
 
 参数：
 
-- y: T - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -4215,7 +6286,6 @@ func throwingShr(y: T): T
 异常：
 
 - [OvershiftException](overflow_package_exceptions.md#class-overshiftexception) - 当移位位数大于等于操作数位数时，抛出异常。
-- [UndershiftException](overflow_package_exceptions.md#class-undershiftexception) - 当移位位数小于 0 时，抛出异常。
 
 ### func throwingSub(T)
 
@@ -4393,19 +6463,19 @@ public func throwingNeg(): Int16
 
 - [OverflowException](../../core/core_package_api/core_package_exceptions.md#class-overflowexception) - 当负号运算出现溢出时，抛出异常。
 
-#### func throwingShl(Int16)
+#### func throwingShl(UInt64)
 
 ```cangjie
-public func throwingShl(y: Int16): Int16
+public func throwingShl(y: UInt64): Int16
 ```
 
 功能：使用抛出异常策略的左移运算。
 
-当移位位数大于等于操作数位数或小于 0 时，抛出异常，否则返回运算结果。
+当移位位数大于等于操作数位数时，返回运算结果。
 
 参数：
 
-- y: [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -4414,12 +6484,11 @@ public func throwingShl(y: Int16): Int16
 异常：
 
 - [OvershiftException](overflow_package_exceptions.md#class-overshiftexception) - 当移位位数大于等于操作数位数时，抛出异常。
-- [UndershiftException](overflow_package_exceptions.md#class-undershiftexception) - 当移位位数小于 0 时，抛出异常。
 
-#### func throwingShr(Int16)
+#### func throwingShr(UInt64)
 
 ```cangjie
-public func throwingShr(y: Int16): Int16
+public func throwingShr(y: UInt64): Int16
 ```
 
 功能：右移运算。
@@ -4428,7 +6497,7 @@ public func throwingShr(y: Int16): Int16
 
 参数：
 
-- y: [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -4437,7 +6506,6 @@ public func throwingShr(y: Int16): Int16
 异常：
 
 - [OvershiftException](overflow_package_exceptions.md#class-overshiftexception) - 当移位位数大于等于操作数位数时，抛出异常。
-- [UndershiftException](overflow_package_exceptions.md#class-undershiftexception) - 当移位位数小于 0 时，抛出异常。
 
 #### func throwingSub(Int16)
 
@@ -4615,19 +6683,19 @@ public func throwingNeg(): Int32
 
 - [OverflowException](../../core/core_package_api/core_package_exceptions.md#class-overflowexception) - 当负号运算出现溢出时，抛出异常。
 
-#### func throwingShl(Int32)
+#### func throwingShl(UInt64)
 
 ```cangjie
-public func throwingShl(y: Int32): Int32
+public func throwingShl(y: UInt64): Int32
 ```
 
 功能：使用抛出异常策略的左移运算。
 
-当移位位数大于等于操作数位数或小于 0 时，抛出异常，否则返回运算结果。
+当移位位数大于等于操作数位数时，抛出异常，否则返回运算结果。
 
 参数：
 
-- y: [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -4636,12 +6704,11 @@ public func throwingShl(y: Int32): Int32
 异常：
 
 - [OvershiftException](overflow_package_exceptions.md#class-overshiftexception) - 当移位位数大于等于操作数位数时，抛出异常。
-- [UndershiftException](overflow_package_exceptions.md#class-undershiftexception) - 当移位位数小于 0 时，抛出异常。
 
-#### func throwingShr(Int32)
+#### func throwingShr(UInt64)
 
 ```cangjie
-public func throwingShr(y: Int32): Int32
+public func throwingShr(y: UInt64): Int32
 ```
 
 功能：右移运算。
@@ -4650,7 +6717,7 @@ public func throwingShr(y: Int32): Int32
 
 参数：
 
-- y: [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -4659,7 +6726,6 @@ public func throwingShr(y: Int32): Int32
 异常：
 
 - [OvershiftException](overflow_package_exceptions.md#class-overshiftexception) - 当移位位数大于等于操作数位数时，抛出异常。
-- [UndershiftException](overflow_package_exceptions.md#class-undershiftexception) - 当移位位数小于 0 时，抛出异常。
 
 #### func throwingSub(Int32)
 
@@ -4683,17 +6749,18 @@ public func throwingSub(y: Int32): Int32
 
 - [OverflowException](../../core/core_package_api/core_package_exceptions.md#class-overflowexception) - 当减法运算出现溢出时，抛出异常。
 
-### extend Int64 <: ThrowingOp\<Int64>
+### extend Int64 <: ThrowingOp\<Int64> & ThrowingPow
 
 ```cangjie
-extend Int64 <: ThrowingOp<Int64>
+extend Int64 <: ThrowingOp<Int64> & ThrowingPow
 ```
 
-功能：为 [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) 实现 [ThrowingOp](#interface-throwingopt) 接口。
+功能：为 [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) 实现 [ThrowingOp](#interface-throwingopt) 和 [ThrowingPow](#interface-throwingpow) 接口。
 
 父类型：
 
 - [ThrowingOp](#interface-throwingopt)\<[Int64](../../core/core_package_api/core_package_intrinsics.md#int64)>
+- [ThrowingPow](#interface-throwingpow)
 
 #### func throwingAdd(Int64)
 
@@ -4859,19 +6926,19 @@ public func throwingPow(y: UInt64): Int64
 
 - [OverflowException](../../core/core_package_api/core_package_exceptions.md#class-overflowexception) - 当幂运算出现溢出时，抛出异常。
 
-#### func throwingShl(Int64)
+#### func throwingShl(UInt64)
 
 ```cangjie
-public func throwingShl(y: Int64): Int64
+public func throwingShl(y: UInt64): Int64
 ```
 
 功能：使用抛出异常策略的左移运算。
 
-当移位位数大于等于操作数位数或小于 0 时，抛出异常，否则返回运算结果。
+当移位位数大于等于操作数位数时，抛出异常，否则返回运算结果。
 
 参数：
 
-- y: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -4880,12 +6947,11 @@ public func throwingShl(y: Int64): Int64
 异常：
 
 - [OvershiftException](overflow_package_exceptions.md#class-overshiftexception) - 当移位位数大于等于操作数位数时，抛出异常。
-- [UndershiftException](overflow_package_exceptions.md#class-undershiftexception) - 当移位位数小于 0 时，抛出异常。
 
-#### func throwingShr(Int64)
+#### func throwingShr(UInt64)
 
 ```cangjie
-public func throwingShr(y: Int64): Int64
+public func throwingShr(y: UInt64): Int64
 ```
 
 功能：右移运算。
@@ -4894,7 +6960,7 @@ public func throwingShr(y: Int64): Int64
 
 参数：
 
-- y: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -4903,7 +6969,6 @@ public func throwingShr(y: Int64): Int64
 异常：
 
 - [OvershiftException](overflow_package_exceptions.md#class-overshiftexception) - 当移位位数大于等于操作数位数时，抛出异常。
-- [UndershiftException](overflow_package_exceptions.md#class-undershiftexception) - 当移位位数小于 0 时，抛出异常。
 
 #### func throwingSub(Int64)
 
@@ -5081,19 +7146,19 @@ public func throwingNeg(): Int8
 
 - [OverflowException](../../core/core_package_api/core_package_exceptions.md#class-overflowexception) - 当负号运算出现溢出时，抛出异常。
 
-#### func throwingShl(Int8)
+#### func throwingShl(UInt64)
 
 ```cangjie
-public func throwingShl(y: Int8): Int8
+public func throwingShl(y: UInt64): Int8
 ```
 
 功能：使用抛出异常策略的左移运算。
 
-当移位位数大于等于操作数位数或小于 0 时，抛出异常，否则返回运算结果。
+当移位位数大于等于操作数位数时，抛出异常，否则返回运算结果。
 
 参数：
 
-- y: [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -5102,12 +7167,11 @@ public func throwingShl(y: Int8): Int8
 异常：
 
 - [OvershiftException](overflow_package_exceptions.md#class-overshiftexception) - 当移位位数大于等于操作数位数时，抛出异常。
-- [UndershiftException](overflow_package_exceptions.md#class-undershiftexception) - 当移位位数小于 0 时，抛出异常。
 
-#### func throwingShr(Int8)
+#### func throwingShr(UInt64)
 
 ```cangjie
-public func throwingShr(y: Int8): Int8
+public func throwingShr(y: UInt64): Int8
 ```
 
 功能：右移运算。
@@ -5116,7 +7180,7 @@ public func throwingShr(y: Int8): Int8
 
 参数：
 
-- y: [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -5125,7 +7189,6 @@ public func throwingShr(y: Int8): Int8
 异常：
 
 - [OvershiftException](overflow_package_exceptions.md#class-overshiftexception) - 当移位位数大于等于操作数位数时，抛出异常。
-- [UndershiftException](overflow_package_exceptions.md#class-undershiftexception) - 当移位位数小于 0 时，抛出异常。
 
 #### func throwingSub(Int8)
 
@@ -5303,19 +7366,19 @@ public func throwingNeg(): IntNative
 
 - [OverflowException](../../core/core_package_api/core_package_exceptions.md#class-overflowexception) - 当负号运算出现溢出时，抛出异常。
 
-#### func throwingShl(IntNative)
+#### func throwingShl(UInt64)
 
 ```cangjie
-public func throwingShl(y: IntNative): IntNative
+public func throwingShl(y: UInt64): IntNative
 ```
 
 功能：使用抛出异常策略的左移运算。
 
-当移位位数大于等于操作数位数或小于 0 时，抛出异常，否则返回运算结果。
+当移位位数大于等于操作数位数时，抛出异常，否则返回运算结果。
 
 参数：
 
-- y: [IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -5324,12 +7387,11 @@ public func throwingShl(y: IntNative): IntNative
 异常：
 
 - [OvershiftException](overflow_package_exceptions.md#class-overshiftexception) - 当移位位数大于等于操作数位数时，抛出异常。
-- [UndershiftException](overflow_package_exceptions.md#class-undershiftexception) - 当移位位数小于 0 时，抛出异常。
 
-#### func throwingShr(IntNative)
+#### func throwingShr(UInt64)
 
 ```cangjie
-public func throwingShr(y: IntNative): IntNative
+public func throwingShr(y: UInt64): IntNative
 ```
 
 功能：右移运算。
@@ -5338,7 +7400,7 @@ public func throwingShr(y: IntNative): IntNative
 
 参数：
 
-- y: [IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -5347,7 +7409,6 @@ public func throwingShr(y: IntNative): IntNative
 异常：
 
 - [OvershiftException](overflow_package_exceptions.md#class-overshiftexception) - 当移位位数大于等于操作数位数时，抛出异常。
-- [UndershiftException](overflow_package_exceptions.md#class-undershiftexception) - 当移位位数小于 0 时，抛出异常。
 
 #### func throwingSub(IntNative)
 
@@ -5525,19 +7586,19 @@ public func throwingNeg(): UInt16
 
 - [OverflowException](../../core/core_package_api/core_package_exceptions.md#class-overflowexception) - 当负号运算出现溢出时，抛出异常。
 
-#### func throwingShl(UInt16)
+#### func throwingShl(UInt64)
 
 ```cangjie
-public func throwingShl(y: UInt16): UInt16
+public func throwingShl(y: UInt64): UInt16
 ```
 
 功能：使用抛出异常策略的左移运算。
 
-当移位位数大于等于操作数位数或小于 0 时，抛出异常，否则返回运算结果。
+当移位位数大于等于操作数位数时，抛出异常，否则返回运算结果。
 
 参数：
 
-- y: [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -5547,10 +7608,10 @@ public func throwingShl(y: UInt16): UInt16
 
 - [OvershiftException](overflow_package_exceptions.md#class-overshiftexception) - 当移位位数大于等于操作数位数时，抛出异常。
 
-#### func throwingShr(UInt16)
+#### func throwingShr(UInt64)
 
 ```cangjie
-public func throwingShr(y: UInt16): UInt16
+public func throwingShr(y: UInt64): UInt16
 ```
 
 功能：右移运算。
@@ -5559,7 +7620,7 @@ public func throwingShr(y: UInt16): UInt16
 
 参数：
 
-- y: [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -5745,19 +7806,19 @@ public func throwingNeg(): UInt32
 
 - [OverflowException](../../core/core_package_api/core_package_exceptions.md#class-overflowexception) - 当负号运算出现溢出时，抛出异常。
 
-#### func throwingShl(UInt32)
+#### func throwingShl(UInt64)
 
 ```cangjie
-public func throwingShl(y: UInt32): UInt32
+public func throwingShl(y: UInt64): UInt32
 ```
 
 功能：使用抛出异常策略的左移运算。
 
-当移位位数大于等于操作数位数或小于 0 时，抛出异常，否则返回运算结果。
+当移位位数大于等于操作数位数时，抛出异常，否则返回运算结果。
 
 参数：
 
-- y: [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -5767,10 +7828,10 @@ public func throwingShl(y: UInt32): UInt32
 
 - [OvershiftException](overflow_package_exceptions.md#class-overshiftexception) - 当移位位数大于等于操作数位数时，抛出异常。
 
-#### func throwingShr(UInt32)
+#### func throwingShr(UInt64)
 
 ```cangjie
-public func throwingShr(y: UInt32): UInt32
+public func throwingShr(y: UInt64): UInt32
 ```
 
 功能：右移运算。
@@ -5779,7 +7840,7 @@ public func throwingShr(y: UInt32): UInt32
 
 参数：
 
-- y: [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -5973,7 +8034,7 @@ public func throwingShl(y: UInt64): UInt64
 
 功能：使用抛出异常策略的左移运算。
 
-当移位位数大于等于操作数位数或小于 0 时，抛出异常，否则返回运算结果。
+当移位位数大于等于操作数位数时，抛出异常，否则返回运算结果。
 
 参数：
 
@@ -6185,19 +8246,19 @@ public func throwingNeg(): UInt8
 
 - [OverflowException](../../core/core_package_api/core_package_exceptions.md#class-overflowexception) - 当负号运算出现溢出时，抛出异常。
 
-#### func throwingShl(UInt8)
+#### func throwingShl(UInt64)
 
 ```cangjie
-public func throwingShl(y: UInt8): UInt8
+public func throwingShl(y: UInt64): UInt8
 ```
 
 功能：使用抛出异常策略的左移运算。
 
-当移位位数大于等于操作数位数或小于 0 时，抛出异常，否则返回运算结果。
+当移位位数大于等于操作数位数时，抛出异常，否则返回运算结果。
 
 参数：
 
-- y: [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -6207,10 +8268,10 @@ public func throwingShl(y: UInt8): UInt8
 
 - [OvershiftException](overflow_package_exceptions.md#class-overshiftexception) - 当移位位数大于等于操作数位数时，抛出异常。
 
-#### func throwingShr(UInt8)
+#### func throwingShr(UInt64)
 
 ```cangjie
-public func throwingShr(y: UInt8): UInt8
+public func throwingShr(y: UInt64): UInt8
 ```
 
 功能：右移运算。
@@ -6219,7 +8280,7 @@ public func throwingShr(y: UInt8): UInt8
 
 参数：
 
-- y: [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -6405,19 +8466,19 @@ public func throwingNeg(): UIntNative
 
 - [OverflowException](../../core/core_package_api/core_package_exceptions.md#class-overflowexception) - 当负号运算出现溢出时，抛出异常。
 
-#### func throwingShl(UIntNative)
+#### func throwingShl(UInt64)
 
 ```cangjie
-public func throwingShl(y: UIntNative): UIntNative
+public func throwingShl(y: UInt64): UIntNative
 ```
 
 功能：使用抛出异常策略的左移运算。
 
-当移位位数大于等于操作数位数或小于 0 时，抛出异常，否则返回运算结果。
+当移位位数大于等于操作数位数时，抛出异常，否则返回运算结果。
 
 参数：
 
-- y: [UIntNative](../../core/core_package_api/core_package_intrinsics.md#uintnative) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -6427,10 +8488,10 @@ public func throwingShl(y: UIntNative): UIntNative
 
 - [OvershiftException](overflow_package_exceptions.md#class-overshiftexception) - 当移位位数大于等于操作数位数时，抛出异常。
 
-#### func throwingShr(UIntNative)
+#### func throwingShr(UInt64)
 
 ```cangjie
-public func throwingShr(y: UIntNative): UIntNative
+public func throwingShr(y: UInt64): UIntNative
 ```
 
 功能：右移运算。
@@ -6439,7 +8500,7 @@ public func throwingShr(y: UIntNative): UIntNative
 
 参数：
 
-- y: [UIntNative](../../core/core_package_api/core_package_intrinsics.md#uintnative) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -6471,6 +8532,38 @@ public func throwingSub(y: UIntNative): UIntNative
 
 - [OverflowException](../../core/core_package_api/core_package_exceptions.md#class-overflowexception) - 当减法运算出现溢出时，抛出异常。
 
+## interface ThrowingPow
+
+```cangjie
+public interface ThrowingPow {
+    public func throwingPow(y: UInt64): Int64
+}
+```
+
+功能：提供使用抛出异常策略的幂运算接口。
+
+### func throwingPow(UInt64)
+
+```cangjie
+public func throwingPow(y: UInt64): Int64
+```
+
+功能：使用抛出异常策略的幂运算。
+
+当运算出现溢出时，抛出异常，否则返回运算结果。
+
+参数：
+
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 指数。
+
+返回值：
+
+- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 幂运算结果。
+
+异常：
+
+- [OverflowException](../../core/core_package_api/core_package_exceptions.md#class-overflowexception) - 当幂运算出现溢出时，抛出异常。
+
 ## interface WrappingOp\<T>
 
 ```cangjie
@@ -6482,8 +8575,8 @@ public interface WrappingOp<T> {
     func wrappingMod(y: T): T
     func wrappingMul(y: T): T
     func wrappingNeg(): T
-    func wrappingShl(y: T): T
-    func wrappingShr(y: T): T
+    func wrappingShl(y: UInt64): T
+    func wrappingShr(y: UInt64): T
     func wrappingSub(y: T): T
 }
 ```
@@ -6604,37 +8697,37 @@ func wrappingNeg(): T
 
 - T - 负号运算结果。
 
-### func wrappingShl(T)
+### func wrappingShl(UInt64)
 
 ```cangjie
-func wrappingShl(y: T): T
+func wrappingShl(y: UInt64): T
 ```
 
 功能：使用高位截断策略的左移运算。
 
-当移位位数大于等于操作数位数或小于 0 时，高位截断。例如，对 [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) 类型的数进行移位，当 y (移位位数)超大于等于 8时，仅取 y 的低 3 位作为移位位数，以此保证移位位数在 0 到 7 之间。
+当移位位数大于等于操作数位数时，高位截断。例如，对 [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) 类型的数进行移位，当 y (移位位数)超大于等于 8时，仅取 y 的低 3 位作为移位位数，以此保证移位位数在 0 到 7 之间。
 
 参数：
 
-- y: T - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
 - T - 左移运算结果。
 
-### func wrappingShr(T)
+### func wrappingShr(UInt64)
 
 ```cangjie
-func wrappingShr(y: T): T
+func wrappingShr(y: UInt64): T
 ```
 
 功能：使用高位截断策略的右移运算。
 
-当移位位数大于等于操作数位数或小于 0 时，高位截断。例如，对 [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) 类型的数进行移位，当 y (移位位数)超大于等于 8时，仅取 y 的低 3 位作为移位位数，以此保证移位位数在 0 到 7 之间。
+当移位位数大于等于操作数位数时，高位截断。例如，对 [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) 类型的数进行移位，当 y (移位位数)超大于等于 8时，仅取 y 的低 3 位作为移位位数，以此保证移位位数在 0 到 7 之间。
 
 参数：
 
-- y: T - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -6784,37 +8877,37 @@ public func wrappingNeg(): Int16
 
 - [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 负号运算结果。
 
-#### func wrappingShl(Int16)
+#### func wrappingShl(UInt64)
 
 ```cangjie
-public func wrappingShl(y: Int16): Int16
+public func wrappingShl(y: UInt64): Int16
 ```
 
 功能：使用高位截断策略的左移运算。
 
-当右操作数大于等于左操作数位数或小于 0 时，取右操作数的低 4 位作为移位位数。
+当右操作数大于等于左操作数位数时，取右操作数的低 4 位作为移位位数。
 
 参数：
 
-- y: [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
 - [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 左移运算结果。
 
-#### func wrappingShr(Int16)
+#### func wrappingShr(UInt64)
 
 ```cangjie
-public func wrappingShr(y: Int16): Int16
+public func wrappingShr(y: UInt64): Int16
 ```
 
 功能：使用高位截断策略的右移运算。
 
-当右操作数大于等于左操作数位数或小于 0 时，取右操作数的低 4 位作为移位位数。
+当右操作数大于等于左操作数位数时，取右操作数的低 4 位作为移位位数。
 
 参数：
 
-- y: [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -6964,37 +9057,37 @@ public func wrappingNeg(): Int32
 
 - [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 负号运算结果。
 
-#### func wrappingShl(Int32)
+#### func wrappingShl(UInt64)
 
 ```cangjie
-public func wrappingShl(y: Int32): Int32
+public func wrappingShl(y: UInt64): Int32
 ```
 
 功能：使用高位截断策略的左移运算。
 
-当右操作数大于等于左操作数位数或小于 0 时，取右操作数的低 5 位作为移位位数。
+当右操作数大于等于左操作数位数时，取右操作数的低 5 位作为移位位数。
 
 参数：
 
-- y: [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
 - [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 左移运算结果。
 
-#### func wrappingShr(Int32)
+#### func wrappingShr(UInt64)
 
 ```cangjie
-public func wrappingShr(y: Int32): Int32
+public func wrappingShr(y: UInt64): Int32
 ```
 
 功能：使用高位截断策略的右移运算。
 
-当右操作数大于等于左操作数位数或小于 0 时，取右操作数的低 5 位作为移位位数。
+当右操作数大于等于左操作数位数时，取右操作数的低 5 位作为移位位数。
 
 参数：
 
-- y: [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -7018,17 +9111,18 @@ public func wrappingSub(y: Int32): Int32
 
 - [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 减法运算结果。
 
-### extend Int64 <: WrappingOp\<Int64>
+### extend Int64 <: WrappingOp\<Int64> & WrappingPow
 
 ```cangjie
-extend Int64 <: WrappingOp<Int64>
+extend Int64 <: WrappingOp<Int64> & WrappingPow
 ```
 
-功能：为 [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) 实现 [WrappingOp](#interface-wrappingopt) 接口。
+功能：为 [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) 实现 [WrappingOp](#interface-wrappingopt) 和 [WrappingPow](#interface-wrappingpow) 接口。
 
 父类型：
 
 - [WrappingOp](#interface-wrappingopt)\<[Int64](../../core/core_package_api/core_package_intrinsics.md#int64)>
+- [WrappingPow](#interface-wrappingpow)
 
 #### func wrappingAdd(Int64)
 
@@ -7162,37 +9256,37 @@ public func wrappingPow(y: UInt64): Int64
 
 - [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 幂运算结果。
 
-#### func wrappingShl(Int64)
+#### func wrappingShl(UInt64)
 
 ```cangjie
-public func wrappingShl(y: Int64): Int64
+public func wrappingShl(y: UInt64): Int64
 ```
 
 功能：使用高位截断策略的左移运算。
 
-当右操作数大于等于左操作数位数或小于 0 时，取右操作数的低 6 位作为移位位数。
+当右操作数大于等于左操作数位数时，取右操作数的低 6 位作为移位位数。
 
 参数：
 
-- y: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
 - [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 左移运算结果。
 
-#### func wrappingShr(Int64)
+#### func wrappingShr(UInt64)
 
 ```cangjie
-public func wrappingShr(y: Int64): Int64
+public func wrappingShr(y: UInt64): Int64
 ```
 
 功能：使用高位截断策略的右移运算。
 
-当右操作数大于等于左操作数位数或小于 0 时，取右操作数的低 6 位作为移位位数。
+当右操作数大于等于左操作数位数时，取右操作数的低 6 位作为移位位数。
 
 参数：
 
-- y: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -7342,37 +9436,37 @@ public func wrappingNeg(): Int8
 
 - [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 负号运算结果。
 
-#### func wrappingShl(Int8)
+#### func wrappingShl(UInt64)
 
 ```cangjie
-public func wrappingShl(y: Int8): Int8
+public func wrappingShl(y: UInt64): Int8
 ```
 
 功能：使用高位截断策略的左移运算。
 
-当右操作数大于等于左操作数位数或小于 0 时，取右操作数的低 3 位作为移位位数。
+当右操作数大于等于左操作数位数时，取右操作数的低 3 位作为移位位数。
 
 参数：
 
-- y: [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
 - [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 左移运算结果。
 
-#### func wrappingShr(Int8)
+#### func wrappingShr(UInt64)
 
 ```cangjie
-public func wrappingShr(y: Int8): Int8
+public func wrappingShr(y: UInt64): Int8
 ```
 
 功能：使用高位截断策略的右移运算。
 
-当右操作数大于等于左操作数位数或小于 0 时，取右操作数的低 3 位作为移位位数。
+当右操作数大于等于左操作数位数时，取右操作数的低 3 位作为移位位数。
 
 参数：
 
-- y: [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -7522,37 +9616,37 @@ public func wrappingNeg(): IntNative
 
 - [IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative) - 负号运算结果。
 
-#### func wrappingShl(IntNative)
+#### func wrappingShl(UInt64)
 
 ```cangjie
-public func wrappingShl(y: IntNative): IntNative
+public func wrappingShl(y: UInt64): IntNative
 ```
 
 功能：使用高位截断策略的左移运算。
 
-当右操作数大于等于左操作数位数或小于 0 时，取右操作数的低位作为移位位数，具体取的位数取决于当前系统下 [IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative) 的位数。
+当右操作数大于等于左操作数位数时，取右操作数的低位作为移位位数，具体取的位数取决于当前系统下 [IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative) 的位数。
 
 参数：
 
-- y: [IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
 - [IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative) - 左移运算结果。
 
-#### func wrappingShr(IntNative)
+#### func wrappingShr(UInt64)
 
 ```cangjie
-public func wrappingShr(y: IntNative): IntNative
+public func wrappingShr(y: UInt64): IntNative
 ```
 
 功能：使用高位截断策略的右移运算。
 
-当右操作数大于等于左操作数位数或小于 0 时，取右操作数的低位作为移位位数，具体取的位数取决于当前系统下 [IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative) 的位数。
+当右操作数大于等于左操作数位数时，取右操作数的低位作为移位位数，具体取的位数取决于当前系统下 [IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative) 的位数。
 
 参数：
 
-- y: [IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -7702,10 +9796,10 @@ public func wrappingNeg(): UInt16
 
 - [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 负号运算结果。
 
-#### func wrappingShl(UInt16)
+#### func wrappingShl(UInt64)
 
 ```cangjie
-public func wrappingShl(y: UInt16): UInt16
+public func wrappingShl(y: UInt64): UInt16
 ```
 
 功能：使用高位截断策略的左移运算。
@@ -7714,16 +9808,16 @@ public func wrappingShl(y: UInt16): UInt16
 
 参数：
 
-- y: [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
 - [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 左移运算结果。
 
-#### func wrappingShr(UInt16)
+#### func wrappingShr(UInt64)
 
 ```cangjie
-public func wrappingShr(y: UInt16): UInt16
+public func wrappingShr(y: UInt64): UInt16
 ```
 
 功能：使用高位截断策略的右移运算。
@@ -7732,7 +9826,7 @@ public func wrappingShr(y: UInt16): UInt16
 
 参数：
 
-- y: [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -7882,10 +9976,10 @@ public func wrappingNeg(): UInt32
 
 - [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 负号运算结果。
 
-#### func wrappingShl(UInt32)
+#### func wrappingShl(UInt64)
 
 ```cangjie
-public func wrappingShl(y: UInt32): UInt32
+public func wrappingShl(y: UInt64): UInt32
 ```
 
 功能：使用高位截断策略的左移运算。
@@ -7894,16 +9988,16 @@ public func wrappingShl(y: UInt32): UInt32
 
 参数：
 
-- y: [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
 - [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 左移运算结果。
 
-#### func wrappingShr(UInt32)
+#### func wrappingShr(UInt64)
 
 ```cangjie
-public func wrappingShr(y: UInt32): UInt32
+public func wrappingShr(y: UInt64): UInt32
 ```
 
 功能：使用高位截断策略的右移运算。
@@ -7912,7 +10006,7 @@ public func wrappingShr(y: UInt32): UInt32
 
 参数：
 
-- y: [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -8242,10 +10336,10 @@ public func wrappingNeg(): UInt8
 
 - [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 负号运算结果。
 
-#### func wrappingShl(UInt8)
+#### func wrappingShl(UInt64)
 
 ```cangjie
-public func wrappingShl(y: UInt8): UInt8
+public func wrappingShl(y: UInt64): UInt8
 ```
 
 功能：使用高位截断策略的左移运算。
@@ -8254,16 +10348,16 @@ public func wrappingShl(y: UInt8): UInt8
 
 参数：
 
-- y: [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
 - [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 左移运算结果。
 
-#### func wrappingShr(UInt8)
+#### func wrappingShr(UInt64)
 
 ```cangjie
-public func wrappingShr(y: UInt8): UInt8
+public func wrappingShr(y: UInt64): UInt8
 ```
 
 功能：使用高位截断策略的右移运算。
@@ -8272,7 +10366,7 @@ public func wrappingShr(y: UInt8): UInt8
 
 参数：
 
-- y: [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -8422,10 +10516,10 @@ public func wrappingNeg(): UIntNative
 
 - [UIntNative](../../core/core_package_api/core_package_intrinsics.md#uintnative) - 负号运算结果。
 
-#### func wrappingShl(UIntNative)
+#### func wrappingShl(UInt64)
 
 ```cangjie
-public func wrappingShl(y: UIntNative): UIntNative
+public func wrappingShl(y: UInt64): UIntNative
 ```
 
 功能：使用高位截断策略的左移运算。
@@ -8434,16 +10528,16 @@ public func wrappingShl(y: UIntNative): UIntNative
 
 参数：
 
-- y: [UIntNative](../../core/core_package_api/core_package_intrinsics.md#uintnative) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
 - [UIntNative](../../core/core_package_api/core_package_intrinsics.md#uintnative) - 左移运算结果。
 
-#### func wrappingShr(UIntNative)
+#### func wrappingShr(UInt64)
 
 ```cangjie
-public func wrappingShr(y: UIntNative): UIntNative
+public func wrappingShr(y: UInt64): UIntNative
 ```
 
 功能：使用高位截断策略的右移运算。
@@ -8452,7 +10546,7 @@ public func wrappingShr(y: UIntNative): UIntNative
 
 参数：
 
-- y: [UIntNative](../../core/core_package_api/core_package_intrinsics.md#uintnative) - 移位位数。
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 移位位数。
 
 返回值：
 
@@ -8475,3 +10569,31 @@ public func wrappingSub(y: UIntNative): UIntNative
 返回值：
 
 - [UIntNative](../../core/core_package_api/core_package_intrinsics.md#uintnative) - 减法运算结果。
+
+## interface WrappingPow
+
+```cangjie
+public interface WrappingPow {
+    public func wrappingPow(y: UInt64): Int64
+}
+```
+
+功能：提供使用高位截断策略的幂运算接口。
+
+### func wrappingPow(UInt64)
+
+```cangjie
+public func wrappingPow(y: UInt64): Int64
+```
+
+功能：使用高位截断策略的幂运算。
+
+当运算出现溢出时，高位截断，否则返回运算结果。
+
+参数：
+
+- y: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 指数。
+
+返回值：
+
+- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 幂运算结果。

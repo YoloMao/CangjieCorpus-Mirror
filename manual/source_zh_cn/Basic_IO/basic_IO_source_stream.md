@@ -1,6 +1,6 @@
 # I/O 节点流
 
-节点流是指直接提供数据源的流，节点流的构造方式通常是依赖某种直接的外部资源（即文件、网络等）。
+节点流是指直接提供数据源的流，节点流的构造方式通常是依赖某种直接的外部资源（如文件、网络等）。
 
 仓颉编程语言中常见的节点流包含标准流（StdIn、StdOut、StdErr）、文件流（File）、网络流（Socket）等。
 
@@ -8,7 +8,7 @@
 
 ## 标准流
 
-标准流包含了标准输入流（stdin）、标准输出流（stdout）和标准错误输出流（stderr）。
+标准流包含标准输入流（stdin）、标准输出流（stdout）和标准错误输出流（stderr）。
 
 标准流是程序与外部数据交互的标准接口。程序运行的时候从输入流读取数据，作为程序的输入，程序运行过程中输出的信息被传送到输出流，类似的，错误信息被传送到错误流。
 
@@ -26,7 +26,7 @@ import std.console.*
 
 `Console` 对三个标准流都进行了易用性封装，提供了更方便的基于 `String` 的扩展操作，并且对于很多常见类型都提供了丰富的重载来优化性能。
 
-其中最重要的是 `Console` 提供了并发安全的保证，可以在任意线程中安全的通过 `Console` 提供的接口来读写内容。
+其中最重要的是 `Console` 提供了并发安全的保证，可以在任意线程中安全地通过 `Console` 提供的接口来读写内容。
 
 默认情况下标准输入流来源于键盘输入的信息，例如在命令行界面中输入的文本。
 
@@ -72,9 +72,9 @@ main() {
 
 ## 文件流
 
-仓颉编程语言提供了 `fs` 包来支持通用文件系统任务。虽然不同的操作系统对于文件系统提供的接口有所不同，但是仓颉编程语言抽象出以下一些共通的功能，通过统一的功能接口，屏蔽不同操作系统之间的差异，来简化使用。
+仓颉编程语言提供了 `fs` 包来支持通用文件系统任务。不同的操作系统对于文件系统提供的接口有所不同。仓颉编程语言抽象出以下一些共通的功能，通过统一的功能接口，屏蔽不同操作系统之间的差异，来简化使用。
 
-这些常规操作任务包括：创建文件/目录、读写文件、重命名或移动文件/目录、删除文件/目录、复制文件/目录、获取文件/目录元数据、检查文件/目录是否存在。具体 API 可以查阅库文档。
+常规操作任务包括：创建文件/目录、读写文件、重命名或移动文件/目录、删除文件/目录、复制文件/目录、获取文件/目录元数据、检查文件/目录是否存在。具体 API 可以查阅库文档。
 
 使用文件系统相关的功能需要导入 `fs` 包：
 
@@ -104,7 +104,7 @@ exists 函数使用示例：
 import std.fs.*
 
 main() {
-    let exist = File.exists("./tempFile.txt")
+    let exist = exists("./tempFile.txt")
     println("exist: ${exist}")
 }
 ```
@@ -119,9 +119,9 @@ move、copy、delete 函数使用示例：
 import std.fs.*
 
 main() {
-    File.copy("./tempFile.txt", "./tempFile2.txt", false)
-    File.move("./tempFile2.txt", "./tempFile3.txt", false)
-    File.delete("./tempFile3.txt")
+    copy("./tempFile.txt", to: "./tempFile2.txt", overwrite: false)
+    rename("./tempFile2.txt",  to: "./tempFile3.txt", overwrite: false)
+    remove("./tempFile3.txt")
 }
 ```
 
@@ -152,9 +152,9 @@ public class File <: Resource & IOStream & Seekable {
 }
 ```
 
-`File` 提供了两种构造方式，一种是通过两个方便的静态函数 `openRead`/`create` 直接打开文件或创建新文件的实例，另一种是通过构造函数传入完整的打开文件选项来构造新实例。
+`File` 提供了两种构造方式，一种是通过方便的静态函数 `create` 直接创建新文件的实例，另一种是通过构造函数传入完整的打开文件模式来构造新实例。
 
-其中，`openRead` 打开的文件是只读的，不能对实例进行写操作，否则会抛出运行时异常；而 `create` 创建的文件是只写的，不能对实例进行读操作，否则也会抛出运行时异常。
+其中 `create` 创建的文件是只写的，不能对实例进行读操作，否则会抛出运行时异常。
 
 File 构造示例：
 
@@ -163,36 +163,36 @@ File 构造示例：
 ```cangjie
 // 创建
 internal import std.fs.*
+internal import std.io.*
 
 main() {
     let file = File.create("./tempFile.txt")
     file.write("hello, world!".toArray())
 
     // 打开
-    let file2 = File.openRead("./tempFile.txt")
-    let bytes = file2.readToEnd() // 读取所有数据
+    let file2 = File("./tempFile.txt", Read)
+    let bytes = readToEnd(file2) // 读取所有数据
     println(bytes)
 }
 ```
 
-当需要更精细的打开选项时，可以使用构造函数传入一个 `OpenOption` 值。`OpenOption` 是一个 `enum` 类型，它提供了丰富的文件打开选项，例如 `Append`、`Create`、`Truncate`、`Open` 以及其它便捷的复合操作。
+当需要更精细的打开模式时，可以使用构造函数传入一个 `OpenMode` 值。`OpenMode` 是一个 `enum` 类型，它提供了丰富的文件打开模式，包含 `Read`、`Write`、`Append` 和 `ReadWrite` 模式。
 
-File 打开选项使用示例：
+File 打开模式使用示例：
 
 ```cangjie
-// 使用指定选项打开文件
-let file = File("./tempFile.txt", OpenOption.Truncate(false))
-...
+// 使用指定选项打开模式
+let file = File("./tempFile.txt", Write)
 ```
 
 因为打开 `File` 的实例会占用宝贵的系统资源，所以使用完 `File` 的实例之后需要注意及时关闭 `File`，以释放系统资源。
 
-所幸 `File` 实现了 `Resource` 接口，在大多数时候都可以使用 try-with-resource 语法来简化使用。
+`File` 实现了 `Resource` 接口，在大多数时候都可以使用 try-with-resource 语法来简化使用。
 
 try-with-resource 语法使用示例：
 
 ```cangjie
-try (file2 = File.openRead("./tempFile.txt")) {
+try (file2 = File("./tempFile.txt", Read)) {
     ...
     // 结束使用后自动释放文件
 }

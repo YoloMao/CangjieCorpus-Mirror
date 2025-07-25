@@ -8,13 +8,17 @@ HTTP 作为一种通用的应用层协议，通过请求-响应的机制实现�
 
 以下示例展示了如何使用仓颉进行客户端和服务端编程，实现的功能是客户端发送请求头为 GET /hello 的请求，服务端返回响应，响应体为 \"Hello Cangjie!\"，代码如下:
 
+> **说明：**
+>
+> net、log 等库已从仓颉 SDK 移到 stdx 模块，使用前需要下载软件包，并在 cjpm.toml 中配置。
+
 <!-- verify -->
 
 ```cangjie
-import net.http.*
+import stdx.net.http.*
 import std.time.*
 import std.sync.*
-import std.log.LogLevel
+import stdx.log.*
 
 // 1. 构建 Server 实例
 let server = ServerBuilder()
@@ -27,7 +31,7 @@ func startServer(): Unit {
     server.distributor.register("/hello", {httpContext =>
         httpContext.responseBuilder.body("Hello Cangjie!")
     })
-    server.logger.level = OFF
+    server.logger.level = LogLevel.OFF
     // 3. 启动服务
     server.serve()
 }
@@ -38,7 +42,7 @@ func startClient(): Unit {
     // 2. 发送 request
     let response = client.get("http://127.0.0.1:${server.port}/hello")
     // 3. 读取response body
-    let buffer = Array<Byte>(32, item: 0)
+    let buffer = Array<Byte>(32, repeat: 0)
     let length = response.body.read(buffer)
     println(String.fromUtf8(buffer[..length]))
     // 4. 关闭连接

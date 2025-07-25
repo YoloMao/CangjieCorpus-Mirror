@@ -14,11 +14,11 @@ public enum ModifierInfo <: Equatable<ModifierInfo> & Hashable & ToString  {
 }
 ```
 
-修饰符信息。
+功能：描述修饰符信息。
 
 > **注意：**
 >
-> 由于开发者通过反射功能获取到的类型信息均来自于公开的类型，这些类型都必定拥有 `public` 的访问控制语义，因此修饰符信息并不包含任何访问控制相关的修饰符。
+> 由于开发者通过反射功能获取到的类型信息均来自于 `public` 的类型，这些类型都必定拥有 `public` 的访问控制语义，因此修饰符信息并不包含任何访问控制相关的修饰符。
 
 父类型：
 
@@ -101,7 +101,7 @@ public func hashCode(): Int64
 ### func toString()
 
 ```cangjie
-public func toString(): String
+public override func toString(): String
 ```
 
 功能：获取字符串形式的该修饰符信息。
@@ -117,7 +117,7 @@ public func toString(): String
 ### operator func ==(ModifierInfo)
 
 ```cangjie
-public operator func ==(that: ModifierInfo): Bool
+public override operator func ==(that: ModifierInfo): Bool
 ```
 
 功能：判断该修饰符信息与给定的另一个修饰符信息是否相等。
@@ -137,7 +137,7 @@ public operator func ==(that: ModifierInfo): Bool
 ### operator func !=(ModifierInfo)
 
 ```cangjie
-public operator func !=(that: ModifierInfo): Bool
+public override operator func !=(that: ModifierInfo): Bool
 ```
 
 功能：判断该修饰符信息与给定的另一个修饰符信息是否不等。

@@ -17,7 +17,7 @@ public func abs(i: BigInt): BigInt
 - [BigInt](math_numeric_package_structs.md#struct-bigint) - 返回入参 [BigInt](math_numeric_package_structs.md#struct-bigint) 的绝对值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.numeric.*
 
@@ -28,7 +28,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 23
@@ -51,30 +51,34 @@ public func abs(d: Decimal): Decimal
 - [Decimal](math_numeric_package_structs.md#struct-decimal) - 返回入参 [Decimal](math_numeric_package_structs.md#struct-decimal) 的绝对值。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.numeric.*
 
 main() {
-    let d: Decimal = Decimal("-1.23")
+    let d: Decimal = Decimal.parse("-1.23")
     let abs = abs(d)
     println(abs)
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 1.23
 ```
 
-## func countOne(BigInt)
+## func countOne(BigInt) <sup>(deprecated)<sup>
 
 ```cangjie
 public func countOne(i: BigInt): Int64
 ```
 
 功能：计算并返回入参 [BigInt](math_numeric_package_structs.md#struct-bigint) 的二进制补码中 1 的个数。
+
+> **注意：**
+>
+> 未来版本即将废弃，使用 [countOnes(BigInt)](#func-countonesbigint) 替代。
 
 参数：
 
@@ -84,19 +88,35 @@ public func countOne(i: BigInt): Int64
 
 - [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 返回入参 [BigInt](math_numeric_package_structs.md#struct-bigint) 的二进制补码中 1 的个数。
 
-示例：
+## func countOnes(BigInt)
 
+```cangjie
+public func countOnes(i: BigInt): Int64
+```
+
+功能：计算并返回入参 [BigInt](math_numeric_package_structs.md#struct-bigint) 的二进制补码中 1 的个数。
+
+参数：
+
+- i: [BigInt](math_numeric_package_structs.md#struct-bigint) - 需要计算二进制补码中 1 的个数的 [BigInt](math_numeric_package_structs.md#struct-bigint) 结构体。
+
+返回值：
+
+- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 返回入参 [BigInt](math_numeric_package_structs.md#struct-bigint) 的二进制补码中 1 的个数。
+
+示例：
+<!-- verify -->
 ```cangjie
 import std.math.numeric.*
 
 main() {
     let i: BigInt = BigInt(255)
-    let countOne = countOne(i)
-    println(countOne)
+    let countOnes = countOnes(i)
+    println(countOnes)
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 8
@@ -120,7 +140,7 @@ public func gcd(i1: BigInt, i2: BigInt): BigInt
 - [BigInt](math_numeric_package_structs.md#struct-bigint) - 返回 `i1` 和 `i2` 的最大公约数，总是返回非负数。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.numeric.*
 
@@ -132,7 +152,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 12
@@ -144,7 +164,7 @@ main() {
 public func lcm(i1: BigInt, i2: BigInt): BigInt
 ```
 
-功能：求两个 [BigInt](math_numeric_package_structs.md#struct-bigint) 的的最小公倍数。除了入参有 0 时返回 0 外，总是返回正数（相当于绝对值的最小公倍数）。
+功能：求两个 [BigInt](math_numeric_package_structs.md#struct-bigint) 的最小公倍数。除了入参有 0 时返回 0 外，总是返回正数（相当于绝对值的最小公倍数）。
 
 参数：
 
@@ -156,7 +176,7 @@ public func lcm(i1: BigInt, i2: BigInt): BigInt
 - [BigInt](math_numeric_package_structs.md#struct-bigint) - 返回 `i1` 和 `i2` 的最小公倍数，当入参有 0 时返回 0，其余情况返回正数。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.numeric.*
 
@@ -168,88 +188,16 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 144
 ```
 
-## func max(BigInt, BigInt)
-
-```cangjie
-public func max(i1: BigInt, i2: BigInt): BigInt
-```
-
-功能：计算并返回两个 [BigInt](math_numeric_package_structs.md#struct-bigint) 中较大的那个。
-
-参数：
-
-- i1: [BigInt](math_numeric_package_structs.md#struct-bigint) - 需要比较的 [BigInt](math_numeric_package_structs.md#struct-bigint)。
-- i2: [BigInt](math_numeric_package_structs.md#struct-bigint) - 需要比较的 [BigInt](math_numeric_package_structs.md#struct-bigint)。
-
-返回值：
-
-- [BigInt](math_numeric_package_structs.md#struct-bigint) - 返回 `i1`，`i2` 中较大的 [BigInt](math_numeric_package_structs.md#struct-bigint)。
-
-示例：
-
-```cangjie
-import std.math.numeric.*
-
-main() {
-    let i1: BigInt = BigInt(-36)
-    let i2: BigInt = BigInt(48)
-    let max = max(i1, i2)
-    println(max)
-}
-```
-
-运行结果:
-
-```text
-48
-```
-
-## func min(BigInt, BigInt)
-
-```cangjie
-public func min(i1: BigInt, i2: BigInt): BigInt
-```
-
-功能：计算并返回两个 [BigInt](math_numeric_package_structs.md#struct-bigint) 中较小的那个。
-
-参数：
-
-- i1: [BigInt](math_numeric_package_structs.md#struct-bigint) - 需要比较的 [BigInt](math_numeric_package_structs.md#struct-bigint)。
-- i2: [BigInt](math_numeric_package_structs.md#struct-bigint) - 需要比较的 [BigInt](math_numeric_package_structs.md#struct-bigint)。
-
-返回值：
-
-- [BigInt](math_numeric_package_structs.md#struct-bigint) - 返回 `i1`，`i2` 中较小的 [BigInt](math_numeric_package_structs.md#struct-bigint)。
-
-示例：
-
-```cangjie
-import std.math.numeric.*
-
-main() {
-    let i1: BigInt = BigInt(-36)
-    let i2: BigInt = BigInt(48)
-    let min = min(i1, i2)
-    println(min)
-}
-```
-
-运行结果:
-
-```text
--36
-```
-
 ## func round(Decimal, RoundingMode)
 
 ```cangjie
-public func round(d: Decimal, roundingMode!: RoundingMode = HALF_EVEN): Decimal
+public func round(d: Decimal, roundingMode!: RoundingMode = RoundingMode.HalfEven): Decimal
 ```
 
 功能：计算 [Decimal](math_numeric_package_structs.md#struct-decimal) 的舍入值，根据舍入方式向邻近的整数舍入。
@@ -288,7 +236,7 @@ public func sqrt(i: BigInt): BigInt
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 如果入参为负数，则抛此异常。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.numeric.*
 
@@ -299,7 +247,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 4
@@ -327,19 +275,53 @@ public func sqrt(d: Decimal): Decimal
 - [OverflowException](../../core/core_package_api/core_package_exceptions.md#class-overflowexception) - 当计算平方根操作结果标度值溢出时，抛出此异常。
 
 示例：
-
+<!-- verify -->
 ```cangjie
 import std.math.numeric.*
 
 main() {
-    let n: Decimal = Decimal("36")
+    let n: Decimal = Decimal.parse("36")
     let sqrt = sqrt(n)
     println(sqrt)
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 6
+```
+
+## func trailingZeros(BigInt)
+
+```cangjie
+public func trailingZeros(x: BigInt): Int64
+```
+
+功能：求 `BigInt` 的二进制表达中的从最低位算起，连续位为 0 的个数。如果最低位不是 0，则返回 0。
+
+参数：
+
+- x: [BigInt](math_numeric_package_structs.md#struct-bigint) - 需要求后置 0 的 [BigInt](math_numeric_package_structs.md#struct-bigint)。
+
+返回值：
+
+- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 后置 0 的位数。
+
+示例：
+<!-- verify -->
+```cangjie
+import std.math.numeric.{BigInt, trailingZeros}
+
+main() {
+    let x: BigInt = BigInt(0xC000_0000)
+    let trailingZeros = trailingZeros(x)
+    println(trailingZeros)
+}
+```
+
+运行结果：
+
+```text
+30
 ```

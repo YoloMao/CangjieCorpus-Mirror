@@ -1,4 +1,4 @@
-# std.unittest.diff 包
+# std.unittest.diff
 
 ## 功能介绍
 

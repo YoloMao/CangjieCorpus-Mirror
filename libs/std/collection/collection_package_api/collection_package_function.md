@@ -94,7 +94,7 @@ public func collectHashMap<K, V>(it: Iterable<(K, V)>): HashMap<K, V> where K <:
 
 返回值：
 
-- [HashMap](collection_package_class.md#class-hashmapk-v-where-k--hashable--equatablek) < K, V > - 返回一个 [HashMap](collection_package_class.md#class-hashmapk-v-where-k--hashable--equatablek)。
+- [HashMap](collection_package_class.md#class-hashmapk-v-where-k--hashable--equatablek)\<K, V> - 返回一个 [HashMap](collection_package_class.md#class-hashmapk-v-where-k--hashable--equatablek)。
 
 ## func collectHashSet\<T>(Iterable\<T>) where T <: Hashable & Equatable\<T>
 
@@ -190,7 +190,7 @@ public func enumerate<T>(it: Iterable<T>): Iterator<(Int64, T)>
 
 返回值：
 
-- [Iterator](../../core/core_package_api/core_package_classes.md#class-iteratort) <([Int64](../../core/core_package_api/core_package_intrinsics.md#int64), T) > - 返回一个带索引的迭代器。
+- [Iterator](../../core/core_package_api/core_package_classes.md#class-iteratort)\<([Int64](../../core/core_package_api/core_package_intrinsics.md#int64), T)> - 返回一个带索引的迭代器。
 
 ## func filter\<T>((T) -> Bool)
 
@@ -441,7 +441,7 @@ public func skip<T>(count: Int64): (Iterable<T>) -> Iterator<T>
 
 功能：从迭代器跳过特定个数。
 
-当 count 小于 0 时，抛异常。当 count 等于 0 时，相当没有跳过任何元素，返回原迭代器。当 count 大于0并且count小于迭代器的大小时，跳过 count 个元素后，返回含有剩下的元素的新迭代器。当 count 大于等于迭代器的大小时，跳过所有元素，返回空迭代器。
+当 count 小于 0 时，抛出异常。当 count 等于 0 时，相当没有跳过任何元素，返回原迭代器。当 count 大于0并且count小于迭代器的大小时，跳过 count 个元素后，返回含有剩下的元素的新迭代器。当 count 大于等于迭代器的大小时，跳过所有元素，返回空迭代器。
 
 参数：
 
@@ -463,7 +463,7 @@ public func step<T>(count: Int64): (Iterable<T>) -> Iterator<T>
 
 功能：迭代器每次调用 next() 跳过特定个数。
 
-当 count 小于等于 0 时，抛异常。当 count 大于 0 时，每次调用 next() 跳过 count 次，直到迭代器为空。
+当 count 小于等于 0 时，抛出异常。当 count 大于 0 时，每次调用 next() 跳过 count 次，直到迭代器为空。
 
 参数：
 
@@ -485,7 +485,7 @@ public func take<T>(count: Int64): (Iterable<T>) -> Iterator<T>
 
 功能：从迭代器取出特定个数。
 
-当 count 小于 0 时，抛异常。当 count 等于 0 时，不取元素，返回空迭代器。当 count 大于 0 小于迭代器的大小时，取前 count 个元素，返回新迭代器。当 count 大于等于迭代器的大小时，取所有元素，返回原迭代器。
+当 count 小于 0 时，抛出异常。当 count 等于 0 时，不取元素，返回空迭代器。当 count 大于 0 小于迭代器的大小时，取前 count 个元素，返回新迭代器。当 count 大于等于迭代器的大小时，取所有元素，返回原迭代器。
 
 参数：
 
@@ -513,4 +513,4 @@ public func zip<T, R>(other: Iterable<R>): (Iterable<T>) -> Iterator<(T, R)>
 
 返回值：
 
-- ([Iterable](../../core/core_package_api/core_package_interfaces.md#interface-iterablee)\<T>) -> [Iterator](../../core/core_package_api/core_package_classes.md#class-iteratort) <(T, R) > - 返回一个合并函数。
+- ([Iterable](../../core/core_package_api/core_package_interfaces.md#interface-iterablee)\<T>) -> [Iterator](../../core/core_package_api/core_package_classes.md#class-iteratort)\<(T, R)> - 返回一个合并函数。

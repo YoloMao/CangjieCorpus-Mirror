@@ -1,4 +1,4 @@
-# std.sync 包
+# std.sync
 
 ## 功能介绍
 
@@ -14,13 +14,11 @@ sync 包提供并发编程相关的能力。
 
 要创建一个新的仓颉线程，可以使用关键字 spawn 并传递一个无形参的 lambda 表达式，该 lambda 表达式即为我们想在新线程中执行的代码。
 
-示例：
+示例:
 
 通过 `spawn` 关键字创建一个仓颉线程：
 
 ```cangjie
-import std.sync.sleep
-import std.time.Duration
 
 main () {
     spawn {
@@ -51,23 +49,22 @@ Bool 类型和引用类型的原子操作只提供读写和交换操作，需要
 
 引用类型原子操作只对引用类型有效。
 
-可重入互斥锁 [ReentrantMutex](./sync_package_api/sync_package_classes.md#class-reentrantmutex) 在使用的时候存在诸多不便，比如稍不注意会忘了解锁，或者在持有互斥锁的情况下抛出异常不能自动释放持有的锁等。因此，仓颉编程语言提供 `synchronized` 关键字，搭配 [ReentrantMutex](./sync_package_api/sync_package_classes.md#class-reentrantmutex) 一起使用，来解决类似的问题。
+互斥锁 [Lock](./sync_package_api/sync_package_interfaces.md#interface-lock) 在使用的时候存在诸多不便，比如稍不注意会忘了解锁，或者在持有互斥锁的情况下抛出异常不能自动释放持有的锁等。因此，仓颉编程语言提供 `synchronized` 关键字，搭配 [Lock](./sync_package_api/sync_package_interfaces.md#interface-lock) 一起使用，来解决类似的问题。
 
-通过在 `synchronized` 后面加上一个可重入互斥锁实例，对其后面修饰的代码块进行保护，可以使得任意时刻最多只有一个线程可以执行被保护的代码：
+通过在 `synchronized` 后面加上一个互斥锁实例，对其后面修饰的代码块进行保护，可以使得任意时刻最多只有一个线程可以执行被保护的代码：
 
-- 一个线程在进入 `synchronized` 修饰的代码块之前，会自动获取 `ReentrantMutex` 实例对应的锁，如果无法获取锁，则当前线程被阻塞。
-- 一个线程在退出 `synchronized` 修饰的代码块之前（包括在代码块中使用 `break`、`continue`、`return`、`throw` 等控制转移表达式），会自动释放该 `ReentrantMutex` 实例的锁。
+- 一个线程在进入 `synchronized` 修饰的代码块之前，会自动获取 `Lock` 实例对应的锁，如果无法获取锁，则当前线程被阻塞。
+- 一个线程在退出 `synchronized` 修饰的代码块之前（包括在代码块中使用 `break`、`continue`、`return`、`throw` 等控制转移表达式），会自动释放该 `Lock` 实例的锁。
 
-示例：
+示例:
 
 在每个 `for` 循环的线程进入 `synchronized` 代码块前，会自动获取 `mtx` 实例对应的锁，在退出代码块前，会释放 `mtx` 实例对应的锁。
 
 ```cangjie
-import std.sync.{ReentrantMutex, sleep}
-import std.time.Duration
+import std.sync.Mutex
 
 main () {
-    let mtx = ReentrantMutex()
+    let mtx = Mutex()
     let cnt = Box<Int64>(0)
 
     for (_ in 0..10) {
@@ -90,19 +87,16 @@ main () {
 
 |  常量&变量名 | 功能  |
 | ------------ | ------------ |
-| [DefaultMemoryOrder](./sync_package_api/sync_package_constants_vars.md#let-defaultmemoryorder) | 默认内存顺序，详见枚举 [MemoryOrder](./sync_package_api/sync_package_enums.md#enum-memoryorder)。 |
-
-### 函数
-
-|  函数名 | 功能  |
-| ------------ | ------------ |
-| [sleep(Duration)](./sync_package_api/sync_package_funcs.md#func-sleepduration) | 休眠当前线程。 |
+| [DefaultMemoryOrder <sup>(deprecated)</sup>](./sync_package_api/sync_package_constants_vars.md#let-defaultmemoryorder-deprecated) | 默认内存顺序，详见枚举 [MemoryOrder <sup>(deprecated)</sup>](./sync_package_api/sync_package_enums.md#enum-memoryorder-deprecated)。 |
 
 ### 接口
 
 |  接口名 | 功能  |
 | ------------ | ------------ |
-| [IReentrantMutex](./sync_package_api/sync_package_interfaces.md#interface-ireentrantmutex) | 提供可重入互斥锁接口。 |
+| [Condition](./sync_package_api/sync_package_interfaces.md#interface-condition) | 提供使线程阻塞并等待来自另一个线程的信号以恢复执行的功能的接口。 |
+| [IReentrantMutex <sup>(deprecated)<sup>](./sync_package_api/sync_package_interfaces.md#interface-ireentrantmutex-deprecated) | 提供可重入互斥锁接口。 |
+| [Lock](./sync_package_api/sync_package_interfaces.md#interface-lock) | 提供实现可重入互斥锁的接口。 |
+| [UniqueLock](./sync_package_api/sync_package_interfaces.md#interface-uniquelock) | 提供实现独占锁的接口。 |
 
 ### 类
 
@@ -113,19 +107,21 @@ main () {
 | [AtomicInt32](./sync_package_api/sync_package_classes.md#class-atomicint32) | 提供 Int32 类型的原子操作相关函数。 |
 | [AtomicInt64](./sync_package_api/sync_package_classes.md#class-atomicint64) | 提供 Int64 类型的原子操作相关函数。 |
 | [AtomicInt8](./sync_package_api/sync_package_classes.md#class-atomicint8) | 提供 Int8 类型的原子操作相关函数。 |
-| [AtomicOptionReference](./sync_package_api/sync_package_classes.md#class-atomicoptionreference) | 提供引用类型原子操作相关函数。 |
-| [AtomicReference](./sync_package_api/sync_package_classes.md#class-atomicreference) | 引用类型原子操作相关函数。 |
+| [AtomicOptionReference](./sync_package_api/sync_package_classes.md#class-atomicoptionreferencet-where-t--object) | 提供引用类型原子操作相关函数。 |
+| [AtomicReference](./sync_package_api/sync_package_classes.md#class-atomicreferencet-where-t--object) | 引用类型原子操作相关函数。 |
 | [AtomicUInt16](./sync_package_api/sync_package_classes.md#class-atomicuint16) | 提供 UInt16 类型的原子操作相关函数。 |
 | [AtomicUInt32](./sync_package_api/sync_package_classes.md#class-atomicuint32) | 提供 UInt32 类型的原子操作相关函数。 |
 | [AtomicUInt64](./sync_package_api/sync_package_classes.md#class-atomicuint64) | 提供 UInt64 类型的原子操作相关函数。 |
 | [AtomicUInt8](./sync_package_api/sync_package_classes.md#class-atomicuint8) | 提供 UInt8 类型的原子操作相关函数。 |
 | [Barrier](./sync_package_api/sync_package_classes.md#class-barrier) | 提供协调多个线程一起执行到某一个程序点的功能。 |
-| [Monitor](./sync_package_api/sync_package_classes.md#class-monitor) | 提供使线程阻塞并等待来自另一个线程的信号以恢复执行的功能。 |
-| [MultiConditionMonitor](./sync_package_api/sync_package_classes.md#class-multiconditionmonitor) | 提供对同一个互斥锁绑定多个条件变量的功能。 |
-| [ReentrantMutex](./sync_package_api/sync_package_classes.md#class-reentrantmutex) | 提供可重入锁相关功能。 |
-| [ReentrantReadMutex](./sync_package_api/sync_package_classes.md#class-reentrantreadmutex) | 提供可重入读写锁中的读锁类型。 |
-| [ReentrantReadWriteMutex](./sync_package_api/sync_package_classes.md#class-reentrantreadwritemutex) | 提供可重入读写锁相关功能。 |
-| [ReentrantWriteMutex](./sync_package_api/sync_package_classes.md#class-reentrantwritemutex) | 提供可重入读写锁中的写锁类型。 |
+| [Monitor <sup>(deprecated)<sup>](./sync_package_api/sync_package_classes.md#class-monitor-deprecated) | 提供使线程阻塞并等待来自另一个线程的信号以恢复执行的功能。 |
+| [MultiConditionMonitor <sup>(deprecated)<sup>](./sync_package_api/sync_package_classes.md#class-multiconditionmonitor-deprecated) | 提供对同一个互斥锁绑定多个条件变量的功能。 |
+| [Mutex](./sync_package_api/sync_package_classes.md#class-mutex) | 提供可重入锁相关功能。 |
+| [ReadWriteLock](./sync_package_api/sync_package_classes.md#class-readwritelock) | 提供可重入读写锁相关功能。 |
+| [ReentrantMutex <sup>(deprecated)<sup>](./sync_package_api/sync_package_classes.md#class-reentrantmutex-deprecated) | 提供可重入锁相关功能。 |
+| [ReentrantReadMutex <sup>(deprecated)<sup>](./sync_package_api/sync_package_classes.md#class-reentrantreadmutex-deprecated) | 提供可重入读写锁中的读锁类型。 |
+| [ReentrantReadWriteMutex <sup>(deprecated)<sup>](./sync_package_api/sync_package_classes.md#class-reentrantreadwritemutex-deprecated) | 提供可重入读写锁相关功能。 |
+| [ReentrantWriteMutex <sup>(deprecated)<sup>](./sync_package_api/sync_package_classes.md#class-reentrantwritemutex-deprecated) | 提供可重入读写锁中的写锁类型。 |
 | [Semaphore](./sync_package_api/sync_package_classes.md#class-semaphore) | 提供信号量相关功能。 |
 | [SyncCounter](./sync_package_api/sync_package_classes.md#class-synccounter) | 提供倒数计数器功能。 |
 | [Timer](./sync_package_api/sync_package_classes.md#class-timer) | 提供定时器功能。 |
@@ -134,15 +130,15 @@ main () {
 
 |  枚举类型 | 功能  |
 | ------------ | ------------ |
-| [MemoryOrder](./sync_package_api/sync_package_enums.md#enum-memoryorder) | 内存顺序类型枚举。 |
-| [ReadWriteMutexMode](./sync_package_api/sync_package_enums.md#enum-readwritemutexmode) | 读写锁公平模式枚举。 |
+| [MemoryOrder <sup>(deprecated)</sup>](./sync_package_api/sync_package_enums.md#enum-memoryorder-deprecated) | 内存顺序类型枚举。 |
+| [ReadWriteMutexMode <sup>(deprecated)<sup>](./sync_package_api/sync_package_enums.md#enum-readwritemutexmode-deprecated) | 读写锁公平模式枚举。 |
 | [CatchupStyle](./sync_package_api/sync_package_enums.md#enum-catchupstyle) | 重复性任务定时器需要使用的追平策略枚举。 |
 
 ### 结构体
 
 |  结构体 | 功能  |
 | ------------ | ------------ |
-| [ConditionID](./sync_package_api/sync_package_structs.md#struct-conditionid) | 用于表示互斥锁的条件变量，详见 [MultiConditionMonitor](./sync_package_api/sync_package_classes.md#class-multiconditionmonitor)。 |
+| [ConditionID <sup>(deprecated)<sup>](./sync_package_api/sync_package_structs.md#struct-conditionid-deprecated) | 用于表示互斥锁的条件变量，详见 [MultiConditionMonitor](./sync_package_api/sync_package_classes.md#class-multiconditionmonitor-deprecated)。 |
 
 ### 异常类
 

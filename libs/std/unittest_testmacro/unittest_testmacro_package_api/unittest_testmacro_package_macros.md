@@ -14,6 +14,7 @@
 
 1. `@Assert(leftExpr, rightExpr)` ，比较 `leftExpr` 和 `rightExpr` 值是否相同。
 2. `@Assert(condition: Bool)` ，比较 `condition` 是否为 `true` ，即 `@Assert(condition: Bool)` 等同于 `@Assert(condition: Bool, true)` 。
+3. `@Assert[customAssertion](arguments...)`, 使用指定的参数 `arguments` 调用 `customAssertion` 函数，详见 [`@CustomAssertion`](#customassertion-宏)。
 
 ## `@AssertThrows` 宏
 
@@ -42,31 +43,31 @@
 参数化的 DSL 与 `@Bench` 结合的示例如下，具体语法与规则详见[`@TestCase` 宏](#testcase-宏)章节：
 
 ```cangjie
-func sortArray<T>(arr: Array<T>): Unit 
+func sortArray<T>(arr: Array<T>): Unit
         where T <: Comparable<T> {
     if (arr.size < 2) { return }
     var minIndex = 0
     for (i in 1..arr.size) {
-        if (arr[i] < arr[minIndex]) { 
-            minIndex = i   
+        if (arr[i] < arr[minIndex]) {
+            minIndex = i
         }
     }
     (arr[0], arr[minIndex]) = (arr[minIndex], arr[0])
     sortArray(arr[1..])
 }
 
-@Test 
+@Test
 @Configure[baseline: "test1"]
 class ArrayBenchmarks{
     @Bench
-    func test1(): Unit 
+    func test1(): Unit
     {
         let arr = Array(10) { i: Int64 => i }
         sortArray(arr)
     }
 
     @Bench[x in 10..20]
-    func test2(x:Int64): Unit 
+    func test2(x:Int64): Unit
     {
         let arr = Array(x) { i: Int64 => i.toString() }
         sortArray(arr)
@@ -105,7 +106,7 @@ TP: default, time elapsed: 68610430659 ns, Result:
 功能：`@Configure` 宏为测试类或测试函数提供配置参数。它可以放置在测试类或测试函数上。
 
 语法规则为 `@Configure[parameter1: <value1>,parameter2: <value2>]`
-其中 `parameter1` 是仓颉标识符，`value` 是任何有效的仓颉表达式。
+其中 `parameter1` 是仓颉标识符，`value` 是任何有效的仓颉表达式。均大小写敏感。
 `value` 可以是常量或在标有 `@Configure` 的声明范围内有效的任何仓颉表达式。
 如果多个参数具有不同的类型，则它们可以有相同的名称。如果指定了多个具有相同名称和类型的参数，则使用最新的一个。
 
@@ -121,20 +122,124 @@ TP: default, time elapsed: 68610430659 ns, Result:
 - `baseline` ：类型为 [String](../../core/core_package_api/core_package_structs.md#struct-string) : 参数值为 Benchmark 函数的名称，作为比较 Benchmark 函数执行结果的基线。该结果值将作为附加列添加到输出中，其中将包含比较结果。
 - `batchSize` ：类型为 [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) 或者 [Range](../../core/core_package_api/core_package_structs.md#struct-ranget-where-t--countablet--comparablet--equatablet)\<[Int64](../../core/core_package_api/core_package_intrinsics.md#int64)> : 为 Benchmark 函数配置批次大小。默认值是由框架在预热期间计算得到。
 - `minBatches` ：类型为 [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) : 配置 Benchmark 函数测试执行期间将执行多少个批次。默认值为 `10` 。
-- `minDuration` ：类型为 [Duration](../../time/time_package_api/time_package_structs.md#struct-duration) : 配置重复执行 Benchmark 函数以获得更好结果的时间。默认值为 [Duration](../../time/time_package_api/time_package_structs.md#struct-duration).second * 5 。
-- `warmup` ：类型为 [Duration](../../time/time_package_api/time_package_structs.md#struct-duration) 或者 [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) : 配置在收集结果之前重复执行 Benchmark 函数的时间或次数。默认值为 [Duration](../../time/time_package_api/time_package_structs.md#struct-duration).second 。当值为 0 时，表示没有 warmup ， 此时执行次数按用户输入的 `batchSize` 乘 `minBatches` 计算得到，当 `batchSize` 未指定时将抛出异常。
-- `measurement`：类型为 [Measurement](../../unittest/unittest_package_api/unittest_package_interfaces.md#interface-measurement) ：描述性能测试需要收集的信息。默认值为 [TimeNow](../../unittest/unittest_package_api/unittest_package_structs.md#struct-timenow)() ，它在内部使用 [DateTime](../../time/time_package_api/time_package_structs.md#struct-datetime).now() 进行测量。
+- `minDuration` ：类型为 [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) : 配置重复执行 Benchmark 函数以获得更好结果的时间。默认值为 [Duration](../../core/core_package_api/core_package_structs.md#struct-duration).second * 5 。
+- `warmup` ：类型为 [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) 或者 [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) : 配置在收集结果之前重复执行 Benchmark 函数的时间或次数。默认值为 [Duration](../../core/core_package_api/core_package_structs.md#struct-duration).second 。当值为 0 时，表示没有 warmup ， 此时执行次数按用户输入的 `batchSize` 乘 `minBatches` 计算得到，当 `batchSize` 未指定时将抛出异常。
 
 用户可以在 `@Configure` 宏中指定其他配置参数，这些参数将来可能会用到。
 如果测试类使用 `@Configure` 宏指定配置，则该类中的所有测试函数都会继承此配置参数。
 如果此类中的测试函数也标有 `@Configure` 宏，则配置参数将从类和函数合并，其中函数级宏优先。
 
+## `@CustomAssertion` 宏
+
+功能：`@CustomAssertions` 将函数指定为用户自定义断言。
+
+该宏修饰的函数应满足两个要求：
+
+1. 顶层函数
+2. 首个入参为 [`AssertionCtx`](../../unittest/unittest_package_api/unittest_package_classes.md#class-assertionctx) 类型。
+
+示例如下：
+
+```cangjie
+@CustomAssertion
+public func checkNotNone<T>(ctx: AssertionCtx, value: ?T): T {
+    if (let Some(res) <- value) {
+        return res
+    }
+    ctx.fail("Expected ${ctx.arg("value")} to be Some(_) but got None")
+}
+```
+
+`@CustomAssertion` 的输出为树状结构，以提高 [嵌套断言](#嵌套断言) 的可读性。
+
+例如：
+
+```cangjie
+@Test
+func customTest() {
+    @Assert[checkNotNone](Option<Bool>.None)
+}
+```
+
+```text
+[ FAILED ] CASE: customTest (120812 ns)
+Assert Failed: @Assert[checkNotNone](Option < Bool >.None)
+└── Assert Failed: `('Option < Bool >.None' was expected to be Some(_) but got None)`
+```
+
+### 返回值
+
+`@CustomAssertion` 修饰的函数存在返回值时，它将被 `@Assert` 宏返回。
+
+示例如下:
+
+```cangjie
+@Test
+func testfunc() {
+    let maybeValue: Option<SomeObject> = maybeReturnsSomeObject()
+    let value = @Assert[checkNotNone](maybeValue)
+
+    @Assert[otherAssertion](value)
+}
+```
+
+> 注意: 自定义 `@Expect` 将总是返回 `Unit` ，不论 `@CustomAssertion` 修饰的函数返回值为什么类型。
+
+### 嵌套断言
+
+在 `@CustomAssertion` 定义中， [`@Assert`](#assert-宏)/[`@Expect`](#expect-宏) (包括自定义断言), [`@AssertThrows`](#assertthrows-宏)/[`@ExpectThrows`](#expectthrows-宏), [`@Fail`](#fail-宏)/[`@FailExpect`](#failexpect-宏)宏均可被调用，形成嵌套。
+
+例如:
+
+```cangjie
+@CustomAssertion
+func iterableWithoutNone<T>(ctx: AssertionCtx, iter: Interable<?T>): Array<T> {
+    iter |> map { it: ?T => @Assert[checkNotNone](it)} |> collectArray
+}
+```
+
+```cangjie
+@Test
+func customTest() {
+    @Assert[iterWithoutNone]([true, false, Option<Bool>.None])
+}
+```
+
+```text
+[ FAILED ] CASE: customTest
+Assert Failed: @Assert[iterWithoutNone]([true, false, Option < Bool >.None])
+└── @Assert[checkNotNone](it):
+    └── Assert Failed: `('it' was expected to be Some(_) but got None)`
+```
+
+如果用户自定义的断言在被 [`@Expect`](#expect-宏) 宏调用时抛出 [`AssertException`](../../unittest/unittest_package_api/unittest_package_exceptions.md#class-assertexception) 。它会被捕获，不会往外传递。
+同样，如果用户自定义的断言失败在被 [`@Assert`](#assert-宏) 宏调用时不引发异常，异常将被创建并抛出。
+
+### 指定泛型类型
+
+当指定泛型类型参数时，可使用与常规语法来完成。
+
+例如:
+
+```cangjie
+@CustomAssertion
+public func doesThrow<E>(ctx: AssertionCtx, codeblock: () -> Any): E where E <: Excepiton {
+    ...
+}
+
+@Test
+func customTest() {
+    let e = @Assert[doesThrow<NoneValueException>]({ => Option<Bool>.None.getOrThrow()})
+}
+```
+
 ## `@Expect` 宏
 
-功能： `@Expect` 声明 Expect 断言，测试函数内部使用，断言失败继续执行用例。
+功能：`@Expect` 声明 Expect 断言，测试函数内部使用，断言失败继续执行用例。
 
 1. `@Expect(leftExpr, rightExpr)` ，比较 `leftExpr` 和 `rightExpr` 是否相同。
 2. `@Expect(condition: Bool)` ，比较 `condition` 是否为 `true` ，即 `@Expect(condition: Bool)` 等同于 `@Expect(condition: Bool, true)` 。
+3. `@Expect[customAssertion](arguments...)`, 使用指定的参数 `arguments` 调用 `customAssertion` 函数。详见 [`@CustomAssertion`](#customassertion-宏)。
 
 ## `@ExpectThrows` 宏
 
@@ -148,9 +253,48 @@ TP: default, time elapsed: 68610430659 ns, Result:
 
 功能：声明[预期失败的断言](../../unittest/unittest_samples/unittest_basics.md#失败断言)，测试函数内部使用，断言失败继续执行用例。
 
+## `@Measure` 宏
+
+功能：用于为性能测试指定 [Measurement](../../unittest/unittest_package_api/unittest_package_interfaces.md#interface-measurement) 实例。只能应用于标有 `@Test` 宏的类或顶级函数的范围内。
+对于每个 `Measurement`，都会进行不同的测量。因此，指定更多 `Measurement` 实例，将花费更多时间进行性能测试。
+默认值为 [TimeNow](../../unittest/unittest_package_api/unittest_package_structs.md#struct-timenow)() ，它在内部使用 [DateTime](../../time/time_package_api/time_package_structs.md#struct-datetime).now() 进行测量。
+
+例如：
+
+```cangjie
+@Test
+@Measure[TimeNow(), TimeNow(Nanos)]
+class BenchClass {
+    @Bench
+    func someBench() {
+        for (i in 0..1000) {
+            1e3 * Float64(i)
+        }
+    }
+}
+```
+
+输出的测试报告如下：
+
+```text
+| Case      | Measurement  |   Median |         Err |   Err% |     Mean |
+|:----------|:-------------|---------:|------------:|-------:|---------:|
+| someBench | Duration     | 6.319 us | ±0.00019 us |  ±0.0% | 6.319 us |
+|           |              |          |             |        |          |
+| someBench | Duration(ns) |  6308 ns |   ±0.147 ns |  ±0.0% |  6308 ns |
+```
+
+`CSV` 报告如下：
+
+```csv
+Case,Args,Median,Err,Err%,Mean,Unit,Measurement
+"someBench",,"6319","0.185632","0.0","6319","ns","Duration"
+"someBench",,"6308","0.146873","0.0","6308","ns","Duration(ns)"
+```
+
 ## `@Parallel` 宏
 
-功能： `@Parallel` 宏可以修饰测试类。被 `@Parallel` 修饰的测试类中的测试用例可并行执行。该配置仅在 `--parallel` 运行模式下生效。
+功能：`@Parallel` 宏可以修饰测试类。被 `@Parallel` 修饰的测试类中的测试用例可并行执行。该配置仅在 `--parallel` 运行模式下生效。
 
 1. 所有相关的测试用例应该各自独立，不依赖于任何可变的共享的状态值。
 2. `beforeAll()` 和 `afterAll()` 应该是可重入的，以便可以在不同的进程中多次运行。
@@ -159,13 +303,15 @@ TP: default, time elapsed: 68610430659 ns, Result:
 
 ## `@PowerAssert` 宏
 
-功能：`@PowerAssert(condition: Bool)` 检查传递的表达式是否为真，并显示包含传递表达式的中间值和异常的详细图表。
+1. `@PowerAssert(leftExpr, rightExpr)` ，比较 `leftExpr` 和 `rightExpr` 值是否相同。
+2. `@PowerAssert(condition: Bool)` ，比较 `condition` 是否为 `true` ，即 `@PowerAssert(condition: Bool)` 等同于 `@PowerAssert(condition: Bool, true)` 。
+
+`@PowerAssert` 宏对比 `@Assert` ，可显示表达式各个可被计算的子表达式的值的详细图表，包括步骤中的异常。
 
 其打印的详细信息如下：
 
 ```text
-REASON: `foo(10, y: test   + s) == foo(s.size, y: s) + bar(a)` has been evaluated to false
-Assert Failed: `(foo(10, y: test   + s) == foo(s.size, y: s) + bar(a))`
+Assert Failed: `(foo(10, y: "test" + s) == foo(s.size, y: s) + bar(a))`
                 |          |        |_||  |   |_|    |   |_|| |   |_||
                 |          |       "123"  |  "123"   |  "123" |    1 |
                 |          |__________||  |   |______|      | |______|
@@ -173,32 +319,15 @@ Assert Failed: `(foo(10, y: test   + s) == foo(s.size, y: s) + bar(a))`
                 |______________________|  |_________________|        |
                             0             |        1                 |
                                           |__________________________|
-                                                       34
-
+                                                        34
 --------------------------------------------------------------------------------------------------
 ```
 
-请注意，现在并非所有 AST 节点都受支持。支持的节点如下：
-
-- 任何二进制表达式
-    - 算术表达式，如`a + b == p % b` 。
-    - 布尔表达式，如 `a || b == a && b` 。
-    - 位表达式，如`a | b == a ^ b` 。
-- 成员访问如 `a.b.c == foo.bar` 。
-- 括号化的表达式，如 `(foo) == ((bar))` 。
-- 调用表达式，如 `foo(bar()) == Zoo()` 。
-- 引用表达式，如 `x == y` 。
-- 赋值表达式，如`a = foo`，实际上总是 [Unit](../../core/core_package_api/core_package_intrinsics.md#unit) （表示为 `()`），请注意，赋值表达式的左值不支持打印。
-- 一元表达式，如 `!myBool` 。
-- `is` 表达式，如 `myExpr is Foo` 。
-- `as` 表达式，如 `myExpr as Foo` 。
-
-如果传递了其他节点，则图中不会打印它们的值。
-返回的 [Tokens](../../ast/ast_package_api/ast_package_classes.md#class-tokens) 是初始表达式，但包装到一些内部包装器中，这些包装器允许进一步打印中间值和异常。
+请注意，返回的 [Tokens](../../ast/ast_package_api/ast_package_classes.md#class-tokens) 是初始表达式，但包装到一些内部包装器中，这些包装器允许进一步打印中间值和异常。
 
 ## `@Skip` 宏
 
-功能：`@Skip` 修饰已经被 `@TestCase` / `@bench` 修饰的函数，使该测试用例被跳过。
+功能：`@Skip` 修饰已经被 `@TestCase` / `@Bench` 修饰的函数，使该测试用例被跳过。
 
 语法规则为 `@Skip[expr]` 。
 
@@ -207,7 +336,7 @@ Assert Failed: `(foo(10, y: test   + s) == foo(s.size, y: s) + bar(a))`
 
 ## `@Strategy` 宏
 
-功能：在函数上使用 `@Strategy` 可从该函数创建新的 [DataStrategy](../../unittest_common/unittest_common_package_api/unittest_common_package_interfaces.md#interface-datastrategy) 。它是一个用于组合、映射和重用策略的便捷 API 。
+功能：在函数上使用 `@Strategy` 可从该函数创建新的 [DataStrategy](../../unittest_common/unittest_common_package_api/unittest_common_package_interfaces.md#interface-datastrategy) 。它是一个用于组合、映射和重用策略的便捷 API。
 
 标记为 `@Strategy` 的函数必须满足以下条件：
 
@@ -216,6 +345,72 @@ Assert Failed: `(foo(10, y: test   + s) == foo(s.size, y: s) + bar(a))`
 3. 可以在 `@Test` 标记的类的外部和内部使用。
 
 > 实现说明：宏展开的结果是一个具有函数名称和 [DataStrategyProcessor](../../unittest/unittest_package_api/unittest_package_classes.md#class-datastrategyprocessor) 类型的变量。 该变量可以在任何可以使用  [DataStrategy](../../unittest_common/unittest_common_package_api/unittest_common_package_interfaces.md#interface-datastrategy) 的地方使用。
+
+## `@Tag` 宏
+
+`@Tag` 宏可以应用于 `@Test` 类和 `@Test` 或 `@TestCase` 或 `@Bench` 函数，提供测试实体的元信息。后续可以通过 [`--include-tags`](../../unittest/unittest_samples/unittest_basics.md#--include-tags) 和 [`--exclude-tags`](../../unittest/unittest_samples/unittest_basics.md#--exclude-tags) 运行选项过滤带有这些标签的测试实体。
+
+### 支持的语法
+
+1. 单个 `@Tag` 在测试函数上。
+
+    ```cangjie
+    @Tag[Unittest]
+    func test() {}
+    ```
+
+2. 单个 `@Tag` 包含多个标签名，用逗号分隔。
+
+    ```cangjie
+    @Tag[Unittest, TestAuthor]
+    func test() {}
+    ```
+
+3. 多个 `@Tag` 在测试函数上。
+
+    ```cangjie
+    @Tag[Smoke]
+    @Tag[Backend, JiraTask3271]
+    func test() {}
+    ```
+
+### 规则与约束
+
+- 标签应为有效的仓颉语言标识符。
+- `@Tag` 内的标签列表不应为空。
+- 如果 `@Tag` 放在 `@Test` 类的顶部，它会将其标签传播到其中的 `@TestCase` 函数上。
+
+例如：
+
+```cangjie
+@Test
+@Tag[Unittest]
+public class UnittestClass {
+    @TestCase[x in [1, 2, 3, 4, 5]]
+    @Tag[JiraTask3271]
+    func caseA(x: Int64) {}
+
+    @TestCase
+    func caseB() {}
+}
+```
+
+等同于：
+
+```cangjie
+@Test
+@Tag[Unittest]
+public class UnittestClass {
+    @TestCase[x in [1, 2, 3, 4, 5]]
+    @Tag[Unittest]
+    @Tag[JiraTask3271]
+    func caseA(x: Int64) {}
+
+    @TestCase
+    @Tag[Unittest]
+    func caseB() {}
+}
+```
 
 ## `@Test` 宏
 
@@ -293,11 +488,11 @@ func test(x: Int64, y: String, z: Float64): Unit {}
 
 ## `@Timeout` 宏
 
-功能： `@Timeout` 指示测试应在指定时间后终止。它有助于测试可能运行很长时间或陷入无限循环的复杂算法。
+功能：`@Timeout` 指示测试应在指定时间后终止。它有助于测试可能运行很长时间或陷入无限循环的复杂算法。
 
 语法规则为 `@Timeout[expr]`
 
- `expr` 的类型应为 std.time.[Duration](../../time/time_package_api/time_package_structs.md#struct-duration) 。
+ `expr` 的类型应为 std.time.[Duration](../../core/core_package_api/core_package_structs.md#struct-duration) 。
 其修饰测试类时为每个相应的测试用例提供超时时间。
 
 ## `@Types` 宏
@@ -325,3 +520,76 @@ class TestClass<T> {
 ```
 
 该机制可以与其他测试框架功能一起使用，例如 `@Configure` 等。
+
+## `@UnittestOption` 宏
+
+该宏可用于注册自定义配置项。只有已注册的配置项才能与单元测试框架一起使用。宏的参数是**类型**、**选项名称**、可选的**验证器回调**和**可选的描述**。
+对所有单元测试配置项的严格检查保证了控制台输入和源代码的正确性。它可以防止笔误和使用错误类型的值。
+
+示例：
+
+```cangjie
+@UnittestOption[String, Int](optionName)
+@UnittestOption[String](opt, /*validator*/ { str: String => str.size < 5 })
+@UnittestOption[A, B](option3, { x: Any => ... })
+@UnittestOption[Bool](needLog, /*description*/ "The option do ...")
+@UnittestOption[Int](public myOpt)
+```
+
+具体规则如下：
+
+- `@UnittestOption` 对同一个配置项不能重复使用。
+- `@UnittestOption` 必须在顶层。
+- 如果配置项有多种类型，则验证器回调参数应为 Any，如果只有一种类型对该选项有效，则验证器回调参数应为该具体类型。
+- 验证器回调返回类型为 Bool 或 ?String。
+- `true` 表示选项有效，`false` 表示选项值无效。
+- ·`Some<String>` 包含选项无效原因的描述，`None<String>` 表示选项值有效。
+
+与 `@Configuration` 配合使用的示例如下：
+
+配置项的键名称是通过首字母大写并以 `Key` 字符串开头构建的成员。例如，对于名为 `zxc` 的配置项，有效键名称将为 `KeyZxc.zxc`
+
+```cangjie
+@UnittestOption[String](opt)
+
+@Test
+func test_that_derived_type_overwrite_parent_type_value_in_configuration() {
+    let conf = Configuration()
+
+    conf.set(KeyOpt.opt, "a")
+    let value = conf.get(KeyOpt.opt).getOrThrow()
+    @PowerAssert(value == "a")
+}
+```
+
+[Configuration](../../unittest_common/unittest_common_package_api/unittest_common_package_classes.md#class-configuration)
+类正确处理继承的情况。示例如下：
+
+```cangjie
+open class Base {
+    public open func str() {
+        "Base"
+    }
+}
+
+class Derived <: Base {
+    public func str() {
+        "Derived"
+    }
+}
+
+@UnittestOption[Base](opt)
+
+@Test
+func test_that_derived_type_overwrite_parent_type_value_in_configuration() {
+    let conf = Configuration()
+
+    conf.set(KeyOpt.opt, Base())
+    let first = conf.get(KeyOpt.opt).getOrThrow()
+    @PowerAssert(first.str() == "Base")
+
+    conf.set(KeyOpt.opt, Derived())
+    let second = conf.get(KeyOpt.opt).getOrThrow()
+    @PowerAssert(second.str() == "Derived")
+}
+```

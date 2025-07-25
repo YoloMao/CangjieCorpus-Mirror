@@ -14,7 +14,7 @@ void printCString(char *s) { printf("%s\n", s); }
 
 在仓颉代码中，创建一个 CString 对象，传递给 C 侧打印。并且获取 C 侧字符串，在仓颉侧打印：
 
-<!-- verify -->
+示例：
 
 ```cangjie
 foreign func getCString(): CString
@@ -44,7 +44,7 @@ main() {
 }
 ```
 
-示例输出：
+运行结果：
 
 ```text
 CString in Cangjie code.

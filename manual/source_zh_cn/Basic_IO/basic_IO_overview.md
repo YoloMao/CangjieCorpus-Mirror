@@ -44,7 +44,7 @@ import std.io.InputStream
 
 main() {
     let input: InputStream = ...
-    let buf = Array<Byte>(256, item: 0)
+    let buf = Array<Byte>(256, repeat: 0)
     while (input.read(buf) > 0) {
         println(buf)
     }
@@ -82,7 +82,7 @@ import std.io.OutputStream
 
 main() {
     let output: OutputStream = ...
-    let buf = Array<Byte>(256, item: 111)
+    let buf = Array<Byte>(256, repeat: 111)
     output.write(buf)
     output.flush()
 }
@@ -92,5 +92,5 @@ main() {
 
 按照数据流职责上的差异，可以将 Stream 简单分成两类：
 
-- 节点流：直接提供数据源，节点流的构造方式通常是依赖某种直接的外部资源（即文件、网络等）。
-- 处理流：只能代理其它数据流进行处理，处理流的构造方式通常是依赖其它的流。
+- 节点流：直接提供数据源，节点流的构造方式通常是依赖某种直接的外部资源（如文件、网络等）。
+- 处理流：只能代理其他数据流进行处理，处理流的构造方式通常是依赖其他的流。

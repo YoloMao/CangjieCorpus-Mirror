@@ -7,7 +7,7 @@ let a: Rune = r'a'
 let b: Rune = r"b"
 ```
 
-Escape characters refer to characters ina character sequence that provide an alternative interpretation for the subsequent characters. Escape characters start with the escape symbol `\`, followed by the character that needs to be escaped. For example:
+Escape characters refer to characters in a character sequence that provide an alternative interpretation for the subsequent characters. Escape characters start with the escape symbol `\`, followed by the character that needs to be escaped. For example:
 ```
 let slash: Rune = r'\\'
 let newLine: Rune = r'\n'

@@ -7,7 +7,7 @@
 * 验证是否使用特定参数进行调用。
 * 验证调用是否按特定顺序进行。
 
-验证通过检查在执行测试期间构建的调用日志来运行断言。调用日志涵盖让 **mock** 和 **spy** 对象在测试中可访问的所有调用。只能验证在 mock/spy 对象上进行的调用。
+验证通过检查在执行测试期间构建的调用日志来运行断言。调用日志涵盖让 **mock** 和 **spy** 对象（以及静态成员和顶层函数和顶层变量）在测试中可访问的所有调用。只能验证在 mock/spy 对象（以及静态成员和顶层函数和顶层变量）上进行的调用。
 
 `Verify` 类是验证 API 的入口。
 **@Called** 宏用于构建关于代码的断言。
@@ -15,6 +15,7 @@
 <!-- 链接至验证 API 手册 中的 Verify 类介绍 （自动生成）-->
 
 **@Called** 宏调用构造了一个 **验证语句** ，即根据调用日志检查代码的单个断言。
+
 **Verify** 类本身是静态方法的集合。诸如 `that` 、 `ordered` 、 `unordered` 等方法可构造**验证块**。
 
 ## 示例
@@ -24,7 +25,7 @@ let foo = mock<Foo>()
 //配置foo
 @On(foo.bar()).returns()
 foo.bar()
-Verify.that(@Called(foo.bar())) //验证bar至少被调用一次
+Verify.that(@Called(foo.bar())) // 验证bar至少被调用一次
 ```
 
 ## 验证语句和 `@Called` 宏
@@ -36,8 +37,8 @@ Verify.that(@Called(foo.bar())) //验证bar至少被调用一次
 示例：
 
 ```cangjie
-@Called(foo.bar(1, _)) //匹配bar方法调用的验证语句，其中第一个参数为'1'
-@Called(foo.baz)       //匹配baz属性getter调用的验证语句
+@Called(foo.bar(1, _)) // 匹配 bar 方法调用的验证语句，其中第一个参数为 '1'
+@Called(Foo.baz)       // 匹配 baz 静态属性 getter 调用的验证语句
 ```
 
 `VerifyStatement` 类提供的 API 类似于桩配置时可用的基数说明符。
@@ -63,6 +64,7 @@ Verify.that(@Called(foo.bar()).once())
 验证块通常包含一个或多个验证语句，且检查块中的语句会构成更复杂的断言。
 
 在调用验证块时会立即验证，不验证之后发生的任何调用。
+
 验证块不会改变调用日志的状态：日志中的每个调用都可以被任意数量的块检查。独立检查各个块，前后块之间没有依赖关系。除非在块之间发生了一些调用，或者手动清除了调用日志，否则调用验证块的顺序并不重要。
 
 验证语句本身不执行任何类型的验证，必须传递到验证块中进行验证。
@@ -352,7 +354,7 @@ func testDrawingTriangle() {
         @Called(canvas.draw(ofType<Line>())).times(3)
     )
 
-    //或者使用部分无序验证块
+    // 或者使用部分无序验证块
 
     Verify.unordered(Partial, // 未知线条和点实际绘制的顺序
         @Called(canvas.draw(ofType<Dot>())).times(3),
@@ -374,7 +376,7 @@ func testDrawingTriangle() {
     // 如果想通过更复杂的条件来区分参数
     // 可以使用下面的模式
     let isDot = { f: Figure =>
-        f is Dot //此为更复杂的逻辑
+        f is Dot // 此为更复杂的逻辑
     }
 
     Verify.that(
@@ -415,13 +417,13 @@ func testBuildFlight() {
 
 ```cangjie
 let foo = mock<Foo>()
-@On(foo.bar(_)).returns() //如果从未使用此桩，测试失败
+@On(foo.bar(_)).returns() // 如果从未使用此桩，测试失败
 
 foo.bar(1)
 foo.bar(2)
 
 Verify.that(
-    //不需要，自动验证
+    // 不需要，自动验证
     @Called(foo.bar(_)).atLeastOnce()
 )
 
@@ -436,8 +438,8 @@ Verify.unordered(
 
 ```cangjie
 let foo = mock<Foo>()
-@On(foo.bar(1)).returns().once() //预期只被调用一次，参数为`1`
-@On(foo.bar(2)).returns().once() //预期只被调用一次，参数为`2`
+@On(foo.bar(1)).returns().once() // 预期只被调用一次，参数为`1`
+@On(foo.bar(2)).returns().once() // 预期只被调用一次，参数为`2`
 
 foo.bar(1)
 foo.bar(2)

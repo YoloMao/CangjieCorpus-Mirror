@@ -49,9 +49,9 @@ To iterate over a HashSet, use for-loop as follows:
 
 ```
 let map = HashMap<String, Int64>([("a", 0), ("b", 1), ("c", 2)])
-    for ((k, v) in map) {
-        println("The key is ${k}, the value is ${v}")
-    }
+for ((k, v) in map) {
+    println("The key is ${k}, the value is ${v}")
+}
 ```
 
 To get the size of a HashMap mp, use `mp.size`
@@ -60,14 +60,26 @@ To get the size of a HashMap mp, use `mp.size`
 
 To determine whether a key `K` is included in the HashMap, we can use the contains function: `mp.contains(K)`, Returns true if the key exists, false otherwise.
 
-If you need to add a single key-value pair to the end of your HashMap, use the 'put' function. If you want to add multiple key-value pairs at the same time, you can use the `putALL` function, When the key does not exist, the put function performs the added operation, and when the key exists, the put function overwrites the old value with the new value:
+If you need to add a single key-value pair to the end of your HashMap, use the `add` function with the signature
+
+```
+public func add(key: K, value: V): Option<V>
+```
+
+If you want to add multiple key-value pairs at the same time, you can also use the `add` function with the signature
+
+```
+public func add(all!: Collection<(K, V)>): Unit
+```
+
+When the key does not exist, the put function performs the added operation, and when the key exists, the put function overwrites the old value with the new value:
 
 ```
 let map = HashMap<String, Int64>()
-map.put("a", 0)  // map contains the element ("a", 0)
-map.put("b", 1)  // map contains the elements ("a", 0), ("b", 1)
+map.add("a", 0)  // map contains the element ("a", 0)
+map.add("b", 1)  // map contains the elements ("a", 0), ("b", 1)
 let map2 = HashMap<String, Int64>([("c", 2), ("d", 3)])
-map.putAll(map2)  // map contains the elements ("a", 0), ("b", 1), ("c", 2), ("d", 3)
+map.add(all: map2)  // map contains the elements ("a", 0), ("b", 1), ("c", 2), ("d", 3)
 ```
 
 Way to delete elements in a HashMap:

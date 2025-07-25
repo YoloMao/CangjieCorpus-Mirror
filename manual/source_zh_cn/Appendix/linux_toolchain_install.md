@@ -5,12 +5,14 @@
 - SUSE Linux Enterprise Server 12 SP5
 - Ubuntu 18.04
 - Ubuntu 20.04
+- UnionTech OS Server 20
+- Kylin Linux Advanced Server Release V10
 
 ## 适用于各 Linux 发行版的仓颉工具链依赖安装命令
 
 > **注意：**
 >
-> 当前仓颉工具链依赖的部分工具在一些 Linux 发行版上可能无法通过系统默认软件源直接安装，可以参考下一节[编译安装依赖工具](./linux_toolchain_install.md#编译安装依赖工具)进行手动安装。
+> 当前仓颉工具链依赖的某些工具在一些 Linux 发行版上可能无法通过系统默认软件源直接安装。可参考下一节[编译安装依赖工具](./linux_toolchain_install.md#编译安装依赖工具)进行手动安装。
 
 ### SUSE Linux Enterprise Server 12 SP5
 
@@ -21,7 +23,7 @@ $ zypper install \
          gcc-c++
 ```
 
-此外，还需要安装 OpenSSL 3，安装方法请参考[编译安装依赖工具](./linux_toolchain_install.md#编译安装依赖工具)。
+此外，还需要安装 OpenSSL 3，安装方法请参见[编译安装依赖工具](./linux_toolchain_install.md#编译安装依赖工具)。
 
 ### Ubuntu 18.04
 
@@ -33,7 +35,7 @@ $ apt-get install \
           libgcc-7-dev
 ```
 
-此外，还需要安装 OpenSSL 3，安装方法请参考[编译安装依赖工具](./linux_toolchain_install.md#编译安装依赖工具)。
+此外，还需要安装 OpenSSL 3，安装方法请参见[编译安装依赖工具](./linux_toolchain_install.md#编译安装依赖工具)。
 
 ### Ubuntu 20.04
 
@@ -45,7 +47,31 @@ $ apt-get install \
           libgcc-9-dev
 ```
 
-此外，还需要安装 OpenSSL 3，安装方法请参考[编译安装依赖工具](./linux_toolchain_install.md#编译安装依赖工具)。
+此外，还需要安装 OpenSSL 3，安装方法请参见[编译安装依赖工具](./linux_toolchain_install.md#编译安装依赖工具)。
+
+### UnionTech OS Server 20
+
+```shell
+$ yum install \
+      binutils \
+      glibc-devel \
+      libstdc++-devel \
+      gcc \
+```
+
+此外，还需要安装 OpenSSL 3，安装方法请参见[编译安装依赖工具](./linux_toolchain_install.md#编译安装依赖工具)。
+
+### Kylin Linux Advanced Server release V10
+
+```shell
+$ yum install \
+      binutils \
+      glibc-devel \
+      libstdc++-devel \
+      gcc \
+```
+
+此外，还需要安装 OpenSSL 3，安装方法请参见[编译安装依赖工具](./linux_toolchain_install.md#编译安装依赖工具)。
 
 ### 其他 Linux 发行版
 
@@ -66,17 +92,17 @@ $ apt-get install \
 
 > **注意：**
 >
-> 请在执行以下编译和安装命令前仔细阅读注意事项，并根据实际情况调整命令。不正确的配置和安装可能会导致系统其他软件不可用。如果在编译安装过程中遇到问题或希望进行额外的安装配置，请参考 OpenSSL 源码中的 `INSTALL` 文件或 OpenSSL 的 [FAQ](https://www.openssl.org/docs/faq.html)。
+> 请在执行以下编译和安装命令前仔细阅读注意事项，并根据实际情况调整命令。不正确的配置和安装可能会导致系统其他软件不可用。如果在编译安装过程中遇到问题或希望进行额外的安装配置，请参见 OpenSSL 源码中的 `INSTALL` 文件或 OpenSSL 的 [FAQ](https://www.openssl.org/docs/faq.html)。
 
 此处以 OpenSSL 3.0.7 为例，下载后使用以下命令解压压缩包：
 
-```
+```shell
 $ tar xf openssl-3.0.7.tar.gz
 ```
 
 解压完成后进入目录：
 
-```
+```shell
 $ cd openssl-3.0.7
 ```
 
@@ -86,26 +112,26 @@ $ cd openssl-3.0.7
 >
 > 如果系统已经安装了 OpenSSL，建议使用 `--prefix=<path>` 选项指定一个自定义安装路径，例如 `--prefix=/usr/local/openssl-3.0.7` 或开发者的个人目录。在系统目录已经存在 OpenSSL 的场景下直接使用以下命令编译安装可能会使系统 OpenSSL 被覆盖，并导致依赖系统 OpenSSL 的应用不可用。
 
-```
+```shell
 $ ./Configure --libdir=lib
 $ make
 ```
 
 测试 OpenSSL：
 
-```
+```shell
 $ make test
 ```
 
 将 OpenSSL 安装至系统目录（或先前指定的 `--prefix` 目录），可能需要提供 root 权限以成功执行以下命令：
 
-```
+```shell
 $ make install
 ```
 
 或
 
-```
+```shell
 $ sudo make install
 ```
 
@@ -117,7 +143,7 @@ $ sudo make install
 
 *请将 `<prefix>` 替换为指定的自定义安装路径。*
 
-```
+```shell
 $ export LIBRARY_PATH=<prefix>/lib:$LIBRARY_PATH
 $ export LD_LIBRARY_PATH=<prefix>/lib:$LD_LIBRARY_PATH
 ```
@@ -128,7 +154,7 @@ $ export LD_LIBRARY_PATH=<prefix>/lib:$LD_LIBRARY_PATH
 
 *请将 `<prefix>` 替换为指定的自定义安装路径。*
 
-```
+```shell
 $ echo "export LIBRARY_PATH=<prefix>/lib:$LIBRARY_PATH" >> /etc/profile
 $ echo "<prefix>/lib" >> /etc/ld.so.conf
 $ ldconfig

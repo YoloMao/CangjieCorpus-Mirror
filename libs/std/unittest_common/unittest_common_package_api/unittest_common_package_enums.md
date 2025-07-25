@@ -116,3 +116,39 @@ public operator func !=(that: Color): Bool
 返回值：
 
 - [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 不相等时返回 `true` ，否则返回 `false` 。
+
+## enum OptionValidity
+
+```cangjie
+public enum OptionValidity {
+    | UnknownOptionType
+    | InvalidOption(String)
+    | ValidOption(ConfigurationKey)
+}
+```
+
+功能：代表选项值验证的结果的枚举值。
+
+### UnknownOptionType
+
+```cangjie
+UnknownOptionType
+```
+
+功能: 未知状态，仅在验证出现内部错误时出现。
+
+### InvalidOption(String)
+
+```cangjie
+InvalidOption(String)
+```
+
+功能: 选项验证无效，包含无效的原因。
+
+### ValidOption(ConfigurationKey)
+
+```cangjie
+ValidOption(ConfigurationKey)
+```
+
+功能: 选项值有效，包含选项值在配置项中对应键值对的键名。

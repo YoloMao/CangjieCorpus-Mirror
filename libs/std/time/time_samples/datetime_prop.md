@@ -42,7 +42,7 @@ main() {
 }
 ```
 
-运行结果
+运行结果：
 
 ```text
 datetime is 2024, May, 22, 12, 34, 56, 789000000, Asia/Shanghai, 8h

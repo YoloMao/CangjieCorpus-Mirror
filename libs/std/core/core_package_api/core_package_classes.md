@@ -26,18 +26,6 @@ public init(data: Array<T>)
 
 - data: [Array](core_package_structs.md#struct-arrayt)\<T> - 数组实例。
 
-### func iterator()
-
-```cangjie
-public func iterator(): Iterator<T>
-```
-
-功能：获取当前迭代器实例本身。
-
-返回值：
-
-- [Iterator](core_package_classes.md#class-iteratort)\<T> - 当前迭代器实例本身。
-
 ### func next()
 
 ```cangjie
@@ -49,6 +37,33 @@ public func next(): Option<T>
 返回值：
 
 - [Option](core_package_enums.md#enum-optiont)\<T> - 数组迭代器中的下一个成员，用 [Option](core_package_enums.md#enum-optiont) 封装，迭代到末尾时返回 `None`。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var arr: Array<Int64> = [1, 2, 3, 4]
+    var arrIterator: ArrayIterator<Int64> = ArrayIterator(arr)
+    var num: Option<Int64>
+    while (true) {
+        num = arrIterator.next()
+        if (num.isNone()) {
+            break
+        }
+        println(num.getOrDefault({=> -1}))
+    }
+}
+```
+
+运行结果：
+
+```text
+1
+2
+3
+4
+```
 
 ## class Box\<T>
 
@@ -114,6 +129,45 @@ public func compare(that: Box<T>): Ordering
 返回值：
 
 - [Ordering](core_package_enums.md#enum-ordering) - 如果当前 [Box](core_package_classes.md#class-boxt) 实例大于 that，返回 [Ordering](core_package_enums.md#enum-ordering).GT，等于返回 [Ordering](core_package_enums.md#enum-ordering).EQ，小于返回 [Ordering](core_package_enums.md#enum-ordering).LT。
+
+示例：
+
+<!-- verify -->
+```cangjie
+struct Data <: Comparable<Data> {
+    var a: Int64 = 0
+    var b: Int64 = 0
+
+    public init(a: Int64, b: Int64) {
+        this.a = a
+        this.b = b
+    }
+
+    public func compare(d: Data) {
+        let tValue: Int64 = this.a + this.b
+        let dValue: Int64 = d.a + d.b
+        if (tValue > dValue) {
+            return Ordering.GT
+        } else if (tValue == dValue) {
+            return Ordering.EQ
+        } else {
+            return Ordering.LT
+        }
+    }
+}
+
+main() {
+    var data1: Box<Data> = Box<Data>(Data(12, 12))
+    var data2: Box<Data> = Box<Data>(Data(7, 12))
+    println(data1.compare(data2))
+}
+```
+
+运行结果：
+
+```text
+Ordering.GT
+```
 
 #### operator func !=(Box\<T>)
 
@@ -217,6 +271,8 @@ public operator func >=(that: Box<T>): Bool
 extend<T> Box<T> <: Hashable where T <: Hashable
 ```
 
+功能：为 [Box](core_package_classes.md#class-boxt)\<T> 类扩展 [Hashable](core_package_interfaces.md#interface-hashable) 接口，提供比较大小的能力。
+
 父类型：
 
 - [Hashable](core_package_interfaces.md#interface-hashable)
@@ -285,7 +341,34 @@ public prop thread: Thread
 public func cancel(): Unit
 ```
 
-功能：给当前 [Future](core_package_classes.md#class-futuret) 实例对应的仓颉线程发送取消请求。该方法不会立即停止线程执行，仅发送请求，相应地，[Thread](core_package_classes.md#class-thread) 类的函数 `hasPendingCancellation` 可用于检查线程是否存在取消请求，用户可以通过该检查来自行决定是否提前终止线程以及如何终止线程。
+功能：给当前 [Future](core_package_classes.md#class-futuret) 实例对应的仓颉线程发送取消请求。该方法不会立即停止线程执行，仅发送请求，相应地，[Thread](core_package_classes.md#class-thread) 类的函数 `hasPendingCancellation` 可用于检查线程是否存在取消请求，开发者可以通过该检查来自行决定是否提前终止线程以及如何终止线程。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main(): Unit {
+    /* 创建线程 */
+    let future = spawn {
+        while (true) {
+            if (Thread.currentThread.hasPendingCancellation) {
+                return 0
+            }
+        }
+        return 1
+    }
+    /* 向线程发送取消请求 */
+    future.cancel()
+    let res = future.get()
+    println(res)
+}
+```
+
+运行结果：
+
+```text
+0
+```
 
 ### func get()
 
@@ -299,23 +382,76 @@ public func get(): T
 
 - T - 当前 [Future](core_package_classes.md#class-futuret)\<T> 实例代表的线程运行结束后的返回值。
 
-### func get(Int64)
+示例：
+
+<!-- verify -->
+```cangjie
+main(): Int64 {
+    let fut: Future<Int64> = spawn {
+        =>
+        sleep(1000 * Duration.millisecond) /* 睡眠 1 秒 */
+        return 1
+    }
+
+    /* 等待线程完成 */
+    let result: Int64 = fut.get()
+    println(result)
+    return 0
+}
+```
+
+运行结果：
+
+```text
+1
+```
+
+### func get(Duration)
 
 ```cangjie
-public func get(ns: Int64): Option<T>
+public func get(timeout: Duration): T
 ```
 
 功能：阻塞当前线程，等待指定时长并获取当前 [Future](core_package_classes.md#class-futuret)\<T> 对象对应的线程的返回值。
 
-需指定等待的超时时间，如果相应的线程在指定时间内未完成执行，则该函数将返回 `None`如果 ns <= 0，等同于 get()，即不限制等待时长。如果线程抛出异常退出执行，在 get 调用处将继续抛出该异常。
+需指定等待的超时时间，如果相应的线程在指定时间内未完成执行，则该函数将抛出异常[TimeoutException](./core_package_exceptions.md#class-timeoutexception)。如果 timeout <= Duration.Zero，等同于 get()，即不限制等待时长。如果线程抛出异常退出执行，在 get 调用处将继续抛出该异常。
 
 参数：
 
-- ns: [Int64](core_package_intrinsics.md#int64) - 等待时间，单位为纳秒。
+- timeout: [Duration](./core_package_structs.md#struct-duration) - 等待时间。
 
 返回值：
 
-- [Option](core_package_enums.md#enum-optiont)\<T> - 返回指定时长后仓颉线程执行结果。
+- T - 返回指定时长后仓颉线程执行结果。
+
+异常：
+
+- [TimeoutException](./core_package_exceptions.md#class-timeoutexception) - 如果相应的线程在指定时间内未完成执行，则该函数将抛出此异常。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main(): Int64 {
+    let fut: Future<Int64> = spawn {
+        =>
+        sleep(1000 * Duration.millisecond) /* 睡眠 1 秒 */
+        return 1
+    }
+
+    let result: Int64 = fut.get(2000 * Duration.millisecond)
+    /* 最大等待时间为 2 秒， 超过该时间抛出 TimeoutException */
+
+    println(result)
+    return 0
+}
+```
+
+运行结果：
+
+```text
+1
+```
 
 ### func tryGet()
 
@@ -328,6 +464,33 @@ public func tryGet(): Option<T>
 返回值：
 
 - [Option](core_package_enums.md#enum-optiont)\<T> - 如果当前仓颉线程未完成返回 `None`，否则返回执行结果。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main(): Int64 {
+    let fut: Future<Int64> = spawn {
+        =>
+        sleep(1000 * Duration.millisecond) /* 睡眠 1 秒 */
+        return 1
+    }
+
+    /* 主线程等待 4 秒，保证创建线程已经完成 */
+    sleep(4000 * Duration.millisecond)
+
+    /* 尝试获取创建线程的运行结果 */
+    let result: Option<Int64> = fut.tryGet()
+    println(result)
+    return 0
+}
+```
+
+运行结果：
+
+```text
+Some(1)
+```
 
 ## class Iterator\<T>
 
@@ -365,6 +528,34 @@ public func next(): Option<T>
 
 - [Option](core_package_enums.md#enum-optiont)\<T> - 迭代过程中的下一个元素。
 
+示例：
+
+<!-- verify -->
+```cangjie
+main(): Int64 {
+    var arr: Array<Int64> = [1, 2, 3, 4, 5]
+    var iter = arr.iterator() /* 获取容器的迭代器对象 */
+
+    while (true) { /* 使用迭代器进行遍历 */
+        match (iter.next()) {
+            case Some(i) => println(i)
+            case None => break
+        }
+    }
+    return 0
+}
+```
+
+运行结果：
+
+```text
+1
+2
+3
+4
+5
+```
+
 ### extend\<T> Iterator\<T>
 
 ```cangjie
@@ -373,13 +564,15 @@ extend<T> Iterator<T>
 
 功能：扩展 [Iterator](core_package_classes.md#class-iteratort)\<T> 类型。
 
+迭代器的方法主要包含中间操作和终止操作。中间操作（如 [skip()](#func-skipint64)、[map()](#func-maprt---r)）会产生一个新的迭代器。而终止操作（如 [count()](#func-count)、[all()](#func-allt---bool)）会根据迭代器产生的元素计算结果，而不产生新的迭代器。每种迭代器方法都会消耗迭代器中不同数量的元素，详见各方法描述。
+
 #### func all((T) -> Bool)
 
 ```cangjie
 public func all(predicate: (T)-> Bool): Bool
 ```
 
-功能：判断迭代器所有元素是否都满足条件。
+功能：判断迭代器所有元素是否都满足条件。此方法会重复获取并消耗迭代器中元素直到某个元素不满足条件。
 
 参数：
 
@@ -389,13 +582,34 @@ public func all(predicate: (T)-> Bool): Bool
 
 - [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 元素是否都满足条件。
 
+示例：
+
+<!-- verify -->
+```cangjie
+main(): Int64 {
+    var arr: Array<Int64> = [1, 2, 3, 4, 5]
+
+    /* 获取容器的迭代器对象 */
+    var iter = arr.iterator()
+    var flag: Bool = iter.all({v: Int64 => v > 0})
+    println(flag)
+    return 0
+}
+```
+
+运行结果：
+
+```text
+true
+```
+
 #### func any((T) -> Bool)
 
 ```cangjie
 public func any(predicate: (T)-> Bool): Bool
 ```
 
-功能：判断迭代器是否存在任意一个满足条件的元素。
+功能：判断迭代器是否存在任意一个满足条件的元素。此方法会重复获取并消耗迭代器中元素直到某个元素满足条件。
 
 参数：
 
@@ -405,21 +619,63 @@ public func any(predicate: (T)-> Bool): Bool
 
 - [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 是否存在任意满足条件的元素。
 
+示例：
+
+<!-- verify -->
+```cangjie
+main(): Int64 {
+    var arr: Array<Int64> = [1, 2, 3, 4, 5]
+
+    /* 获取容器的迭代器对象 */
+    var iter = arr.iterator()
+    var flag: Bool = iter.any({v: Int64 => v > 4})
+    println(flag)
+    return 0
+}
+```
+
+运行结果：
+
+```text
+true
+```
+
 #### func at(Int64)
 
 ```cangjie
 public func at(n: Int64): Option<T>
 ```
 
-功能：获取当前迭代器第 n 个元素。
+功能：获取当前迭代器第 n 个元素，n 从 0 开始计数。此方法会消耗指定元素前的所有元素（包括指定元素）。
 
 参数：
 
-- n: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 给定的个数。
+- n: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 给定的元素序号，序号从 0 开始。
 
 返回值：
 
 - [Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<T> - 返回对应位置元素，若 n 大于剩余元素数量则返回 None。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main(): Int64 {
+    var arr: Array<Int64> = [1, 2, 3, 4, 5]
+
+    /* 获取容器的迭代器对象 */
+    var iter = arr.iterator()
+    var num: Option<Int64> = iter.at(2)
+    println(num)
+    return 0
+}
+```
+
+运行结果：
+
+```text
+Some(3)
+```
 
 #### func concat(Iterator\<T>)
 
@@ -437,17 +693,85 @@ public func concat(other: Iterator<T>): Iterator<T>
 
 - [Iterator](../../core/core_package_api/core_package_classes.md#class-iteratort)\<T> - 返回串联后的新迭代器。
 
+示例：
+
+<!-- verify -->
+```cangjie
+main(): Int64 {
+    var arr1: Array<Int64> = [1, 2]
+    var arr2: Array<Int64> = [3, 4]
+
+    /* 获取容器的迭代器对象 */
+    var iter1 = arr1.iterator()
+    var iter2 = arr2.iterator()
+
+    /* 合并两个迭代器 */
+    var iter = iter1.concat(iter2)
+
+    /* 使用迭代器进行遍历 */
+    while (true) {
+        match (iter.next()) {
+            case Some(i) => println(i)
+            case None => break
+        }
+    }
+    return 0
+}
+```
+
+运行结果：
+
+```text
+1
+2
+3
+4
+```
+
 #### func count()
 
 ```cangjie
 public func count(): Int64
 ```
 
-功能：统计当前迭代器包含元素数量。
+功能：统计当前迭代器包含元素数量。此方法会消耗迭代器中所有元素来计算迭代器中的元素数量。
+
+> **注意：**
+>
+> 该方法会消耗迭代器，即使用该方法后迭代器内不再包含任何元素。
 
 返回值：
 
 - [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 返回迭代器包含元素数量。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main(): Int64 {
+    var arr: Array<Int64> = [1, 2]
+
+    /* 获取容器的迭代器对象 */
+    var iter = arr.iterator()
+    let len: Int64 = iter.count()
+    println(len)
+
+    /* 使用迭代器进行遍历，但是count消耗了迭代器中的元素，因此不会打印 */
+    while (true) {
+        match (iter.next()) {
+            case Some(i) => println(i)
+            case None => break
+        }
+    }
+    return 0
+}
+```
+
+运行结果：
+
+```text
+2
+```
 
 #### func enumerate()
 
@@ -459,7 +783,39 @@ public func enumerate(): Iterator<(Int64, T)>
 
 返回值：
 
-- [Iterator](../../core/core_package_api/core_package_classes.md#class-iteratort) <([Int64](../../core/core_package_api/core_package_intrinsics.md#int64), T) > - 返回一个带索引的迭代器。
+- [Iterator](../../core/core_package_api/core_package_classes.md#class-iteratort)\<([Int64](../../core/core_package_api/core_package_intrinsics.md#int64), T)> - 返回一个带索引的迭代器。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main(): Int64 {
+    var arr: Array<Int64> = [1, 2]
+
+    /* 获取容器的迭代器对象 */
+    var iter = arr.iterator()
+    var iter1 = iter.enumerate()
+
+    /* 使用迭代器进行遍历 */
+    while (true) {
+        match (iter1.next()) {
+            case Some(i) =>
+                print(i[0].toString() + ' ')
+                print(i[1])
+                println()
+            case None => break
+        }
+    }
+    return 0
+}
+```
+
+运行结果：
+
+```text
+0 1
+1 2
+```
 
 #### func filter((T) -> Bool)
 
@@ -477,10 +833,40 @@ public func filter(predicate: (T)-> Bool): Iterator<T>
 
 - [Iterator](../../core/core_package_api/core_package_classes.md#class-iteratort)\<T> - 返回一个新迭代器。
 
+示例：
+
+<!-- verify -->
+```cangjie
+main(): Int64 {
+    var arr: Array<Int64> = [1, 2, 3, 4, 5]
+
+    /* 获取过滤后的迭代器对象 */
+    var iter = arr.iterator()
+    var iter1 = iter.filter({value: Int64 => value > 2})
+
+    /* 使用迭代器进行遍历 */
+    while (true) {
+        match (iter1.next()) {
+            case Some(i) => println(i)
+            case None => break
+        }
+    }
+    return 0
+}
+```
+
+运行结果：
+
+```text
+3
+4
+5
+```
+
 #### func filterMap\<R>((T) -> Option\<R>)
 
 ```cangjie
-public func filterMap<R>(transform: (T)-> Option<R>): Iterator<R>
+public func filterMap<R>(transform: (T) -> Option<R>): Iterator<R>
 ```
 
 功能：同时进行筛选操作和映射操作，返回一个新的迭代器。
@@ -493,22 +879,80 @@ public func filterMap<R>(transform: (T)-> Option<R>): Iterator<R>
 
 - [Iterator](../../core/core_package_api/core_package_classes.md#class-iteratort)\<R> - 返回一个新迭代器。
 
+示例：
+
+<!-- verify -->
+```cangjie
+main(): Int64 {
+    var arr: Array<Int64> = [1, 2, 3, 4, 5]
+
+    /* 获取过滤后的迭代器对象，对元素进行过滤和映射,映射需返回Option类型 */
+    var iter = arr.iterator()
+    var iter1 = iter.filterMap({
+        value: Int64 => if (value > 2) {
+            return Some(value + 1)
+        } else {
+            return None<Int64>
+        }
+    })
+
+    /* 使用迭代器进行遍历 */
+    while (true) {
+        match (iter1.next()) {
+            case Some(i) => println(i)
+            case None => break
+        }
+    }
+    return 0
+}
+```
+
+运行结果：
+
+```text
+4
+5
+6
+```
+
 #### func first()
 
 ```cangjie
 public func first(): Option<T>
 ```
 
-功能：获取当前迭代器的头部元素。
+功能：获取当前迭代器的头部元素。此方法会获取并消耗第一个元素。
 
 返回值：
 
 - [Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<T> - 返回头部元素，若为空则返回 None。
 
+示例：
+
+<!-- verify -->
+```cangjie
+main(): Int64 {
+    var arr: Array<Int64> = [1, 2, 3, 4, 5]
+
+    /* 获取迭代器对象 */
+    var iter = arr.iterator()
+    var head: Option<Int64> = iter.first()
+    println(head)
+
+    return 0
+}
+```
+
+运行结果：
+
+```text
+Some(1)
+```
+
 #### func flatMap\<R>((T) -> Iterator\<R>)
 
 ```cangjie
-public func flatMap<R>(transform: (T)-> Iterator<R>): Iterator<R>
+public func flatMap<R>(transform: (T) -> Iterator<R>): Iterator<R>
 ```
 
 功能：创建一个带 [flatten](../../collection/collection_package_api/collection_package_function.md#func-flattent-riterablet-where-t--iterabler) 功能的映射。
@@ -521,13 +965,45 @@ public func flatMap<R>(transform: (T)-> Iterator<R>): Iterator<R>
 
 - [Iterator](../../core/core_package_api/core_package_classes.md#class-iteratort)\<R> - 返回一个带 [flatten](../../collection/collection_package_api/collection_package_function.md#func-flattent-riterablet-where-t--iterabler) 功能的映射。
 
+示例：
+
+<!-- verify -->
+```cangjie
+main(): Int64 {
+    var arr: Array<Array<Int64>> = [[1], [2], [3], [4, 5]]
+
+    /* 获取带flatten功能的迭代器对象 */
+    var iter = arr.iterator()
+    var iter1 = iter.flatMap({value => value.iterator()})
+
+    /* 使用迭代器进行展开遍历 */
+    while (true) {
+        match (iter1.next()) {
+            case Some(i) => println(i)
+            case None => break
+        }
+    }
+    return 0
+}
+```
+
+运行结果：
+
+```text
+1
+2
+3
+4
+5
+```
+
 #### func fold\<R>(R, (R, T) -> R)
 
 ```cangjie
 public func fold<R>(initial: R, operation: (R, T)->R): R
 ```
 
-功能：使用指定初始值，从左向右计算。
+功能：使用指定初始值，从左向右计算。此方法会消耗迭代器中的所有元素。
 
 参数：
 
@@ -538,17 +1014,63 @@ public func fold<R>(initial: R, operation: (R, T)->R): R
 
 - R - 返回最终计算得到的值。
 
+示例：
+
+<!-- verify -->
+```cangjie
+main(): Int64 {
+    var arr: Array<Int64> = [1, 2, 3, 4, 5]
+
+    /* 获取迭代器对象，对数组元素进行求和 */
+    var iter = arr.iterator()
+    var sum: Int64 = iter.fold(0, {total, value => total + value})
+
+    println(sum)
+    return 0
+}
+```
+
+运行结果：
+
+```text
+15
+```
+
 #### func forEach((T) -> Unit)
 
 ```cangjie
 public func forEach(action: (T)-> Unit): Unit
 ```
 
-功能：遍历当前迭代器所有元素，对每个元素执行给定的操作。
+功能：遍历当前迭代器所有元素，对每个元素执行给定的操作。此方法会消耗迭代器中的所有元素。
 
 参数：
 
 - action: (T) -> [Unit](../../core/core_package_api/core_package_intrinsics.md#unit) - 给定的操作函数。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main(): Int64 {
+    var arr: Array<Int64> = [1, 2, 3, 4, 5]
+
+    var iter = arr.iterator()
+    iter.forEach({value => println(value)})
+
+    return 0
+}
+```
+
+运行结果：
+
+```text
+1
+2
+3
+4
+5
+```
 
 #### func inspect((T) -> Unit)
 
@@ -566,17 +1088,127 @@ public func inspect(action: (T) -> Unit): Iterator<T>
 
 - [Iterator](../../core/core_package_api/core_package_classes.md#class-iteratort)\<T> - 返回一个新迭代器。
 
+示例：
+
+<!-- verify -->
+```cangjie
+main(): Int64 {
+    var arr: Array<Int64> = [1, 2]
+
+    /* 获取迭代器对象，并为next函数附加额外操作 */
+    var iter = arr.iterator()
+    var iter1 = iter.inspect({value => println("Logging: Processing ${value}")})
+
+    /* 使用迭代器进行展开遍历 */
+    while (true) {
+        match (iter1.next()) {
+            case Some(i) => println("Processing ${i} !")
+            case None => break
+        }
+    }
+    return 0
+}
+```
+
+运行结果：
+
+```text
+Logging: Processing 1
+Processing 1 !
+Logging: Processing 2
+Processing 2 !
+```
+
+#### func intersperse(T)
+
+```cangjie
+public func intersperse(separator: T): Iterator<T>
+```
+
+功能：迭代器每两个元素之间插入一个给定的新元素。
+
+参数：
+
+- separator: T - 给定的元素。
+
+返回值：
+
+- [Iterator](../../core/core_package_api/core_package_classes.md#class-iteratort)\<T> - 返回一个新迭代器。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main(): Int64 {
+    var arr: Array<Int64> = [1, 2]
+
+    /* 获取迭代器对象，每两个元素之间插入一个0 */
+    var iter = arr.iterator()
+    var iter1 = iter.intersperse(0)
+
+    /* 使用迭代器进行展开遍历 */
+    while (true) {
+        match (iter1.next()) {
+            case Some(i) => println(i)
+            case None => break
+        }
+    }
+    return 0
+}
+```
+
+运行结果：
+
+```text
+1
+0
+2
+```
+
 #### func isEmpty()
 
 ```cangjie
 public func isEmpty(): Bool
 ```
 
-功能：判断当前迭代器是否为空。
+功能：判断当前迭代器是否为空。此方法会调用 [next()](#func-next-1) ，根据其返回值判断当前迭代器是否为空。因此如果当前迭代器不为空，则会消耗一个元素。
 
 返回值：
 
 - [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 返回当前迭代器是否为空。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main(): Int64 {
+    var arr: Array<Int64> = [1, 2]
+
+    /* 获取迭代器对象 */
+    var iter = arr.iterator()
+
+    /* 判断迭代器中是否有元素，如果有会消耗一个元素 */
+    println(iter.isEmpty())
+
+    /* 使用迭代器进行展开遍历 */
+    while (true) {
+        match (iter.next()) {
+            case Some(i) => println(i)
+            case None => break
+        }
+    }
+    println(iter.isEmpty())
+    return 0
+}
+```
+
+运行结果：
+
+```text
+false
+2
+true
+```
 
 #### func last()
 
@@ -584,11 +1216,31 @@ public func isEmpty(): Bool
 public func last(): Option<T>
 ```
 
-功能：获取当前迭代器尾部元素。
+功能：获取当前迭代器尾部元素。此方法会获取并消耗迭代器中的所有元素，并返回最后一个元素。
 
 返回值：
 
 - [Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<T> - 返回尾部元素，若为空则返回 None。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main(): Int64 {
+    var arr: Array<Int64> = [1, 2]
+
+    /* 获取迭代器对象 */
+    var iter = arr.iterator()
+    println(iter.last())
+    return 0
+}
+```
+
+运行结果：
+
+```text
+Some(2)
+```
 
 #### func map\<R>((T) -> R)
 
@@ -606,13 +1258,44 @@ public func map<R>(transform: (T)-> R): Iterator<R>
 
 - [Iterator](../../core/core_package_api/core_package_classes.md#class-iteratort)\<R> - 返回一个映射。
 
+示例：
+
+<!-- verify -->
+```cangjie
+main(): Int64 {
+    var arr: Array<Int64> = [1, 2, 3, 4]
+
+    /* 获取迭代器对象，并对元素进行映射，获取新的迭代器对象 */
+    var iter = arr.iterator()
+    var iter1 = iter.map({value => value * 2})
+
+    /* 使用迭代器进行展开遍历 */
+    while (true) {
+        match (iter1.next()) {
+            case Some(i) => println(i)
+            case None => break
+        }
+    }
+    return 0
+}
+```
+
+运行结果：
+
+```text
+2
+4
+6
+8
+```
+
 #### func none((T) -> Bool)
 
 ```cangjie
 public func none(predicate: (T)-> Bool): Bool
 ```
 
-功能：判断当前迭代器中所有元素是否都不满足条件。
+功能：判断当前迭代器中所有元素是否都不满足条件。此方法会重复获取并消耗迭代器中元素直到某个元素满足条件。
 
 参数：
 
@@ -622,13 +1305,42 @@ public func none(predicate: (T)-> Bool): Bool
 
 - [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 当前迭代器中元素是否都不满足条件。
 
+示例：
+
+<!-- verify -->
+```cangjie
+main(): Int64 {
+    var arr: Array<Int64> = [1, 2, 3, 4]
+
+    /* 获取迭代器对象，并对元素进行映射，获取新的迭代器对象 */
+    var iter1 = arr.iterator()
+    var iter2 = arr.iterator()
+
+    /* 存在元素大于2，返回false */
+    var flag1: Bool = iter1.none({value => value > 2})
+    println(flag1)
+
+    /* 不存在元素大于5，返回true */
+    var flag2: Bool = iter2.none({value => value > 5})
+    println(flag2)
+    return 0
+}
+```
+
+运行结果：
+
+```text
+false
+true
+```
+
 #### func reduce((T, T) -> T)
 
 ```cangjie
 public func reduce(operation: (T, T) -> T): Option<T>
 ```
 
-功能：使用第一个元素作为初始值，从左向右计算。
+功能：使用第一个元素作为初始值，从左向右计算。此方法会消耗迭代器中的所有元素。
 
 参数：
 
@@ -638,6 +1350,27 @@ public func reduce(operation: (T, T) -> T): Option<T>
 
 - [Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<T> - 返回计算结果。
 
+示例：
+
+<!-- verify -->
+```cangjie
+main(): Int64 {
+    var arr: Array<Int64> = [1, 2, 3, 4, 5]
+
+    /* 获取迭代器对象，对数组元素进行求和 */
+    var iter = arr.iterator()
+    var sum: Option<Int64> = iter.reduce({total, value => total + value})
+    println(sum)
+    return 0
+}
+```
+
+运行结果：
+
+```text
+Some(15)
+```
+
 #### func skip(Int64)
 
 ```cangjie
@@ -646,7 +1379,7 @@ public func skip(count: Int64): Iterator<T>
 
 功能：从前往后从当前迭代器跳过特定个数。
 
-当 count 小于 0 时，抛异常。当 count 等于 0 时，相当没有跳过任何元素，返回原迭代器。当 count 大于0并且count小于迭代器的大小时，跳过 count 个元素后，返回含有剩下的元素的新迭代器。当 count 大于等于迭代器的大小时，跳过所有元素，返回空迭代器。
+当 count 小于 0 时，抛出异常。当 count 等于 0 时，相当没有跳过任何元素，返回原迭代器。当 count 大于0并且count小于迭代器的大小时，跳过 count 个元素后，返回含有剩下的元素的新迭代器。当 count 大于等于迭代器的大小时，跳过所有元素，返回空迭代器。
 
 参数：
 
@@ -660,6 +1393,36 @@ public func skip(count: Int64): Iterator<T>
 
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当 count < 0 时，抛出异常。
 
+示例：
+
+<!-- verify -->
+```cangjie
+main(): Int64 {
+    var arr: Array<Int64> = [1, 2, 3, 4, 5]
+
+    /* 获取迭代器对象，跳过前两个元素 */
+    var iter = arr.iterator()
+    var iter1 = iter.skip(2)
+
+    /* 使用迭代器进行展开遍历 */
+    while (true) {
+        match (iter1.next()) {
+            case Some(i) => println(i)
+            case None => break
+        }
+    }
+    return 0
+}
+```
+
+运行结果：
+
+```text
+3
+4
+5
+```
+
 #### func step(Int64)
 
 ```cangjie
@@ -668,7 +1431,7 @@ public func step(count: Int64): Iterator<T>
 
 功能：迭代器每次调用 next() 跳过特定个数。
 
-当 count 小于等于 0 时，抛异常。当 count 大于 0 时，每次调用 next() 跳过 count 次，直到迭代器为空。
+当 count 小于等于 0 时，抛出异常。当 count 大于 0 时，每次调用 next() 跳过 count 次，直到迭代器为空。
 
 参数：
 
@@ -682,6 +1445,36 @@ public func step(count: Int64): Iterator<T>
 
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当 count <= 0 时，抛出异常。
 
+示例：
+
+<!-- verify -->
+```cangjie
+main(): Int64 {
+    var arr: Array<Int64> = [1, 2, 3, 4, 5]
+
+    /* 获取迭代器对象，每次调用 next() 会跳过两个元素 */
+    var iter = arr.iterator()
+    var iter1 = iter.step(2)
+
+    /* 使用迭代器进行展开遍历 */
+    while (true) {
+        match (iter1.next()) {
+            case Some(i) => println(i)
+            case None => break
+        }
+    }
+    return 0
+}
+```
+
+运行结果：
+
+```text
+1
+3
+5
+```
+
 #### func take(Int64)
 
 ```cangjie
@@ -690,7 +1483,7 @@ public func take(count: Int64): Iterator<T>
 
 功能：从当前迭代器取出特定个数。
 
-从后往前取出当前迭代器特定个数的元素。当 count 小于 0 时，抛异常。当 count 等于 0 时，不取元素，返回空迭代器。当 count 大于 0 小于迭代器的大小时，取前 count 个元素，返回新迭代器。当 count 大于等于迭代器的大小时，取所有元素，返回原迭代器。
+从前往后取出当前迭代器特定个数的元素。当 count 小于 0 时，抛出异常。当 count 等于 0 时，不取元素，返回空迭代器。当 count 大于 0 小于迭代器的大小时，取前 count 个元素，返回新迭代器。当 count 大于等于迭代器的大小时，取所有元素，返回原迭代器。
 
 参数：
 
@@ -704,6 +1497,36 @@ public func take(count: Int64): Iterator<T>
 
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当 count < 0 时，抛出异常。
 
+示例：
+
+<!-- verify -->
+```cangjie
+main(): Int64 {
+    var arr: Array<Int64> = [1, 2, 3, 4, 5]
+
+    /* 获取迭代器对象，取出前三个元素 */
+    var iter = arr.iterator()
+    var iter1 = iter.take(3)
+
+    /* 使用迭代器进行展开遍历 */
+    while (true) {
+        match (iter1.next()) {
+            case Some(i) => println(i)
+            case None => break
+        }
+    }
+    return 0
+}
+```
+
+运行结果：
+
+```text
+1
+2
+3
+```
+
 #### func zip\<R>(Iterator\<R>)
 
 ```cangjie
@@ -714,11 +1537,43 @@ public func zip<R>(it: Iterator<R>): Iterator<(T, R)>
 
 参数：
 
-- it: [Iterable](../../core/core_package_api/core_package_interfaces.md#interface-iterablee)\<R> - 要合并的其中一个迭代器。
+- it: [Iterator](../../core/core_package_api/core_package_classes.md#class-iteratort)\<R> - 要合并的其中一个迭代器。
 
 返回值：
 
-- [Iterator](../../core/core_package_api/core_package_classes.md#class-iteratort) <(T, R)> - 返回一个新迭代器。
+- [Iterator](../../core/core_package_api/core_package_classes.md#class-iteratort)\<(T, R)> - 返回一个新迭代器。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main(): Int64 {
+    var arr1: Array<Int64> = [1, 2, 3, 4]
+    var arr2: Array<Int64> = [4, 5, 6]
+
+    /* 获取迭代器对象并合并，新迭代器中的元素为对应索引位置元素的元组 */
+    var iter1 = arr1.iterator()
+    var iter2 = arr2.iterator()
+    var iter = iter1.zip(iter2)
+
+    /* 使用迭代器进行遍历，长度取决于较短的迭代器 */
+    while (true) {
+        match (iter.next()) {
+            case Some(i) => println("The current element is (${i[0]}, ${i[1]}) ")
+            case None => break
+        }
+    }
+    return 0
+}
+```
+
+运行结果：
+
+```text
+The current element is (1, 4)
+The current element is (2, 5)
+The current element is (3, 6)
+```
 
 ### extend\<T> Iterator\<T> where T <: Comparable\<T>
 
@@ -734,11 +1589,34 @@ extend<T> Iterator<T> where T <: Comparable<T>
 public func max(): Option<T>
 ```
 
-功能：筛选最大的元素。
+功能：筛选最大的元素。此方法会消耗迭代器中的所有元素。
 
 返回值：
 
 - [Option](core_package_enums.md#enum-optiont)\<T> - 返回最大的元素，若为空则返回 None。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main(): Int64 {
+    var arr: Array<Int64> = [1, 2, 3, 4]
+
+    /* 获取迭代器对象，使用 max() 求最大值 */
+    var iter = arr.iterator()
+    match(iter.max()) {
+        case Some(i)=> println(i)
+        case None=> println("None!")
+    }
+    return 0
+}
+```
+
+运行结果：
+
+```text
+4
+```
 
 #### func min()
 
@@ -746,11 +1624,34 @@ public func max(): Option<T>
 public func min(): Option<T>
 ```
 
-功能：筛选最小的元素。
+功能：筛选最小的元素。此方法会消耗迭代器中的所有元素。
 
 返回值：
 
 - [Option](core_package_enums.md#enum-optiont)\<T> - 返回最小的元素，若为空则返回 None。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main(): Int64 {
+    var arr: Array<Int64> = [1, 2, 3, 4]
+
+    /* 获取迭代器对象，使用 min() 求最小值 */
+    var iter = arr.iterator()
+    match(iter.min()) {
+        case Some(i)=> println(i)
+        case None=> println("None!")
+    }
+    return 0
+}
+```
+
+运行结果：
+
+```text
+1
+```
 
 ### extend\<T> Iterator\<T> where T <: Equatable\<T>
 
@@ -766,7 +1667,7 @@ extend<T> Iterator<T> where T <: Equatable<T>
 public func contains(element: T): Bool
 ```
 
-功能：遍历所有元素，判断是否包含指定元素。
+功能：遍历所有元素，判断是否包含指定元素。此方法会重复获取并消耗迭代器中元素直到某个元素与参数 `element` 相等。
 
 参数：
 
@@ -776,6 +1677,35 @@ public func contains(element: T): Bool
 
 - [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 是否包含指定元素。
 
+示例：
+
+<!-- verify -->
+```cangjie
+main(): Int64 {
+    var arr: Array<Int64> = [1, 2, 3, 4]
+
+    /* 获取迭代器对象，查找是否包含元素 3 */
+    var iter = arr.iterator()
+    println(iter.contains(3))
+
+    /* 使用迭代器进行遍历，输出剩余元素 */
+    while (true) {
+        match (iter.next()) {
+            case Some(i) => println(i)
+            case None => break
+        }
+    }
+    return 0
+}
+```
+
+运行结果：
+
+```text
+true
+4
+```
+
 ## class Object
 
 ```cangjie
@@ -784,7 +1714,7 @@ public open class Object <: Any {
 }
 ```
 
-[Object](core_package_classes.md#class-object) 是所有 `class` 的父类，所有 `class` 都默认继承它。[Object](core_package_classes.md#class-object) 类中不包含任何成员，即 [Object](core_package_classes.md#class-object) 是一个“空”的类。
+功能：[Object](core_package_classes.md#class-object) 是所有 `class` 的父类，所有 `class` 都默认继承它。[Object](core_package_classes.md#class-object) 类中不包含任何成员，即 [Object](core_package_classes.md#class-object) 是一个“空”的类。
 
 父类型：
 
@@ -810,18 +1740,6 @@ public class RangeIterator<T> <: Iterator<T> where T <: Countable<T> & Comparabl
 
 - [Iterator](#class-iteratort)\<T>
 
-### func iterator()
-
-```cangjie
-public func iterator(): Iterator<T>
-```
-
-功能：获取当前迭代器实例。
-
-返回值：
-
-- [Iterator](core_package_classes.md#class-iteratort)\<T> - 当前迭代器实例。
-
 ### func next()
 
 ```cangjie
@@ -830,7 +1748,9 @@ public func next(): Option<T>
 
 功能：获取 [Range](core_package_structs.md#struct-ranget-where-t--countablet--comparablet--equatablet) 迭代器中的下一个值。
 
-返回值：[Range](core_package_structs.md#struct-ranget-where-t--countablet--comparablet--equatablet) 迭代器中的下一个成员，用 [Option](core_package_enums.md#enum-optiont) 封装，迭代到末尾时返回 `None`。
+返回值：
+
+- [Option](core_package_enums.md#enum-optiont)\<T> - [Range](core_package_structs.md#struct-ranget-where-t--countablet--comparablet--equatablet) 迭代器中的下一个成员，用 [Option](core_package_enums.md#enum-optiont) 封装，迭代到末尾时返回 `None`。
 
 ## class StackTraceElement
 
@@ -978,7 +1898,7 @@ public init(capacity: Int64)
 
 参数：
 
-- capacity: [Int64](core_package_intrinsics.md#int64) - 初始化 [StringBuilder](core_package_classes.md#class-stringbuilder) 的字节容量，取值范围为 (0, [Int64.Max](../../math/math_package_api/math_package_interfaces.md#static-prop-max-5)]。
+- capacity: [Int64](core_package_intrinsics.md#int64) - 初始化 [StringBuilder](core_package_classes.md#class-stringbuilder) 的字节容量，取值范围为 (0, [Int64.Max](./core_package_intrinsics.md#static-prop-max-5)]。
 
 异常：
 
@@ -995,7 +1915,7 @@ public init(r: Rune, n: Int64)
 参数：
 
 - r: Rune - 初始化 [StringBuilder](core_package_classes.md#class-stringbuilder) 实例的字符。
-- n: [Int64](core_package_intrinsics.md#int64) - 字符 `r` 的数量，取值范围为 [0, [Int64.Max](../../math/math_package_api/math_package_interfaces.md#static-prop-max-5)]。
+- n: [Int64](core_package_intrinsics.md#int64) - 字符 `r` 的数量，取值范围为 [0, [Int64.Max](./core_package_intrinsics.md#static-prop-max-5)]。
 
 异常：
 
@@ -1287,7 +2207,7 @@ public func reserve(additional: Int64): Unit
 
 - additional: [Int64](core_package_intrinsics.md#int64) - 指定 [StringBuilder](core_package_classes.md#class-stringbuilder) 的扩容大小。
 
-### func reset(?Int64)
+### func reset(Option\<Int64>)
 
 ```cangjie
 public func reset(capacity!: Option<Int64> = None): Unit
@@ -1325,7 +2245,7 @@ public func toString(): String
 public class Thread
 ```
 
-功能：[Thread](core_package_classes.md#class-thread) 类代表一个仓颉类，可用于获取线程 ID 及名字、查询线程是否存在取消请求、注册线程未处理异常的处理函数等。
+功能：获取线程 ID 及名字、查询线程是否存在取消请求、注册线程未处理异常的处理函数等。
 
 该类型实例无法通过构造得到，仅能通过 [Future](core_package_classes.md#class-futuret) 对象的 `thread` 属性或是 [Thread](core_package_classes.md#class-thread) 类的 `currentThread` 静态属性获取。
 

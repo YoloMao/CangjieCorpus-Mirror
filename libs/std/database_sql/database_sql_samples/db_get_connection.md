@@ -5,7 +5,7 @@
 ```cangjie
 import std.database.sql.*
 
-main() {
+main(): Unit {
     // 获取已经注册的驱动
     let drv = DriverManager.getDriver("opengauss") ?? return
 
@@ -28,6 +28,6 @@ main() {
     ds.setOption(SqlOption.TlsVersion, "TLSv1.2,TLSv1.3")
 
     // 返回一个可用连接
-    let conn = ds.connect()
+    ds.connect()
 }
 ```

@@ -56,8 +56,8 @@ func testAllEqual() {
 ```cangjie
 @Test[size in [0, 1, 50, 100, 1000]]
 func testAllEqual(size: Int64) {
-    let arr = Array(size, item: 0)
-    let expected = Array(size, item: 0)
+    let arr = Array(size, repeat: 0)
+    let expected = Array(size, repeat: 0)
     sort(arr)
     @Expect(expected, arr)
 }
@@ -74,8 +74,8 @@ func testAllEqual(size: Int64) {
     item in (-1..20)
 ]
 func testAllEqual(size: Int64, item: Int64) {
-    let arr = Array(size, item: item)
-    let expected = Array(size, item: item)
+    let arr = Array(size, repeat: item)
+    let expected = Array(size, repeat: item)
     sort(arr)
     @Expect(expected, arr)
 }
@@ -103,7 +103,7 @@ func testAllEqual(size: Int64, item: Int64) {
     ]
 ]
 func testDifferentArrays(array: Array<Int64>) {
-    //测试数组是否已排序
+    // 测试数组是否已排序
     for (i in 0..(array.size - 1)) {
         @Expect(array[i] <= array[i + 1])
     }
@@ -122,7 +122,7 @@ func testDifferentArrays(array: Array<Int64>) {
     array in random()
 ]
 func testRandomArrays(array: Array<Int64>) {
-    //测试数组是否已排序
+    // 测试数组是否已排序
     for (i in 0..(array.size - 1)) {
         @Expect(array[i] <= array[i + 1])
     }
@@ -278,7 +278,7 @@ func sort<T>(array: Array<T>): Unit where T <: Comparable<T> {
     ]
 ]
 func testDifferentArraysString(array: Array<String>) {
-    //测试数组是否已排序
+    // 测试数组是否已排序
     let sorted = array.clone()
     sort(sorted)
     for (i in 0..(sorted.size - 1)) {
@@ -364,8 +364,8 @@ func testRandomArrays<T>(array: Array<T>) where T <: Comparable<T> & Arbitrary<T
 @Test[data in random()]
 func testHashSetContains(data: Array<Int64>) {
     let hashSet = HashSet(len)
-    hashSet.putAll(data)
- 
+    hashSet.add(all: data)
+
     for (element in data){
         @Assert(hashSet.contains(element))
     }
@@ -378,8 +378,8 @@ func testHashSetContains(data: Array<Int64>) {
 @Test[data in random()]
 func testHashSetRemove(data: Array<Int64>) {
     let hashSet = HashSet(len)
-    hashSet.putAll(data)
- 
+    hashSet.add(all: data)
+
     for (element in data){
         @Assert(hashSet.remove(element))
     }
@@ -395,8 +395,8 @@ func generateUniqArray(len: Int64, start: Int64){
     let rng = Random(start)
     let step = Int64.Max / len
     counter = 0
-    Array(len, { _ => 
-        counter += rng.nextInt64()%step 
+    Array(len, { _ =>
+        counter += rng.nextInt64()%step
         counter
     } )
 }
@@ -405,8 +405,8 @@ func generateUniqArray(len: Int64, start: Int64){
 func testHashSetRemove(len: Int64, start: Int64) {
     let data = generateUniqArray(len,start)
     let hashSet = HashSet(len)
-    hashSet.putAll(data)
- 
+    hashSet.add(all: data)
+
     for (element in data){
         @Assert(hashSet.remove(element))
     }
@@ -423,8 +423,8 @@ func generateUniqArray(len: Int64, start: Int64): Array<Int64>{
     let rng = Random(start)
     let step = Int64.Max / len
     counter = 0
-    Array(len, { _ => 
-        counter += rng.nextInt64()%step 
+    Array(len, { _ =>
+        counter += rng.nextInt64()%step
         counter
     } )
 }
@@ -436,21 +436,82 @@ func generateUniqArray(len: Int64, start: Int64): Array<Int64>{
 @Test[data in generateUniqArray]
 func testHashSetRemove(data: Array<Int64>) {
     let hashSet = HashSet()
-    hashSet.putAll(data)
- 
+    hashSet.add(all: data)
+
     for (element in data){
         @Assert(hashSet.remove(element))
     }
 }
- 
+
 @Test[data in generateUniqArray]
 func testHashSetToArray(data: Array<Int64>) {
     let hashSet = HashSet()
-    hashSet.putAll(data)
- 
+    hashSet.add(all: data)
+
     let result = hashSet.toArray()
     result.sort()
     data.sort()
     @Assert(result == data)
 }
 ```
+
+对于测试来说，使用此类自定义策略的用例很少。但由于它们在相应章节中描述的基准测试中的使用，它们仍然是框架的重要组成部分。
+
+## 覆盖率引导的随机参数化测试
+
+如上所述，随机测试对于有能力的人来说是一个强大的工具，但它们也有一些局限性。
+例如：
+
+```cangjie
+@Test[x in random()]
+func testX(x: Int64) {
+    @Expect(x != 1234567)
+}
+```
+
+虽然这样的测试看起来很简单，但如果运行它，可能不会得到预期的结果：
+
+```text
+--------------------------------------------------------------------------------------------------
+TP: default, time elapsed: 1393856 ns, RESULT:
+    TCS: TestCase_testX, time elapsed: 1393856 ns, RESULT:
+    [ PASSED ] CASE: testX (1378439 ns)
+Summary: TOTAL: 1
+    PASSED: 1, SKIPPED: 0, ERROR: 0
+    FAILED: 0
+--------------------------------------------------------------------------------------------------
+```
+
+而且即使你将生成步骤的数量增加到几百万，这个测试也可能不会失败，因为随机测试是随机的，生成精确的非常规数字的概率极低。
+虽然此测试看起来是自动生成的，并且不能真正代表生产代码，但它显示了随机代码在更现实的场景中可能面临的相同问题，从而大大减少了其在更高级用途中的应用，例如查找代码中的安全缺陷。
+
+为解决这个问题，仓颉单元测试框架引入了一项基于 security-fuzzing 测试技术的高级特性：覆盖率引导的随机参数化单元测试。该特性针对的是那些希望对其代码进行更细致的测试，同时仍然享受随机测试的可用性和易用性的用户。
+
+使用覆盖率引导的单元测试，需要执行以下步骤：
+
+- 该项目必须在编译器支持 `SanitizerCoverage` 的情况下进行编译。具体需要以下两个选项：`--sanitizer-coverage-trace-pc-guard` 和 `--sanitizer-coverage-trace-compares` 。
+- 用例可执行文件必须配置 [--coverage-guided](./unittest_basics.md#coverage-guided) 选项。
+- 测试的生成步骤参数必须根据代码的复杂性增加，以允许覆盖引导算法继续进行。
+
+如果我们使用编译器选项 `--sanitizer-coverage-trace-pc-guard` 和 `--sanitizer-coverage-trace-compares` 编译上面的示例，然后使用 `--coverage-guided` 选项运行它，我们得到类似于以下内容的结果：
+
+```text
+--------------------------------------------------------------------------------------------------
+TP: default, time elapsed: 2004749 ns, RESULT:
+    TCS: TestCase_testX, time elapsed: 2004749 ns, RESULT:
+    [ FAILED ] CASE: testX (17380 ns)
+    REASON: After 48 generation steps and 3 reduction steps:
+        x = 1234567
+    with randomSeed = 1721033700363557083
+    Expect Failed: `(x != 1234567 == true)`
+       left: false
+      right: true
+
+Summary: TOTAL: 1
+    PASSED: 0, SKIPPED: 0, ERROR: 0
+    FAILED: 1, listed below:
+            TCS: TestCase_testX, CASE: testX
+--------------------------------------------------------------------------------------------------
+```
+
+正如我们所看到的，测试在极少数生成步骤中失败（本例中为 48 个，但是，由于总是随机测试，结果可能会有所不同），但一般来说，建议至少将测试的生成步骤配置为数十万步。因此用例的执行时间可能会很长。

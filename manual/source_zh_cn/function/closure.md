@@ -64,7 +64,7 @@ func f() {
         println(y)      // Error, cannot capture 'y' which is not defined yet
     }
     let y = 88
-    f1()          // Print 99.
+    f1()     // Print 99
     f2()
 }
 ```
@@ -75,7 +75,7 @@ func f() {
 func f() {
     let x: Int64
     func f1() {
-        println(x)    // Error, x is not initialized yet.
+        println(x)     // Error, x is not initialized yet
     }
     x = 99
     f1()
@@ -103,7 +103,7 @@ func returnIncrementer(): () -> Unit {
 
 main() {
     let f = returnIncrementer()
-    f() // c.num increases by 1
+    f()     // c.num increases by 1
 }
 ```
 
@@ -115,18 +115,18 @@ func f() {
     let y = 2
 
     func g() {
-        println(x)  // OK, captured a mutable variable.
+        println(x)  // OK, captured a mutable variable
     }
     let b = g  // Error, g cannot be assigned to a variable
 
     g  // Error, g cannot be used as an expression
     g()  // OK, g can be invoked
 
-    g  // Error, g cannot be used as a return value.
+    g  // Error, g cannot be used as a return value
 }
 ```
 
-需要注意的是，捕获具有传递性，如果一个函数 `f` 调用了捕获 `var` 变量的函数 `g`，且 `g` 捕获的 `var` 变量不在函数 `f` 内定义，那么函数 `f` 同样捕获了 `var` 变量，此时，`f` 也不能作为一等公民使用。
+需要注意的是，捕获具有传递性。如果一个函数 `f` 调用了捕获 `var` 变量的函数 `g`，且 `g` 捕获的 `var` 变量不在函数 `f` 内定义，那么函数 `f` 同样捕获了 `var` 变量，此时，`f` 也不能作为一等公民使用。
 
 以下示例中，`g` 捕获了 `var` 声明的变量 `x`，`f` 调用了 `g`，且 `g` 捕获的 `x` 不在 `f` 内定义，`f` 同样不能作为一等公民使用：
 
@@ -143,7 +143,7 @@ func h(){
 }
 ```
 
-以下示例中，`g` 捕获了 `var` 声明的变量 `x`，`f` 调用了 `g`。但 `g` 捕获的 `x` 在 `f` 内定义，`f` 没有捕获其它 `var` 声明的变量。因此，`f` 仍作为一等公民使用：
+以下示例中，`g` 捕获了 `var` 声明的变量 `x`，`f` 调用了 `g`。但 `g` 捕获的 `x` 在 `f` 内定义，`f` 没有捕获其他 `var` 声明的变量。因此，`f` 仍作为一等公民使用：
 
 <!-- compile -->
 

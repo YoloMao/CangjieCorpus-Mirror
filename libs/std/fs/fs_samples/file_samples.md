@@ -7,17 +7,17 @@
 
 ```cangjie
 import std.fs.*
-import std.io.SeekPosition
+import std.io.*
 
 main() {
     let filePath: Path = Path("./tempFile.txt")
-    if (File.exists(filePath)) {
-        File.delete(filePath)
+    if (exists(filePath)) {
+        remove(filePath)
     }
 
     /* 在当前目录以 只写模式 创建新文件 'tempFile.txt'，写入三遍 "123456789\n" 并关闭文件 */
-    var file: File = File(filePath, OpenOption.Create(false))
-    if (File.exists(filePath)) {
+    var file: File = File(filePath, Write)
+    if (exists(filePath)) {
         println("The file 'tempFile.txt' is created successfully in current directory.\n")
     }
     let bytes: Array<Byte> = "123456789\n".toArray()
@@ -27,13 +27,13 @@ main() {
     file.close()
 
     /* 以 追加模式 打开文件 './tempFile.txt'，写入 "abcdefghi\n" 并关闭文件 */
-    file = File(filePath, OpenOption.Append)
+    file = File(filePath, Append)
     file.write("abcdefghi\n".toArray())
     file.close()
 
     /* 以 只读模式 打开文件 './tempFile.txt'，按要求读出数据并关闭文件 */
-    file = File(filePath, OpenOption.Open(true, false))
-    let bytesBuf: Array<Byte> = Array<Byte>(10, item: 0)
+    file = File(filePath, Read)
+    let bytesBuf: Array<Byte> = Array<Byte>(10, repeat: 0)
     // 从文件头开始的第 10 个字节后开始读出 10 个字节的数据
     file.seek(SeekPosition.Begin(10))
     file.read(bytesBuf)
@@ -44,20 +44,26 @@ main() {
     println("Data of the last 10 bytes: ${String.fromUtf8(bytesBuf)}")
     file.close()
 
-    /* 以 截断模式 打开文件 './tempFile.txt'，写入 "The file was truncated to an empty file!" 并关闭文件 */
-    file = File(filePath, OpenOption.Truncate(true))
+    /* 以 读+写模式 打开文件 './tempFile.txt'，按要求进行操作后关闭文件 */
+    file = File(filePath, ReadWrite)
+    // 截断文件大小为 0
+    file.setLength(0)
+    // 向文件中写入新内容
     file.write("The file was truncated to an empty file!".toArray())
+    // 重置游标到文件头
     file.seek(SeekPosition.Begin(0))
-    let allBytes: Array<Byte> = file.readToEnd()
+    // 读取文件内容
+    let allBytes: Array<Byte> = readToEnd(file)
+    // 关闭文件
     file.close()
     println("Data written newly: ${String.fromUtf8(allBytes)}")
 
-    File.delete(filePath)
+    remove(filePath)
     return 0
 }
 ```
 
-运行结果如下：
+运行结果：
 
 ```text
 The file 'tempFile.txt' is created successfully in current directory.
@@ -79,8 +85,8 @@ import std.fs.*
 
 main() {
     let filePath: Path = Path("./tempFile.txt")
-    if (File.exists(filePath)) {
-        File.delete(filePath)
+    if (exists(filePath)) {
+        remove(filePath)
     }
 
     /* 以 只写模式 创建文件，并写入 "123456789\n" 并关闭文件 */
@@ -89,18 +95,18 @@ main() {
     file.close()
 
     /* 以 追加模式 写入 "abcdefghi\n" 到文件 */
-    File.writeTo(filePath, "abcdefghi".toArray(), openOption: OpenOption.Append)
+    File.appendTo(filePath, "abcdefghi".toArray())
 
     /* 直接读取文件中所有数据 */
     let allBytes: Array<Byte> = File.readFrom(filePath)
     println(String.fromUtf8(allBytes))
 
-    File.delete(filePath)
+    remove(filePath)
     return 0
 }
 ```
 
-运行结果如下：
+运行结果：
 
 ```text
 123456789

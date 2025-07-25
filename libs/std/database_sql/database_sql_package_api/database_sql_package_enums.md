@@ -86,7 +86,7 @@ public operator func ==(rhs: ConnectionState): Bool
 ```cangjie
 public enum TransactionAccessMode <: ToString & Hashable & Equatable<TransactionAccessMode> {
     | ReadOnly
-    | ReadWrite    
+    | ReadWrite
     | Unspecified
 }
 ```
@@ -213,7 +213,7 @@ Deferrable
 
 > **说明：**
 >
-> 延迟事务是指在前滚阶段结束时未提交的事务，并且遇到了阻止其回滚的错误。因为事务无法回滚，所以它被推迟。
+> 延迟事务是指在前滚阶段结束时未提交的事务，并且遇到了阻止其回滚的错误。因为事务无法回滚，所以它被延迟。
 
 ### NotDeferrable
 
@@ -338,7 +338,7 @@ Linearizable
 
 > **说明：**
 >
-> 区别于串行化（[Serializable](../../../serialization/serialization/serialization_package_api/serialization_package_interfaces.md#interface-serializable)），线性化主要强调单个对象上（即 db 行或 nosql 记录）的一组单个操作（比如一系列读写操作），线性化保证这些操作严格按真实时间顺序执行。比如当您查看单个对象上的操作子集时，线性化是相关的。
+> 区别于串行化（[Serializable]()），线性化主要强调单个对象上（即 db 行或 nosql 记录）的一组单个操作（比如一系列读写操作），线性化保证这些操作严格按真实时间顺序执行。比如当您查看单个对象上的操作子集时，线性化是相关的。
 
 ### ReadCommitted
 

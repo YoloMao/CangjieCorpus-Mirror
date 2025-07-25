@@ -1,6 +1,6 @@
 # 接口
 
-## interface Arbitrary
+## interface Arbitrary\<T>
 
 ```cangjie
 public interface Arbitrary<T> {
@@ -32,11 +32,11 @@ static func arbitrary(random: RandomSource): Generator<T>
 extend Bool <: Arbitrary<Bool>
 ```
 
-功能：为 [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) 实现了 [Arbitrary](#interface-arbitrary)\<T> 接口。
+功能：为 [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) 实现了 [Arbitrary](#interface-arbitraryt)\<T> 接口。
 
 父类型：
 
-- [Arbitrary](#interface-arbitrary)\<[Bool](../../core/core_package_api/core_package_intrinsics.md#bool)>
+- [Arbitrary](#interface-arbitraryt)\<[Bool](../../core/core_package_api/core_package_intrinsics.md#bool)>
 
 #### static func arbitrary(RandomSource)
 
@@ -60,11 +60,11 @@ static func arbitrary(random: RandomSource): Generator<Bool>
 extend Float16 <: Arbitrary<Float16>
 ```
 
-功能：为 [Float16](../../core/core_package_api/core_package_intrinsics.md#float16) 实现了 [Arbitrary](#interface-arbitrary)\<T> 接口。
+功能：为 [Float16](../../core/core_package_api/core_package_intrinsics.md#float16) 实现了 [Arbitrary](#interface-arbitraryt)\<T> 接口。
 
 父类型：
 
-- [Arbitrary](#interface-arbitrary)\<[Float16](../../core/core_package_api/core_package_intrinsics.md#float16)>
+- [Arbitrary](#interface-arbitraryt)\<[Float16](../../core/core_package_api/core_package_intrinsics.md#float16)>
 
 #### static func arbitrary(RandomSource)
 
@@ -88,11 +88,11 @@ static func arbitrary(random: RandomSource): Generator<Float16>
 extend Float32 <: Arbitrary<Float32>
 ```
 
-功能：为 [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) 实现了 [Arbitrary](#interface-arbitrary)\<T> 接口。
+功能：为 [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) 实现了 [Arbitrary](#interface-arbitraryt)\<T> 接口。
 
 父类型：
 
-- [Arbitrary](#interface-arbitrary)\<[Float32](../../core/core_package_api/core_package_intrinsics.md#float32)>
+- [Arbitrary](#interface-arbitraryt)\<[Float32](../../core/core_package_api/core_package_intrinsics.md#float32)>
 
 #### static func arbitrary(RandomSource)
 
@@ -116,11 +116,11 @@ static func arbitrary(random: RandomSource): Generator<Float32>
 extend Float64 <: Arbitrary<Float64>
 ```
 
-功能：为 [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) 实现了 [Arbitrary](#interface-arbitrary)\<T> 接口。
+功能：为 [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) 实现了 [Arbitrary](#interface-arbitraryt)\<T> 接口。
 
 父类型：
 
-- [Arbitrary](#interface-arbitrary)\<[Float64](../../core/core_package_api/core_package_intrinsics.md#float64)>
+- [Arbitrary](#interface-arbitraryt)\<[Float64](../../core/core_package_api/core_package_intrinsics.md#float64)>
 
 #### static func arbitrary(RandomSource)
 
@@ -144,11 +144,11 @@ static func arbitrary(random: RandomSource): Generator<Float64>
 extend Int16 <: Arbitrary<Int16>
 ```
 
-功能：为 [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) 实现了 [Arbitrary](#interface-arbitrary)\<T> 接口。
+功能：为 [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) 实现了 [Arbitrary](#interface-arbitraryt)\<T> 接口。
 
 父类型：
 
-- [Arbitrary](#interface-arbitrary)\<[Int16](../../core/core_package_api/core_package_intrinsics.md#int16)>
+- [Arbitrary](#interface-arbitraryt)\<[Int16](../../core/core_package_api/core_package_intrinsics.md#int16)>
 
 #### static func arbitrary(RandomSource)
 
@@ -172,11 +172,11 @@ static func arbitrary(random: RandomSource): Generator<Int16>
 extend Int32 <: Arbitrary<Int32>
 ```
 
-功能：为 [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) 实现了 [Arbitrary](#interface-arbitrary)\<T> 接口。
+功能：为 [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) 实现了 [Arbitrary](#interface-arbitraryt)\<T> 接口。
 
 父类型：
 
-- [Arbitrary](#interface-arbitrary)\<[Int32](../../core/core_package_api/core_package_intrinsics.md#int32)>
+- [Arbitrary](#interface-arbitraryt)\<[Int32](../../core/core_package_api/core_package_intrinsics.md#int32)>
 
 #### static func arbitrary(RandomSource)
 
@@ -200,11 +200,11 @@ static func arbitrary(random: RandomSource): Generator<Int32>
 extend Int64 <: Arbitrary<Int64>
 ```
 
-功能：为 [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) 实现了 [Arbitrary](#interface-arbitrary)\<T> 接口。
+功能：为 [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) 实现了 [Arbitrary](#interface-arbitraryt)\<T> 接口。
 
 父类型：
 
-- [Arbitrary](#interface-arbitrary)\<[Int64](../../core/core_package_api/core_package_intrinsics.md#int64)>
+- [Arbitrary](#interface-arbitraryt)\<[Int64](../../core/core_package_api/core_package_intrinsics.md#int64)>
 
 #### static func arbitrary(RandomSource)
 
@@ -228,11 +228,11 @@ static func arbitrary(random: RandomSource): Generator<Int64>
 extend Int8 <: Arbitrary<Int8>
 ```
 
-功能：为 [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) 实现了 [Arbitrary](#interface-arbitrary)\<T> 接口。
+功能：为 [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) 实现了 [Arbitrary](#interface-arbitraryt)\<T> 接口。
 
 父类型：
 
-- [Arbitrary](#interface-arbitrary)\<[Int8](../../core/core_package_api/core_package_intrinsics.md#int8)>
+- [Arbitrary](#interface-arbitraryt)\<[Int8](../../core/core_package_api/core_package_intrinsics.md#int8)>
 
 #### static func arbitrary(RandomSource)
 
@@ -256,11 +256,11 @@ static func arbitrary(random: RandomSource): Generator<Int8>
 extend IntNative <: Arbitrary<IntNative>
 ```
 
-功能：为 [IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative) 实现了 [Arbitrary](#interface-arbitrary)\<T> 接口。
+功能：为 [IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative) 实现了 [Arbitrary](#interface-arbitraryt)\<T> 接口。
 
 父类型：
 
-- [Arbitrary](#interface-arbitrary)\<[IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative)>
+- [Arbitrary](#interface-arbitraryt)\<[IntNative](../../core/core_package_api/core_package_intrinsics.md#intnative)>
 
 #### static func arbitrary(RandomSource)
 
@@ -284,11 +284,11 @@ static func arbitrary(random: RandomSource): Generator<IntNative>
 extend Ordering <: Arbitrary<Ordering>
 ```
 
-功能：为 [Ordering](../../core/core_package_api/core_package_enums.md#enum-ordering) 实现了 [Arbitrary](#interface-arbitrary)\<T> 接口。
+功能：为 [Ordering](../../core/core_package_api/core_package_enums.md#enum-ordering) 实现了 [Arbitrary](#interface-arbitraryt)\<T> 接口。
 
 父类型：
 
-- [Arbitrary](#interface-arbitrary)\<[Ordering](../../core/core_package_api/core_package_enums.md#enum-ordering)>
+- [Arbitrary](#interface-arbitraryt)\<[Ordering](../../core/core_package_api/core_package_enums.md#enum-ordering)>
 
 #### static func arbitrary(RandomSource)
 
@@ -312,11 +312,11 @@ static func arbitrary(random: RandomSource): Generator<Ordering>
 extend Rune <: Arbitrary<Rune>
 ```
 
-功能：为 [Rune](../../core/core_package_api/core_package_intrinsics.md#rune) 实现了 [Arbitrary](#interface-arbitrary)\<T> 接口。
+功能：为 [Rune](../../core/core_package_api/core_package_intrinsics.md#rune) 实现了 [Arbitrary](#interface-arbitraryt)\<T> 接口。
 
 父类型：
 
-- [Arbitrary](#interface-arbitrary)\<[Rune](../../core/core_package_api/core_package_intrinsics.md#rune)>
+- [Arbitrary](#interface-arbitraryt)\<[Rune](../../core/core_package_api/core_package_intrinsics.md#rune)>
 
 #### static func arbitrary(RandomSource)
 
@@ -340,11 +340,11 @@ static func arbitrary(random: RandomSource): Generator<Rune>
 extend String <: Arbitrary<String>
 ```
 
-功能：为 [String](../../core/core_package_api/core_package_structs.md#struct-string) 实现了 [Arbitrary](#interface-arbitrary)\<T> 接口。
+功能：为 [String](../../core/core_package_api/core_package_structs.md#struct-string) 实现了 [Arbitrary](#interface-arbitraryt)\<T> 接口。
 
 父类型：
 
-- [Arbitrary](#interface-arbitrary)\<[String](../../core/core_package_api/core_package_structs.md#struct-string)>
+- [Arbitrary](#interface-arbitraryt)\<[String](../../core/core_package_api/core_package_structs.md#struct-string)>
 
 #### static func arbitrary(RandomSource)
 
@@ -368,11 +368,11 @@ static func arbitrary(random: RandomSource): Generator<String>
 extend UInt16 <: Arbitrary<UInt16>
 ```
 
-功能：为 [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) 实现了 [Arbitrary](#interface-arbitrary)\<T> 接口。
+功能：为 [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) 实现了 [Arbitrary](#interface-arbitraryt)\<T> 接口。
 
 父类型：
 
-- [Arbitrary](#interface-arbitrary)\<[UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16)>
+- [Arbitrary](#interface-arbitraryt)\<[UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16)>
 
 #### static func arbitrary(RandomSource)
 
@@ -396,11 +396,11 @@ static func arbitrary(random: RandomSource): Generator<UInt16>
 extend UInt32 <: Arbitrary<UInt32>
 ```
 
-功能：为 [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) 实现了 [Arbitrary](#interface-arbitrary)\<T> 接口。
+功能：为 [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) 实现了 [Arbitrary](#interface-arbitraryt)\<T> 接口。
 
 父类型：
 
-- [Arbitrary](#interface-arbitrary)\<[UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32)>
+- [Arbitrary](#interface-arbitraryt)\<[UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32)>
 
 #### static func arbitrary(RandomSource)
 
@@ -424,11 +424,11 @@ static func arbitrary(random: RandomSource): Generator<UInt32>
 extend UInt64 <: Arbitrary<UInt64>
 ```
 
-功能：为 [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) 实现了 [Arbitrary](#interface-arbitrary)\<T> 接口。
+功能：为 [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) 实现了 [Arbitrary](#interface-arbitraryt)\<T> 接口。
 
 父类型：
 
-- [Arbitrary](#interface-arbitrary)\<[UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64)>
+- [Arbitrary](#interface-arbitraryt)\<[UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64)>
 
 #### static func arbitrary(RandomSource)
 
@@ -452,11 +452,11 @@ static func arbitrary(random: RandomSource): Generator<UInt64>
 extend UInt8 <: Arbitrary<UInt8>
 ```
 
-功能：为 [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) 实现了 [Arbitrary](#interface-arbitrary)\<T> 接口。
+功能：为 [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) 实现了 [Arbitrary](#interface-arbitraryt)\<T> 接口。
 
 父类型：
 
-- [Arbitrary](#interface-arbitrary)\<[UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8)>
+- [Arbitrary](#interface-arbitraryt)\<[UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8)>
 
 #### static func arbitrary(RandomSource)
 
@@ -480,11 +480,11 @@ static func arbitrary(random: RandomSource): Generator<UInt8>
 extend UIntNative <: Arbitrary<UIntNative>
 ```
 
-功能：为 [UIntNative](../../core/core_package_api/core_package_intrinsics.md#uintnative) 实现了 [Arbitrary](#interface-arbitrary)\<T> 接口。
+功能：为 [UIntNative](../../core/core_package_api/core_package_intrinsics.md#uintnative) 实现了 [Arbitrary](#interface-arbitraryt)\<T> 接口。
 
 父类型：
 
-- [Arbitrary](#interface-arbitrary)\<[UIntNative](../../core/core_package_api/core_package_intrinsics.md#uintnative)>
+- [Arbitrary](#interface-arbitraryt)\<[UIntNative](../../core/core_package_api/core_package_intrinsics.md#uintnative)>
 
 #### static func arbitrary(RandomSource)
 
@@ -508,11 +508,11 @@ static func arbitrary(random: RandomSource): Generator<UIntNative>
 extend Unit <: Arbitrary<Unit>
 ```
 
-功能：为 [Unit](../../core/core_package_api/core_package_intrinsics.md#unit) 实现了 [Arbitrary](#interface-arbitrary)\<T> 接口。
+功能：为 [Unit](../../core/core_package_api/core_package_intrinsics.md#unit) 实现了 [Arbitrary](#interface-arbitraryt)\<T> 接口。
 
 父类型：
 
-- [Arbitrary](#interface-arbitrary)\<[Unit](../../core/core_package_api/core_package_intrinsics.md#unit)>
+- [Arbitrary](#interface-arbitraryt)\<[Unit](../../core/core_package_api/core_package_intrinsics.md#unit)>
 
 #### static func arbitrary(RandomSource)
 
@@ -536,11 +536,11 @@ static func arbitrary(random: RandomSource): Generator<Unit>
 extend<T> Array<T> <: Arbitrary<Array<T>> where T <: Arbitrary<T>
 ```
 
-功能：为 [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<T> 实现了 [Arbitrary](#interface-arbitrary)\<[Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<T>> 接口，且 T 需实现 [Arbitrary](#interface-arbitrary)\<T> 接口。
+功能：为 [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<T> 实现了 [Arbitrary](#interface-arbitraryt)\<[Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<T>> 接口，且 T 需实现 [Arbitrary](#interface-arbitraryt)\<T> 接口。
 
 父类型：
 
-- [Arbitrary](#interface-arbitrary)\<[Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<T>>
+- [Arbitrary](#interface-arbitraryt)\<[Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<T>>
 
 #### static func arbitrary(RandomSource)
 
@@ -564,11 +564,11 @@ static func arbitrary(random: RandomSource): Generator<Array<T>>
 extend<T> option<T> <: Arbitrary<Option<T>> where T <: Arbitrary<T>
 ```
 
-功能：为 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<T>  实现了 [Arbitrary](#interface-arbitrary)\<[Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<T>> 接口，且 T 需实现 [Arbitrary](#interface-arbitrary)\<T> 接口。
+功能：为 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<T>  实现了 [Arbitrary](#interface-arbitraryt)\<[Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<T>> 接口，且 T 需实现 [Arbitrary](#interface-arbitraryt)\<T> 接口。
 
 父类型：
 
-- [Arbitrary](#interface-arbitrary)\<[Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<T>>
+- [Arbitrary](#interface-arbitraryt)\<[Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<T>>
 
 #### static func arbitrary(RandomSource)
 
@@ -589,14 +589,14 @@ static func arbitrary(random: RandomSource): Generator<option<T>>
 ### extend\<T> ArrayList\<T> <: Arbitrary\<ArrayList\<T>> where T <: Arbitrary\<T>
 
 ```cangjie
-extend<T> ArrayList<T> <: Arbitrary<ArrayList<T>> where T <: Arbitrary<T> 
+extend<T> ArrayList<T> <: Arbitrary<ArrayList<T>> where T <: Arbitrary<T>
 ```
 
-功能：为 [ArrayList](../../collection/collection_package_api/collection_package_class.md#class-arraylistt)\<T>  实现了 [Arbitrary](#interface-arbitrary) 接口，且 T 需实现 [Arbitrary](#interface-arbitrary)\<T> 接口。
+功能：为 [ArrayList](../../collection/collection_package_api/collection_package_class.md#class-arraylistt)\<T>  实现了 [Arbitrary](#interface-arbitraryt) 接口，且 T 需实现 [Arbitrary](#interface-arbitraryt)\<T> 接口。
 
 父类型：
 
-- [Arbitrary](#interface-arbitrary)\<[ArrayList](../../collection/collection_package_api/collection_package_class.md#class-arraylistt)\<T>>
+- [Arbitrary](#interface-arbitraryt)\<[ArrayList](../../collection/collection_package_api/collection_package_class.md#class-arraylistt)\<T>>
 
 #### static func arbitrary(RandomSource)
 
@@ -620,11 +620,11 @@ static func arbitrary(random: RandomSource): Generator<ArrayList<T>>
 extend<T> HashSet<T> <: Arbitrary<HashSet<T>> where T <: Arbitrary<T>
 ```
 
-功能：为 [HashSet](../../collection/collection_package_api/collection_package_class.md#class-hashsett-where-t--hashable--equatablet)\<T>  实现了 [Arbitrary](#interface-arbitrary) 接口，且 T 需实现 [Arbitrary](#interface-arbitrary)\<T> 接口。
+功能：为 [HashSet](../../collection/collection_package_api/collection_package_class.md#class-hashsett-where-t--hashable--equatablet)\<T>  实现了 [Arbitrary](#interface-arbitraryt) 接口，且 T 需实现 [Arbitrary](#interface-arbitraryt)\<T> 接口。
 
 父类型：
 
-- [Arbitrary](#interface-arbitrary)\<[HashSet](../../collection/collection_package_api/collection_package_class.md#class-hashsett-where-t--hashable--equatablet)\<T>>
+- [Arbitrary](#interface-arbitraryt)\<[HashSet](../../collection/collection_package_api/collection_package_class.md#class-hashsett-where-t--hashable--equatablet)\<T>>
 
 #### static func arbitrary(RandomSource)
 
@@ -645,14 +645,14 @@ static func arbitrary(random: RandomSource): Generator<HashSet<T>>
 ### extend\<K, V> HashMap\<K, V> <: Arbitrary\<HashMap\<K, V>> where K <: Arbitrary\<K>, V <: Arbitrary\<V>
 
 ```cangjie
-extend<K, V> HashMap<K, V> <: Arbitrary<HashMap<K, V>> where K <: Arbitrary<K>, V <: Arbitrary<V> 
+extend<K, V> HashMap<K, V> <: Arbitrary<HashMap<K, V>> where K <: Arbitrary<K>, V <: Arbitrary<V>
 ```
 
-功能：为 [HashMap](../../collection/collection_package_api/collection_package_class.md#class-hashmapk-v-where-k--hashable--equatablek)\<T>  实现了 [Arbitrary](#interface-arbitrary) 接口，且 T 需实现 [Arbitrary](#interface-arbitrary)\<T> 接口。
+功能：为 [HashMap](../../collection/collection_package_api/collection_package_class.md#class-hashmapk-v)\<T>  实现了 [Arbitrary](#interface-arbitraryt) 接口，且 T 需实现 [Arbitrary](#interface-arbitraryt)\<T> 接口。
 
 父类型：
 
-- [Arbitrary](#interface-arbitrary)\<[HashMap](../../collection/collection_package_api/collection_package_class.md#class-hashmapk-v-where-k--hashable--equatablek)\<K, V>>
+- [Arbitrary](#interface-arbitraryt)\<[HashMap](../../collection/collection_package_api/collection_package_class.md#class-hashmapk-v)\<K, V>>
 
 #### static func arbitrary(RandomSource)
 
@@ -668,7 +668,7 @@ static func arbitrary(random: RandomSource): Generator<HashMap<K, V>>
 
 返回值：
 
-- [Generator](../../unittest/unittest_package_api/unittest_package_interfaces.md#interface-generatort)\<HashMap<K, V>> - 生成 HashMap\<K, V> 类型随机值生成器。
+- [Generator](../../unittest/unittest_package_api/unittest_package_interfaces.md#interface-generatort)\<HashMap\<K, V>> - 生成 HashMap\<K, V> 类型随机值生成器。
 
 ## interface IndexAccess
 
@@ -724,25 +724,25 @@ public interface RandomSource {
     func nextIntNative(): IntNative
     func nextUIntNative(): UIntNative
 
-    func suggestUInt8(): UInt8 
+    func suggestUInt8(): UInt8
     func suggestUInt16(): UInt16
     func suggestUInt32(): UInt32
     func suggestUInt64(): UInt64
     func suggestUIntNative(): UIntNative
-    func suggestInt8(): Int8 
+    func suggestInt8(): Int8
     func suggestInt16(): Int16
-    func suggestInt32(): Int32 
-    func suggestInt64(): Int64 
-    func suggestIntNative(): IntNative 
+    func suggestInt32(): Int32
+    func suggestInt64(): Int64
+    func suggestIntNative(): IntNative
     func suggestFloat16(): Float16
-    func suggestFloat32(): Float32 
-    func suggestFloat64(): Float64 
+    func suggestFloat32(): Float32
+    func suggestFloat64(): Float64
     func suggestBool(): Bool
     func suggestRune(): Rune
 }
 ```
 
-功能：提供 [Arbitrary](#interface-arbitrary) 所需的随机生成基础类型数据的能力。
+功能：提供 [Arbitrary](#interface-arbitraryt) 所需的随机生成基础类型数据的能力。
 
 ### func nextBool()
 
@@ -1629,13 +1629,85 @@ func shrink(): Iterable<Unit>
 
 - [Iterable](../../core/core_package_api/core_package_interfaces.md#interface-iterablee)\<Unit> - 一组可能的“较小”值的迭代器。
 
-### extend\<T> Array\<T> <: Shrink\<Array\<T>> where T <: Shrink\<T>
+### extend Float16 <: Shrink\<Float16>
 
 ```cangjie
-extend<T> Array<T> <: Shrink<Array<T>> where T <: Shrink<T>
+extend Float16 <: Shrink<Float16>
 ```
 
-功能：为 [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<T> 实现了 [Shrink](#interface-shrinkt)\<[Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<T>> 接口，且 T 需实现 [Shrink](#interface-shrinkt)\<T> 接口。
+功能：为 [Float16](../../core/core_package_api/core_package_intrinsics.md#float16) 实现了 [Shrink](#interface-shrinkt)\<T> 接口。
+
+父类型：
+
+- [Shrink](#interface-shrinkt)\<[Float16](../../core/core_package_api/core_package_intrinsics.md#float16)>
+
+#### func shrink()
+
+```cangjie
+func shrink(): Iterable<Float16>
+```
+
+功能：将该值缩小为一组可能的“较小”值。
+
+返回值：
+
+- [Iterable](../../core/core_package_api/core_package_interfaces.md#interface-iterablee)\<Float16> - 一组可能的“较小”值的迭代器。
+
+### extend Float32 <: Shrink\<Float32>
+
+```cangjie
+extend Float32 <: Shrink<Float32>
+```
+
+功能：为 [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) 实现了 [Shrink](#interface-shrinkt)\<T> 接口。
+
+父类型：
+
+- [Shrink](#interface-shrinkt)\<[Float32](../../core/core_package_api/core_package_intrinsics.md#float32)>
+
+#### func shrink()
+
+```cangjie
+func shrink(): Iterable<Float32>
+```
+
+功能：将该值缩小为一组可能的“较小”值。
+
+返回值：
+
+- [Iterable](../../core/core_package_api/core_package_interfaces.md#interface-iterablee)\<Float32> - 一组可能的“较小”值的迭代器。
+
+### extend Float64 <: Shrink\<Float64>
+
+```cangjie
+extend Float64 <: Shrink<Float64>
+```
+
+功能：为 [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) 实现了 [Shrink](#interface-shrinkt)\<T> 接口。
+
+父类型：
+
+- [Shrink](#interface-shrinkt)\<[Float64](../../core/core_package_api/core_package_intrinsics.md#float64)>
+
+#### func shrink()
+
+```cangjie
+func shrink(): Iterable<Float64>
+```
+
+功能：将该值缩小为一组可能的“较小”值。
+
+返回值：
+
+- [Iterable](../../core/core_package_api/core_package_interfaces.md#interface-iterablee)\<Float64> - 一组可能的“较小”值的迭代器。
+
+### extend\<T> Array\<T> <: Shrink\<Array\<T>>
+
+```cangjie
+extend<T> Array<T> <: Shrink<Array<T>>
+```
+
+功能：为 [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<T> 实现了 [Shrink](#interface-shrinkt)\<[Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<T>> 接口。
 
 父类型：
 
@@ -1653,13 +1725,13 @@ func shrink(): Iterable<Array<T>>
 
 - [Iterable](../../core/core_package_api/core_package_interfaces.md#interface-iterablee)\<Array\<T>> - 一组可能的“较小”值的迭代器。
 
-### extend\<T> Option\<T> <: Shrink\<Option\<T>> where T <: Shrink\<T>
+### extend\<T> Option\<T> <: Shrink\<Option\<T>>
 
 ```cangjie
-extend<T> Option<T> <: Shrink<Option<T>> where T <: Shrink<T>
+extend<T> Option<T> <: Shrink<Option<T>>
 ```
 
-功能：为 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<T> 实现了 [Shrink](#interface-shrinkt)\<[Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<T>> 接口，且 T 需实现 [Shrink](#interface-shrinkt)\<T> 接口。
+功能：为 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<T> 实现了 [Shrink](#interface-shrinkt)\<[Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<T>> 接口。
 
 父类型：
 
@@ -1676,3 +1748,75 @@ func shrink(): Iterable<Option<T>>
 返回值：
 
 - [Iterable](../../core/core_package_api/core_package_interfaces.md#interface-iterablee)\<Option\<T>> - 一组可能的“较小”值的迭代器。
+
+### extend\<T> ArrayList\<T> <: Shrink\<ArrayList\<T>>
+
+```cangjie
+extend<T> ArrayList<T> <: Shrink<ArrayList<T>>
+```
+
+功能：为 [ArrayList](../../collection/collection_package_api/collection_package_class.md#class-arraylistt)\<T> 实现了 [Shrink](#interface-shrinkt)\<[ArrayList](../../collection/collection_package_api/collection_package_class.md#class-arraylistt)\<T>> 接口。
+
+父类型：
+
+- [Shrink](#interface-shrinkt)\<[ArrayList](../../collection/collection_package_api/collection_package_class.md#class-arraylistt)\<T>>
+
+#### func shrink()
+
+```cangjie
+func shrink(): Iterable<ArrayList<T>>
+```
+
+功能：将该值缩小为一组可能的“较小”值。
+
+返回值：
+
+- [Iterable](../../core/core_package_api/core_package_interfaces.md#interface-iterablee)\<ArrayList\<T>> - 一组可能的“较小”值的迭代器。
+
+### extend\<T> HashSet\<T> <: Shrink\<HashSet\<T>>
+
+```cangjie
+extend<T> HashSet<T> <: Shrink<HashSet<T>>
+```
+
+功能：为 [HashSet](../../collection/collection_package_api/collection_package_class.md#class-hashsett-where-t--hashable--equatablet)\<T> 实现了 [Shrink](#interface-shrinkt)\<[HashSet](../../collection/collection_package_api/collection_package_class.md#class-hashsett-where-t--hashable--equatablet)\<T>> 接口。
+
+父类型：
+
+- [Shrink](#interface-shrinkt)\<[HashSet](../../collection/collection_package_api/collection_package_class.md#class-hashsett-where-t--hashable--equatablet)\<T>>
+
+#### func shrink()
+
+```cangjie
+func shrink(): Iterable<HashSet<T>>
+```
+
+功能：将该值缩小为一组可能的“较小”值。
+
+返回值：
+
+- [Iterable](../../core/core_package_api/core_package_interfaces.md#interface-iterablee)\<HashSet\<T>> - 一组可能的“较小”值的迭代器。
+
+### extend\<K, V> HashMap\<K, V> <: Shrink\<HashMap\<K, V>>
+
+```cangjie
+extend<K, V> HashMap<K, V> <: Shrink<HashMap<K, V>>
+```
+
+功能：为 [HashMap](../../collection/collection_package_api/collection_package_class.md#class-hashmapk-v)\<T> 实现了 [Shrink](#interface-shrinkt)\<[HashMap](../../collection/collection_package_api/collection_package_class.md#class-hashmapk-v)\<T>> 接口。
+
+父类型：
+
+- [Shrink](#interface-shrinkt)\<[HashMap](../../collection/collection_package_api/collection_package_class.md#class-hashmapk-v)\<T>>
+
+#### func shrink()
+
+```cangjie
+func shrink(): Iterable<HashMap<K, V>>
+```
+
+功能：将该值缩小为一组可能的“较小”值。
+
+返回值：
+
+- [Iterable](../../core/core_package_api/core_package_interfaces.md#interface-iterablee)\<HashMap\<K, V>> - 一组可能的“较小”值的迭代器。

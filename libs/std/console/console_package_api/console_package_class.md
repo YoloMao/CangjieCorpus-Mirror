@@ -1,6 +1,6 @@
 # 类
 
-## class Console
+## class Console <sup>(deprecated)</sup>
 
 ```cangjie
 public class Console
@@ -8,15 +8,19 @@ public class Console
 
 功能：此类提供标准输入、标准输出和标准错误流的获取接口。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [env](../../env/env_package_overview.md#函数) 包中相应函数替代。
+
 ### static prop stdErr
 
 ```cangjie
 public static prop stdErr: ConsoleWriter
 ```
 
-功能：该成员属性为 [ConsoleWriter](console_package_class.md#class-consolewriter) 类型，它提供标准错误的获取功能。
+功能：该成员属性为 [ConsoleWriter](console_package_class.md#class-consolewriter-deprecated) 类型，它提供标准错误的获取功能。
 
-类型：[ConsoleWriter](console_package_class.md#class-consolewriter)
+类型：[ConsoleWriter](console_package_class.md#class-consolewriter-deprecated)
 
 ### static prop stdIn
 
@@ -24,9 +28,9 @@ public static prop stdErr: ConsoleWriter
 public static prop stdIn: ConsoleReader
 ```
 
-功能：该成员属性为 [ConsoleReader](console_package_class.md#class-consolereader) 类型，它提供标准输入的获取功能。
+功能：该成员属性为 [ConsoleReader](console_package_class.md#class-consolereader-deprecated) 类型，它提供标准输入的获取功能。
 
-类型：[ConsoleReader](console_package_class.md#class-consolereader)
+类型：[ConsoleReader](console_package_class.md#class-consolereader-deprecated)
 
 ### static prop stdOut
 
@@ -34,11 +38,11 @@ public static prop stdIn: ConsoleReader
 public static prop stdOut: ConsoleWriter
 ```
 
-功能：该成员属性为 [ConsoleWriter](console_package_class.md#class-consolewriter) 类型，它提供标准输出的获取功能。
+功能：该成员属性为 [ConsoleWriter](console_package_class.md#class-consolewriter-deprecated) 类型，它提供标准输出的获取功能。
 
-类型：[ConsoleWriter](console_package_class.md#class-consolewriter)
+类型：[ConsoleWriter](console_package_class.md#class-consolewriter-deprecated)
 
-## class ConsoleReader
+## class ConsoleReader <sup>(deprecated)</sup>
 
 ```cangjie
 public class ConsoleReader <: InputStream
@@ -49,15 +53,15 @@ public class ConsoleReader <: InputStream
 该类型无法构造实例，只能通过 [Console.stdIn](console_package_class.md#static-prop-stdin) 获取实例。
 读操作是同步的，内部设有缓存区来保存控制台输入的内容，当到达控制台输入流的结尾时，控制台读取函数将返回`None`。
 
-> **说明：**
+[ConsoleReader](console_package_class.md#class-consolereader-deprecated) 只有一个实例，所有方法共享同一个缓存区，相关`read`方法返回`None`的情形有：
+
+- 将标准输入重定向到文件时，读取到文件结尾EOF。
+- Linux 环境，按下 `Ctrl+D`。
+- Windows 环境，按下 `Ctrl+Z` 后加回车。
+
+> **注意：**
 >
-> [ConsoleReader](console_package_class.md#class-consolereader) 只有一个实例，所有方法共享同一个缓存区，相关`read`方法返回`None`的情形有：
->
-> - 将标准输入重定向到文件时，读取到文件结尾EOF。
-> - Linux 环境，按下 `Ctrl+D`。
-> - Windows 环境，按下 `Ctrl+Z` 后加回车。
->
-> [ConsoleReader](console_package_class.md#class-consolereader) 只支持 `UTF-8` 编码，Windows 环境需手动执行 `chcp 65001`（将 Windows 终端的编码更改为 UTF-8 ），当系统编码和 API 所需编码不一致时，可能产生乱码，从而导致读取 `Rune` 时发生异常，抛出 [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception)。
+> 未来版本即将废弃，使用 [ConsoleReader](../../env/env_package_api/env_package_classes.md#class-consolereader) 替代。
 
 父类型：
 
@@ -73,7 +77,7 @@ public func read(): ?Rune
 
 返回值：
 
-- ?Rune - 读取到字符，返回 ?Rune，否则返回`None`。
+- ?[Rune](../../core/core_package_api/core_package_intrinsics.md#rune)  - 读取到字符，返回 ?[Rune](../../core/core_package_api/core_package_intrinsics.md#rune) ，否则返回 `None`。
 
 异常：
 
@@ -107,7 +111,7 @@ public func readToEnd(): ?String
 
 功能：从标准输入中读取所有字符。
 
-直到读取到文件结束符`EOF`，或者在 Linux 上键入 `Ctrl+D` 或在 Windows 上键入 `Ctrl+Z` + 回车结束。读取到字符，返回 ?[String](../../core/core_package_api/core_package_structs.md#struct-string)，否则返回 `None`。读取失败时会返回 `None`，该接口不会抛出异常，即使输入不符合 `UTF-8` 编码的字符串，也会构造出一个 [String](../../core/core_package_api/core_package_structs.md#struct-string) 并返回，其行为等同于 [String](../../core/core_package_api/core_package_structs.md#struct-string).[fromUtf8Uncheck](../../core/core_package_api/core_package_structs.md#static-func-fromutf8uncheckedarrayuint8)([Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)<[Byte](../../core/core_package_api/core_package_types.md#type-byte)>)。
+直到读取到文件结束符 `EOF`，或者在 Linux 上键入 `Ctrl+D` 或在 Windows 上键入 `Ctrl+Z` + 回车结束。读取到字符，返回 ?[String](../../core/core_package_api/core_package_structs.md#struct-string)，否则返回 `None`。读取失败时会返回 `None`，该接口不会抛出异常，即使输入不符合 `UTF-8` 编码的字符串，也会构造出一个 [String](../../core/core_package_api/core_package_structs.md#struct-string) 并返回，其行为等同于 [String](../../core/core_package_api/core_package_structs.md#struct-string).[fromUtf8Uncheck](../../core/core_package_api/core_package_structs.md#static-func-fromutf8uncheckedarrayuint8)([Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[Byte](../../core/core_package_api/core_package_types.md#type-byte)>)。
 
 返回值：
 
@@ -157,13 +161,13 @@ public func readln(): ?String
 
 功能：从标准输入中读取一行字符串。
 
-读取到字符，返回 ?[String](../../core/core_package_api/core_package_structs.md#struct-string)，结果不包含末尾换行符。该接口不会抛出异常，即使输入不符合`UTF-8`编码的字符串，也会构造出一个 [String](../../core/core_package_api/core_package_structs.md#struct-string) 并返回，其行为等同于 [String](../../core/core_package_api/core_package_structs.md#struct-string).fromUtf8Uncheck([Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)<[Byte](../../core/core_package_api/core_package_types.md#type-byte)>)。
+读取到字符，返回 ?[String](../../core/core_package_api/core_package_structs.md#struct-string)，结果不包含末尾换行符。该接口不会抛出异常，即使输入不符合`UTF-8`编码的字符串，也会构造出一个 [String](../../core/core_package_api/core_package_structs.md#struct-string) 并返回，其行为等同于 [String](../../core/core_package_api/core_package_structs.md#struct-string).fromUtf8Uncheck([Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[Byte](../../core/core_package_api/core_package_types.md#type-byte)>)。
 
 返回值：
 
 - ?[String](../../core/core_package_api/core_package_structs.md#struct-string) - 读取到的行数据，读取失败返回 `None`。
 
-## class ConsoleWriter
+## class ConsoleWriter <sup>(deprecated)</sup>
 
 ```cangjie
 public class ConsoleWriter <: OutputStream
@@ -173,6 +177,10 @@ public class ConsoleWriter <: OutputStream
 
 每次 write 调用写到控制台的结果是完整的，不同的 write 函数调用的结果不会混合到一起。
 该类型无法构造实例，只能通过 [Console.stdOut](console_package_class.md#static-prop-stdout) 获取标准输出实例或者 [Console.stdErr](console_package_class.md#static-prop-stderr) 获取标准错误的实例。
+
+> **注意：**
+>
+> 未来版本即将废弃，使用 [ConsoleWriter](../../env/env_package_api/env_package_classes.md#class-consolewriter) 替代。
 
 父类型：
 

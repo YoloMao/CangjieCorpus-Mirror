@@ -1,8 +1,8 @@
-# std.ast 包
+# std.ast
 
 ## 功能介绍
 
-ast 包主要包含了仓颉源码的语法解析器和仓颉语法树节点，提供语法解析函数。可将仓颉源码的词法单元 ([Tokens](./ast_package_api/ast_package_classes.md#class-tokens)) 解析为抽象语法树 (Abstract Syntax Tree) 节点对象。
+ast 包主要包含了仓颉源码的语法解析器和仓颉语法树节点，提供语法解析函数。可将仓颉源码的词法单元（[Tokens](./ast_package_api/ast_package_classes.md#class-tokens)）解析为抽象语法树（Abstract Syntax Tree）节点对象。
 
 仓颉 ast 包提供了 `Macro With Context` 的相关函数，用于在宏展开时获取展开过程中的上下文相关信息。在嵌套宏场景下，内层宏可以调用库函数 [assertParentContext(String)](./ast_package_api/ast_package_funcs.md#func-assertparentcontextstring) 来保证内层宏调用一定嵌套在特定的外层宏调用中。如果内层宏调用这个函数时没有嵌套在给定的外层宏调用中，该函数将抛出一个错误。同时，函数 [insideParentContext(String)](./ast_package_api/ast_package_funcs.md#func-insideparentcontextstring) 也用于检查内层宏调用是否嵌套在特定的外层宏调用中，但是返回一个布尔值。`Macro With Context` 的相关函数只能作为函数被直接调用，不能赋值给变量，不能作为实参或返回值使用。
 
@@ -14,6 +14,7 @@ ast 包主要包含了仓颉源码的语法解析器和仓颉语法树节点，�
 - [setItem(String, Bool)](./ast_package_api/ast_package_funcs.md#func-setitemstring-bool)
 - [setItem(String, Int64)](./ast_package_api/ast_package_funcs.md#func-setitemstring-int64)
 - [setItem(String, String)](./ast_package_api/ast_package_funcs.md#func-setitemstring-string)
+- [setItem(String, Tokens)](./ast_package_api/ast_package_funcs.md#func-setitemstring-tokens)
 
 ## API 列表
 
@@ -21,29 +22,34 @@ ast 包主要包含了仓颉源码的语法解析器和仓颉语法树节点，�
 
 |              函数名          |           功能           |
 | --------------------------- | ------------------------ |
-| [assertParentContext(String)](./ast_package_api/ast_package_funcs.md#func-assertparentcontextstring)  | 检查当前宏调用是否在特定的宏调用内;若检查不符合预期，编译器出现一个错误提示。 |
+| [assertParentContext(String)](./ast_package_api/ast_package_funcs.md#func-assertparentcontextstring)  | 检查当前宏调用是否在特定的宏调用内。若检查不符合预期，编译器出现一个错误提示。 |
 | [cangjieLex(String)](./ast_package_api/ast_package_funcs.md#func-cangjielexstring)  | 将字符串转换为 `Tokens` 类型。 |
 | [cangjieLex(String, Bool)](./ast_package_api/ast_package_funcs.md#func-cangjielexstring-bool)  | 将字符串转换为 `Tokens` 类型。 |
-| [compareTokens(Tokens, Tokens)](./ast_package_api/ast_package_funcs.md#func-comparetokenstokens-tokens)  | 用于比较两个Tokens是否一致。 |
+| [compareTokens(Tokens, Tokens)](./ast_package_api/ast_package_funcs.md#func-comparetokenstokens-tokens)  | 用于比较两个 `Tokens` 是否一致。 |
 | [diagReport(DiagReportLevel, Tokens, String, String)](./ast_package_api/ast_package_funcs.md#func-diagreportdiagreportlevel-tokens-string-string)  | 报错接口，在编译过程的宏展开阶段输出错误提示信息，支持 `WARNING` 和 `ERROR` 两个等级的报错。 |
 | [getChildMessages(String)](./ast_package_api/ast_package_funcs.md#func-getchildmessagesstring)  | 获取特定内层宏发送的信息。 |
 | [getTokenKind(UInt16)](./ast_package_api/ast_package_funcs.md#func-gettokenkinduint16)  | 将词法单元种类序号转化为 `TokenKind`。 |
 | [insideParentContext(String)](./ast_package_api/ast_package_funcs.md#func-insideparentcontextstring)  | 检查当前宏调用是否在特定的宏调用内，返回一个布尔值。 |
-| [parseDecl(Tokens, String)](./ast_package_api/ast_package_funcs.md#func-parsedecltokens-string)  | 用于解析一组词法单元，获取一个 Decl 类型的节点。 |
-| [parseDeclFragment(Tokens, Int64)](./ast_package_api/ast_package_funcs.md#func-parsedeclfragmenttokens-int64)  | 用于解析一组词法单元，获取一个 Decl 类型的节点和继续解析节点的索引。 |
-| [parseExpr(Tokens)](./ast_package_api/ast_package_funcs.md#func-parseexprtokens)  | 用于解析一组词法单元，获取一个 Expr 类型的节点。 |
-| [parseExprFragment(Tokens, Int64)](./ast_package_api/ast_package_funcs.md#func-parseexprfragmenttokens-int64)  | 用于解析一组词法单元，获取一个 Expr 类型的节点和继续解析节点的索引。 |
-| [parseProgram(Tokens)](./ast_package_api/ast_package_funcs.md#func-parseprogramtokens)  | 用于解析单个仓颉文件的源码，获取一个 Program 类型的节点。 |
-| [setItem(String, Bool)](./ast_package_api/ast_package_funcs.md#func-setitemstring-bool)  | 内层宏通过该接口发送 Bool 类型的信息到外层宏。 |
-| [setItem(String, Int64)](./ast_package_api/ast_package_funcs.md#func-setitemstring-int64)  | 内层宏通过该接口发送 Int64 类型的信息到外层宏。 |
-| [setItem(String, String)](./ast_package_api/ast_package_funcs.md#func-setitemstring-string)  | 内层宏通过该接口发送 string 类型的信息到外层宏。 |
+| [parseDecl(Tokens, String)](./ast_package_api/ast_package_funcs.md#func-parsedecltokens-string)  | 用于解析一组词法单元，获取一个 `Decl` 类型的节点。 |
+| [parseDeclFragment(Tokens, Int64)](./ast_package_api/ast_package_funcs.md#func-parsedeclfragmenttokens-int64)  | 用于解析一组词法单元，获取一个 `Decl` 类型的节点和继续解析节点的索引。 |
+| [parseExpr(Tokens)](./ast_package_api/ast_package_funcs.md#func-parseexprtokens)  | 用于解析一组词法单元，获取一个 `Expr` 类型的节点。 |
+| [parseExprFragment(Tokens, Int64)](./ast_package_api/ast_package_funcs.md#func-parseexprfragmenttokens-int64)  | 用于解析一组词法单元，获取一个 `Expr` 类型的节点和继续解析节点的索引。 |
+| [parsePattern(Tokens)](./ast_package_api/ast_package_funcs.md#func-parsepatterntokens)  | 用于解析一组词法单元，获取一个 `Pattern` 类型的节点。 |
+| [parsePatternFragment(Tokens, Int64)](./ast_package_api/ast_package_funcs.md#func-parsepatternfragmenttokens-int64)  | 用于解析一组词法单元，获取一个 `Pattern` 类型的节点和继续解析节点的索引。 |
+| [parseProgram(Tokens)](./ast_package_api/ast_package_funcs.md#func-parseprogramtokens)  | 用于解析单个仓颉文件的源码，获取一个 `Program` 类型的节点。 |
+| [parseType(Tokens)](./ast_package_api/ast_package_funcs.md#func-parsetypetokens)  | 用于解析一组词法单元，获取一个 `TypeNode` 类型的节点。 |
+| [parseTypeFragment(Tokens, Int64)](./ast_package_api/ast_package_funcs.md#func-parsetypefragmenttokens-int64)  | 用于解析一组词法单元，获取一个 `TypeNode` 类型的节点和继续解析节点的索引。 |
+| [setItem(String, Bool)](./ast_package_api/ast_package_funcs.md#func-setitemstring-bool)  | 内层宏通过该接口发送 `Bool` 类型的信息到外层宏。 |
+| [setItem(String, Int64)](./ast_package_api/ast_package_funcs.md#func-setitemstring-int64)  | 内层宏通过该接口发送 `Int64` 类型的信息到外层宏。 |
+| [setItem(String, String)](./ast_package_api/ast_package_funcs.md#func-setitemstring-string)  | 内层宏通过该接口发送 `String` 类型的信息到外层宏。 |
+| [setItem(String, Tokens)](./ast_package_api/ast_package_funcs.md#func-setitemstring-tokens)  | 内层宏通过该接口发送 `Tokens` 类型的信息到外层宏。 |
 
 ### 接口
 
 |                 接口名             |                功能                |
 | --------------------------------- | ---------------------------------- |
 | [ToBytes](./ast_package_api/ast_package_interfaces.md#interface-tobytes) | 提供对应类型的序列化功能。 |
-| [ToTokens](./ast_package_api/ast_package_interfaces.md#interface-totokens) | 实现对应类型的实例到 `Tokens` 类型转换的接口，作为支持quote插值操作必须实现的接口。 |
+| [ToTokens](./ast_package_api/ast_package_interfaces.md#interface-totokens) | 实现对应类型的实例到 `Tokens` 类型转换的接口，作为支持 quote 插值操作必须实现的接口。 |
 
 ### 类
 
@@ -52,7 +58,7 @@ ast 包主要包含了仓颉源码的语法解析器和仓颉语法树节点，�
 | [Annotation](./ast_package_api/ast_package_classes.md#class-annotation) | 表示编译器内置的注解节点。 |
 | [Argument](./ast_package_api/ast_package_classes.md#class-argument) | 表示函数调用的实参节点。 |
 | [ArrayLiteral](./ast_package_api/ast_package_classes.md#class-arrayliteral) | 表示 `Array` 字面量节点。 |
-| [AsExpr](./ast_package_api/ast_package_classes.md#class-asExpr) | 表示一个类型检查表达式。 |
+| [AsExpr](./ast_package_api/ast_package_classes.md#class-asexpr) | 表示一个类型检查表达式。 |
 | [AssignExpr](./ast_package_api/ast_package_classes.md#class-assignexpr) | 表示赋值表达式节点。 |
 | [BinaryExpr](./ast_package_api/ast_package_classes.md#class-binaryexpr) | 表示一个二元操作表达式节点。 |
 | [Block](./ast_package_api/ast_package_classes.md#class-block) | 表示块节点。 |
@@ -62,13 +68,13 @@ ast 包主要包含了仓颉源码的语法解析器和仓颉语法树节点，�
 | [ConstPattern](./ast_package_api/ast_package_classes.md#class-constpattern) | 表示常量模式节点。 |
 | [Constructor](./ast_package_api/ast_package_classes.md#class-constructor) | 表示 `enum` 类型中的 `Constructor` 节点。 |
 | [Decl](./ast_package_api/ast_package_classes.md#class-decl) | 所有声明节点的父类，继承自 `Node` 节点，提供了所有声明节点的通用接口。 |
-| [DoWhileExpr](./ast_package_api/ast_package_classes.md#class-doWhileexpr) | 表示 `do-while` 表达式。 |
+| [DoWhileExpr](./ast_package_api/ast_package_classes.md#class-dowhileexpr) | 表示 `do-while` 表达式。 |
 | [EnumDecl](./ast_package_api/ast_package_classes.md#class-enumdecl) | 表示一个 `Enum` 定义节点。 |
 | [EnumPattern](./ast_package_api/ast_package_classes.md#class-enumpattern) | 表示 enum 模式节点。 |
 | [ExceptTypePattern](./ast_package_api/ast_package_classes.md#class-excepttypepattern) | 表示一个用于异常模式状态下的节点。 |
 | [Expr](./ast_package_api/ast_package_classes.md#class-expr) | 所有表达式节点的父类，继承自 `Node` 节点。 |
 | [ExtendDecl](./ast_package_api/ast_package_classes.md#class-extenddecl) | 表示一个扩展定义节点。 |
-| [ForInExpr](./ast_package_api/ast_package_classes.md#class-forInexpr) | 表示 `for-in` 表达式。 |
+| [ForInExpr](./ast_package_api/ast_package_classes.md#class-forinexpr) | 表示 `for-in` 表达式。 |
 | [FuncDecl](./ast_package_api/ast_package_classes.md#class-funcdecl) | 表示一个函数定义节点。 |
 | [FuncParam](./ast_package_api/ast_package_classes.md#class-funcparam) | 表示函数参数节点，包括非命名参数和命名参数。 |
 | [FuncType](./ast_package_api/ast_package_classes.md#class-functype) | 表示函数类型节点。 |
@@ -90,7 +96,7 @@ ast 包主要包含了仓颉源码的语法解析器和仓颉语法树节点，�
 | [MacroExpandParam](./ast_package_api/ast_package_classes.md#class-macroexpandparam) | 表示宏调用节点。 |
 | [MacroMessage](./ast_package_api/ast_package_classes.md#class-macromessage) | 记录内层宏发送的信息。 |
 | [MainDecl](./ast_package_api/ast_package_classes.md#class-maindecl) | 表示一个 `main` 函数定义节点。 |
-| [MatchCase](./ast_package_api/ast_package_classes.md#class-matchcase) | 表示一个 `MatchCase` 类型。 |
+| [MatchCase](./ast_package_api/ast_package_classes.md#class-matchcase) | 表示 `match` 表达式中的一个 `case` 节点。 |
 | [MatchExpr](./ast_package_api/ast_package_classes.md#class-matchexpr) | 表示模式匹配表达式实现模式匹配。 |
 | [MemberAccess](./ast_package_api/ast_package_classes.md#class-memberaccess) | 表示成员访问表达式。 |
 | [Modifier](./ast_package_api/ast_package_classes.md#class-modifier) | 表示该定义具备某些特性，通常放在定义处的最前端。 |

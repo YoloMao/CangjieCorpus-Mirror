@@ -5,6 +5,7 @@
 扩展本身不能使用修饰符修饰。
 
 例如，下面的例子中对 A 的直接扩展前使用了 `public` 修饰，将编译报错。
+<!-- compile.error -->
 
 ```cangjie
 public class A {}
@@ -16,7 +17,7 @@ public extend A {}  // Error, expected no modifier before extend
 
 - 使用 `private` 修饰的成员只能在本扩展内使用，外部不可见。
 - 使用 `internal` 修饰的成员可以在当前包及子包（包括子包的子包）内使用，这是默认行为。
-- 使用 `protected` 修饰的成员在本模块内可以被访问（受导出规则限制）。当被扩展类型是 class 时，该 class 的子类定义体内也能访问。
+- 使用 `protected` 修饰的成员在本模块内可以被访问（受导出规则限制）。当被扩展类型是 class 时，该 class 的子类定义体也能访问。
 - 使用 `static` 修饰的成员，只能通过类型名访问，不能通过实例对象访问。
 - 对 `struct` 类型的扩展可以定义 `mut` 函数。
 
@@ -43,6 +44,7 @@ main() {
 ```
 
 扩展内的成员定义不支持使用 `open`、`override`、`redef` 修饰。
+<!-- compile.error -->
 
 ```cangjie
 class Foo {
@@ -59,13 +61,14 @@ extend Foo {
 
 ## 扩展的孤儿规则
 
-为一个其它 `package` 的类型实现另一个 `package` 的接口，可能造成理解上的困扰。
+为一个其他 `package` 的类型实现另一个 `package` 的接口，可能造成理解上的困扰。
 
-为了防止一个类型被意外实现不合适的接口，仓颉不允许定义孤儿扩展，指的是既不与接口（包含接口继承链上的所有接口）定义在同一个包中，也不与被扩展类型定义在同一个包中的接口扩展。
+为了防止一个类型被意外实现不合适的接口，仓颉不允许定义孤儿扩展，即既不与接口（包含接口继承链上的所有接口）定义在同一个包中，也不与被扩展类型定义在同一个包中的接口扩展。
 
-如下代码所示，我们不能在 `package c` 中，为 `package a` 里的 `Foo` 实现 `package b` 里的 `Bar`。
+如下代码所示，不能在 `package c` 中，为 `package a` 里的 `Foo` 实现 `package b` 里的 `Bar`。
 
-我们只能在 `package a` 或者在 `package b` 中为 `Foo` 实现 `Bar`。
+只能在 `package a` 或者在 `package b` 中为 `Foo` 实现 `Bar`。
+<!-- compile.error -->
 
 ```cangjie
 // package a
@@ -84,6 +87,7 @@ extend Foo <: Bar {} // Error
 ## 扩展的访问和遮盖
 
 扩展的实例成员与类型定义处一样可以使用 `this`，`this` 的功能保持一致。同样也可以省略 `this` 访问成员。扩展的实例成员不能使用 `super`。
+<!-- compile -->
 
 ```cangjie
 class A {
@@ -99,6 +103,7 @@ extend A {
 ```
 
 扩展不能访问被扩展类型中 `private` 修饰的成员。
+<!-- compile.error -->
 
 ```cangjie
 class A {
@@ -115,6 +120,7 @@ extend A {
 ```
 
 扩展不能遮盖被扩展类型的任何成员。
+<!-- compile.error -->
 
 ```cangjie
 class A {
@@ -126,7 +132,8 @@ extend A {
 }
 ```
 
-扩展也不允许遮盖其它扩展增加的任何成员。
+扩展也不允许遮盖其他扩展增加的任何成员。
+<!-- compile.error -->
 
 ```cangjie
 class A {}
@@ -141,6 +148,7 @@ extend A {
 ```
 
 在同一个包内，对同一类型可以扩展多次，并且在扩展中可以直接调用被扩展类型的其他扩展中非 `private` 修饰的函数。
+<!-- compile.error -->
 
 ```cangjie
 class Foo {}
@@ -165,6 +173,7 @@ extend Foo { // OK
 - 当两个扩展的约束不同时，且两个约束不存在包含关系，则两个扩展均互相不可见。
 
 示例：假设对同一个类型 `E<X>` 的两个扩展分别为扩展 `1` 和扩展 `2` ，`X` 的约束在扩展 `1` 中比扩展 `2` 中更严格，那么扩展 `1` 中的函数和属性对扩展 `2` 均不可见，反之，扩展 `2` 中的函数和属性对扩展 `1` 可见。
+<!-- compile.error -->
 
 ```cangjie
 open class A {}
@@ -193,84 +202,196 @@ extend<X> E<X> <: I2 where X <: A   { // extension 2
 
 ## 扩展的导入导出
 
-扩展也是可以被导入和导出的，但是扩展本身不能使用 `public` 修饰，扩展的导出有一套特殊的规则。
+扩展也是可以被导入和导出的，但是扩展本身不能使用可见性修饰符修饰，扩展的导出有一套特殊的规则。
 
-对于直接扩展，只有当扩展与被扩展的类型在同一个包中，并且被扩展的类型和扩展中添加的成员都使用 `public` 或 `protected` 修饰时，扩展的功能才会被导出。
+对于直接扩展，当扩展与被扩展的类型在同一个包中，扩展是否导出，由被扩展类型与泛型约束（如果有）的访问修饰符同时决定，当所有的泛型约束都是导出类型（修饰符与导出规则，详见[顶层声明的可见性](../package/toplevel_access.md)章节）时，该扩展将被导出。当扩展与被扩展类型不在同一个包中时，该扩展不会导出。
 
-除此以外的直接扩展均不能被导出，只能在当前包使用。
-
-如以下代码所示，`Foo` 是使用 `public` 修饰的类型，并且 `f` 与 `Foo` 在同一个包内，因此 `f` 会跟随 `Foo` 一起被导出。而 `g` 和 `Foo` 不在同一个包，因此 `g` 不会被导出。
+如以下代码所示，`Foo` 是导出的，`f1` 函数所在的扩展由于不导出泛型约束，故该扩展不会被导出；`f2` 和 `f3` 函数所在的扩展的泛型约束均被导出，故该扩展被导出；`f4` 函数所在的扩展包含多个泛型约束，且泛型约束中 `I1` 未被导出，故该扩展不会被导出；`f5` 函数所在的扩展包含多个泛型约束，所有的泛型约束均是导出的，故该扩展会被导出。
 
 ```cangjie
-// package a
+// package a.b
+package a.b
 
-public class Foo {}
+private interface I1 {}
+internal interface I2 {}
+protected interface I3 {}
 
-extend Foo {
-    public func f() {}
+extend Int64 <: I1 & I2 & I3 {}
+
+public class Foo<T> {}
+// The extension will not be exported
+extend<T> Foo<T> where T <: I1 {
+    public func f1() {}
+}
+// The extension will be exported, and only packages that import both Foo and I2 will be able to access it.
+extend<T> Foo<T> where T <: I2 {
+    public func f2() {}
+}
+// The extension will be exported, and only packages that import both Foo and I3 will be able to access it.
+extend<T> Foo<T> where T <: I3 {
+    public func f3() {}
+}
+// The extension will not be exported. The I1 with the lowest access level determines the export.
+extend<T> Foo<T> where T <: I1 & I2 & I3 {
+    public func f4() {}
+}
+// The extension is exported. Only the package that imports Foo, I2, and I3 can access the extension.
+extend<T> Foo<T> where T <: I2 & I3 {
+    public func f5() {}
 }
 
-// package b
-import a.*
-
-extend Foo {
-    public func g() {}
-}
-
-// package c
-import a.*
-import b.*
+// package a.c
+package a.c
+import a.b.*
 
 main() {
-    let a = Foo()
-    a.f() // OK
-    a.g() // Error
+    Foo<Int64>().f1() // Cannot access.
+    Foo<Int64>().f2() // Cannot access. Visible only for sub-pkg.
+    Foo<Int64>().f3() // Ok.
+    Foo<Int64>().f4() // Cannot access.
+    Foo<Int64>().f5() // Cannot access. Visible only for sub-pkg.
+}
+
+// package a.b.d
+package a.b.d
+import a.b.*
+
+main() {
+    Foo<Int64>().f1() // Cannot access.
+    Foo<Int64>().f2() // Ok.
+    Foo<Int64>().f3() // Ok.
+    Foo<Int64>().f4() // Cannot access.
+    Foo<Int64>().f5() // Ok.
 }
 ```
 
 对于接口扩展则分为两种情况：
 
-1. 如果接口扩展和被扩展类型在同一个包，但接口是来自导入的，只有当被扩展类型使用 `public` 修饰时，扩展的功能才会被导出。
-2. 如果接口扩展与接口在同一个包，则只有当接口是使用 `public` 修饰时，扩展的功能才会被导出。
+1. 当接口扩展与被扩展类型在相同的 `package` 时，扩展会与被扩展类型以及泛型约束（如果有）一起被导出，不受接口类型的访问级别影响，包外不需要导入接口类型也能访问该扩展的成员。
+2. 当接口扩展与被扩展类型在不同的 `package` 时，接口扩展是否导出由接口类型以及泛型约束（如果有）里用到的类型中最小的访问级别决定。其他 `package` 必须导入被扩展类型、相应的接口以及约束用到的类型（如果有），才能访问对应接口包含的扩展成员。
 
-如下代码所示，`Foo` 和 `I` 都使用了 `public` 修饰，因此对 `Foo` 的扩展就可以被导出。
+如下代码所示，在包 `a` 中，虽然接口访问修饰符为 `private`，但 `Foo` 的扩展仍然会被导出。
 
 ```cangjie
 // package a
+package a
+
+private interface I0 {}
+
+public class Foo<T> {}
+
+// The extension is exported.
+extend<T> Foo<T> <: I0 {}
+```
+
+当在其他包中为 `Foo` 类型扩展时，扩展是否导出由实现接口和泛型约束的访问修饰符决定。实现接口至少存在一个导出的接口，且所有的泛型约束均可导出时，该扩展将被导出。
+
+```cangjie
+// package b
+package b
+
+import a.Foo
+
+private interface I1 {}
+internal interface I2 {}
+protected interface I3 {}
+public interface I4 {}
+
+// The extension will not be exported because I1 is not visible outside the file.
+extend<T> Foo<T> <: I1 {}
+
+// The extension is exported.
+extend<T> Foo<T> <: I2 {}
+
+// The extension is exported.
+extend<T> Foo<T> <: I3 {}
+
+// The extension is exported
+extend<T> Foo<T> <: I1 & I2 & I3 {}
+
+// The extension will not be exported. The I1 with the lowest access level determines the export.
+extend<T> Foo<T> <: I4 where T <: I1 & I2 & I3 {}
+
+// The extension is exported.
+extend<T> Foo<T> <: I4 where T <: I2 & I3 {}
+
+// The extension is exported.
+extend<T> Foo<T> <: I4 & I3 where T <: I2 {}
+```
+
+特别的，接口扩展导出的成员仅限于接口中包含的成员。
+<!-- compile.error -access_rules3 -->
+<!-- cfg="-p a --output-type=staticlib" -->
+
+```cangjie
+// package a
+package a
 
 public class Foo {}
+```
 
-public interface I {
-    func g(): Unit
-}
+<!-- compile.error -access_rules3 -->
+<!-- cfg="-p b --output-type=staticlib" -->
 
-extend Foo <: I {
-    public func g(): Unit {}
-}
-
+```cangjie
 // package b
-import a.*
+package b
 
-main() {
-    let a: I = Foo()
-    a.g()
+import a.Foo
+
+public interface I1 {
+    func f1(): Unit
+}
+
+public interface I2 {
+    func f2(): Unit
+}
+
+extend Foo <: I1 & I2 {
+    public func f1(): Unit {}
+    public func f2(): Unit {}
+    public func f3(): Unit {} // f3 will not be exported
 }
 ```
 
-与扩展的导出类似，扩展的导入也不需要显式地用 `import` 导入，扩展的导入只需要导入被扩展的类型和接口，就可以导入可访问的所有扩展。
+<!-- compile.error -access_rules3 -->
+<!-- cfg="-p c --output-type=staticlib" -->
+<!-- cfg="liba.a libb.a" -->
+
+```cangjie
+// package c
+package c
+
+import a.Foo
+import b.I1
+
+main() {
+    let x: Foo = Foo()
+    x.f1() // OK, because f1 is a member of I1.
+    x.f2() // error, I2 is not imported
+    x.f3() // error, f3 not found
+}
+```
+
+与扩展的导出类似，扩展的导入也不需要显式地用 `import` 导入，扩展的导入只需要导入被扩展的类型、接口和泛型约束，就可以导入可访问的所有扩展。
 
 如下面的代码所示，在 `package b` 中，只需要导入 `Foo` 就可以使用 `Foo` 对应的扩展中的函数 `f`。
 
-而对于接口扩展，需要同时导入被扩展的类型和扩展的接口才能使用，因此在 `package c` 中，需要同时导入 `Foo` 和 `I` 才能使用对应扩展中的函数 `g`。
+而对于接口扩展，需要同时导入被扩展的类型、扩展的接口和泛型约束（如果有）才能使用。因此在 `package c` 中，需要同时导入 `Foo` 和 `I` 才能使用对应扩展中的函数 `g`。
+<!-- compile -->
 
 ```cangjie
 // package a
+package a
 public class Foo {}
 extend Foo {
     public func f() {}
 }
+```
 
+```cangjie
 // package b
+package b
 import a.Foo
 
 public interface I {
@@ -281,8 +402,11 @@ extend Foo <: I {
         this.f() // OK
     }
 }
+```
 
+```cangjie
 // package c
+package c
 import a.Foo
 import b.I
 

@@ -18,14 +18,48 @@ public class ClassTypeInfo <: TypeInfo
 public prop constructors: Collection<ConstructorInfo>
 ```
 
-功能：获取该 [ClassTypeInfo](reflect_package_classes.md#class-classtypeinfo) 对应的 `class` 的所有公开构造函数信息，返回对应集合。
+功能：获取该 [ClassTypeInfo](reflect_package_classes.md#class-classtypeinfo) 对应的 `class` 的所有 `public` 构造函数信息，返回对应集合。
 
 > **注意：**
 >
-> - 如果该 `class` 类型无任何公开构造函数，则返回空集合。
+> - 如果该 `class` 类型无任何 `public` 构造函数，则返回空集合。
 > - 该集合不保证遍历顺序恒定。
 
 类型：[Collection](../../core/core_package_api/core_package_interfaces.md#interface-collectiont)\<[ConstructorInfo](reflect_package_classes.md#class-constructorinfo)>
+
+示例：
+
+<!-- verify -->
+```cangjie
+package test
+
+import std.reflect.*
+
+public class Rectangular {
+    public var myName = ""
+    public init() {}
+    public init(name: String) {
+        myName = name
+    }
+}
+
+main(): Unit {
+    // 此处是通过 Rectangular 的类型的限定名称获取 ClassTypeInfo，也可以通过实例获取 ClassTypeInfo
+    let ty = ClassTypeInfo.get("test.Rectangular")
+    // 获取 constructors
+    for (i in ty.constructors) {
+        println(i)
+    }
+    return
+}
+```
+
+运行结果：
+
+```text
+init()
+init(String)
+```
 
 ### prop instanceVariables
 
@@ -33,15 +67,49 @@ public prop constructors: Collection<ConstructorInfo>
 public prop instanceVariables: Collection<InstanceVariableInfo>
 ```
 
-功能：获取该 [ClassTypeInfo](reflect_package_classes.md#class-classtypeinfo) 对应的 `class` 的所有公开实例成员变量信息，返回对应集合。
+功能：获取该 [ClassTypeInfo](reflect_package_classes.md#class-classtypeinfo) 对应的 `class` 的所有 `public` 实例成员变量信息，返回对应集合。
 
 > **注意：**
 >
-> - 如果该 `class` 类型无任何公开实例成员变量，则返回空集合。
+> - 如果该 `class` 类型无任何 `public` 实例成员变量，则返回空集合。
 > - 该集合不保证遍历顺序恒定。
-> - 该集合不包含任何继承而来的公开实例成员变量。
+> - 该集合不包含任何继承而来的 `public` 实例成员变量。
 
 类型：[Collection](../../core/core_package_api/core_package_interfaces.md#interface-collectiont)\<[InstanceVariableInfo](reflect_package_classes.md#class-instancevariableinfo)>
+
+示例：
+
+<!-- verify -->
+```cangjie
+package test
+
+import std.reflect.*
+
+public class Rectangular {
+    public var length = 4
+    public var width = 5
+    public var myName = ""
+    public init() {}
+}
+
+main(): Unit {
+    // 此处是通过 Rectangular 的类型的限定名称获取 ClassTypeInfo，也可以通过实例获取 ClassTypeInfo
+    let ty = ClassTypeInfo.get("test.Rectangular")
+    // 获取 instanceVariables
+    for (i in ty.instanceVariables) {
+        println(i)
+    }
+    return
+}
+```
+
+运行结果：
+
+```text
+length: Int64
+width: Int64
+myName: String
+```
 
 ### prop sealedSubclasses
 
@@ -64,13 +132,13 @@ public prop sealedSubclasses: Collection<ClassTypeInfo>
 public prop staticVariables: Collection<StaticVariableInfo>
 ```
 
-功能：获取该 [ClassTypeInfo](reflect_package_classes.md#class-classtypeinfo) 对应的 `class` 的所有公开静态成员变量信息，返回对应集合。
+功能：获取该 [ClassTypeInfo](reflect_package_classes.md#class-classtypeinfo) 对应的 `class` 的所有 `public` 静态成员变量信息，返回对应集合。
 
 > **注意：**
 >
-> - 如果该 `class` 类型无任何公开静态成员变量，则返回空集合。
+> - 如果该 `class` 类型无任何 `public` 静态成员变量，则返回空集合。
 > - 该集合不保证遍历顺序恒定。
-> - 该集合不包含任何继承而来的公开静态成员变量。
+> - 该集合不包含任何继承而来的 `public` 静态成员变量。
 
 类型：[Collection](../../core/core_package_api/core_package_interfaces.md#interface-collectiont)\<[StaticVariableInfo](reflect_package_classes.md#class-staticvariableinfo)>
 
@@ -107,8 +175,43 @@ public func construct(args: Array<Any>): Any
 异常：
 
 - [IllegalTypeException](reflect_package_exceptions.md#class-illegaltypeexception) - 如果该 `class` 类型拥有 `abstract` 语义，调用 `construct` 则抛出异常，因为抽象类不可被实例化。
-- [MisMatchException](reflect_package_exceptions.md#class-mismatchexception) - 如果 `args` 未能成功匹配任何该 `class` 类型的公开构造函数，则抛出异常。
+- [MisMatchException](reflect_package_exceptions.md#class-mismatchexception) - 如果 `args` 未能成功匹配任何该 `class` 类型的可见性为 `public` 的构造函数，则抛出异常。
 - [InvocationTargetException](reflect_package_exceptions.md#class-invocationtargetexception) - 在被调用的构造函数内部抛出的任何异常均将被封装为 [InvocationTargetException](reflect_package_exceptions.md#class-invocationtargetexception) 异常并抛出。
+
+示例：
+
+<!-- run -->
+```cangjie
+package test
+
+import std.reflect.*
+
+public class Rectangular {
+    public var length = 4
+    public var width = 5
+    public var myName = ""
+    public init() {}
+    public init(name: String) {
+        myName = name
+    }
+    public init(name: String, length: Int64, width: Int64) {
+        myName = name
+        this.length = length
+        this.width = width
+    }
+}
+
+main(): Unit {
+    // 此处是通过 Rectangular 的类型的限定名称获取 ClassTypeInfo，也可以通过实例获取 ClassTypeInfo
+    let ty = ClassTypeInfo.get("test.Rectangular")
+
+    // 通过不同入参构造实例
+    ty.construct()
+    ty.construct("Small rectangular")
+    ty.construct("Big rectangular", 1, 1)
+    return
+}
+```
 
 ### func getConstructor(Array\<TypeInfo>)
 
@@ -116,7 +219,7 @@ public func construct(args: Array<Any>): Any
 public func getConstructor(parameterTypes: Array<TypeInfo>): ConstructorInfo
 ```
 
-功能：尝试在该 [ClassTypeInfo](reflect_package_classes.md#class-classtypeinfo) 对应的 `class` 类型中获取与给定形参类型信息列表匹配的公开构造函数的信息。
+功能：尝试在该 [ClassTypeInfo](reflect_package_classes.md#class-classtypeinfo) 对应的 `class` 类型中获取与给定形参类型信息列表匹配的 `public` 构造函数的信息。
 
 参数：
 
@@ -124,11 +227,56 @@ public func getConstructor(parameterTypes: Array<TypeInfo>): ConstructorInfo
 
 返回值：
 
-- [ConstructorInfo](reflect_package_classes.md#class-constructorinfo) - 如果成功匹配则返回该公开构造函数的信息。
+- [ConstructorInfo](reflect_package_classes.md#class-constructorinfo) - 如果成功匹配则返回该 `public` 构造函数的信息。
 
 异常：
 
-- [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果没找到对应公开构造函数，则抛出异常。
+- [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果没找到对应 `public` 构造函数，则抛出异常。
+
+示例：
+
+<!-- verify -->
+```cangjie
+package test
+
+import std.reflect.*
+
+public class Rectangular {
+    public var length = 4
+    public var width = 5
+    public var myName = ""
+    public init() {}
+    public init(name: String) {
+        myName = name
+    }
+    public init(name: String, length: Int64, width: Int64) {
+        myName = name
+        this.length = length
+        this.width = width
+    }
+}
+
+main(): Unit {
+    // 此处是通过 Rectangular 的类型的限定名称获取 ClassTypeInfo，也可以通过实例获取 ClassTypeInfo
+    let ty = ClassTypeInfo.get("test.Rectangular")
+
+    // 获取指定构造函数信息
+    let ci01 = ty.getConstructor(StructTypeInfo.get("String"))
+    println(ci01)
+
+    // 获取指定构造函数信息
+    let ci02 = ty.getConstructor(StructTypeInfo.get("String"), PrimitiveTypeInfo.get("Int64"), PrimitiveTypeInfo.get("Int64"))
+    println(ci02)
+    return
+}
+```
+
+运行结果：
+
+```text
+init(String)
+init(String, Int64, Int64)
+```
 
 ### func getInstanceVariable(String)
 
@@ -150,6 +298,38 @@ public func getInstanceVariable(name: String): InstanceVariableInfo
 
 - [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果没找到对应实例成员变量，则抛出异常。
 
+示例：
+
+<!-- verify -->
+```cangjie
+package test
+
+import std.reflect.*
+
+public class Rectangular {
+    public var length = 4
+    public var width = 5
+    public var myName = ""
+    public init() {}
+}
+
+main(): Unit {
+    // 此处是通过 Rectangular 的类型的限定名称获取 ClassTypeInfo，也可以通过实例获取 ClassTypeInfo
+    let ty = ClassTypeInfo.get("test.Rectangular")
+
+    // 获取类实例成员信息
+    let ivi = ty.getInstanceVariable("myName")
+    println(ivi)
+    return
+}
+```
+
+运行结果：
+
+```text
+myName: String
+```
+
 ### func getStaticVariable(String)
 
 ```cangjie
@@ -169,6 +349,35 @@ public func getStaticVariable(name: String): StaticVariableInfo
 异常：
 
 - [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果没找到对应静态成员变量，则抛出异常。
+
+示例：
+
+<!-- verify -->
+```cangjie
+package test
+
+import std.reflect.*
+
+public class Rectangular {
+    public static var area: Int64 = 10
+}
+
+main(): Unit {
+    // 此处是通过 Rectangular 的类型的限定名称获取 ClassTypeInfo，也可以通过实例获取 ClassTypeInfo
+    let ty = ClassTypeInfo.get("test.Rectangular")
+
+    // 获取静态变量
+    let sv = ty.getStaticVariable("area")
+    println(sv)
+    return
+}
+```
+
+运行结果：
+
+```text
+static area: Int64
+```
 
 ### func isAbstract()
 
@@ -210,6 +419,177 @@ public func isSealed(): Bool
 
 - [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 如果该 [ClassTypeInfo](reflect_package_classes.md#class-classtypeinfo) 对应的 `class` 类型拥有 `sealed` 语义则返回 `true`，否则返回 `false`。
 
+### static func get(String)
+
+```cangjie
+public redef static func get(qualifiedName: String): ClassTypeInfo
+```
+
+功能：获取给定限定名称所对应类型的 [ClassTypeInfo](reflect_package_classes.md#class-classtypeinfo)。
+
+参数：
+
+- qualifiedName: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 类型的限定名称。
+
+返回值：
+
+- [ClassTypeInfo](reflect_package_classes.md#class-classtypeinfo) - 类型的限定名称 `qualifiedName` 所对应的类型的类型信息。
+
+异常：
+
+- [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果无法获取与给定类型的限定名称 `qualifiedName` 匹配的类型所对应的类型信息，则抛出异常。
+- [IllegalTypeException](./reflect_package_exceptions.md#class-illegaltypeexception) - 如果获取到的类型信息不是 [ClassTypeInfo](reflect_package_classes.md#class-classtypeinfo)， 则抛出异常。
+
+示例：
+
+<!-- verify -->
+```cangjie
+import std.reflect.*
+
+public class Rectangular {}
+
+main(): Unit {
+    let ty = ClassTypeInfo.get("default.Rectangular")
+    println(ty)
+    return
+}
+```
+
+运行结果：
+
+```text
+default.Rectangular
+```
+
+### static func of(Any)
+
+```cangjie
+public redef static func of(a: Any): ClassTypeInfo
+```
+
+功能：获取给定的任意类型的实例的运行时类型所对应的类型信息。
+
+运行时类型是指在程序运行时，通过动态绑定确定的类型，运行时类型与实例对象相绑定。在继承等场景下运行时类型和静态类型可能不一致。
+
+参数：
+
+- a: [Any](../../core/core_package_api/core_package_interfaces.md#interface-any) - 任意类型的实例。
+
+返回值：
+
+- [ClassTypeInfo](reflect_package_classes.md#class-classtypeinfo) - 实例 `a` 的运行时类型所对应的类型信息。
+
+异常：
+
+- [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果无法获得实例 `a` 的运行时类型所对应的类型信息，则抛出异常。
+- [IllegalTypeException](./reflect_package_exceptions.md#class-illegaltypeexception) - 如果获取到的类型信息不是 [ClassTypeInfo](reflect_package_classes.md#class-ClassTypeInfo)， 则抛出异常。
+
+示例：
+
+<!-- verify -->
+```cangjie
+package test
+
+import std.reflect.*
+
+public class Rectangular {}
+
+main(): Unit {
+    var r = Rectangular()
+    let ty = ClassTypeInfo.of(r)
+    println(ty)
+    return
+}
+```
+
+运行结果：
+
+```text
+test.Rectangular
+```
+
+### static func of(Object)
+
+```cangjie
+public static func of(a: Object): ClassTypeInfo
+```
+
+功能：获取给定的 `class` 类型的实例的运行时类型所对应的 `class` 类型信息。
+
+参数：
+
+- a: [Object](../../core/core_package_api/core_package_classes.md#class-object) - `class` 类型的实例。
+
+返回值：
+
+- [ClassTypeInfo](reflect_package_classes.md#class-classtypeinfo) - `class` 类型的实例 `a` 的运行时类型所对应的 `class` 类型信息。
+
+异常：
+
+- [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果无法获得实例 `a` 的运行时类型所对应的 `class` 类型信息，则抛出异常。
+
+示例：
+
+<!-- verify -->
+```cangjie
+package test
+
+import std.reflect.*
+
+public class Rectangular {}
+
+main(): Unit {
+    var r = Rectangular()
+    let ty = ClassTypeInfo.of(r)
+    println(ty)
+    return
+}
+```
+
+运行结果：
+
+```text
+test.Rectangular
+```
+
+### static func of\<T>()
+
+```cangjie
+public redef static func of<T>(): ClassTypeInfo
+```
+
+功能：获取给定类型 `T` 对应的类型信息。
+
+返回值：
+
+- [ClassTypeInfo](reflect_package_classes.md#class-classtypeinfo) - `T` 类型对应的类型信息。
+
+异常：
+
+- [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果无法获得类型 T 所对应的类型信息，抛出异常。
+- [IllegalTypeException](./reflect_package_exceptions.md#class-illegaltypeexception) - 如果获取到的类型信息不是 [ClassTypeInfo](reflect_package_classes.md#class-classtypeinfo)， 则抛出异常。
+
+示例：
+
+<!-- verify -->
+```cangjie
+import std.reflect.*
+
+public class Rectangular {}
+
+main(): Unit {
+    let ty = ClassTypeInfo.of<Rectangular>()
+    println(ty)
+    return
+}
+```
+
+运行结果：
+
+```text
+default.Rectangular
+```
+
 ## class ConstructorInfo
 
 ```cangjie
@@ -242,12 +622,62 @@ public prop annotations: Collection<Annotation>
 ### prop parameters
 
 ```cangjie
-public prop parameters: InfoList<ParameterInfo>
+public prop parameters: ReadOnlyList<ParameterInfo>
 ```
 
-功能：获取该 [ConstructorInfo](reflect_package_classes.md#class-constructorinfo) 所对应的构造函数的形参类型列表。
+功能：获取该 [ConstructorInfo](reflect_package_classes.md#class-constructorinfo) 所对应的构造函数的参数类型列表。
 
-类型：[InfoList](reflect_package_classes.md#class-infolist)\<[ParameterInfo](reflect_package_classes.md#class-parameterinfo)>
+> **注意：**
+>
+> 不保证参数顺序，可根据 `ParameterInfo`的 `index` 属性确定参数实际位置。
+
+类型：[ReadOnlyList](../../collection/collection_package_api/collection_package_interface.md#interface-readonlylistt)\<[ParameterInfo](reflect_package_classes.md#class-parameterinfo)>
+
+示例：
+
+<!-- verify -->
+```cangjie
+package test
+
+import std.reflect.*
+
+public class Rectangular {
+    public var length = 4
+    public var width = 5
+    public var myName = ""
+    public init() {}
+    public init(name: String) {
+        myName = name
+    }
+    public init(name: String, length: Int64, width: Int64) {
+        myName = name
+        this.length = length
+        this.width = width
+    }
+}
+
+main(): Unit {
+    // 此处是通过 Rectangular 的类型的限定名称获取 ClassTypeInfo，也可以通过实例获取 ClassTypeInfo
+    let ty = ClassTypeInfo.get("test.Rectangular")
+    // 获取 constructors
+    for (i in ty.constructors) {
+        // 获取 parameters
+        for (j in i.parameters) {
+            println("${i} 的入参有 ${j}")
+        }
+    }
+    return
+}
+```
+
+运行结果：
+
+```text
+init(String) 的入参有 String
+init(String, Int64, Int64) 的入参有 String
+init(String, Int64, Int64) 的入参有 Int64
+init(String, Int64, Int64) 的入参有 Int64
+```
 
 ### func apply(Array\<Any>)
 
@@ -259,8 +689,7 @@ public func apply(args: Array<Any>): Any
 
 > **注意：**
 >
-> - 目前，实参不支持 `struct` 类型的实例。
-> - 目前，`struct` 类型中定义的构造函数不支持被调用。
+> 目前，`struct` 类型中定义的构造函数不支持被调用。
 
 参数：
 
@@ -345,6 +774,35 @@ public operator func ==(that: ConstructorInfo): Bool
 
 - [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 如果该构造器信息与 `that` 相等则返回 `true`，否则返回 `false`。
 
+## class GenericTypeInfo
+
+```cangjie
+public class GenericTypeInfo <: TypeInfo & Equatable<GenericTypeInfo>
+```
+
+功能：描述泛型类型信息。
+
+父类型：
+
+- [TypeInfo](./reflect_package_classes.md#class-typeinfo)
+- [Equatable](../../core/core_package_api/core_package_interfaces.md#interface-equatablet)\<[GenericTypeInfo](./reflect_package_classes.md#class-generictypeinfo)>
+
+### operator func ==(GenericTypeInfo)
+
+```cangjie
+public operator func ==(that: GenericTypeInfo): Bool
+```
+
+功能：判断该泛型类型信息与给定的另一个泛型类型信息是否相等。
+
+参数：
+
+- that: [GenericTypeInfo](reflect_package_classes.md#class-generictypeinfo) - 被比较相等性的另一个泛型类型信息。
+
+返回值：
+
+- [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 如果该泛型类型信息与 `that` 相等则返回 `true`，否则返回 `false`。
+
 ## class GlobalFunctionInfo
 
 ```cangjie
@@ -358,6 +816,35 @@ public class GlobalFunctionInfo <: Equatable<GlobalFunctionInfo> & Hashable & To
 - [Equatable](../../core/core_package_api/core_package_interfaces.md#interface-equatablet)\<[GlobalFunctionInfo](#class-globalfunctioninfo)>
 - [Hashable](../../core/core_package_api/core_package_interfaces.md#interface-hashable)
 - [ToString](../../core/core_package_api/core_package_interfaces.md#interface-tostring)
+
+### prop annotations
+
+```cangjie
+public prop annotations: Collection<Annotation>
+```
+
+功能：获取所有[GlobalFunctionInfo](reflect_package_classes.md#class-globalfunctioninfo) 对应的全局函数的注解，返回对应集合。
+
+> **注意：**
+>
+> - 如果无任何注解作用于该全局函数信息所对应全局函数，则返回空集合。
+> - 该集合不保证遍历顺序恒定。
+
+类型：[Collection](../../core/core_package_api/core_package_interfaces.md#interface-collectiont)\<[Annotation](../../ast/ast_package_api/ast_package_classes.md#class-annotation)>
+
+### prop genericParams
+
+```cangjie
+public prop genericParams: Collection<GenericTypeInfo>
+```
+
+功能：获取该 [GlobalFunctionInfo](reflect_package_classes.md#class-globalfunctioninfo) 对应的实例成员函数的泛型参数信息列表。
+
+类型：[Collection](../../core/core_package_api/core_package_interfaces.md#interface-collectiont)\<[GenericTypeInfo](reflect_package_classes.md#class-generictypeinfo)>
+
+异常：
+
+- [InfoNotFoundException](./reflect_package_exceptions.md#class-infonotfoundexception) - [GlobalFunctionInfo](reflect_package_classes.md#class-globalfunctioninfo) 没有泛型参数时抛出异常。
 
 ### prop name
 
@@ -376,12 +863,16 @@ public prop name: String
 ### prop parameters
 
 ```cangjie
-public prop parameters: InfoList<ParameterInfo>
+public prop parameters: ReadOnlyList<ParameterInfo>
 ```
 
-功能：获取该 [GlobalFunctionInfo](reflect_package_classes.md#class-globalfunctioninfo) 对应的全局函数的形参信息列表。
+功能：获取该 [GlobalFunctionInfo](reflect_package_classes.md#class-globalfunctioninfo) 对应的全局函数的参数信息列表。
 
-类型：[InfoList](reflect_package_classes.md#class-infolist)\<[ParameterInfo](reflect_package_classes.md#class-parameterinfo)>
+> **注意：**
+>
+> 不保证参数顺序，可根据 `ParameterInfo`的 `index` 属性确定参数实际位置。
+
+类型：[ReadOnlyList](../../collection/collection_package_api/collection_package_interface.md#interface-readonlylistt)\<[ParameterInfo](reflect_package_classes.md#class-parameterinfo)>
 
 ### prop returnType
 
@@ -403,7 +894,7 @@ public func apply(args: Array<Any>): Any
 
 > **注意：**
 >
-> 目前，实参不支持 `struct` 类型的实例。
+> `args` 的类型确保和函数入参类型完全一致，否则会导致参数检查失败。
 
 参数：
 
@@ -415,9 +906,52 @@ public func apply(args: Array<Any>): Any
 
 异常：
 
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 如果实参列表 `args` 中的实参的数目与该全局函数信息所对应的全局函数的形参列表中的形参的数目不等，则抛出异常。
+- [InvocationTargetException](../reflect_package_api/reflect_package_exceptions.md#class-invocationtargetexception) - 如果存在泛型参数的函数调用了该方法，则抛出异常。
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 如果实参列表 `args` 中的实参的数目与该全局函数信息 `GlobalFunctionInfo` 所对应的全局函数的形参列表中的形参的数目不等，则抛出异常。
 - [IllegalTypeException](reflect_package_exceptions.md#class-illegaltypeexception) - 如果实参列表 `args` 中的任何一个实参的运行时类型不是该全局函数信息所对应的全局函数的对应形参的声明类型的子类型，则抛出异常。
 - [Exception](../../core/core_package_api/core_package_exceptions.md#class-exception) - 如果被调用的全局函数信息所对应全局函数内部抛出异常，则该异常将被封装为 [Exception](../../core/core_package_api/core_package_exceptions.md#class-exception) 异常并抛出。
+
+### func apply(Array\<TypeInfo>, Array\<Any>)
+
+```cangjie
+public func apply(genericTypeArgs: Array<TypeInfo>, args: Array<Any>): Any
+```
+
+功能：调用该 [GlobalFunctionInfo](reflect_package_classes.md#class-globalfunctioninfo) 对应的全局泛型函数，传入泛型参数类型列表和实参列表，返回调用结果。
+
+> **注意：**
+>
+> `args` 的类型确保和函数入参类型完全一致，否则会导致参数检查失败。
+
+参数：
+
+- genericTypeArgs: [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[TypeInfo](./reflect_package_classes.md#class-typeinfo)> - 泛型参数类型列表。
+- args: [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[Any](../../core/core_package_api/core_package_interfaces.md#interface-any)> - 实参列表。
+
+返回值：
+
+- [Any](../../core/core_package_api/core_package_interfaces.md#interface-any) - 该全局函数的调用结果。
+
+异常：
+
+- [InvocationTargetException](../reflect_package_api/reflect_package_exceptions.md#class-invocationtargetexception) - 如果非泛型函数调用了该方法，则抛出异常。
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 如果实参列表 `args` 中的实参的数目与该全局函数信息 `GlobalFunctionInfo` 所对应的全局函数的形参列表中的形参的数目不等，则抛出异常。
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 如果函数泛型参数列表 `genericTypeArgs` 中的参数数目与该全局函数信息所对应的全局函数的泛型参数列表 `genericParams` 中的参数数目不等，则抛出异常。
+- [IllegalTypeException](reflect_package_exceptions.md#class-illegaltypeexception) - 如果实参列表 `args` 中的任何一个实参的运行时类型不是该全局函数信息所对应的全局函数的对应形参的声明类型的子类型，则抛出异常。
+- [IllegalTypeException](reflect_package_exceptions.md#class-illegaltypeexception) - 如果传入的参数列表 `args` 和泛型参数类型列表 `genericTypeArgs` 不满足该全局函数信息所对应的全局函数的参数的类型约束，则抛出异常。
+- [Exception](../../core/core_package_api/core_package_exceptions.md#class-exception) - 如果被调用的全局函数信息所对应全局函数内部抛出异常，则该异常将被封装为 [Exception](../../core/core_package_api/core_package_exceptions.md#class-exception) 异常并抛出。
+
+### func findAnnotation\<T>() where T <: Annotation
+
+```cangjie
+public func findAnnotation<T>(): Option<T> where T <: Annotation
+```
+
+功能：尝试获取作用于该 [GlobalFunctionInfo](reflect_package_classes.md#class-globalfunctioninfo) 对应的全局函数且拥有给定限定名称的注解。
+
+返回值：
+
+- [Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<T> - 如果成功匹配则返回该注解，否则返回 `None`。
 
 ### func hashCode()
 
@@ -489,6 +1023,21 @@ public class GlobalVariableInfo <: Equatable<GlobalVariableInfo> & Hashable & To
 - [Hashable](../../core/core_package_api/core_package_interfaces.md#interface-hashable)
 - [ToString](../../core/core_package_api/core_package_interfaces.md#interface-tostring)
 
+### prop annotations
+
+```cangjie
+public prop annotations: Collection<Annotation>
+```
+
+功能：获取所有作用于该 [GlobalVariableInfo](reflect_package_classes.md#class-globalvariableinfo) 对应的全局变量的注解，返回对应集合。
+
+> **注意：**
+>
+> - 如果无任何注解作用于该全局变量信息所对应的全局变量，则返回空集合。
+> - 该集合不保证遍历顺序恒定。
+
+类型：[Collection](../../core/core_package_api/core_package_interfaces.md#interface-collectiont)\<[Annotation](../../ast/ast_package_api/ast_package_classes.md#class-annotation)>
+
 ### prop name
 
 ```cangjie
@@ -508,6 +1057,18 @@ public prop typeInfo: TypeInfo
 功能：获取该 [GlobalVariableInfo](reflect_package_classes.md#class-globalvariableinfo) 对应的全局变量的声明类型的类型信息。
 
 类型：[TypeInfo](reflect_package_classes.md#class-typeinfo)
+
+### func findAnnotation\<T>() where T <: Annotation
+
+```cangjie
+public func findAnnotation<T>(): Option<T> where T <: Annotation
+```
+
+功能：尝试获取作用于该 [GlobalVariableInfo](reflect_package_classes.md#class-globalvariableinfo) 对应的全局变量且拥有给定限定名称的注解。
+
+返回值：
+
+- [Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<T> - 如果成功匹配则返回该注解，否则返回 `None`。
 
 ### func getValue()
 
@@ -612,88 +1173,6 @@ public operator func !=(that: GlobalVariableInfo): Bool
 
 - [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 如果该全局变量信息与 `that` 不等则返回 `true`，否则返回 `false`。
 
-## class InfoList
-
-```cangjie
-public class InfoList<T> <: Collection<T>
-```
-
-功能：信息列表，用于保存只读的反射信息。
-
-父类型：
-
-- [Collection](../../core/core_package_api/core_package_interfaces.md#interface-collectiont)\<T>
-
-### prop size
-
-```cangjie
-public prop size: Int64
-```
-
-功能：获取该信息列表中的元素个数。
-
-类型：[Int64](../../core/core_package_api/core_package_intrinsics.md#int64)
-
-### func get(Int64)
-
-```cangjie
-public func get(index: Int64): ?T
-```
-
-功能：尝试获取该信息列表指定位置上的元素。
-
-参数：
-
-- index: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 位置索引。
-
-返回值：
-
-- ?T - 该信息列表指定位置上的元素。
-
-### func isEmpty()
-
-```cangjie
-public func isEmpty(): Bool
-```
-
-功能：判断该信息列表是否为空。
-
-返回值：
-
-- [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 如果该信息列表为空则返回 `true`，否则返回 `false`。
-
-### func iterator()
-
-```cangjie
-public func iterator(): Iterator<T>
-```
-
-功能：获取该信息列表的迭代器。
-
-返回值：
-
-- [Iterator](../../core/core_package_api/core_package_classes.md#class-iteratort)\<T> - 该信息列表的迭代器。
-
-### operator func []\(Int64)
-
-```cangjie
-public operator func [](index: Int64): T
-```
-
-功能：获取该信息列表指定位置上的元素。
-
-参数：
-
-- index: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 位置索引。
-
-返回值：
-
-- T - 该信息列表指定位置上的元素。
-
-异常：
-
-- [IndexOutOfBoundsException](../../core/core_package_api/core_package_exceptions.md#class-indexoutofboundsexception) - 如果 `index` 超出索引范围，则抛出异常。
-
 ## class InstanceFunctionInfo
 
 ```cangjie
@@ -722,6 +1201,20 @@ public prop annotations: Collection<Annotation>
 > - 该集合不保证遍历顺序恒定。
 
 类型：[Collection](../../core/core_package_api/core_package_interfaces.md#interface-collectiont)\<[Annotation](../../ast/ast_package_api/ast_package_classes.md#class-annotation)>
+
+### prop genericParams
+
+```cangjie
+public prop genericParams: Collection<GenericTypeInfo>
+```
+
+功能：获取该 [InstanceFunctionInfo](reflect_package_classes.md#class-instancefunctioninfo) 对应的实例成员函数的泛型参数信息列表。
+
+类型：[Collection](../../core/core_package_api/core_package_interfaces.md#interface-collectiont)\<[GenericTypeInfo](reflect_package_classes.md#class-generictypeinfo)>
+
+异常：
+
+- [InfoNotFoundException](./reflect_package_exceptions.md#class-infonotfoundexception) - [GlobalFunctionInfo](reflect_package_classes.md#class-globalfunctioninfo) 没有泛型参数时抛出异常。
 
 ### prop modifiers
 
@@ -757,12 +1250,16 @@ public prop name: String
 ### prop parameters
 
 ```cangjie
-public prop parameters: InfoList<ParameterInfo>
+public prop parameters: ReadOnlyList<ParameterInfo>
 ```
 
-功能：获取该 [InstanceFunctionInfo](reflect_package_classes.md#class-instancefunctioninfo) 对应的实例成员函数的形参信息列表。
+功能：获取该 [InstanceFunctionInfo](reflect_package_classes.md#class-instancefunctioninfo) 对应的实例成员函数的参数信息列表。
 
-类型：[InfoList](reflect_package_classes.md#class-infolist)\<[ParameterInfo](reflect_package_classes.md#class-parameterinfo)>
+> **说明：**
+>
+> 不保证参数顺序，可根据 `ParameterInfo`的 `index` 属性确定参数实际位置。
+
+类型：[ReadOnlyList](../../collection/collection_package_api/collection_package_interface.md#interface-readonlylistt)\<[ParameterInfo](reflect_package_classes.md#class-parameterinfo)>
 
 ### prop returnType
 
@@ -784,8 +1281,7 @@ public func apply(instance: Any, args: Array<Any>): Any
 
 > **注意：**
 >
-> - 目前，实例 `instance` 不支持 `struct` 类型的实例。
-> - 目前，实参不支持 `struct` 类型的实例。
+> `args` 的类型确保和函数入参类型完全一致。
 
 参数：
 
@@ -798,11 +1294,79 @@ public func apply(instance: Any, args: Array<Any>): Any
 
 异常：
 
-- [InvocationTargetException](reflect_package_exceptions.md#class-invocationtargetexception) - 如果该实例成员函数信息所对应的实例成员函数是抽象的，则抛出异常。
-- [IllegalTypeException](reflect_package_exceptions.md#class-illegaltypeexception) - 如果实例 `instance` 的运行时类型与该实例成员函数信息所对应的实例成员函数所属的类型不严格相同，则抛出异常。
+- [InvocationTargetException](../reflect_package_api/reflect_package_exceptions.md#class-invocationtargetexception) - 如果存在泛型参数的函数调用了该方法，则抛出异常。
+- [InvocationTargetException](reflect_package_exceptions.md#class-invocationtargetexception) - 如果该实例成员函数信息所对应的实例成员函数是抽象的，或不存在相应的函数实现，则抛出异常。
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 如果实参列表 `args` 中的实参的数目与该实例成员函数信息所对应的实例成员函数的形参列表中的形参的数目不等，则抛出异常。
+- [IllegalTypeException](reflect_package_exceptions.md#class-illegaltypeexception) - 如果实例 `instance` 的运行时类型与该实例成员函数信息所对应的实例成员函数所属的类型不相同，则抛出异常。
 - [IllegalTypeException](reflect_package_exceptions.md#class-illegaltypeexception) - 如果实参列表 `args` 中的任何一个实参的运行时类型不是该实例成员函数信息所对应的实例成员函数的对应形参的声明类型的子类型，则抛出异常。
 - [Exception](../../core/core_package_api/core_package_exceptions.md#class-exception) - 如果被调用的实例成员函数信息所对应的实例成员函数内部抛出异常，则该异常将被封装为 [Exception](../../core/core_package_api/core_package_exceptions.md#class-exception) 异常并抛出。
+
+### func apply(Any, Array\<TypeInfo>, Array\<Any>)
+
+```cangjie
+public func apply(instance: Any, genericTypeArgs: Array<TypeInfo>, args: Array<Any>): Any
+```
+
+功能：调用该 [InstanceFunctionInfo](reflect_package_classes.md#class-instancefunctioninfo) 对应泛型成员函数，指定实例并传入泛型参数的类型列表和参数列表，返回调用结果。
+
+> **注意：**
+>
+> `args` 的类型确保和函数入参类型完全一致。
+
+参数：
+
+- instance: [Any](../../core/core_package_api/core_package_interfaces.md#interface-any) - 实例。
+- genericTypeArgs: [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[TypeInfo](./reflect_package_classes.md#class-typeinfo)> - 泛型参数类型信息列表。
+- args: [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[Any](../../core/core_package_api/core_package_interfaces.md#interface-any)> - 泛型参数列表。
+
+返回值：
+
+- [Any](../../core/core_package_api/core_package_interfaces.md#interface-any) - 该实例泛型函数的调用结果。
+
+异常：
+
+- [InvocationTargetException](reflect_package_exceptions.md#class-invocationtargetexception) - 如果该函数信息对应的成员函数是 `abstract` 或不存在函数体，则会抛出异常。
+- [InvacationTargetException](reflect_package_exceptions.md#class-invocationtargetexception) - 如果非泛型函数调用了此方法，则抛出异常。
+- [IllegalTypeException](reflect_package_exceptions.md#class-illegaltypeexception) - 如果实例 `instance` 的运行时类型与该成员函数信息所对应的成员函数所属的类型不相同，则抛出异常。
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 如果实参列表 `args` 中的实参的数目与该成员函数信息所对应的成员函数的形参列表中的形参的数目不等，则抛出异常。
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 如果函数泛型参数列表 `genericTypeArgs` 中的参数数目与该成员函数信息所对应的成员函数的泛型参数列表 `genericParams` 中的参数数目不等，则抛出异常。
+- [IllegalTypeException](reflect_package_exceptions.md#class-illegaltypeexception) - 如果参数列表 `args` 中的任何一个参数的运行时类型不是该实例成员函数信息所对应的实例成员函数的对应形参的声明类型的子类型，则抛出异常。
+- [IllegalTypeException](reflect_package_exceptions.md#class-illegaltypeexception) - 如果传入的参数列表 `args` 和泛型参数类型列表 `genericTypeArgs` 不满足该成员函数信息所对应的成员函数的参数的类型约束，则抛出异常。
+- [Exception](../../core/core_package_api/core_package_exceptions.md#class-exception) - 如果被调用的实例成员函数信息所对应的实例成员函数内部抛出异常，则该异常将被封装为 [Exception](../../core/core_package_api/core_package_exceptions.md#class-exception) 异常并抛出。
+
+示例：
+
+<!-- verify -->
+```cangjie
+import std.reflect.*
+
+public class Rectangular {
+    public var length = 4
+    public var width = 5
+    public func area(): Int64 {
+        return length * width
+    }
+}
+
+main(): Unit {
+    // 此处是通过 Rectangular 的类型的限定名称获取 ClassTypeInfo，也可以通过实例获取 ClassTypeInfo
+    let ty = ClassTypeInfo.get("default.Rectangular")
+    // 获取 InstanceFunctionInfo
+    var gif = ty.getInstanceFunction("area")
+
+    // 调用反射函数
+    var r = Rectangular()
+    var result = gif.apply(r) as Int64
+    println(result)
+    return
+}
+```
+
+运行结果：
+
+```text
+Some(20)
+```
 
 ### func findAnnotation\<T>() where T <: Annotation
 
@@ -1001,6 +1565,41 @@ public func getValue(instance: Any): Any
 
 - [IllegalTypeException](reflect_package_exceptions.md#class-illegaltypeexception) - 如果实例 `instance` 的运行时类型与该实例成员属性信息所对应的实例成员属性所属的类型不严格相同，则抛出异常。
 
+示例：
+
+<!-- verify -->
+```cangjie
+import std.reflect.*
+
+public class Rectangular {
+    public var length = 4
+    public prop width: Int64 {
+        get() {
+            5
+        }
+    }
+}
+
+main(): Unit {
+    // 此处是通过 Rectangular 的类型的限定名称获取 ClassTypeInfo，也可以通过实例获取 ClassTypeInfo
+    let ty = ClassTypeInfo.get("default.Rectangular")
+    // 获取 InstancePropertyInfo
+    var gip = ty.getInstanceProperty("width")
+
+    // 获取实例值
+    var r = Rectangular()
+    var result = gip.getValue(r) as Int64
+    println(result)
+    return
+}
+```
+
+运行结果：
+
+```text
+Some(5)
+```
+
 ### func hashCode()
 
 ```cangjie
@@ -1012,6 +1611,30 @@ public func hashCode(): Int64
 返回值：
 
 - [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 该实例成员属性信息的哈希值。
+
+### func isAbstract()
+
+```cangjie
+public func isAbstract(): Bool
+```
+
+功能：判断该 [InstancePropertyInfo](reflect_package_classes.md#class-instancepropertyinfo) 对应的实例成员属性是否是抽象的。
+
+返回值：
+
+- [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 如果该 [InstancePropertyInfo](reflect_package_classes.md#class-instancepropertyinfo) 对应的实例成员属性是抽象的，则返回 `true`，否则返回 `false`。
+
+### func isOpen()
+
+```cangjie
+public func isOpen(): Bool
+```
+
+功能：判断该 [InstancePropertyInfo](reflect_package_classes.md#class-instancepropertyinfo) 对应的实例成员属性是否拥有 `open` 语义。
+
+返回值：
+
+- [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 如果该 [InstancePropertyInfo](reflect_package_classes.md#class-instancepropertyinfo) 对应的实例成员属性拥有 `open` 语义则返回 `true`，否则返回 `false`。
 
 ### func isMutable()
 
@@ -1200,6 +1823,36 @@ public func getValue(instance: Any): Any
 
 - [IllegalTypeException](reflect_package_exceptions.md#class-illegaltypeexception) - 如果实例 `instance` 的运行时类型与该实例成员变量信息所对应的实例成员变量所属的类型不严格相同，则抛出异常。
 
+示例：
+
+<!-- verify -->
+```cangjie
+import std.reflect.*
+
+public class Rectangular {
+    public var length = 4
+    public var width = 5
+}
+
+main(): Unit {
+    // 此处是通过 Rectangular 的类型的限定名称获取 ClassTypeInfo，也可以通过实例获取 ClassTypeInfo
+    let ty = ClassTypeInfo.get("default.Rectangular")
+    // 获取 InstanceVariableInfo
+    var gip = ty.getInstanceVariable("width")
+    // 获取实例值
+    var r = Rectangular()
+    let v = gip.getValue(r) as Int64
+    println(v)
+    return
+}
+```
+
+运行结果：
+
+```text
+Some(5)
+```
+
 ### func hashCode()
 
 ```cangjie
@@ -1337,189 +1990,87 @@ public func isSealed(): Bool
 
 - [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 如果该 `interface` 类型拥有 `sealed` 语义则返回 `true`，否则返回 `false`。
 
-## class ModuleInfo
+### static func get(String)
 
 ```cangjie
-public class ModuleInfo <: Equatable<ModuleInfo> & Hashable & ToString
+public redef static func get(qualifiedName: String): InterfaceTypeInfo
 ```
 
-功能：描述模块信息，提供了仓颉动态模块加载、缓存能力以及模块内包信息查询能力。
-
-仓颉动态模块是仓颉编译器生成的一种特殊二进制文件，这种文件可以被外部的仓颉程序在运行时被加载与使用。
-
-仓颉动态库模块在不同操作系统中以共享库（`.so` 文件）、动态链接库（`.dll` 文件）等文件形式存在。
-
-> **注意：**
->
-> 任一模块下不允许包含拥有相同限定名称的包。
-
-父类型：
-
-- [Equatable](../../core/core_package_api/core_package_interfaces.md#interface-equatablet)\<[ModuleInfo](#class-moduleinfo)>
-- [Hashable](../../core/core_package_api/core_package_interfaces.md#interface-hashable)
-- [ToString](../../core/core_package_api/core_package_interfaces.md#interface-tostring)
-
-### prop name
-
-```cangjie
-public prop name: String
-```
-
-功能：获取该 [ModuleInfo](reflect_package_classes.md#class-moduleinfo) 对应的模块的名称。
-
-> **注意：**
->
-> - 模块的名称由被加载的模块的文件名决定，该文件名的格式为 `lib<module_name>_<package_name>(.<package_name>)*`。
-> - `<module_name>` 和 `<package_name>` 均不允许为空。
-> - 由于当前实现的局限性，`<module_name>` 中如果包含下划线 "`_`" 字符，可能出现非预期的加载错误。
-
-类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
-
-### prop packages
-
-```cangjie
-public prop packages: Collection<PackageInfo>
-```
-
-功能：获取该模块中包含的所有包。
-
-类型：[Collection](../../core/core_package_api/core_package_interfaces.md#interface-collectiont)\<[PackageInfo](reflect_package_classes.md#class-packageinfo)>
-
-### prop version
-
-```cangjie
-public prop version: String
-```
-
-功能：获取该 [ModuleInfo](reflect_package_classes.md#class-moduleinfo) 对应的模块的版本号。
-
-> **注意：**
->
-> 由于目前动态库中尚无版本信息，获取到的版本号总是 `1.0`。
-
-类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
-
-### static func find(String)
-
-```cangjie
-public static func find(moduleName: String): Option<ModuleInfo>
-```
-
-功能：尝试在所有已加载的仓颉动态库模块中获取与给定模块名称匹配的模块的信息。
+功能：获取给定 `qualifiedName` 所对应的类型的 [InterfaceTypeInfo](reflect_package_classes.md#class-interfacetypeinfo)。
 
 参数：
 
-- moduleName: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 仓颉动态库模块名称。
+- qualifiedName: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 类型的限定名称。
 
 返回值：
 
-- [Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<[ModuleInfo](reflect_package_classes.md#class-moduleinfo)> - 如果匹配成功则返回该模块的信息，否则返回 `None`。
-
-### static func load(String)
-
-```cangjie
-public static func load(path: String): ModuleInfo
-```
-
-功能：运行时动态加载指定路径下的一个仓颉动态库模块并获得该模块的信息。
-
-> **注意：**
->
-> - 为了提升兼容性，路径 `path` 中的共享库文件名不需要后缀名（如 `.so` 和 `.dll` 等）。
-> - 由于当前实现局限性，具有相同模块名称的动态库不能被同时加载，否则将抛出异常。如 `m/a`、`m/a.b`、`m/a.c` 这三个包所对应的共享库的加载是互斥的。
-
-参数：
-
-- path: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 共享库文件的绝对路径或相对路径。
+- [InterfaceTypeInfo](reflect_package_classes.md#class-interfacetypeinfo) - 类型的限定名称 `qualifiedName` 所对应的 `Interface` 类型的类型信息。
 
 异常：
 
-- [ReflectException](reflect_package_exceptions.md#class-reflectexception) - 如果共享库加载失败，则会抛出异常。
-- [UnsupportedException](../../core/core_package_api/core_package_exceptions.md#class-unsupportedexception) - 如果具有相同模块名称的共享库被重复加载，则会抛出异常。
+- [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果无法获取与给定类型的限定名称 `qualifiedName` 匹配的类型所对应的类型信息，则抛出异常。
+- [IllegalTypeException](./reflect_package_exceptions.md#class-illegaltypeexception) - 如果获取到的类型信息不是 [InterfaceTypeInfo](reflect_package_classes.md#class-interfacetypeinfo)， 则抛出异常。
 
-### func getPackageInfo(String)
+示例：
 
+<!-- verify -->
 ```cangjie
-public func getPackageInfo(packageName: String): PackageInfo
+import std.reflect.*
+
+public interface Rectangular {}
+
+main(): Unit {
+    let ty = InterfaceTypeInfo.get("default.Rectangular")
+    println(ty)
+    return
+}
 ```
 
-功能：尝试在该 [ModuleInfo](reflect_package_classes.md#class-moduleinfo) 对应的模块中获取与给定包的名称或限定名称匹配的包的信息。
+运行结果：
+
+```text
+default.Rectangular
+```
+
+### static func of(Any)
+
+```cangjie
+public redef static func of(a: Any): InterfaceTypeInfo
+```
+
+功能：获取给定的任意类型实例的运行时类型所对应的类型信息。
+
+运行时类型是指在程序运行时，通过动态绑定确定的类型，运行时类型与实例对象相绑定。在继承等场景下运行时类型和静态类型可能不一致。
 
 参数：
 
-- packageName: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 包的名称或限定名称。
+- a: [Any](../../core/core_package_api/core_package_interfaces.md#interface-any) - 任意类型的实例。
 
 返回值：
 
-- [PackageInfo](reflect_package_classes.md#class-packageinfo) - 如果匹配成功则返回该包的信息。
+- [InterfaceTypeInfo](reflect_package_classes.md#class-interfacetypeinfo) - 实例 `a` 的运行时类型所对应的类型信息。
 
 异常：
 
-- [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果没找到对应包，则抛出异常。
+- [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果无法获得实例 `a` 的运行时类型所对应的类型信息，则抛出异常。
+- [IllegalTypeException](./reflect_package_exceptions.md#class-illegaltypeexception) - 如果获取到的类型信息不是 [InterfaceTypeInfo](reflect_package_classes.md#class-interfacetypeinfo)， 则抛出异常。
 
-### func hashCode()
+### static func of\<T>()
 
 ```cangjie
-public func hashCode(): Int64
+public redef static func of<T>(): InterfaceTypeInfo
 ```
 
-功能：获取该模块信息的哈希值。
+功能：获取给定 `T` 类型对应的类型信息。
 
 返回值：
 
-- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 该模块信息的哈希值。
+- [InterfaceTypeInfo](reflect_package_classes.md#class-interfacetypeinfo) - `T` 类型对应的类型信息。
 
-> **注意：**
->
-> 内部实现为该模块信息的名称和版本号字符串的哈希值。
+异常：
 
-### func toString()
-
-```cangjie
-public func toString(): String
-```
-
-功能：获取字符串形式的该模块信息。
-
-返回值：
-
-- [String](../../core/core_package_api/core_package_structs.md#struct-string) - 字符串形式的该模块信息。
-
-> **注意：**
->
-> 内容为该模块的名称和版本号。
-
-### operator func !=(ModuleInfo)
-
-```cangjie
-public operator func !=(that: ModuleInfo): Bool
-```
-
-功能：判断该模块信息与给定的另一个模块信息是否不等。
-
-参数：
-
-- that: [ModuleInfo](reflect_package_classes.md#class-moduleinfo) - 被比较相等性的另一个模块信息。
-
-返回值：
-
-- [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 如果该模块信息与 `that` 不等则返回 `true`，否则返回 `false`。
-
-### operator func ==(ModuleInfo)
-
-```cangjie
-public operator func ==(that: ModuleInfo): Bool
-```
-
-功能：判断该模块信息与给定的另一个模块信息是否相等。
-
-参数：
-
-- that: [ModuleInfo](reflect_package_classes.md#class-moduleinfo) - 被比较相等性的另一个模块信息。
-
-返回值：
-
-- [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 如果该模块信息与 `that` 相等则返回 `true`，否则返回 `false`。
+- [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果无法获得类型 T 所对应的类型信息，抛出异常。
+- [IllegalTypeException](./reflect_package_exceptions.md#class-illegaltypeexception) - 如果获取到的类型信息不是 [InterfaceTypeInfo](reflect_package_classes.md#class-interfacetypeinfo)， 则抛出异常。
 
 ## class PackageInfo
 
@@ -1541,7 +2092,7 @@ public class PackageInfo <: Equatable<PackageInfo> & Hashable & ToString
 public prop functions: Collection<GlobalFunctionInfo>
 ```
 
-功能：获取该 [PackageInfo](reflect_package_classes.md#class-packageinfo) 对应的包中所有公开全局函数的信息所组成的列表。
+功能：获取该 [PackageInfo](reflect_package_classes.md#class-packageinfo) 对应的包中所有 `public` 全局函数的信息所组成的列表。
 
 类型：[Collection](../../core/core_package_api/core_package_interfaces.md#interface-collectiont)\<[GlobalFunctionInfo](reflect_package_classes.md#class-globalfunctioninfo)>
 
@@ -1559,6 +2110,20 @@ public prop name: String
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
+### prop parentPackage
+
+```cangjie
+public prop parentPackage: PackageInfo
+```
+
+功能：获取该 [PackageInfo](reflect_package_classes.md#class-packageinfo) 对应的父包的 [PackageInfo](reflect_package_classes.md#class-packageinfo)。
+
+类型：[PackageInfo](reflect_package_classes.md#class-packageinfo)
+
+异常：
+
+- [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果父包未被加载，则会抛出异常。
+
 ### prop qualifiedName
 
 ```cangjie
@@ -1573,13 +2138,46 @@ public prop qualifiedName: String
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
+### prop rootPackage
+
+```cangjie
+public prop rootPackage: PackageInfo
+```
+
+功能：获取该 [PackageInfo](reflect_package_classes.md#class-packageinfo) 对应的 `root` 包的 [PackageInfo](reflect_package_classes.md#class-packageinfo)。
+
+> **注意：**
+>
+> 如果包本身就是 `root` 包，那么其 `rootPackage` 属性返回的是其本身。例如，限定名称为 `a.b.c` 的包，`rootPackage` 返回的是 `a`; 限定名称为 `a` 的包，`rootpackage` 返回的是 `a`。
+
+类型：[PackageInfo](reflect_package_classes.md#class-packageinfo)
+
+异常：
+
+- [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果 `root` 包未被加载，则会抛出异常。
+
+### prop subPackages
+
+```cangjie
+public prop subPackages: Collection<PackageInfo>
+```
+
+功能：获取该 [PackageInfo](reflect_package_classes.md#class-packageinfo) 对应的所有子包的 [PackageInfo](reflect_package_classes.md#class-packageinfo) 集合。
+
+> **注意：**
+>
+> - 该属性只会返回已被加载的子包。
+> - 不保证返回结果的顺序。
+
+类型：[Collection](../../core/core_package_api/core_package_interfaces.md#interface-collectiont)\<[PackageInfo](reflect_package_classes.md#class-packageinfo)>
+
 ### prop typeInfos
 
 ```cangjie
 public prop typeInfos: Collection<TypeInfo>
 ```
 
-功能：获取该 [PackageInfo](reflect_package_classes.md#class-packageinfo) 对应的包中所有全局定义的公开类型的类型信息，返回对应集合。
+功能：获取该 [PackageInfo](reflect_package_classes.md#class-packageinfo) 对应的包中所有全局定义的 `public` 类型的类型信息，返回对应集合。
 
 > **注意：**
 >
@@ -1593,9 +2191,71 @@ public prop typeInfos: Collection<TypeInfo>
 public prop variables: Collection<GlobalVariableInfo>
 ```
 
-功能：获取该 [PackageInfo](reflect_package_classes.md#class-packageinfo) 对应的包中所有公开全局变量的信息所组成的列表。
+功能：获取该 [PackageInfo](reflect_package_classes.md#class-packageinfo) 对应的包中所有 `public` 全局变量的信息所组成的列表。
 
 类型：[Collection](../../core/core_package_api/core_package_interfaces.md#interface-collectiont)\<[GlobalVariableInfo](reflect_package_classes.md#class-globalvariableinfo)>
+
+### prop version
+
+```cangjie
+public prop version: String
+```
+
+功能：获取该 [PackageInfo](reflect_package_classes.md#class-packageinfo) 对应的包的版本号。
+
+> **注意：**
+>
+> 由于目前动态库中尚无版本信息，获取到的版本号总是空字符串。
+
+类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
+
+### static func get(String)
+
+```cangjie
+public static func get(qualifiedName: String): PackageInfo
+```
+
+功能：获取给定 `qualifiedName` 所对应的 [PackageInfo](./reflect_package_classes.md#class-packageinfo)。
+
+参数：
+
+- qualifiedName: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 类型的限定名称。
+
+返回值：
+
+- [PackageInfo](./reflect_package_classes.md#class-packageinfo) - 类型的限定名称 `qualifiedName` 所对应的包信息。
+
+异常：
+
+- [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果无法获取与给定类型的限定名称 `qualifiedName` 所对应的类型信息，则抛出异常。
+
+### static func load(String)
+
+```cangjie
+public static func load(path: String): PackageInfo
+```
+
+功能：运行时动态加载指定路径下的一个仓颉动态库模块并获得该模块的信息。
+
+> **注意：**
+>
+> - 为了提升兼容性，路径 `path` 中的共享库文件名不需要后缀名（如 `.so` 和 `.dll` 等）。
+> - 如果某个 `package` 通过静态加载方式（如：`import`）已经导入过，那么动态加载该 `package` 会抛出异常。
+
+参数：
+
+- path: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 共享库文件的绝对路径或相对路径。
+
+返回值：
+
+- [PackageInfo](reflect_package_classes.md#class-packageinfo) - 指定仓颉动态库的包信息。
+
+异常：
+
+- [ReflectException](reflect_package_exceptions.md#class-reflectexception) - 如果共享库加载失败，则会抛出异常。
+- [ReflectException](reflect_package_exceptions.md#class-reflectexception) - 如果具有相同包名称或相同文件名的共享库被重复加载，则会抛出异常。
+- [ReflectException](reflect_package_exceptions.md#class-reflectexception) - 如果动态库内部存在多个Package，则抛出异常。
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当路径不合法时，抛出异常。
 
 ### func getFunction(String, Array\<TypeInfo>)
 
@@ -1603,36 +2263,77 @@ public prop variables: Collection<GlobalVariableInfo>
 public func getFunction(name: String, parameterTypes: Array<TypeInfo>): GlobalFunctionInfo
 ```
 
-功能：尝试在该 [PackageInfo](reflect_package_classes.md#class-packageinfo) 对应的包中获取拥有给定函数名称且与给定形参类型信息列表匹配的公开全局函数的信息。
+功能：尝试在该 [PackageInfo](reflect_package_classes.md#class-packageinfo) 对应的包中获取拥有给定函数名称且与给定形参类型信息列表匹配的 `public` 全局函数的信息。
 
 参数：
 
 - name: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 全局函数的名称。
 - parameterTypes: [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[TypeInfo](reflect_package_classes.md#class-typeinfo)> - 形参类型信息列表。
 
+返回值：
+
+- [GlobalFunctionInfo](reflect_package_classes.md#class-globalfunctioninfo) - 如果成功匹配则返回该全局定义的 `public` 类型的函数信息。
+
 异常：
 
-- [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果没找到对应全局定义的公开全局函数，则抛出异常。
+- [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果没找到对应全局定义的 `public` 全局函数，则抛出异常。
+
+### func getFunctions(String)
+
+```cangjie
+public func getFunctions(name: String): Array<GlobalFunctionInfo>
+```
+
+功能：尝试在该 [PackageInfo](reflect_package_classes.md#class-packageinfo) 对应的包中获取拥有给定函数名称的所有 `public` 全局函数的信息。
+
+参数：
+
+- name: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 全局函数的名称。
+
+返回值：
+
+- [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[GlobalFunctionInfo](reflect_package_classes.md#class-globalfunctioninfo)> - 拥有给定函数名称的所有 `public` 全局函数的信息数组。
+
+### func getSubPackage(String)
+
+```cangjie
+public func getSubPackage(qualifiedName: String): PackageInfo
+```
+
+功能：尝试获取该 [PackageInfo](reflect_package_classes.md#class-packageinfo) 对应限定名称为 `qualifiedName` 的子包的信息。
+
+参数：
+
+- qualifiedName: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 子包的限定名称。
+
+返回值：
+
+- [PackageInfo](reflect_package_classes.md#class-packageinfo) - 该子包的包信息。
+
+异常：
+
+- [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果该子包不存在或者未加载，则会抛出异常。
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 如果 `qualifiedName` 不符合规范，则抛出异常。
 
 ### func getTypeInfo(String)
 
 ```cangjie
-public func getTypeInfo(qualifiedName: String): TypeInfo
+public func getTypeInfo(qualifiedTypeName: String): TypeInfo
 ```
 
-功能：尝试在该 [PackageInfo](reflect_package_classes.md#class-packageinfo) 对应的包中获取拥有给定类型名称的全局定义的公开类型的类型信息。
+功能：尝试在该 [PackageInfo](reflect_package_classes.md#class-packageinfo) 对应的包中获取拥有给定类型名称的全局定义的 `public` 类型的类型信息。
 
 参数：
 
-- qualifiedName: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 类型的限定名称
+- qualifiedTypeName: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 类型的限定名称
 
 返回值：
 
-- [TypeInfo](reflect_package_classes.md#class-typeinfo) - 如果成功匹配则返回该全局定义的公开类型的类型信息。
+- [TypeInfo](reflect_package_classes.md#class-typeinfo) - 如果成功匹配则返回该全局定义的 `public` 类型的类型信息。
 
 异常：
 
-- [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果没找到对应全局定义的公开类型，则抛出异常。
+- [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果没找到对应全局定义的 `public` 类型，则抛出异常。
 
 ### func getVariable(String)
 
@@ -1640,15 +2341,19 @@ public func getTypeInfo(qualifiedName: String): TypeInfo
 public func getVariable(name: String): GlobalVariableInfo
 ```
 
-功能：尝试在该 [PackageInfo](reflect_package_classes.md#class-packageinfo) 对应的包中获取拥有给定变量名称的公开全局变量的信息。
+功能：尝试在该 [PackageInfo](reflect_package_classes.md#class-packageinfo) 对应的包中获取拥有给定变量名称的 `public` 全局变量的信息。
 
 参数：
 
 - name: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 全局变量的名称。
 
+返回值：
+
+- [GlobalVariableInfo](reflect_package_classes.md#class-globalvariableinfo) - 如果成功匹配则返回该全局定义的 `public` 类型的变量信息。
+
 异常：
 
-- [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果没找到对应全局定义的公开全局变量，则抛出异常。
+- [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果没找到对应全局定义的 `public` 全局变量，则抛出异常。
 
 ### func hashCode()
 
@@ -1867,6 +2572,125 @@ public class PrimitiveTypeInfo <: TypeInfo
 
 - [TypeInfo](#class-typeinfo)
 
+### static func get(String)
+
+```cangjie
+public redef static func get(qualifiedName: String): PrimitiveTypeInfo
+```
+
+功能：获取给定的类型的限定名称所对应类型的 [PrimitiveTypeInfo](reflect_package_classes.md#class-primitivetypeinfo)。
+
+参数：
+
+- qualifiedName: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 类型的限定名称。
+
+返回值：
+
+- [PrimitiveTypeInfo](reflect_package_classes.md#class-primitivetypeinfo) - 类型的限定名称 `qualifiedName` 所对应的类型的类型信息。
+
+异常：
+
+- [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果无法获取与给定类型的限定名称 `qualifiedName` 匹配的类型所对应的类型信息，则抛出异常。
+- [IllegalTypeException](./reflect_package_exceptions.md#class-illegaltypeexception) - 如果获取到的类型信息不是 [PrimitiveTypeInfo](reflect_package_classes.md#class-primitivetypeinfo)， 则抛出异常。
+
+示例：
+
+<!-- verify -->
+```cangjie
+import std.reflect.*
+
+main(): Unit {
+    var pti = PrimitiveTypeInfo.get("Int64")
+    println(pti)
+    return
+}
+```
+
+运行结果：
+
+```text
+Int64
+```
+
+### static func of(Any)
+
+```cangjie
+public redef static func of(a: Any): PrimitiveTypeInfo
+```
+
+功能：获取给定的任意类型实例的运行时类型所对应的类型信息。
+
+运行时类型是指在程序运行时，通过动态绑定确定的类型，运行时类型与实例对象相绑定。在继承等场景下运行时类型和静态类型可能不一致。
+
+参数：
+
+- a: [Any](../../core/core_package_api/core_package_interfaces.md#interface-any) - 任意类型的实例。
+
+返回值：
+
+- [PrimitiveTypeInfo](reflect_package_classes.md#class-primitivetypeinfo) - 实例 `a` 的运行时类型所对应的类型信息。
+
+异常：
+
+- [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果无法获得实例 `a` 的运行时类型所对应的类型信息，则抛出异常。
+- [IllegalTypeException](./reflect_package_exceptions.md#class-illegaltypeexception) - 如果获取到的类型信息不是 [PrimitiveTypeInfo](reflect_package_classes.md#class-primitivetypeinfo)， 则抛出异常。
+
+示例：
+
+<!-- verify -->
+```cangjie
+import std.reflect.*
+
+main(): Unit {
+    var a = 10
+    var pti = PrimitiveTypeInfo.of(a)
+    println(pti)
+    return
+}
+```
+
+运行结果：
+
+```text
+Int64
+```
+
+### static func of\<T>()
+
+```cangjie
+public redef static func of<T>(): PrimitiveTypeInfo
+```
+
+功能：获取给定 `T` 类型对应的类型信息。
+
+返回值：
+
+- [PrimitiveTypeInfo](reflect_package_classes.md#class-primitivetypeinfo) - `T` 类型对应的类型信息。
+
+异常：
+
+- [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果无法获得类型 T 所对应的类型信息，抛出异常。
+- [IllegalTypeException](./reflect_package_exceptions.md#class-illegaltypeexception) - 如果获取到的类型信息不是 [PrimitiveTypeInfo](reflect_package_classes.md#class-primitivetypeinfo)， 则抛出异常。
+
+示例：
+
+<!-- verify -->
+```cangjie
+import std.reflect.*
+
+main(): Unit {
+    var pti = PrimitiveTypeInfo.of<Int64>()
+    println(pti)
+    return
+}
+```
+
+运行结果：
+
+```text
+Int64
+```
+
 ## class StaticFunctionInfo
 
 ```cangjie
@@ -1895,6 +2719,20 @@ public prop annotations: Collection<Annotation>
 > - 该集合不保证遍历顺序恒定。
 
 类型：[Collection](../../core/core_package_api/core_package_interfaces.md#interface-collectiont)\<[Annotation](../../ast/ast_package_api/ast_package_classes.md#class-annotation)>
+
+### prop genericParams
+
+```cangjie
+public prop genericParams: Collection<GenericTypeInfo>
+```
+
+功能：获取该 [StaticFunctionInfo](reflect_package_classes.md#class-staticfunctioninfo) 对应的实例成员函数的泛型参数信息列表。
+
+类型：[Collection](../../core/core_package_api/core_package_interfaces.md#interface-collectiont)\<[GenericTypeInfo](reflect_package_classes.md#class-generictypeinfo)>
+
+异常：
+
+- [InfoNotFoundException](./reflect_package_exceptions.md#class-infonotfoundexception) - [GlobalFunctionInfo](reflect_package_classes.md#class-globalfunctioninfo) 没有泛型参数时抛出异常。
 
 ### prop modifiers
 
@@ -1929,12 +2767,16 @@ public prop name: String
 ### prop parameters
 
 ```cangjie
-public prop parameters: InfoList<ParameterInfo>
+public prop parameters: ReadOnlyList<ParameterInfo>
 ```
 
-功能：获取该 [StaticFunctionInfo](reflect_package_classes.md#class-staticfunctioninfo) 对应的静态成员函数的形参信息列表。
+功能：获取该 [StaticFunctionInfo](reflect_package_classes.md#class-staticfunctioninfo) 对应的静态成员函数的参数信息列表。
 
-类型：[InfoList](reflect_package_classes.md#class-infolist)\<[ParameterInfo](reflect_package_classes.md#class-parameterinfo)>
+> **注意：**
+>
+> 不保证参数顺序，可根据 `ParameterInfo`的 `index` 属性确定参数实际位置。
+
+类型：[ReadOnlyList](../../collection/collection_package_api/collection_package_interface.md#interface-readonlylistt)\<[ParameterInfo](reflect_package_classes.md#class-parameterinfo)>
 
 ### prop returnType
 
@@ -1946,20 +2788,21 @@ public prop returnType: TypeInfo
 
 类型：[TypeInfo](reflect_package_classes.md#class-typeinfo)
 
-### func apply(Array\<Any>)
+### func apply(TypeInfo, Array\<Any>)
 
 ```cangjie
-public func apply(args: Array<Any>): Any
+public func apply(thisType: TypeInfo, args: Array<Any>): Any
 ```
 
-功能：调用该 [StaticFunctionInfo](reflect_package_classes.md#class-staticfunctioninfo) 对应静态成员函数，传入实参列表并返回调用结果。
+功能：调用该 [StaticFunctionInfo](reflect_package_classes.md#class-staticfunctioninfo) 对应静态成员函数，传入方法所属的类型信息和实参列表并返回调用结果。
 
 > **注意：**
 >
-> 目前，实参不支持 `struct` 类型的实例。
+> `args` 的类型确保和函数入参类型完全一致，否则会导致参数检查失败。
 
 参数：
 
+- thisType: [TypeInfo](./reflect_package_classes.md#class-typeinfo) - 该方法所属的类。
 - args: [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[Any](../../core/core_package_api/core_package_interfaces.md#interface-any)> - 实参列表。
 
 返回值：
@@ -1968,8 +2811,75 @@ public func apply(args: Array<Any>): Any
 
 异常：
 
+- [InvocationTargetException](reflect_package_exceptions.md#class-invocationtargetexception) - 如果该函数信息对应的静态成员函数存在泛型参数，则会抛出异常。
+- [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果该函数信息对应的静态成员函数的函数体未实现，则会抛出异常。
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 如果实参列表 `args` 中的实参的数目与该静态成员函数信息所对应的静态成员函数的形参列表中的形参的数目不等，则抛出异常。
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 如果 `thisType` 和该静态函数的函数签名不一致，则抛出异常。
 - [IllegalTypeException](reflect_package_exceptions.md#class-illegaltypeexception) - 如果实参列表 `args` 中的任何一个实参的运行时类型不是该静态成员函数信息所对应的静态成员函数的对应形参的声明类型的子类型，则抛出异常。
+- [Exception](../../core/core_package_api/core_package_exceptions.md#class-exception) - 如果被调用的静态成员函数信息所对应的静态成员函数内部抛出异常，则该异常将被封装为 [Exception](../../core/core_package_api/core_package_exceptions.md#class-exception) 异常并抛出。
+
+示例：
+
+<!-- verify -->
+```cangjie
+package test
+
+import std.reflect.*
+
+public class Rectangular {
+    public static func myName(): String { "my name is Rectangular" }
+}
+
+main(): Unit {
+    // 此处是通过 Rectangular 的类型的限定名称获取 ClassTypeInfo，也可以通过实例获取 ClassTypeInfo
+    let ty = ClassTypeInfo.get("test.Rectangular")
+
+    // 获取静态函数
+    let sf = ty.getStaticFunction("myName")
+    
+    let result = sf.apply(ty) as String
+    println(result)
+    return
+}
+```
+
+运行结果：
+
+```text
+Some(my name is Rectangular)
+```
+
+### func apply(TypeInfo, Array\<TypeInfo>, Array\<Any>)
+
+```cangjie
+public func apply(thisType: TypeInfo, genericTypeArgs: Array<TypeInfo>, args: Array<Any>): Any
+```
+
+功能：调用该 [StaticFunctionInfo](reflect_package_classes.md#class-staticfunctioninfo) 对应静态成员函数，传入方法所属的类型信息和实参列表并返回调用结果。
+
+> **注意：**
+>
+> `args` 的类型确保和函数入参类型完全一致，否则会导致参数检查失败。
+
+参数：
+
+- thisType: [TypeInfo](./reflect_package_classes.md#class-typeinfo) - 该方法所属的类。
+- genericTypeArgs: [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[TypeInfo](./reflect_package_classes.md#class-typeinfo)> - 泛型参数类型列表。
+- args: [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[Any](../../core/core_package_api/core_package_interfaces.md#interface-any)> - 实参列表。
+
+返回值：
+
+- [Any](../../core/core_package_api/core_package_interfaces.md#interface-any) - 该静态成员函数的调用结果。
+
+异常：
+
+- [InvocationTargetException](reflect_package_exceptions.md#class-invocationtargetexception) - 如果该函数信息对应的静态成员函数是非泛型函数，则抛出异常。
+- [InfoNotFoundException](../reflect_package_api/reflect_package_exceptions.md#class-infonotfoundexception) - 如果该函数信息对应的静态成员函数的函数体未实现，则会抛出异常。
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 如果实参列表 `args` 中的实参的数目与该静态成员函数信息所对应的静态成员函数的形参列表中的形参的数目不等，则抛出异常。
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 如果实参列表 `args` 中的泛型参数的数目与该静态成员函数信息所对应的泛型参数的数目不等，则抛出异常。
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 如果 `thisType` 和该静态函数的函数签名不一致，则抛出异常。
+- [IllegalTypeException](reflect_package_exceptions.md#class-illegaltypeexception) - 如果实参列表 `args` 中的任何一个实参的运行时类型不是该静态成员函数信息所对应的静态成员函数的对应形参的声明类型的子类型，则抛出异常。
+- [IllegalTypeException](reflect_package_exceptions.md#class-illegaltypeexception) - 如果传入的参数列表 `args` 和泛型参数类型列表 `genericTypeArgs` 不满足该静态成员函数信息所对应的静态成员函数的参数的类型约束，则抛出异常。
 - [Exception](../../core/core_package_api/core_package_exceptions.md#class-exception) - 如果被调用的静态成员函数信息所对应的静态成员函数内部抛出异常，则该异常将被封装为 [Exception](../../core/core_package_api/core_package_exceptions.md#class-exception) 异常并抛出。
 
 ### func findAnnotation\<T>() where T <: Annotation
@@ -2046,7 +2956,7 @@ public operator func ==(that: StaticFunctionInfo): Bool
 public class StaticPropertyInfo <: Equatable<StaticPropertyInfo> & Hashable & ToString
 ```
 
-静态成员属性信息。
+功能：描述静态成员属性信息。
 
 父类型：
 
@@ -2133,6 +3043,42 @@ public func getValue(): Any
 
 - [Any](../../core/core_package_api/core_package_interfaces.md#interface-any) - 该静态成员属性的值。
 
+示例：
+
+<!-- verify -->
+```cangjie
+package test
+
+import std.reflect.*
+
+public class Rectangular {
+    public static prop sides: Int64 {
+        get() { 4 }
+    }
+    public static prop angles: Int64 {
+        get() { 4 }
+    }
+}
+
+main(): Unit {
+    // 此处是通过 Rectangular 的类型的限定名称获取 ClassTypeInfo，也可以通过实例获取 ClassTypeInfo
+    let ty = ClassTypeInfo.get("test.Rectangular")
+
+    // 获取静态属性
+    let sp = ty.getStaticProperty("sides")
+    
+    let result = sp.getValue() as Int64
+    println(result)
+    return
+}
+```
+
+运行结果：
+
+```text
+Some(4)
+```
+
 ### func hashCode()
 
 ```cangjie
@@ -2183,6 +3129,43 @@ public func setValue(newValue: Any): Unit
 
 - [IllegalSetException](reflect_package_exceptions.md#class-illegalsetexception) - 如果该静态成员属性信息所对应的静态成员属性不可修改，则抛出异常。
 - [IllegalTypeException](reflect_package_exceptions.md#class-illegaltypeexception) - 如果新值 `newValue` 的运行时类型不是该静态成员属性信息所对应的静态成员属性的声明类型的子类型，则抛出异常。
+
+示例：
+
+<!-- verify -->
+```cangjie
+package test
+
+import std.reflect.*
+
+public class Rectangular {
+    private static var valueArea = 0
+    public static mut prop area: Int64 {
+        get() { valueArea }
+        set(v) { valueArea = v }
+    }
+}
+
+main(): Unit {
+    // 此处是通过 Rectangular 的类型的限定名称获取 ClassTypeInfo，也可以通过实例获取 ClassTypeInfo
+    let ty = ClassTypeInfo.get("test.Rectangular")
+
+    // 获取静态属性
+    let sp = ty.getStaticProperty("area")
+    
+    // 设置静态成员属性的值
+    sp.setValue(10)
+    let result = sp.getValue() as Int64
+    println(result)
+    return
+}
+```
+
+运行结果：
+
+```text
+Some(10)
+```
 
 ### func toString()
 
@@ -2321,6 +3304,36 @@ public func getValue(): Any
 >
 > - 返回值不支持为 `struct` 类型。
 
+示例：
+
+<!-- verify -->
+```cangjie
+package test
+
+import std.reflect.*
+
+public class Rectangular {
+    public static var area: Int64 = 10
+}
+
+main(): Unit {
+    // 此处是通过 Rectangular 的类型的限定名称获取 ClassTypeInfo，也可以通过实例获取 ClassTypeInfo
+    let ty = ClassTypeInfo.get("test.Rectangular")
+
+    // 获取静态变量
+    let sv = ty.getStaticVariable("area")
+    // 获取值
+    println(sv.getValue() as Int64)
+    return
+}
+```
+
+运行结果：
+
+```text
+Some(10)
+```
+
 ### func hashCode()
 
 ```cangjie
@@ -2368,6 +3381,38 @@ public func setValue(newValue: Any): Unit
 
 - [IllegalSetException](reflect_package_exceptions.md#class-illegalsetexception) - 如果该 [StaticVariableInfo](reflect_package_classes.md#class-staticvariableinfo) 对应的静态成员变量不可修改，则抛出异常。
 - [IllegalTypeException](reflect_package_exceptions.md#class-illegaltypeexception) - 如果新值 `newValue` 的运行时类型不是该静态成员变量信息所对应的静态成员变量的声明类型的子类型，则抛出异常。
+
+示例：
+
+<!-- verify -->
+```cangjie
+package test
+
+import std.reflect.*
+
+public class Rectangular {
+    public static var area: Int64 = 10
+}
+
+main(): Unit {
+    // 此处是通过 Rectangular 的类型的限定名称获取 ClassTypeInfo，也可以通过实例获取 ClassTypeInfo
+    let ty = ClassTypeInfo.get("test.Rectangular")
+
+    // 获取静态变量
+    let sv = ty.getStaticVariable("area")
+
+    // 设置值
+    sv.setValue(20)
+    println(sv.getValue() as Int64)
+    return
+}
+```
+
+运行结果：
+
+```text
+Some(20)
+```
 
 ### func toString()
 
@@ -2431,11 +3476,11 @@ public class StructTypeInfo <: TypeInfo
 public prop constructors: Collection<ConstructorInfo>
 ```
 
-功能：获取该 [StructTypeInfo](reflect_package_classes.md#class-structtypeinfo) 对应的 `struct` 的所有公开构造函数信息，返回对应集合。
+功能：获取该 [StructTypeInfo](reflect_package_classes.md#class-structtypeinfo) 对应的 `struct` 的所有 `public` 构造函数信息，返回对应集合。
 
 > **注意：**
 >
-> - 如果该 `struct` 类型无任何公开构造函数，则返回空集合。
+> - 如果该 `struct` 类型无任何 `public` 构造函数，则返回空集合。
 > - 该集合不保证遍历顺序恒定。
 
 类型：[Collection](../../core/core_package_api/core_package_interfaces.md#interface-collectiont)\<[ConstructorInfo](reflect_package_classes.md#class-constructorinfo)>
@@ -2446,11 +3491,11 @@ public prop constructors: Collection<ConstructorInfo>
 public prop instanceVariables: Collection<InstanceVariableInfo>
 ```
 
-功能：获取该 [StructTypeInfo](reflect_package_classes.md#class-structtypeinfo) 对应的 `struct` 的所有公开实例成员变量信息，返回对应集合。
+功能：获取该 [StructTypeInfo](reflect_package_classes.md#class-structtypeinfo) 对应的 `struct` 的所有 `public` 实例成员变量信息，返回对应集合。
 
 > **注意：**
 >
-> - 如果该 `struct` 类型无任何公开实例成员变量，则返回空集合。
+> - 如果该 `struct` 类型无任何 `public` 实例成员变量，则返回空集合。
 > - 该集合不保证遍历顺序恒定。
 
 类型：[Collection](../../core/core_package_api/core_package_interfaces.md#interface-collectiont)\<[InstanceVariableInfo](reflect_package_classes.md#class-instancevariableinfo)>
@@ -2461,11 +3506,11 @@ public prop instanceVariables: Collection<InstanceVariableInfo>
 public prop staticVariables: Collection<StaticVariableInfo>
 ```
 
-功能：获取该 [StructTypeInfo](reflect_package_classes.md#class-structtypeinfo) 对应的 `struct` 的所有公开静态成员变量信息，返回对应集合。
+功能：获取该 [StructTypeInfo](reflect_package_classes.md#class-structtypeinfo) 对应的 `struct` 的所有 `public` 静态成员变量信息，返回对应集合。
 
 > **注意：**
 >
-> - 如果该 `struct` 类型无任何公开静态成员变量，则返回空集合。
+> - 如果该 `struct` 类型无任何 `public` 静态成员变量，则返回空集合。
 > - 该集合不保证遍历顺序恒定。
 
 类型：[Collection](../../core/core_package_api/core_package_interfaces.md#interface-collectiont)\<[StaticVariableInfo](reflect_package_classes.md#class-staticvariableinfo)>
@@ -2488,12 +3533,40 @@ public func construct(args: Array<Any>): Any
 
 异常：
 
-- [MisMatchException](reflect_package_exceptions.md#class-mismatchexception) - 如果 `args` 未能成功匹配任何该 `struct` 类型的公开构造函数，则抛出异常
+- [MisMatchException](reflect_package_exceptions.md#class-mismatchexception) - 如果 `args` 未能成功匹配任何该 `struct` 类型的 `public` 构造函数，则抛出异常
 - [InvocationTargetException](reflect_package_exceptions.md#class-invocationtargetexception) - 在被调用的构造函数内部抛出的任何异常均将被封装为 [InvocationTargetException](reflect_package_exceptions.md#class-invocationtargetexception) 异常并抛出。
 
-> **注意：**
->
-> 由于 `construct` 函数本质上调用的是 `apply` 函数，而目前 `struct` 类型中定义的构造函数不支持被调用 `apply` 函数，故该函数目前无法正常使用
+示例：
+
+<!-- verify -->
+```cangjie
+import std.reflect.*
+
+public struct Rectangular {
+    public var length = 4
+    public var width = 5
+    public init() {}
+    public init(length: Int64, width: Int64) {
+        this.length = length
+        this.width = width
+    }
+}
+
+main(): Unit {
+    // 此处是通过 Rectangular 的类型的限定名称获取 StructTypeInfo，也可以通过实例获取 StructTypeInfo
+    let ty = StructTypeInfo.get("default.Rectangular")
+    // 匹配构造函数并调用
+    let v = ty.construct(2, 3) as Rectangular
+    println(v.getOrThrow().length)
+    return
+}
+```
+
+运行结果：
+
+```text
+2
+```
 
 ### func getConstructor(Array\<TypeInfo>)
 
@@ -2501,7 +3574,7 @@ public func construct(args: Array<Any>): Any
 public func getConstructor(parameterTypes: Array<TypeInfo>): ConstructorInfo
 ```
 
-功能：尝试在该 [StructTypeInfo](reflect_package_classes.md#class-structtypeinfo) 对应的 `struct` 类型中获取与给定形参类型信息列表匹配的公开构造函数的信息。
+功能：尝试在该 [StructTypeInfo](reflect_package_classes.md#class-structtypeinfo) 对应的 `struct` 类型中获取与给定形参类型信息列表匹配的 `public` 构造函数的信息。
 
 参数：
 
@@ -2509,11 +3582,11 @@ public func getConstructor(parameterTypes: Array<TypeInfo>): ConstructorInfo
 
 返回值：
 
-- [ConstructorInfo](reflect_package_classes.md#class-constructorinfo) - 如果成功匹配则返回该公开构造函数的信息。
+- [ConstructorInfo](reflect_package_classes.md#class-constructorinfo) - 如果成功匹配则返回该 `public` 构造函数的信息。
 
 异常：
 
-- [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果没找到对应公开构造函数，则抛出异常。
+- [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果没找到对应 `public` 构造函数，则抛出异常。
 
 ### func getInstanceVariable(String)
 
@@ -2533,7 +3606,39 @@ public func getInstanceVariable(name: String): InstanceVariableInfo
 
 异常：
 
-- [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果没找到对应公开实例成员变量，则抛出异常。
+- [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果没找到对应 `public` 实例成员变量，则抛出异常。
+
+示例：
+
+<!-- verify -->
+```cangjie
+package test
+
+import std.reflect.*
+
+public class Rectangular {
+    public var length = 4
+    public var width = 5
+    public var myName = ""
+    public init() {}
+}
+
+main(): Unit {
+    // 此处是通过 Rectangular 的类型的限定名称获取 ClassTypeInfo，也可以通过实例获取 ClassTypeInfo
+    let ty = ClassTypeInfo.get("test.Rectangular")
+
+    // 获取结构实例成员变量信息
+    let ivi = ty.getInstanceVariable("myName")
+    println(ivi)
+    return
+}
+```
+
+运行结果：
+
+```text
+myName: String
+```
 
 ### func getStaticVariable(String)
 
@@ -2553,7 +3658,165 @@ public func getStaticVariable(name: String): StaticVariableInfo
 
 异常：
 
-- [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果没找到对应公开静态成员变量，则抛出异常。
+- [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果没找到对应 `public` 静态成员变量，则抛出异常。
+
+示例：
+
+<!-- verify -->
+```cangjie
+package test
+
+import std.reflect.*
+
+public struct Rectangular {
+    public static var area: Int64 = 10
+}
+
+main(): Unit {
+    // 此处是通过 Rectangular 的类型的限定名称获取 StructTypeInfo，也可以通过实例获取 StructTypeInfo
+    let ty = StructTypeInfo.get("test.Rectangular")
+
+    // 获取静态变量
+    let sv = ty.getStaticVariable("area")
+    println(sv)
+    return
+}
+```
+
+运行结果：
+
+```text
+static area: Int64
+```
+
+### static func get(String)
+
+```cangjie
+public redef static func get(qualifiedName: String): StructTypeInfo
+```
+
+功能：获取给定 `qualifiedName` 所对应的类型的 [StructTypeInfo](reflect_package_classes.md#class-structtypeinfo)。
+
+参数：
+
+- qualifiedName: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 类型的限定名称。
+
+返回值：
+
+- [StructTypeInfo](reflect_package_classes.md#class-structtypeinfo) - 类型的限定名称 `qualifiedName` 所对应的 `Struct` 类型的类型信息。
+
+异常：
+
+- [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果无法获取与给定类型的限定名称 `qualifiedName` 匹配的类型所对应的类型信息，则抛出异常。
+- [IllegalTypeException](./reflect_package_exceptions.md#class-illegaltypeexception) - 如果获取到的类型信息不是 [StructTypeInfo](reflect_package_classes.md#class-structtypeinfo)， 则抛出异常。
+
+示例：
+
+<!-- verify -->
+```cangjie
+import std.reflect.*
+
+import std.reflect.*
+
+public struct Rectangular {}
+
+main(): Unit {
+    let ty = StructTypeInfo.get("default.Rectangular")
+    println(ty)
+    return
+}
+```
+
+运行结果：
+
+```text
+default.Rectangular
+```
+
+### static func of(Any)
+
+```cangjie
+public redef static func of(a: Any): StructTypeInfo
+```
+
+功能：获取给定的任意类型实例的运行时类型所对应的类型信息。
+
+运行时类型是指在程序运行时，通过动态绑定确定的类型，运行时类型与实例对象相绑定。在继承等场景下运行时类型和静态类型可能不一致。
+
+参数：
+
+- a: [Any](../../core/core_package_api/core_package_interfaces.md#interface-any) - 任意类型的实例。
+
+返回值：
+
+- [StructTypeInfo](reflect_package_classes.md#class-structtypeinfo) - 实例 `a` 的运行时类型所对应的类型信息。
+
+异常：
+
+- [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果无法获得实例 `a` 的运行时类型所对应的类型信息，则抛出异常。
+- [IllegalTypeException](./reflect_package_exceptions.md#class-illegaltypeexception) - 如果获取到的类型信息不是 [StructTypeInfo](reflect_package_classes.md#class-structtypeinfo)， 则抛出异常。
+
+示例：
+
+<!-- verify -->
+```cangjie
+package test
+
+import std.reflect.*
+
+public struct Rectangular {}
+
+main(): Unit {
+    var r = Rectangular()
+    let ty = StructTypeInfo.of(r)
+    println(ty)
+    return
+}
+```
+
+运行结果：
+
+```text
+test.Rectangular
+```
+
+### static func of\<T>()
+
+```cangjie
+public redef static func of<T>(): StructTypeInfo
+```
+
+功能：获取给定 `T` 类型对应的类型信息。
+
+返回值：
+
+- [StructTypeInfo](reflect_package_classes.md#class-structtypeinfo) - `T` 类型对应的类型信息。
+
+异常：
+
+- [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果无法获得类型 T 所对应的类型信息，抛出异常。
+- [IllegalTypeException](./reflect_package_exceptions.md#class-illegaltypeexception) - 如果获取到的类型信息不是 [StructTypeInfo](reflect_package_classes.md#class-structtypeinfo)， 则抛出异常。
+
+示例：
+
+<!-- verify -->
+```cangjie
+import std.reflect.*
+
+public struct Rectangular {}
+
+main(): Unit {
+    let ty = StructTypeInfo.of<Rectangular>()
+    println(ty)
+    return
+}
+```
+
+运行结果：
+
+```text
+default.Rectangular
+```
 
 ## class TypeInfo
 
@@ -2565,7 +3828,7 @@ sealed abstract class TypeInfo <: Equatable<TypeInfo> & Hashable & ToString
 
 [TypeInfo](reflect_package_classes.md#class-typeinfo) 的子类包括 [PrimitiveTypeInfo](reflect_package_classes.md#class-primitivetypeinfo)、[StructTypeInfo](reflect_package_classes.md#class-structtypeinfo)、[ClassTypeInfo](reflect_package_classes.md#class-classtypeinfo) 和 [InterfaceTypeInfo](reflect_package_classes.md#class-interfacetypeinfo)，分别对应基本数据类型，`struct` 数据类型，`class` 数据类型和 `interface` 数据类型的类型信息。
 
-> **说明**
+> **说明：**
 >
 > 类型的限定名称为`(module_name/)?(default|package_name)(.package_name)*.(type_name)`。
 
@@ -2596,13 +3859,13 @@ public prop annotations: Collection<Annotation>
 public prop instanceFunctions: Collection<InstanceFunctionInfo>
 ```
 
-功能：获取该 [TypeInfo](reflect_package_classes.md#class-typeinfo) 对应类型的所有公开实例成员函数信息，返回对应集合。
+功能：获取该 [TypeInfo](reflect_package_classes.md#class-typeinfo) 对应类型的所有 `public` 实例成员函数信息，返回对应集合。
 
 > **注意：**
 >
-> - 如果该 [TypeInfo](reflect_package_classes.md#class-typeinfo) 对应的类型无任何公开实例成员函数，则返回空集合。
+> - 如果该 [TypeInfo](reflect_package_classes.md#class-typeinfo) 对应的类型无任何 `public` 实例成员函数，则返回空集合。
 > - 该集合不保证遍历顺序恒定。
-> - 如果该类型信息所对应的类型是 `struct` 或 `class` 类型，则该集合包含从其他 `interface` 类型继承而来的非抽象的实例成员函数的信息。
+> - 如果该类型信息所对应的类型是 `struct` 或 `class` 类型，则该集合不包含继承而来的实例成员函数的信息。
 
 类型：[Collection](../../core/core_package_api/core_package_interfaces.md#interface-collectiont)\<[InstanceFunctionInfo](reflect_package_classes.md#class-instancefunctioninfo)>
 
@@ -2612,13 +3875,13 @@ public prop instanceFunctions: Collection<InstanceFunctionInfo>
 public prop instanceProperties: Collection<InstancePropertyInfo>
 ```
 
-功能：获取该 [TypeInfo](reflect_package_classes.md#class-typeinfo) 对应类型的所有公开实例成员属性信息，返回对应集合。
+功能：获取该 [TypeInfo](reflect_package_classes.md#class-typeinfo) 对应类型的所有 `public` 实例成员属性信息，返回对应集合。
 
 > **注意：**
 >
-> - 如果该 [TypeInfo](reflect_package_classes.md#class-typeinfo) 对应的类型无任何公开实例成员属性，则返回空集合。
+> - 如果该 [TypeInfo](reflect_package_classes.md#class-typeinfo) 对应的类型无任何 `public` 实例成员属性，则返回空集合。
 > - 该集合不保证遍历顺序恒定。
-> - 如果该类型信息所对应的类型是 `struct` 或 `class` 类型，则该集合包含从其他 `interface` 类型继承而来的非抽象的实例成员属性的信息。
+> - 如果该类型信息所对应的类型是 `struct` 或 `class` 类型，则该集合不包含继承而来的实例成员属性的信息。
 
 类型：[Collection](../../core/core_package_api/core_package_interfaces.md#interface-collectiont)\<[InstancePropertyInfo](reflect_package_classes.md#class-instancepropertyinfo)>
 
@@ -2676,13 +3939,13 @@ public prop qualifiedName: String
 public prop staticFunctions: Collection<StaticFunctionInfo>
 ```
 
-功能：获取该 [TypeInfo](reflect_package_classes.md#class-typeinfo) 对应类型的所有公开静态成员函数信息，返回对应集合。
+功能：获取该 [TypeInfo](reflect_package_classes.md#class-typeinfo) 对应类型的所有 `public` 静态成员函数信息，返回对应集合。
 
 > **注意：**
 >
-> - 如果该 [TypeInfo](reflect_package_classes.md#class-typeinfo) 对应的类型无任何公开静态成员函数，则返回空集合。
+> - 如果该 [TypeInfo](reflect_package_classes.md#class-typeinfo) 对应的类型无任何 `public` 静态成员函数，则返回空集合。
 > - 该集合不保证遍历顺序恒定。
-> - 如果该类型信息所对应的类型是 `struct` 、`class` 或 `interface` 类型，则该集合包含从其他 `interface` 类型继承而来的非抽象的静态成员函数的信息。
+> - 如果该类型信息所对应的类型是 `struct` 、`class` 或 `interface` 类型，则该集合不包含继承而来的静态成员函数的信息。
 
 类型：[Collection](../../core/core_package_api/core_package_interfaces.md#interface-collectiont)\<[StaticFunctionInfo](reflect_package_classes.md#class-staticfunctioninfo)>
 
@@ -2692,13 +3955,13 @@ public prop staticFunctions: Collection<StaticFunctionInfo>
 public prop staticProperties: Collection<StaticPropertyInfo>
 ```
 
-功能：获取该 [TypeInfo](reflect_package_classes.md#class-typeinfo) 对应类型的所有公开静态成员属性信息，返回对应集合。
+功能：获取该 [TypeInfo](reflect_package_classes.md#class-typeinfo) 对应类型的所有 `public` 静态成员属性信息，返回对应集合。
 
 > **注意：**
 >
-> - 如果该 [TypeInfo](reflect_package_classes.md#class-typeinfo) 对应的类型无任何公开静态成员属性，则返回空集合。
+> - 如果该 [TypeInfo](reflect_package_classes.md#class-typeinfo) 对应的类型无任何 `public` 静态成员属性，则返回空集合。
 > - 该集合不保证遍历顺序恒定。
-> - 如果该类型信息所对应的类型是 `struct` 、`class` 或 `interface` 类型，则该集合包含从其他 `interface` 类型继承而来的非抽象的静态成员属性的信息。
+> - 如果该类型信息所对应的类型是 `struct` 、`class` 或 `interface` 类型，则该集合不包含继承而来的静态成员属性的信息。
 
 类型：[Collection](../../core/core_package_api/core_package_interfaces.md#interface-collectiont)\<[StaticPropertyInfo](reflect_package_classes.md#class-staticpropertyinfo)>
 
@@ -2724,12 +3987,11 @@ public prop superInterfaces: Collection<InterfaceTypeInfo>
 public static func get(qualifiedName: String): TypeInfo
 ```
 
-功能：获取给定的类型的限定名称所对应的类型的 [TypeInfo](reflect_package_classes.md#class-typeinfo)。
+功能：获取给定 `qualifiedName` 所对应的类型的 [TypeInfo](reflect_package_classes.md#class-typeinfo)。
 
 > **注意：**
 >
-> - 未实例化的泛型类型的类型信息无法被获取。
-> - 目前， 类型的限定名称 `qualifiedName` 不支持 `Nothing` 类型、函数类型、元组类型、`enum` 类型和带有泛型的 `struct` 类型的限定名称。
+> 目前， 类型的限定名称 `qualifiedName` 不支持 `Nothing` 类型、函数类型、元组类型和`enum` 类型的限定名称。
 
 参数：
 
@@ -2743,23 +4005,44 @@ public static func get(qualifiedName: String): TypeInfo
 
 - [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果无法获取与给定类型的限定名称 `qualifiedName` 匹配的类型所对应的类型信息，则抛出异常。
 
+示例：
+
+<!-- verify -->
+```cangjie
+import std.reflect.*
+
+public class Rectangular {}
+
+main(): Unit {
+    let ty = TypeInfo.get("default.Rectangular")
+    println(ty)
+    return
+}
+```
+
+运行结果：
+
+```text
+default.Rectangular
+```
+
 ### static func of(Any)
 
 ```cangjie
 public static func of(a: Any): TypeInfo
 ```
 
-功能：获取给定的任意类型的实例的运行时类型所对应的类型信息。
+功能：获取给定的任意类型实例的运行时类型所对应的类型信息。
 
 运行时类型是指在程序运行时，通过动态绑定确定的类型，运行时类型与实例对象相绑定。在继承等场景下运行时类型和静态类型可能不一致。
 
 > **注意：**
 >
-> 目前，实例 `a` 不支持运行时类型为函数类型，元组类型，`enum` 类型和带有泛型的 `struct` 类型的实例。
+> 目前，实例 `a` 不支持运行时类型为函数类型、元组类型、`enum` 类型。
 
 参数：
 
-- a: [Any](../../core/core_package_api/core_package_interfaces.md#interface-any) - 实例。
+- a: [Any](../../core/core_package_api/core_package_interfaces.md#interface-any) - 任意类型的实例。
 
 返回值：
 
@@ -2769,13 +4052,41 @@ public static func of(a: Any): TypeInfo
 
 - [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果无法获得实例 `a` 的运行时类型所对应的类型信息，则抛出异常。
 
-### static func of(Object)
+示例：
+
+<!-- verify -->
+```cangjie
+package test
+
+import std.reflect.*
+
+public class Rectangular {}
+
+main(): Unit {
+    var r: Any = Rectangular()
+    let ty = TypeInfo.of(r)
+    println(ty)
+    return
+}
+```
+
+运行结果：
+
+```text
+test.Rectangular
+```
+
+### static func of(Object) <sup>(deprecated)</sup>
 
 ```cangjie
 public static func of(a: Object): ClassTypeInfo
 ```
 
 功能：获取给定的 `class` 类型的实例的运行时类型所对应的 `class` 类型信息。
+
+> **注意：**
+>
+> 未来版本即将废弃，使用 [ClassTypeInfo](#class-classtypeinfo) 的 [static func of(Object)](#static-func-ofobject) 函数替代。
 
 参数：
 
@@ -2795,11 +4106,11 @@ public static func of(a: Object): ClassTypeInfo
 public static func of<T>(): TypeInfo
 ```
 
-功能：获取给定类型对应的类型信息。
+功能：获取给定 `T` 类型对应的类型信息。
 
 > **注意：**
 >
-> - 目前，泛型 `T` 不支持 `Nothing` 类型、函数类型，元组类型，`enum` 类型和带有泛型的 `struct` 类型。
+> - 目前，泛型 `T` 不支持 `Nothing` 类型、函数类型、元组类型和`enum` 类型。
 > - `T` 支持传入类型别名，包括内置类型别名（如 [Int](../../core/core_package_api/core_package_types.md#type-int)、[UInt](../../core/core_package_api/core_package_types.md#type-uint) 和 `Rune` 等）与用户自定义类型别名。
 
 返回值：
@@ -2810,10 +4121,31 @@ public static func of<T>(): TypeInfo
 
 - [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果无法获得类型 T 所对应的类型信息，抛出异常。
 
-### func findAnnotation\<T>() where T <: Annotation
+示例：
+
+<!-- verify -->
+```cangjie
+import std.reflect.*
+
+public class Rectangular {}
+
+main(): Unit {
+    let ty = TypeInfo.of<Rectangular>()
+    println(ty)
+    return
+}
+```
+
+运行结果：
+
+```text
+default.Rectangular
+```
+
+### func findAnnotation\<T>()
 
 ```cangjie
-public func findAnnotation<T>(): Option<T> where T <: Annotation
+public func findAnnotation<T>(): Option<T>
 ```
 
 功能：尝试获取作用于该 [TypeInfo](reflect_package_classes.md#class-typeinfo) 对应的类型且拥有给定限定名称的注解。
@@ -2841,7 +4173,85 @@ public func getInstanceFunction(name: String, parameterTypes: Array<TypeInfo>): 
 
 异常：
 
-- [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果没找到对应公开实例成员函数，则抛出异常。
+- [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果没找到对应 `public` 实例成员函数，则抛出异常。
+
+示例：
+
+<!-- verify -->
+```cangjie
+import std.reflect.*
+
+public class Rectangular {
+    public var length = 4
+    public var width = 5
+    public func area(): Int64 {
+        return length * width
+    }
+}
+
+main(): Unit {
+    // 此处是通过 Rectangular 的类型的限定名称获取 TypeInfo，也可以通过实例获取 TypeInfo
+    let ty = TypeInfo.get("default.Rectangular")
+    // 获取 InstanceFunctionInfo
+    var gif = ty.getInstanceFunction("area")
+
+    println(gif)
+    return
+}
+```
+
+运行结果：
+
+```text
+func area(): Int64
+```
+
+### func getInstanceFunctions(String)
+
+```cangjie
+public func getInstanceFunctions(name: String): Array<InstanceFunctionInfo>
+```
+
+功能：给定函数名称，尝试获取该类型中所有匹配的实例成员函数的信息。
+
+参数：
+
+- name: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 函数名称。
+
+返回值：
+
+- [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[InstanceFunctionInfo](reflect_package_classes.md#class-instancefunctioninfo)> - 如果成功匹配则返回所有匹配到的实例成员函数信息。
+
+示例：
+
+<!-- verify -->
+```cangjie
+import std.reflect.*
+
+public class Rectangular {
+    public var length = 4
+    public var width = 5
+    public func area(): Int64 {
+        return length * width
+    }
+}
+
+main(): Unit {
+    // 此处是通过 Rectangular 的类型的限定名称获取 TypeInfo，也可以通过实例获取 TypeInfo
+    let ty = TypeInfo.get("default.Rectangular")
+    // 获取 InstanceFunctionInfo
+    var gif = ty.getInstanceFunctions("area")
+
+    println(gif)
+    return
+}
+```
+
+运行结果：
+
+```text
+[func area(): Int64]
+```
 
 ### func getInstanceProperty(String)
 
@@ -2861,7 +4271,39 @@ public func getInstanceProperty(name: String): InstancePropertyInfo
 
 异常：
 
-- [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果没找到对应公开实例成员属性，则抛出异常。
+- [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果没找到对应 `public` 实例成员属性，则抛出异常。
+
+示例：
+
+<!-- verify -->
+```cangjie
+import std.reflect.*
+
+public class Rectangular {
+    public var length = 4
+    public prop width: Int64 {
+        get() {
+            5
+        }
+    }
+}
+
+main(): Unit {
+    // 此处是通过 Rectangular 的类型的限定名称获取 TypeInfo，也可以通过实例获取 TypeInfo
+    let ty = TypeInfo.get("default.Rectangular")
+    // 获取 InstancePropertyInfo
+    var gip = ty.getInstanceProperty("width")
+
+    println(gip)
+    return
+}
+```
+
+运行结果：
+
+```text
+prop width: Int64
+```
 
 ### func getStaticFunction(String, Array\<TypeInfo>)
 
@@ -2882,7 +4324,83 @@ public func getStaticFunction(name: String, parameterTypes: Array<TypeInfo>): St
 
 异常：
 
-- [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果没找到对应公开静态成员函数，则抛出异常。
+- [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果没找到对应 `public` 静态成员函数，则抛出异常。
+
+示例：
+
+<!-- verify -->
+```cangjie
+package test
+
+import std.reflect.*
+
+public class Rectangular {
+    public static func myName(): String { "" }
+}
+
+main(): Unit {
+    // 此处是通过 Rectangular 的类型的限定名称获取 TypeInfo，也可以通过实例获取 TypeInfo
+    let ty = ClassTypeInfo.get("test.Rectangular")
+
+    // 获取静态函数
+    let sf = ty.getStaticFunction("myName")
+    
+    println(sf)
+    return
+}
+```
+
+运行结果：
+
+```text
+static func myName(): String
+```
+
+### func getStaticFunctions(String)
+
+```cangjie
+public func getStaticFunctions(name: String): Array<StaticFunctionInfo>
+```
+
+功能：给定函数名称，尝试获取该类型中所有匹配的静态成员函数的信息。
+
+参数：
+
+- name: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 函数名称。
+
+返回值：
+
+- [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[StaticFunctionInfo](reflect_package_classes.md#class-staticfunctioninfo)> - 如果成功匹配则返回所有匹配到的静态成员函数信息。
+
+示例：
+
+<!-- verify -->
+```cangjie
+package test
+
+import std.reflect.*
+
+public class Rectangular {
+    public static func myName(): String { "" }
+}
+
+main(): Unit {
+    // 此处是通过 Rectangular 的类型的限定名称获取 TypeInfo，也可以通过实例获取 TypeInfo
+    let ty = TypeInfo.get("test.Rectangular")
+
+    // 获取静态函数
+    let sf = ty.getStaticFunctions("myName")
+    
+    println(sf)
+    return
+}
+```
+
+运行结果：
+
+```text
+[static func myName(): String]
+```
 
 ### func getStaticProperty(String)
 
@@ -2902,7 +4420,41 @@ public func getStaticProperty(name: String): StaticPropertyInfo
 
 异常：
 
-- [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果没找到对应公开静态成员属性，则抛出异常。
+- [InfoNotFoundException](reflect_package_exceptions.md#class-infonotfoundexception) - 如果没找到对应 `public` 静态成员属性，则抛出异常。
+
+示例：
+
+<!-- verify -->
+```cangjie
+package test
+
+import std.reflect.*
+
+public class Rectangular {
+    private static var valueArea = 0
+    public static mut prop area: Int64 {
+        get() { valueArea }
+        set(v) { valueArea = v }
+    }
+}
+
+main(): Unit {
+    // 此处是通过 Rectangular 的类型的限定名称获取 TypeInfo，也可以通过实例获取 TypeInfo
+    let ty = TypeInfo.get("test.Rectangular")
+
+    // 获取静态属性
+    let sp = ty.getStaticProperty("area")
+    
+    println(sp)
+    return
+}
+```
+
+运行结果：
+
+```text
+static mut prop area: Int64
+```
 
 ### func hashCode()
 
@@ -2939,6 +4491,33 @@ public func isSubtypeOf(supertype: TypeInfo): Bool
 返回值：
 
 - [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 如果该 [TypeInfo](reflect_package_classes.md#class-typeinfo) 对应的类型是 `supertype` 所对应的类型的子类型则返回 `true`，否则返回 `false`。
+
+示例：
+
+<!-- verify -->
+```cangjie
+package test
+
+import std.reflect.*
+
+public abstract class Rectangular {}
+
+public class Square <: Rectangular {}
+
+main(): Unit {
+    // 此处是通过 Rectangular 的类型的限定名称获取 TypeInfo，也可以通过实例获取 TypeInfo
+    let tyr = ClassTypeInfo.get("test.Rectangular")
+    let tys = ClassTypeInfo.get("test.Square")
+    println(tys.isSubtypeOf(tyr))
+    return
+}
+```
+
+运行结果：
+
+```text
+true
+```
 
 ### func toString()
 

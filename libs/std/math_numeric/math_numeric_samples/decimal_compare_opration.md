@@ -8,8 +8,8 @@ import std.math.*
 import std.math.numeric.*
 
 main() {
-    let decimal1 = Decimal("12345.6789")
-    let decimal2 = Decimal("987.654321")
+    let decimal1 = Decimal.parse("12345.6789")
+    let decimal2 = Decimal.parse("987.654321")
     println("${decimal1} > ${decimal2} = ${decimal1 > decimal2}")
     println("${decimal1} < ${decimal2} = ${decimal1 < decimal2}")
     println("${decimal1} == ${decimal2} = ${decimal1 == decimal2}")
@@ -21,7 +21,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 12345.6789 > 987.654321 = true

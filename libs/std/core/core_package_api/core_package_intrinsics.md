@@ -40,6 +40,25 @@ public func hashCode(): Int64
 
 - [Int64](core_package_intrinsics.md#int64) - 哈希值。
 
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var flag: Bool = false
+    println(flag.hashCode())
+    flag = true
+    println(flag.hashCode())
+}
+```
+
+运行结果：
+
+```text
+0
+1
+```
+
 ### extend Bool <: ToString
 
 ```cangjie
@@ -63,6 +82,27 @@ public func toString(): String
 返回值：
 
 - [String](core_package_structs.md#struct-string) - 转化后的字符串。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var flag: Bool = false
+    let str1: String = flag.toString()
+    println(str1)
+    flag = true
+    let str2: String = flag.toString()
+    println(str2)
+}
+```
+
+运行结果：
+
+```text
+false
+true
+```
 
 ## CPointer\<T>
 
@@ -92,11 +132,39 @@ extend<T> CPointer<T>
 public func asResource(): CPointerResource<T>
 ```
 
-功能：获取该指针 [CPointerResource](core_package_structs.md#struct-cpointerresourcet-where-t--ctype) 实例，后者可以在 `try-with-resource` 语法上下文中实现内容自动释放。
+功能：获取该指针 [CPointerResource](core_package_structs.md#struct-cpointerresourcet-where-t--ctype) 实例，该实例可以在 `try-with-resource` 语法上下文中实现内容自动释放。
 
 返回值：
 
 - [CPointerResource](core_package_structs.md#struct-cpointerresourcet-where-t--ctype)\<T> - 当前指针对应的 [CPointerResource](core_package_structs.md#struct-cpointerresourcet-where-t--ctype) 实例。
+
+示例：
+
+<!-- verify -->
+```cangjie
+foreign func malloc(size: UIntNative): CPointer<Unit>
+
+main() {
+    let sizeofInt64: UIntNative = 8
+    var p1 = unsafe { malloc(sizeofInt64) }
+    var ptr = unsafe { CPointer<Int64>(p1) }
+    unsafe { ptr.write(10) }
+    var ptrResource: CPointerResource<Int64> = ptr.asResource()
+    try (r = ptrResource) {
+        var p = r.value
+        let num: Int64 = unsafe { p.read() }
+        println(num)
+    }
+    println(ptrResource.isClosed())
+}
+```
+
+运行结果：
+
+```text
+10
+true
+```
 
 #### func isNotNull()
 
@@ -110,6 +178,30 @@ public func isNotNull(): Bool
 
 - [Bool](core_package_intrinsics.md#bool) - 如果不为空返回 true，否则返回 false。
 
+示例：
+
+<!-- verify -->
+```cangjie
+foreign func malloc(size: UIntNative): CPointer<Unit>
+foreign func free(ptr: CPointer<Unit>): Unit
+
+main() {
+    let p1 = CPointer<Int64>()
+    println(p1.isNotNull())
+    let sizeofInt64: UIntNative = 8
+    var p2 = unsafe { malloc(sizeofInt64) }
+    println(p2.isNotNull())
+    unsafe { free(p2) }
+}
+```
+
+运行结果：
+
+```text
+false
+true
+```
+
 #### func isNull()
 
 ```cangjie
@@ -122,6 +214,31 @@ public func isNull(): Bool
 
 - [Bool](core_package_intrinsics.md#bool) - 如果为空返回 true，否则返回 false。
 
+示例：
+
+<!-- verify -->
+```cangjie
+foreign func malloc(size: UIntNative): CPointer<Unit>
+
+foreign func free(ptr: CPointer<Unit>): Unit
+
+main() {
+    let sizeofInt64: UIntNative = 8
+    var p1 = unsafe { malloc(sizeofInt64) }
+    var ptr = unsafe { CPointer<Int64>(p1) }
+    unsafe { ptr.write(10) }
+    let num: Int64 = unsafe { ptr.read() }
+    println(num)
+    unsafe { free(p1) }
+}
+```
+
+运行结果：
+
+```text
+10
+```
+
 #### func read()
 
 ```cangjie
@@ -133,6 +250,30 @@ public unsafe func read(): T
 返回值：
 
 - T - 该对象类型的第一个数据。
+
+示例：
+
+<!-- verify -->
+```cangjie
+foreign func malloc(size: UIntNative): CPointer<Unit>
+foreign func free(ptr: CPointer<Unit>): Unit
+
+main() {
+    let p1 = CPointer<Int64>()
+    println(p1.isNull())
+    let sizeofInt64: UIntNative = 8
+    var p2 = unsafe { malloc(sizeofInt64) }
+    println(p2.isNull())
+    unsafe { free(p2) }
+}
+```
+
+运行结果：
+
+```text
+true
+false
+```
 
 #### func read(Int64)
 
@@ -150,6 +291,28 @@ public unsafe func read(idx: Int64): T
 
 - T - 输入下标对应的数据。
 
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var arr: Array<Int64> = [1, 2, 3, 4]
+    var cptrHandle: CPointerHandle<Int64> = unsafe { acquireArrayRawData(arr) }
+    var cptr: CPointer<Int64> = cptrHandle.pointer
+
+    let num: Int64 = unsafe { cptr.read(2) }
+    println("The third element of the array is ${num} ")
+
+    unsafe { releaseArrayRawData<Int64>(cptrHandle) }
+}
+```
+
+运行结果：
+
+```text
+The third element of the array is 3
+```
+
 #### func toUIntNative()
 
 ```cangjie
@@ -161,6 +324,30 @@ public func toUIntNative(): UIntNative
 返回值：
 
 - [UIntNative](core_package_intrinsics.md#uintnative) - 该指针的整型形式。
+
+示例：
+
+<!-- run -->
+```cangjie
+foreign func malloc(size: UIntNative): CPointer<Unit>
+
+foreign func free(ptr: CPointer<Unit>): Unit
+
+main() {
+    let sizeofInt64: UIntNative = 8
+    var p = unsafe { malloc(sizeofInt64) }
+    var p1 = unsafe { CPointer<Int64>(p) }
+    unsafe { p1.write(8) }
+    println(p1.toUIntNative())
+    unsafe { free(p) }
+}
+```
+
+运行结果：
+
+```text
+93954490863648
+```
 
 #### func write(Int64, T)
 
@@ -175,6 +362,30 @@ public unsafe func write(idx: Int64, value: T): Unit
 - idx: [Int64](core_package_intrinsics.md#int64) - 指定的下标位置。
 - value: T - 写入的数据。
 
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var arr: Array<Int64> = [1, 2, 3, 4]
+    var cptrHandle: CPointerHandle<Int64> = unsafe { acquireArrayRawData(arr) }
+
+    var cptr: CPointer<Int64> = cptrHandle.pointer
+
+    unsafe { cptr.write(2, 6) }
+
+    println("The third element of the array is ${arr[2]} ")
+    // The first element of the array is 1
+    unsafe { releaseArrayRawData<Int64>(cptrHandle) }
+}
+```
+
+运行结果：
+
+```text
+The third element of the array is 6
+```
+
 #### func write(T)
 
 ```cangjie
@@ -186,6 +397,30 @@ public unsafe func write(value: T): Unit
 参数：
 
 - value: T - 要写入的数据。
+
+示例：
+
+<!-- verify -->
+```cangjie
+foreign func malloc(size: UIntNative): CPointer<Unit>
+foreign func free(ptr: CPointer<Unit>): Unit
+
+main() {
+    let sizeofInt64: UIntNative = 8
+    var p = unsafe { malloc(sizeofInt64) }
+    var p1 = unsafe { CPointer<Int64>(p) }
+    unsafe { p1.write(8) }
+    let value: Int64 = unsafe { p1.read() }
+    println(value)
+    unsafe{ free(p) }
+}
+```
+
+运行结果：
+
+```text
+8
+```
 
 #### operator func +(Int64)
 
@@ -203,6 +438,31 @@ public unsafe operator func +(offset: Int64): CPointer<T>
 
 - [CPointer](core_package_intrinsics.md#cpointert)\<T> - 返回偏移后的指针。
 
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var arr: Array<Int64> = [1, 2, 3, 4]
+    var cptrHandle: CPointerHandle<Int64> = unsafe { acquireArrayRawData(arr) }
+    var cptr: CPointer<Int64> = cptrHandle.pointer
+
+    let num1: Int64 = unsafe { cptr.read() }
+    println(num1)
+    cptr = unsafe { cptr + 1 }
+    let num2: Int64 = unsafe { cptr.read() }
+    println(num2)
+    unsafe { releaseArrayRawData<Int64>(cptrHandle) }
+}
+```
+
+运行结果：
+
+```text
+1
+2
+```
+
 #### operator func -(Int64)
 
 ```cangjie
@@ -218,6 +478,35 @@ public unsafe operator func -(offset: Int64): CPointer<T>
 返回值：
 
 - [CPointer](core_package_intrinsics.md#cpointert)\<T> - 返回偏移后的指针。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var arr: Array<Int64> = [1, 2, 3, 4]
+    var cptrHandle: CPointerHandle<Int64> = unsafe { acquireArrayRawData(arr) }
+    var cptr: CPointer<Int64> = cptrHandle.pointer
+
+    let num1: Int64 = unsafe { cptr.read() }
+    println(num1)
+    cptr = unsafe { cptr + 1 }
+    let num2: Int64 = unsafe { cptr.read() }
+    println(num2)
+    cptr = unsafe { cptr - 1 }
+    let num3: Int64 = unsafe { cptr.read() }
+    println(num3)
+    unsafe { releaseArrayRawData<Int64>(cptrHandle) }
+}
+```
+
+运行结果：
+
+```text
+1
+2
+1
+```
 
 ## CString
 
@@ -251,6 +540,30 @@ public func asResource(): CStringResource
 
 - [CStringResource](core_package_structs.md#struct-cstringresource) - 对应的 [CStringResource](core_package_structs.md#struct-cstringresource) C 字符串资源类型实例。
 
+示例：
+
+<!-- verify -->
+```cangjie
+foreign func malloc(size: UIntNative): CPointer<Unit>
+
+main() {
+    var str: CString = unsafe { LibC.mallocCString("hello") }
+    var ptrResource: CStringResource = str.asResource()
+    try (r = ptrResource) {
+        var p = r.value
+        println(p.size())
+    }
+    println(ptrResource.isClosed())
+}
+```
+
+运行结果：
+
+```text
+5
+true
+```
+
 #### func compare(CString)
 
 ```cangjie
@@ -271,6 +584,42 @@ public func compare(str: CString): Int32
 
 - [Exception](core_package_exceptions.md#class-exception) - 如果被比较的两个 [CString](core_package_intrinsics.md#cstring) 中存在空指针，抛出异常。
 
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var str1: CString = unsafe { LibC.mallocCString("hello") }
+    var str2: CString = unsafe { LibC.mallocCString("hello") }
+    println(str1.compare(str2))
+
+    var str3: CString = unsafe { LibC.mallocCString("hello") }
+    var str4: CString = unsafe { LibC.mallocCString("hellow") }
+    println(str3.compare(str4))
+
+    var str5: CString = unsafe { LibC.mallocCString("hello") }
+    var str6: CString = unsafe { LibC.mallocCString("allow") }
+    println(str5.compare(str6))
+
+    unsafe {
+        LibC.free(str1)
+        LibC.free(str2)
+        LibC.free(str3)
+        LibC.free(str4)
+        LibC.free(str5)
+        LibC.free(str6)
+    }
+}
+```
+
+运行结果：
+
+```text
+0
+-1
+1
+```
+
 #### func endsWith(CString)
 
 ```cangjie
@@ -286,6 +635,33 @@ public func endsWith(suffix: CString): Bool
 返回值：
 
 - [Bool](core_package_intrinsics.md#bool) - 如果该字符串包含 suffix 后缀，返回 true，如果该字符串不包含 suffix 后缀，返回 false，特别地，如果原字符串或者 suffix 后缀字符串指针为空，均返回 false。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var str1: CString = unsafe { LibC.mallocCString("hello") }
+    var str2: CString = unsafe { LibC.mallocCString("lo") }
+    var str3: CString = unsafe { LibC.mallocCString("ao") }
+
+    println(str1.endsWith(str2))
+    println(str1.endsWith(str3))
+
+    unsafe {
+        LibC.free(str1)
+        LibC.free(str2)
+        LibC.free(str3)
+    }
+}
+```
+
+运行结果：
+
+```text
+true
+false
+```
 
 #### func equals(CString)
 
@@ -303,6 +679,32 @@ public func equals(rhs: CString): Bool
 
 - [Bool](core_package_intrinsics.md#bool) - 如果两个字符串相等，返回 true，否则返回 false。
 
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var str1: CString = unsafe { LibC.mallocCString("hello") }
+    var str2: CString = unsafe { LibC.mallocCString("hello") }
+    var str3: CString = unsafe { LibC.mallocCString("Hello") }
+    println(str1.equals(str2))
+    println(str1.equals(str3))
+
+    unsafe {
+        LibC.free(str1)
+        LibC.free(str2)
+        LibC.free(str3)
+    }
+}
+```
+
+运行结果：
+
+```text
+true
+false
+```
+
 #### func equalsLower(CString)
 
 ```cangjie
@@ -319,6 +721,32 @@ public func equalsLower(rhs: CString): Bool
 
 - [Bool](core_package_intrinsics.md#bool) - 如果两个字符串忽略大小写相等，返回 true，否则返回 false。
 
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var str1: CString = unsafe { LibC.mallocCString("hello") }
+    var str2: CString = unsafe { LibC.mallocCString("HELLO") }
+    var str3: CString = unsafe { LibC.mallocCString("Hello") }
+    println(str1.equalsLower(str2))
+    println(str1.equalsLower(str3))
+
+    unsafe {
+        LibC.free(str1)
+        LibC.free(str2)
+        LibC.free(str3)
+    }
+}
+```
+
+运行结果：
+
+```text
+true
+true
+```
+
 #### func getChars()
 
 ```cangjie
@@ -330,6 +758,27 @@ public func getChars(): CPointer<UInt8>
 返回值：
 
 - [CPointer](./core_package_intrinsics.md#cpointert)\<[UInt8](./core_package_intrinsics.md#uint8)> - 该字符串的指针。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var str1: CString = unsafe { LibC.mallocCString("hello") }
+    var ptr: CPointer<UInt8> = unsafe { str1.getChars() }
+    var c: UInt8 = unsafe { ptr.read() }
+    println(c) // h的ascii码为104
+    unsafe{
+        LibC.free(str1)
+    }
+}
+```
+
+运行结果：
+
+```text
+104
+```
 
 #### func isEmpty()
 
@@ -343,6 +792,26 @@ public func isEmpty(): Bool
 
 - [Bool](core_package_intrinsics.md#bool) - 如果为空字符串或字符串指针为空，返回 true，否则返回 false。
 
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var str1: CString = unsafe { LibC.mallocCString("hello") }
+    println(str1.isEmpty())
+
+    unsafe {
+        LibC.free(str1)
+    }
+}
+```
+
+运行结果：
+
+```text
+false
+```
+
 #### func isNotEmpty()
 
 ```cangjie
@@ -354,6 +823,26 @@ public func isNotEmpty(): Bool
 返回值：
 
 - [Bool](core_package_intrinsics.md#bool) - 如果不为空字符串，返回 true，如果字符串指针为空，返回 false。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var str1: CString = unsafe { LibC.mallocCString("hello") }
+    println(str1.isNotEmpty())
+
+    unsafe {
+        LibC.free(str1)
+    }
+}
+```
+
+运行结果：
+
+```text
+true
+```
 
 #### func isNull()
 
@@ -367,6 +856,26 @@ public func isNull(): Bool
 
 - [Bool](core_package_intrinsics.md#bool) - 如果字符串指针为空，返回 true，否则返回 false。
 
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var str1: CString = unsafe { LibC.mallocCString("hello") }
+    println(str1.isNull())
+
+    unsafe {
+        LibC.free(str1)
+    }
+}
+```
+
+运行结果：
+
+```text
+false
+```
+
 #### func size()
 
 ```cangjie
@@ -378,6 +887,26 @@ public func size(): Int64
 返回值：
 
 - [Int64](core_package_intrinsics.md#int64) - 字符串长度。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var str1: CString = unsafe { LibC.mallocCString("hello") }
+    println(str1.size())
+
+    unsafe {
+        LibC.free(str1)
+    }
+}
+```
+
+运行结果：
+
+```text
+5
+```
 
 #### func startsWith(CString)
 
@@ -394,6 +923,28 @@ public func startsWith(prefix: CString): Bool
 返回值：
 
 - [Bool](core_package_intrinsics.md#bool) - 如果该字符串包含 prefix 前缀，返回 true，如果该字符串不包含 prefix 前缀，返回 false，特别地，如果原字符串或者 prefix 前缀字符串指针为空，均返回 false。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var str1: CString = unsafe { LibC.mallocCString("hello") }
+    var str2: CString = unsafe { LibC.mallocCString("he") }
+    println(str1.startsWith(str2))
+
+    unsafe {
+        LibC.free(str1)
+        LibC.free(str2)
+    }
+}
+```
+
+运行结果：
+
+```text
+true
+```
 
 #### func subCString(UIntNative)
 
@@ -420,6 +971,29 @@ public func subCString(beginIndex: UIntNative): CString
 
 - [IndexOutOfBoundsException](core_package_exceptions.md#class-indexoutofboundsexception) - 如果 beginIndex 大于字符串长度，抛出异常。
 - [IllegalMemoryException](core_package_exceptions.md#class-illegalmemoryexception) - 如果内存申请失败或内存拷贝失败时，抛出异常。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    let index: UIntNative = 2
+    var str1: CString = unsafe { LibC.mallocCString("hello") }
+    var str2: CString = str1.subCString(index)
+    println(str2)
+
+    unsafe {
+        LibC.free(str1)
+        LibC.free(str2)
+    }
+}
+```
+
+运行结果：
+
+```text
+llo
+```
 
 #### func subCString(UIntNative, UIntNative)
 
@@ -450,6 +1024,30 @@ public func subCString(beginIndex: UIntNative, subLen: UIntNative): CString
 - [IndexOutOfBoundsException](core_package_exceptions.md#class-indexoutofboundsexception) - 如果 beginIndex 大于字符串长度，抛出异常。
 - [IllegalMemoryException](core_package_exceptions.md#class-illegalmemoryexception) - 如果内存申请失败或内存拷贝失败时，抛出异常。
 
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    let index: UIntNative = 2
+    let len: UIntNative = 2
+    var str1: CString = unsafe { LibC.mallocCString("hello") }
+    var str2: CString = str1.subCString(index, len)
+    println(str2)
+
+    unsafe {
+        LibC.free(str1)
+        LibC.free(str2)
+    }
+}
+```
+
+运行结果：
+
+```text
+ll
+```
+
 #### func toString()
 
 ```cangjie
@@ -462,9 +1060,173 @@ public func toString(): String
 
 - [String](core_package_structs.md#struct-string) - 转换后的字符串。
 
+异常：
+
+- [IllegalArgumentException](core_package_exceptions.md#class-illegalargumentexception) - 不合法的 UTF-8 字节序列。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var str1: CString = unsafe { LibC.mallocCString("hello") }
+    println(str1.toString())
+
+    unsafe {
+        LibC.free(str1)
+    }
+}
+```
+
+运行结果：
+
+```text
+hello
+```
+
 ## Float16
 
 功能：表示 16 位浮点数，符合 `IEEE 754` 中的半精度格式（`binary16`）。
+
+### extend Float16
+
+```cangjie
+extend Float16
+```
+
+功能：拓展半精度浮点数以支持一些数学常数。
+
+#### static prop Inf
+
+```cangjie
+public static prop Inf: Float16
+```
+
+功能：获取半精度浮点数的无穷数。
+
+类型：[Float16](./core_package_intrinsics.md#float16)
+
+#### static prop Max
+
+```cangjie
+public static prop Max: Float16
+```
+
+功能：获取半精度浮点数的最大值。
+
+类型：[Float16](./core_package_intrinsics.md#float16)
+
+#### static prop Min
+
+```cangjie
+public static prop Min: Float16
+```
+
+功能：获取半精度浮点数的最小值。
+
+类型：[Float16](./core_package_intrinsics.md#float16)
+
+#### static prop MinDenormal
+
+```cangjie
+public static prop MinDenormal: Float16
+```
+
+功能：获取半精度浮点数的最小次正规数。最小的正的次正规数是以 IEEE 双精度格式表示的最小正数。
+
+类型：[Float16](./core_package_intrinsics.md#float16)
+
+#### static prop MinNormal
+
+```cangjie
+public static prop MinNormal: Float16
+```
+
+功能：获取半精度浮点数的最小正规数。
+
+类型：[Float16](./core_package_intrinsics.md#float16)
+
+#### static prop NaN
+
+```cangjie
+public static prop NaN: Float16
+```
+
+功能：获取半精度浮点数的非数。
+
+类型：[Float16](./core_package_intrinsics.md#float16)
+
+#### static func max(Float16, Float16, Array\<Float16>)
+
+```cangjie
+public static func max(a: Float16, b: Float16, others: Array<Float16>): Float16
+```
+
+功能：返回一组[Float16](./core_package_intrinsics.md#float16)中的最大值，此函数的第三个参数是一个变长参数，可以获取二个以上的[Float16](./core_package_intrinsics.md#float16)最大值，如果参数中有 `NaN`，该函数会返回 `NaN`。
+
+参数：
+
+- a: [Float16](./core_package_intrinsics.md#float16) - 第一个待比较的数。
+- b: [Float16](./core_package_intrinsics.md#float16) - 第二个待比较的数。
+- others: [Array](core_package_structs.md#struct-arrayt)\<[Float16](./core_package_intrinsics.md#float16)> - 其他待比较的数。
+
+返回值：
+
+- [Float16](./core_package_intrinsics.md#float16) - 返回参数中的最大值。
+
+#### static func min(Float16, Float16, Array\<Float16>)
+
+```cangjie
+public static func min(a: Float16, b: Float16, others: Array<Float16>): Float16
+```
+
+功能：返回一组[Float16](./core_package_intrinsics.md#float16)中的最小值，此函数的第三个参数是一个变长参数，可以获取二个以上的[Float16](./core_package_intrinsics.md#float16)最小值，如果参数中有 `NaN`，该函数会返回 `NaN`。
+
+参数：
+
+- a: [Float16](./core_package_intrinsics.md#float16) - 第一个待比较的数。
+- b: [Float16](./core_package_intrinsics.md#float16) - 第一个待比较的数。
+- others: [Array](core_package_structs.md#struct-arrayt)\<[Float16](./core_package_intrinsics.md#float16)> - 其他待比较的数。
+
+返回值：
+
+- [Float16](./core_package_intrinsics.md#float16) - 返回参数中的最小值。
+
+#### func isInf()
+
+```cangjie
+public func isInf(): Bool
+```
+
+功能：判断某个浮点数 [Float16](./core_package_intrinsics.md#float16) 是否为无穷数值。
+
+返回值：
+
+- [Bool](./core_package_intrinsics.md#bool) - 如果 [Float16](./core_package_intrinsics.md#float16) 的值正无穷大或负无穷大，则返回 `true`；否则，返回 `false`。
+
+#### func isNaN()
+
+```cangjie
+public func isNaN(): Bool
+```
+
+功能：判断某个浮点数 [Float16](./core_package_intrinsics.md#float16) 是否为非数值。
+
+返回值：
+
+- [Bool](./core_package_intrinsics.md#bool) - 如果 [Float16](./core_package_intrinsics.md#float16) 的值为非数值，则返回 `true`；否则，返回 `false`。
+
+#### func isNormal()
+
+```cangjie
+public func isNormal(): Bool
+```
+
+功能：判断某个浮点数 [Float16](./core_package_intrinsics.md#float16) 是否为常规数值。
+
+返回值：
+
+- [Bool](./core_package_intrinsics.md#bool) - 如果 [Float16](./core_package_intrinsics.md#float16) 的值是正常的浮点数，返回 `true`；否则，返回 `false`。
 
 ### extend Float16 <: Comparable\<Float16>
 
@@ -492,19 +1254,32 @@ public func compare(rhs: Float16): Ordering
 
 返回值：
 
-- [Ordering](core_package_enums.md#enum-ordering) - 如果大于，返回 [Ordering](core_package_enums.md#enum-ordering).GT，如果等于，返回 [Ordering](core_package_enums.md#enum-ordering).EQ，如果小于，返回 [Ordering](core_package_enums.md#enum-ordering).LT。
+- [Ordering](core_package_enums.md#enum-ordering) - 如果大于，返回 [Ordering](core_package_enums.md#enum-ordering).GT；如果等于，返回 [Ordering](core_package_enums.md#enum-ordering).EQ；如果小于，返回 [Ordering](core_package_enums.md#enum-ordering).LT。
 
-### extend Float16 <: FloatToBits
+示例：
 
+<!-- verify -->
 ```cangjie
-extend Float16 <: FloatToBits
+main() {
+    var num1: Float16 = 0.12
+    var num2: Float16 = 0.234
+    println(num1.compare(num2))
+}
 ```
 
-功能：为 [Float16](core_package_intrinsics.md#float16) 实现 [FloatToBits](core_package_interfaces.md#interface-floattobits) 接口，支持与 [UInt16](core_package_intrinsics.md#uint16) 互相转换。
+运行结果：
 
-父类型：
+```text
+Ordering.LT
+```
 
-- [FloatToBits](core_package_interfaces.md#interface-floattobits)
+### extend Float16
+
+```cangjie
+extend Float16
+```
+
+功能：支持与 [UInt16](core_package_intrinsics.md#uint16) 互相转换。
 
 #### static func fromBits(UInt16)
 
@@ -524,14 +1299,18 @@ public static func fromBits(bits: UInt16): Float16
 
 示例：
 
+<!-- verify -->
 ```cangjie
-import std.unittest.*
-import std.unittest.testmacro.*
-
 main() {
     let v = Float16.fromBits(0x4A40)
-    @Assert(v, 12.5)
+    println(v)
 }
+```
+
+运行结果：
+
+```text
+12.500000
 ```
 
 #### func toBits()
@@ -548,13 +1327,17 @@ public func toBits(): UInt16
 
 示例：
 
+<!-- verify -->
 ```cangjie
-import std.unittest.*
-import std.unittest.testmacro.*
-
 main() {
-    @Assert(12.5f16.toBits(), 0x4A40)
+    println(12.5f16.toBits()) // 0x4A40 19008
 }
+```
+
+运行结果：
+
+```text
+19008
 ```
 
 ### extend Float16 <: Hashable
@@ -587,9 +1370,7 @@ public func hashCode(): Int64
 extend Float16 <: ToString
 ```
 
-功能：为 [Float16](core_package_intrinsics.md#float16) 类型其扩展 [ToString](core_package_interfaces.md#interface-tostring) 接口，实现向 [String](core_package_structs.md#struct-string) 类型的转换。
-
-默认保留 6 位小数，如需其他精度 [String](core_package_structs.md#struct-string) 请参考 [Formatter](../../format/format_package_api/format_package_interfaces.md#interface-formatter) 扩展。
+功能：为 [Float16](core_package_intrinsics.md#float16) 类型其扩展 [ToString](core_package_interfaces.md#interface-tostring) 接口，实现向 [String](core_package_structs.md#struct-string) 类型的转换。默认保留 6 位小数。
 
 父类型：
 
@@ -610,6 +1391,146 @@ public func toString(): String
 ## Float32
 
 功能：表示 32 位浮点数，符合 `IEEE 754` 中的单精度格式（`binary32`）。
+
+### extend Float32
+
+```cangjie
+extend Float32
+```
+
+功能：拓展单精度浮点数以支持一些数学常数。
+
+#### static prop Inf
+
+```cangjie
+public static prop Inf: Float32
+```
+
+功能：获取单精度浮点数的无穷数。
+
+类型：[Float32](./core_package_intrinsics.md#float32)
+
+#### static prop Max
+
+```cangjie
+public static prop Max: Float32
+```
+
+功能：获取单精度浮点数的最大值。
+
+类型：[Float32](./core_package_intrinsics.md#float32)
+
+#### static prop Min
+
+```cangjie
+public static prop Min: Float32
+```
+
+功能：获取单精度浮点数的最小值。
+
+类型：[Float32](./core_package_intrinsics.md#float32)
+
+#### static prop MinDenormal
+
+```cangjie
+public static prop MinDenormal: Float32
+```
+
+功能：获取单精度浮点数的最小次正规数。
+
+类型：[Float32](./core_package_intrinsics.md#float32)
+
+#### static prop MinNormal
+
+```cangjie
+public static prop MinNormal: Float32
+```
+
+功能：获取单精度浮点数的最小正规数。
+
+类型：[Float32](./core_package_intrinsics.md#float32)
+
+#### static prop NaN
+
+```cangjie
+public static prop NaN: Float32
+```
+
+功能：获取单精度浮点数的非数。
+
+类型：[Float32](./core_package_intrinsics.md#float32)
+
+#### static func max(Float32, Float32, Array\<Float32>)
+
+```cangjie
+public static func max(a: Float32, b: Float32, others: Array<Float32>): Float32
+```
+
+功能：返回一组[Float32](./core_package_intrinsics.md#float32)中的最大值，此函数的第三个参数是一个变长参数，可以获取二个以上的[Float32](./core_package_intrinsics.md#float32)最大值，如果参数中有 `NaN`，该函数会返回 `NaN`。
+
+参数：
+
+- a: [Float32](./core_package_intrinsics.md#float32) - 第一个待比较的数。
+- b: [Float32](./core_package_intrinsics.md#float32) - 第二个待比较的数。
+- others: [Array](core_package_structs.md#struct-arrayt)\<[Float32](./core_package_intrinsics.md#float32)> - 其他待比较的数。
+
+返回值：
+
+- [Float32](./core_package_intrinsics.md#float32) - 返回参数中的最大值。
+
+#### static func min(Float32, Float32, Array\<Float32>)
+
+```cangjie
+public static func min(a: Float32, b: Float32, others: Array<Float32>): Float32
+```
+
+功能：返回一组[Float32](./core_package_intrinsics.md#float32)中的最小值，此函数的第三个参数是一个变长参数，可以获取二个以上的[Float32](./core_package_intrinsics.md#float32)最小值，如果参数中有 `NaN`，该函数会返回 `NaN`。
+
+参数：
+
+- a: [Float32](./core_package_intrinsics.md#float32) - 第一个待比较的数。
+- b: [Float32](./core_package_intrinsics.md#float32) - 第二个待比较的数。
+- others: [Array](core_package_structs.md#struct-arrayt)\<[Float32](./core_package_intrinsics.md#float32)> - 其他待比较的数。
+
+返回值：
+
+- [Float32](./core_package_intrinsics.md#float32) - 返回参数中的最小值。
+
+#### func isInf()
+
+```cangjie
+public func isInf(): Bool
+```
+
+功能：判断某个浮点数 [Float32](./core_package_intrinsics.md#float32) 是否为无穷数值。
+
+返回值：
+
+- [Bool](./core_package_intrinsics.md#bool) - 如果 [Float32](./core_package_intrinsics.md#float32) 的值正无穷大或负无穷大，则返回 `true`；否则，返回 `false`。
+
+#### func isNaN()
+
+```cangjie
+public func isNaN(): Bool
+```
+
+功能：判断某个浮点数 [Float32](./core_package_intrinsics.md#float32) 是否为非数值。
+
+返回值：
+
+- [Bool](./core_package_intrinsics.md#bool) - 如果 [Float32](./core_package_intrinsics.md#float32) 的值为非数值，则返回 `true`；否则，返回 `false`。
+
+#### func isNormal()
+
+```cangjie
+public func isNormal(): Bool
+```
+
+功能：判断某个浮点数 [Float32](./core_package_intrinsics.md#float32) 是否为常规数值。
+
+返回值：
+
+- [Bool](./core_package_intrinsics.md#bool) - 如果 [Float32](./core_package_intrinsics.md#float32) 的值是正常的浮点数，返回 `true`；否则，返回 `false`。
 
 ### extend Float32 <: Comparable\<Float32>
 
@@ -637,19 +1558,32 @@ public func compare(rhs: Float32): Ordering
 
 返回值：
 
-- [Ordering](core_package_enums.md#enum-ordering) - 如果大于，返回 [Ordering](core_package_enums.md#enum-ordering).GT，如果等于，返回 [Ordering](core_package_enums.md#enum-ordering).EQ，如果小于，返回 [Ordering](core_package_enums.md#enum-ordering).LT。
+- [Ordering](core_package_enums.md#enum-ordering) - 如果大于，返回 [Ordering](core_package_enums.md#enum-ordering).GT；如果等于，返回 [Ordering](core_package_enums.md#enum-ordering).EQ；如果小于，返回 [Ordering](core_package_enums.md#enum-ordering).LT。
 
-### extend Float32 <: FloatToBits
+示例：
 
+<!-- verify -->
 ```cangjie
-extend Float32 <: FloatToBits
+main() {
+    var num1: Float32 = 0.12
+    var num2: Float32 = 0.234
+    println(num1.compare(num2))
+}
 ```
 
-功能：为 [Float32](core_package_intrinsics.md#float32) 实现 [FloatToBits](core_package_interfaces.md#interface-floattobits) 接口，支持与 [UInt32](core_package_intrinsics.md#uint32) 互相转换。
+运行结果：
 
-父类型：
+```text
+Ordering.LT
+```
 
-- [FloatToBits](core_package_interfaces.md#interface-floattobits)
+### extend Float32
+
+```cangjie
+extend Float32
+```
+
+功能：支持与 [UInt32](core_package_intrinsics.md#uint32) 互相转换。
 
 #### static func fromBits(UInt32)
 
@@ -657,7 +1591,7 @@ extend Float32 <: FloatToBits
 public static func fromBits(bits: UInt32): Float32
 ```
 
-功能：将指定的 [UInt32](core_package_intrinsics.md#uint32) 数转换为 [Float32](core_package_intrinsics.md#float32) 数。
+功能：将指定的 [UInt32](core_package_intrinsics.md#uint32) 类型转换为 [Float32](core_package_intrinsics.md#float32) 类型。
 
 参数：
 
@@ -669,14 +1603,18 @@ public static func fromBits(bits: UInt32): Float32
 
 示例：
 
+<!-- verify -->
 ```cangjie
-import std.unittest.*
-import std.unittest.testmacro.*
-
 main() {
-    let v = Float32.fromBits(0x41480000)
-    @Assert(v, 12.5)
+    let v = Float16.fromBits(0x4A40u16)
+    println(v)
 }
+```
+
+运行结果：
+
+```text
+12.500000
 ```
 
 #### func toBits()
@@ -693,13 +1631,17 @@ public func toBits(): UInt32
 
 示例：
 
+<!-- verify -->
 ```cangjie
-import std.unittest.*
-import std.unittest.testmacro.*
-
 main() {
-    @Assert(12.5f32.toBits(), 0x41480000)
+    println(13.88f32.toBits()) // 0x415E147B 1096684667
 }
+```
+
+运行结果：
+
+```text
+1096684667
 ```
 
 ### extend Float32 <: Hashable
@@ -732,9 +1674,7 @@ public func hashCode(): Int64
 extend Float32 <: ToString
 ```
 
-功能：为 [Float32](core_package_intrinsics.md#float32) 类型其扩展 [ToString](core_package_interfaces.md#interface-tostring) 接口，实现向 [String](core_package_structs.md#struct-string) 类型的转换。
-
-默认保留 6 位小数，如需其他精度 [String](core_package_structs.md#struct-string) 请参考 [Formatter](../../format/format_package_api/format_package_interfaces.md#interface-formatter) 扩展。
+功能：为 [Float32](core_package_intrinsics.md#float32) 类型其扩展 [ToString](core_package_interfaces.md#interface-tostring) 接口，实现向 [String](core_package_structs.md#struct-string) 类型的转换。默认保留 6 位小数。
 
 父类型：
 
@@ -755,6 +1695,146 @@ public func toString(): String
 ## Float64
 
 功能：表示 64 位浮点数，符合 `IEEE 754` 中的双精度格式（`binary64`）。
+
+### extend Float64
+
+```cangjie
+extend Float64
+```
+
+功能：拓展双精度浮点数以支持一些数学常数。
+
+#### static prop Inf
+
+```cangjie
+public static prop Inf: Float64
+```
+
+功能：获取双精度浮点数的无穷数。
+
+类型：[Float64](./core_package_intrinsics.md#float64)
+
+#### static prop Max
+
+```cangjie
+public static prop Max: Float64
+```
+
+功能：获取双精度浮点数的最大值。
+
+类型：[Float64](./core_package_intrinsics.md#float64)
+
+#### static prop Min
+
+```cangjie
+public static prop Min: Float64
+```
+
+功能：获取双精度浮点数的最小值。
+
+类型：[Float64](./core_package_intrinsics.md#float64)
+
+#### static prop MinDenormal
+
+```cangjie
+public static prop MinDenormal: Float64
+```
+
+功能：获取双精度浮点数的最小次正规数。
+
+类型：[Float64](./core_package_intrinsics.md#float64)
+
+#### static prop MinNormal
+
+```cangjie
+public static prop MinNormal: Float64
+```
+
+功能：获取双精度浮点数的最小正规数。
+
+类型：[Float64](./core_package_intrinsics.md#float64)
+
+#### static prop NaN
+
+```cangjie
+public static prop NaN: Float64
+```
+
+功能：获取双精度浮点数的非数。
+
+类型：[Float64](./core_package_intrinsics.md#float64)
+
+#### static func max(Float64, Float64, Array\<Float64>)
+
+```cangjie
+public static func max(a: Float64, b: Float64, others: Array<Float64>): Float64
+```
+
+功能：返回一组[Float64](./core_package_intrinsics.md#float64)中的最大值，此函数的第三个参数是一个变长参数，可以获取二个以上的[Float64](./core_package_intrinsics.md#float64)最大值，如果参数中有 `NaN`，该函数会返回 `NaN`。
+
+参数：
+
+- a: [Float64](./core_package_intrinsics.md#float64) - 第一个待比较的数。
+- b: [Float64](./core_package_intrinsics.md#float64) - 第二个待比较的数。
+- others: [Array](core_package_structs.md#struct-arrayt)\<[Float64](./core_package_intrinsics.md#float64)> - 其他待比较的数。
+
+返回值：
+
+- [Float64](./core_package_intrinsics.md#float64) - 返回参数中的最大值。
+
+#### static func min(Float64, Float64, Array\<Float64>)
+
+```cangjie
+public static func min(a: Float64, b: Float64, others: Array<Float64>): Float64
+```
+
+功能：返回一组[Float64](./core_package_intrinsics.md#float64)中的最小值，此函数的第三个参数是一个变长参数，可以获取二个以上的[Float64](./core_package_intrinsics.md#float64)最小值，如果参数中有 `NaN`，该函数会返回 `NaN`。
+
+参数：
+
+- a: [Float64](./core_package_intrinsics.md#float64) - 第一个待比较的数。
+- b: [Float64](./core_package_intrinsics.md#float64) - 第二个待比较的数。
+- others: [Array](core_package_structs.md#struct-arrayt)\<[Float64](./core_package_intrinsics.md#float64)> - 其他待比较的数。
+
+返回值：
+
+- [Float64](./core_package_intrinsics.md#float64) - 返回参数中的最小值。
+
+#### func isInf()
+
+```cangjie
+public func isInf(): Bool
+```
+
+功能：判断某个浮点数 [Float64](./core_package_intrinsics.md#float64) 是否为无穷数值。
+
+返回值：
+
+- [Bool](./core_package_intrinsics.md#bool) - 如果 [Float64](./core_package_intrinsics.md#float64) 的值正无穷大或负无穷大，则返回 `true`；否则，返回 `false`。
+
+#### func isNaN()
+
+```cangjie
+public func isNaN(): Bool
+```
+
+功能：判断某个浮点数 [Float64](./core_package_intrinsics.md#float64) 是否为非数值。
+
+返回值：
+
+- [Bool](./core_package_intrinsics.md#bool) - 如果 [Float64](./core_package_intrinsics.md#float64) 的值为非数值，则返回 `true`；否则，返回 `false`。
+
+#### func isNormal()
+
+```cangjie
+public func isNormal(): Bool
+```
+
+功能：判断某个浮点数 [Float64](./core_package_intrinsics.md#float64) 是否为常规数值。
+
+返回值：
+
+- [Bool](./core_package_intrinsics.md#bool) - 如果 [Float64](./core_package_intrinsics.md#float64) 的值是正常的浮点数，返回 `true`；否则，返回 `false`。
 
 ### extend Float64 <: Comparable\<Float64>
 
@@ -782,19 +1862,32 @@ public func compare(rhs: Float64): Ordering
 
 返回值：
 
-- [Ordering](core_package_enums.md#enum-ordering) - 如果大于，返回 [Ordering](core_package_enums.md#enum-ordering).GT，如果等于，返回 [Ordering](core_package_enums.md#enum-ordering).EQ，如果小于，返回 [Ordering](core_package_enums.md#enum-ordering).LT。
+- [Ordering](core_package_enums.md#enum-ordering) - 如果大于，返回 [Ordering](core_package_enums.md#enum-ordering).GT；如果等于，返回 [Ordering](core_package_enums.md#enum-ordering).EQ；如果小于，返回 [Ordering](core_package_enums.md#enum-ordering).LT。
 
-### extend Float64 <: FloatToBits
+示例：
 
+<!-- verify -->
 ```cangjie
-extend Float64 <: FloatToBits
+main() {
+    var num1: Float64 = 0.12
+    var num2: Float64 = 0.234
+    println(num1.compare(num2))
+}
 ```
 
-功能：为 [Float64](core_package_intrinsics.md#float64) 实现 [FloatToBits](core_package_interfaces.md#interface-floattobits) 接口，支持与 [UInt64](core_package_intrinsics.md#uint64) 互相转换。
+运行结果：
 
-父类型：
+```text
+Ordering.LT
+```
 
-- [FloatToBits](core_package_interfaces.md#interface-floattobits)
+### extend Float64
+
+```cangjie
+extend Float64
+```
+
+功能：支持与 [UInt64](core_package_intrinsics.md#uint64) 互相转换。
 
 #### static func fromBits(UInt64)
 
@@ -814,14 +1907,18 @@ public static func fromBits(bits: UInt64): Float64
 
 示例：
 
+<!-- verify -->
 ```cangjie
-import std.unittest.*
-import std.unittest.testmacro.*
-
 main() {
-    let v = Float64.fromBits(0x4029000000000000)
-    @Assert(v, 12.5)
+    let v = Float64.fromBits(0x402BC28F5C28F5C3)
+    println(v)
 }
+```
+
+运行结果：
+
+```text
+13.880000
 ```
 
 #### func toBits()
@@ -838,13 +1935,17 @@ public func toBits(): UInt64
 
 示例：
 
+<!-- verify -->
 ```cangjie
-import std.unittest.*
-import std.unittest.testmacro.*
-
 main() {
-    @Assert(12.5f64.toBits(), 0x4029000000000000)
+    println(13.88f64.toBits()) // 0x402BC28F5C28F5C3 4624003363408246211
 }
+```
+
+运行结果：
+
+```text
+4624003363408246211
 ```
 
 ### extend Float64 <: Hashable
@@ -877,9 +1978,7 @@ public func hashCode(): Int64
 extend Float64 <: ToString
 ```
 
-功能：为 [Float64](core_package_intrinsics.md#float64) 类型其扩展 [ToString](core_package_interfaces.md#interface-tostring) 接口，实现向 [String](core_package_structs.md#struct-string) 类型的转换。
-
-默认保留 6 位小数，如需其他精度 [String](core_package_structs.md#struct-string) 请参考 [Formatter](../../format/format_package_api/format_package_interfaces.md#interface-formatter) 扩展。
+功能：为 [Float64](core_package_intrinsics.md#float64) 类型其扩展 [ToString](core_package_interfaces.md#interface-tostring) 接口，实现向 [String](core_package_structs.md#struct-string) 类型的转换。默认保留 6 位小数。
 
 父类型：
 
@@ -900,6 +1999,34 @@ public func toString(): String
 ## Int16
 
 功能：表示 16 位有符号整型，表示范围为 [-2^{15}, 2^{15} - 1]。
+
+### extend Int16
+
+```cangjie
+extend Int16
+```
+
+功能：拓展 16 位有符号整数以支持一些数学常数。
+
+#### static prop Max
+
+```cangjie
+public static prop Max: Int16
+```
+
+功能：获取 16 位有符号整数的最大值。
+
+类型：[Int16](./core_package_intrinsics.md#int16)
+
+#### static prop Min
+
+```cangjie
+public static prop Min: Int16
+```
+
+功能：获取 16 位有符号整数的最小值。
+
+类型：[Int16](./core_package_intrinsics.md#int16)
 
 ### extend Int16 <: Comparable\<Int16>
 
@@ -927,7 +2054,24 @@ public func compare(rhs: Int16): Ordering
 
 返回值：
 
-- [Ordering](core_package_enums.md#enum-ordering) - 如果大于，返回 [Ordering](core_package_enums.md#enum-ordering).GT，如果等于，返回 [Ordering](core_package_enums.md#enum-ordering).EQ，如果小于，返回 [Ordering](core_package_enums.md#enum-ordering).LT。
+- [Ordering](core_package_enums.md#enum-ordering) - 如果大于，返回 [Ordering](core_package_enums.md#enum-ordering).GT；如果等于，返回 [Ordering](core_package_enums.md#enum-ordering).EQ；如果小于，返回 [Ordering](core_package_enums.md#enum-ordering).LT。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var num1: Int16 = 2
+    var num2: Int16 = 3
+    println(num1.compare(num2))
+}
+```
+
+运行结果：
+
+```text
+Ordering.LT
+```
 
 ### extend Int16 <: Countable\<Int16>
 
@@ -947,7 +2091,7 @@ extend Int16 <: Countable<Int16>
 public func next(right: Int64): Int16
 ```
 
-功能：获取当前 [Int16](core_package_intrinsics.md#int16) 值往右数 `right` 后所到位置的 [Int16](core_package_intrinsics.md#int16) 值。
+功能：获取在数轴上当前 [Int16](core_package_intrinsics.md#int16) 位置往右移动 `right` 后对应位置的 [Int16](core_package_intrinsics.md#int16) 值。如果值溢出，则会从数轴最左边继续移动。
 
 参数：
 
@@ -956,6 +2100,25 @@ public func next(right: Int64): Int16
 返回值：
 
 - [Int16](core_package_intrinsics.md#int16) - 往右数 `right` 后所到位置的 [Int16](core_package_intrinsics.md#int16) 值。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var num1: Int16 = 32767
+    var num2: Int16 = 3
+    println(num1.next(5))
+    println(num2.next(10))
+}
+```
+
+运行结果：
+
+```text
+-32764
+13
+```
 
 #### func position()
 
@@ -968,6 +2131,25 @@ public func position(): Int64
 返回值：
 
 - [Int64](core_package_intrinsics.md#int64) - 当前 [Int16](core_package_intrinsics.md#int16) 值的位置信息。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var num1: Int16 = 32767
+    var num2: Int16 = 3
+    println(num1.position())
+    println(num2.position())
+}
+```
+
+运行结果：
+
+```text
+32767
+3
+```
 
 ### extend Int16 <: Hashable
 
@@ -1021,6 +2203,34 @@ public func toString(): String
 
 功能：表示 32 位有符号整型，表示范围为 [-2^{31}, 2^{31} - 1]。
 
+### extend Int32
+
+```cangjie
+extend Int32
+```
+
+功能：拓展 32 位有符号整数以支持一些数学常数。
+
+#### static prop Max
+
+```cangjie
+public static prop Max: Int32
+```
+
+功能：获取 32 位有符号整数的最大值。
+
+类型：[Int32](./core_package_intrinsics.md#int32)
+
+#### static prop Min
+
+```cangjie
+public static prop Min: Int32
+```
+
+功能：获取 32 位有符号整数的最小值。
+
+类型：[Int32](./core_package_intrinsics.md#int32)
+
 ### extend Int32 <: Comparable\<Int32>
 
 ```cangjie
@@ -1047,7 +2257,24 @@ public func compare(rhs: Int32): Ordering
 
 返回值：
 
-- [Ordering](core_package_enums.md#enum-ordering) - 如果大于，返回 [Ordering](core_package_enums.md#enum-ordering).GT，如果等于，返回 [Ordering](core_package_enums.md#enum-ordering).EQ，如果小于，返回 [Ordering](core_package_enums.md#enum-ordering).LT。
+- [Ordering](core_package_enums.md#enum-ordering) - 如果大于，返回 [Ordering](core_package_enums.md#enum-ordering).GT；如果等于，返回 [Ordering](core_package_enums.md#enum-ordering).EQ；如果小于，返回 [Ordering](core_package_enums.md#enum-ordering).LT。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var num1: Int32 = 8
+    var num2: Int32 = 10
+    println(num1.compare(num2))
+}
+```
+
+运行结果：
+
+```text
+Ordering.LT
+```
 
 ### extend Int32 <: Countable\<Int32>
 
@@ -1067,7 +2294,7 @@ extend Int32 <: Countable<Int32>
 public func next(right: Int64): Int32
 ```
 
-功能：获取当前 [Int32](core_package_intrinsics.md#int32) 值往右数 `right` 后所到位置的 [Int32](core_package_intrinsics.md#int32) 值。
+功能：获取在数轴上当前 [Int32](core_package_intrinsics.md#int32) 位置往右移动 `right` 后对应位置的 [Int32](core_package_intrinsics.md#int32) 值。如果值溢出，则会从数轴最左边继续移动。
 
 参数：
 
@@ -1076,6 +2303,22 @@ public func next(right: Int64): Int32
 返回值：
 
 - [Int32](core_package_intrinsics.md#int32) - 往右数 `right` 后所到位置的 [Int32](core_package_intrinsics.md#int32) 值。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var num: Int32 = 3
+    println(num.next(10))
+}
+```
+
+运行结果：
+
+```text
+13
+```
 
 #### func position()
 
@@ -1088,6 +2331,22 @@ public func position(): Int64
 返回值：
 
 - [Int64](core_package_intrinsics.md#int64) - 当前 [Int32](core_package_intrinsics.md#int32) 值的位置信息。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var num: Int32 = 3
+    println(num.position())
+}
+```
+
+运行结果：
+
+```text
+3
+```
 
 ### extend Int32 <: Hashable
 
@@ -1141,6 +2400,34 @@ public func toString(): String
 
 功能：表示 64 位有符号整型，表示范围为 [-2^{63}, 2^{63} - 1]。
 
+### extend Int64
+
+```cangjie
+extend Int64
+```
+
+功能：拓展 64 位有符号整数以支持一些数学常数。
+
+#### static prop Max
+
+```cangjie
+public static prop Max: Int64
+```
+
+功能：获取 64 位有符号整数的最大值。
+
+类型：[Int64](./core_package_intrinsics.md#int64)
+
+#### static prop Min
+
+```cangjie
+public static prop Min: Int64
+```
+
+功能：获取 64 位有符号整数的最小值。
+
+类型：[Int64](./core_package_intrinsics.md#int64)
+
 ### extend Int64 <: Comparable\<Int64>
 
 ```cangjie
@@ -1167,7 +2454,24 @@ public func compare(rhs: Int64): Ordering
 
 返回值：
 
-- [Ordering](core_package_enums.md#enum-ordering) - 如果大于，返回 [Ordering](core_package_enums.md#enum-ordering).GT，如果等于，返回 [Ordering](core_package_enums.md#enum-ordering).EQ 如果小于，返回 [Ordering](core_package_enums.md#enum-ordering).LT。
+- [Ordering](core_package_enums.md#enum-ordering) - 如果大于，返回 [Ordering](core_package_enums.md#enum-ordering).GT；如果等于，返回 [Ordering](core_package_enums.md#enum-ordering).EQ 如果小于，返回 [Ordering](core_package_enums.md#enum-ordering).LT。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var num1: Int64 = 2
+    var num2: Int64 = 3
+    println(num1.compare(num2))
+}
+```
+
+运行结果：
+
+```text
+Ordering.LT
+```
 
 ### extend Int64 <: Countable\<Int64>
 
@@ -1187,7 +2491,7 @@ extend Int64 <: Countable<Int64>
 public func next(right: Int64): Int64
 ```
 
-功能：获取当前 [Int64](core_package_intrinsics.md#int64) 值往右数 `right` 后所到位置的 [Int64](core_package_intrinsics.md#int64) 值。
+功能：获取在数轴上当前 [Int64](core_package_intrinsics.md#int32) 位置往右移动 `right` 后对应位置的 [Int64](core_package_intrinsics.md#int32) 值。如果值溢出，则会从数轴最左边继续移动。
 
 参数：
 
@@ -1196,6 +2500,22 @@ public func next(right: Int64): Int64
 返回值：
 
 - [Int64](core_package_intrinsics.md#int64) - 往右数 `right` 后所到位置的 [Int64](core_package_intrinsics.md#int64) 值。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var num: Int64 = 3
+    println(num.next(10))
+}
+```
+
+运行结果：
+
+```text
+13
+```
 
 #### func position()
 
@@ -1208,6 +2528,22 @@ public func position(): Int64
 返回值：
 
 - [Int64](core_package_intrinsics.md#int64) - 当前 [Int64](core_package_intrinsics.md#int64) 值的位置信息。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var num: Int64 = 3
+    println(num.position())
+}
+```
+
+运行结果：
+
+```text
+3
+```
 
 ### extend Int64 <: Hashable
 
@@ -1261,6 +2597,34 @@ public func toString(): String
 
 功能：表示 8 位有符号整型，表示范围为 [-2^7, 2^7 - 1]。
 
+### extend Int8
+
+```cangjie
+extend Int8
+```
+
+功能：拓展 8 位有符号整数以支持一些数学常数。
+
+#### static prop Max
+
+```cangjie
+public static prop Max: Int8
+```
+
+功能：获取 8 位有符号整数的最大值。
+
+类型：[Int8](./core_package_intrinsics.md#int8)
+
+#### static prop Min
+
+```cangjie
+public static prop Min: Int8
+```
+
+功能：获取 8 位有符号整数的最小值。
+
+类型：[Int8](./core_package_intrinsics.md#int8)
+
 ### extend Int8 <: Comparable\<Int8>
 
 ```cangjie
@@ -1287,7 +2651,24 @@ public func compare(rhs: Int8): Ordering
 
 返回值：
 
-- [Ordering](core_package_enums.md#enum-ordering) - 如果大于，返回 [Ordering](core_package_enums.md#enum-ordering).GT，如果等于，返回 [Ordering](core_package_enums.md#enum-ordering).EQ，如果小于，返回 [Ordering](core_package_enums.md#enum-ordering).LT。
+- [Ordering](core_package_enums.md#enum-ordering) - 如果大于，返回 [Ordering](core_package_enums.md#enum-ordering).GT；如果等于，返回 [Ordering](core_package_enums.md#enum-ordering).EQ；如果小于，返回 [Ordering](core_package_enums.md#enum-ordering).LT。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var num1: Int8 = 2
+    var num2: Int8 = 3
+    println(num1.compare(num2))
+}
+```
+
+运行结果：
+
+```text
+Ordering.LT
+```
 
 ### extend Int8 <: Countable\<Int8>
 
@@ -1307,7 +2688,7 @@ extend Int8 <: Countable<Int8>
 public func next(right: Int64): Int8
 ```
 
-功能：获取当前 [Int8](core_package_intrinsics.md#int8) 值往右数 `right` 后所到位置的 [Int8](core_package_intrinsics.md#int8) 值。
+功能：获取在数轴上当前 [Int8](core_package_intrinsics.md#int32) 位置往右移动 `right` 后对应位置的 [Int8](core_package_intrinsics.md#int32) 值。如果值溢出，则会从数轴最左边继续移动。
 
 参数：
 
@@ -1316,6 +2697,22 @@ public func next(right: Int64): Int8
 返回值：
 
 - [Int8](core_package_intrinsics.md#int8) - 往右数 `right` 后所到位置的 [Int8](core_package_intrinsics.md#int8) 值。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var num: Int8 = 3
+    println(num.next(5))
+}
+```
+
+运行结果：
+
+```text
+8
+```
 
 #### func position()
 
@@ -1328,6 +2725,22 @@ public func position(): Int64
 返回值：
 
 - [Int64](core_package_intrinsics.md#int64) - 当前 [Int8](core_package_intrinsics.md#int8) 值的位置信息。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var num: Int8 = 3
+    println(num.position())
+}
+```
+
+运行结果：
+
+```text
+3
+```
 
 ### extend Int8 <: Hashable
 
@@ -1381,6 +2794,34 @@ public func toString(): String
 
 功能：表示平台相关的有符号整型，其长度与当前系统的位宽一致。
 
+### extend IntNative
+
+```cangjie
+extend IntNative
+```
+
+功能：拓展平台相关有符号整数以支持一些数学常数。
+
+#### static prop Max
+
+```cangjie
+public static prop Max: IntNative
+```
+
+功能：获取平台相关有符号整数的最大值。
+
+类型：[IntNative](./core_package_intrinsics.md#intnative)
+
+#### static prop Min
+
+```cangjie
+public static prop Min: IntNative
+```
+
+功能：获取平台相关有符号整数的最小值。
+
+类型：[IntNative](./core_package_intrinsics.md#intnative)
+
 ### extend IntNative <: Comparable\<IntNative>
 
 ```cangjie
@@ -1407,7 +2848,24 @@ public func compare(rhs: IntNative): Ordering
 
 返回值：
 
-- [Ordering](core_package_enums.md#enum-ordering) - 如果大于，返回 [Ordering](core_package_enums.md#enum-ordering).GT，如果等于，返回 [Ordering](core_package_enums.md#enum-ordering).EQ，如果小于，返回 [Ordering](core_package_enums.md#enum-ordering).LT。
+- [Ordering](core_package_enums.md#enum-ordering) - 如果大于，返回 [Ordering](core_package_enums.md#enum-ordering).GT；如果等于，返回 [Ordering](core_package_enums.md#enum-ordering).EQ；如果小于，返回 [Ordering](core_package_enums.md#enum-ordering).LT。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var num1: IntNative = 8
+    var num2: IntNative = 10
+    println(num1.compare(num2))
+}
+```
+
+运行结果：
+
+```text
+Ordering.LT
+```
 
 ### extend IntNative <: Countable\<IntNative>
 
@@ -1427,7 +2885,7 @@ extend IntNative <: Countable<IntNative>
 public func next(right: Int64): IntNative
 ```
 
-功能：获取当前 [IntNative](core_package_intrinsics.md#intnative) 值往右数 `right` 后所到位置的 [IntNative](core_package_intrinsics.md#intnative) 值。
+功能：获取在数轴上当前 [IntNative](core_package_intrinsics.md#int32) 位置往右移动 `right` 后对应位置的 [IntNative](core_package_intrinsics.md#int32) 值。如果值溢出，则会从数轴最左边继续移动。
 
 参数：
 
@@ -1436,6 +2894,22 @@ public func next(right: Int64): IntNative
 返回值：
 
 - [IntNative](core_package_intrinsics.md#intnative) - 往右数 `right` 后所到位置的 [IntNative](core_package_intrinsics.md#intnative) 值。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var num: IntNative = 8
+    println(num.next(4))
+}
+```
+
+运行结果：
+
+```text
+12
+```
 
 #### func position()
 
@@ -1448,6 +2922,22 @@ public func position(): Int64
 返回值：
 
 - [Int64](core_package_intrinsics.md#int64) - 当前 [IntNative](core_package_intrinsics.md#intnative) 值的位置信息。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var num: IntNative = 8
+    println(num.position())
+}
+```
+
+运行结果：
+
+```text
+8
+```
 
 ### extend IntNative <: Hashable
 
@@ -1503,17 +2993,13 @@ public func toString(): String
 
 表示范围为 `Unicode scalar value`，即从 `\u{0000}` 到 `\u{D7FF}`，以及从 `\u{E000}` 到 `\u{10FFF}` 的字符。
 
-### extend Rune <: RuneExtension
+### extend Rune
 
 ```cangjie
-extend Rune <: RuneExtension
+extend Rune
 ```
 
 功能：为 [Rune](core_package_intrinsics.md#rune) 类型实现一系列扩展方法，主要为在 Ascii 字符集范围内的一些字符判断、转换等操作。
-
-父类型：
-
-- [RuneExtension](core_package_interfaces.md#interface-runeextension)
 
 #### static func fromUtf8(Array\<UInt8>, Int64)
 
@@ -1531,6 +3017,29 @@ public static func fromUtf8(arr: Array<UInt8>, index: Int64): (Rune, Int64)
 返回值：
 
 - ([Rune](core_package_intrinsics.md#rune), [Int64](core_package_intrinsics.md#int64)) - 转换得到的字符，以及该字符占用的字节长度。
+
+异常：
+
+- [IllegalArgumentException](core_package_exceptions.md#class-illegalargumentexception) - 不合法的 UTF-8 字节序列。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var arr: Array<UInt8> = [4u8, 8u8, 65u8] // A <=> 65
+    var tuple = Rune.fromUtf8(arr, 2)
+    println(tuple[0]) // Rune
+    println(tuple[1]) // len
+}
+```
+
+运行结果：
+
+```text
+A
+1
+```
 
 #### static func getPreviousFromUtf8(Array\<UInt8>, Int64)
 
@@ -1573,6 +3082,25 @@ public static func intoUtf8Array(c: Rune, arr: Array<UInt8>, index: Int64): Int6
 
 - [Int64](core_package_intrinsics.md#int64) - 字符的字节码长度，例如中文是三个字节码长度。
 
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var arr: Array<UInt8> = [ 1u8, 2u8, 3u8, 230u8, 136u8, 145u8]
+    var len: Int64 = Rune.intoUtf8Array(r'爱', arr, 2)
+    println(len)
+    println(arr[2]) // 字符爱的utf-8编码的第一个字节
+}
+```
+
+运行结果：
+
+```text
+3
+231
+```
+
 #### static func utf8Size(Array\<UInt8>, Int64)
 
 ```cangjie
@@ -1596,6 +3124,23 @@ public static func utf8Size(arr: Array<UInt8>, index: Int64): Int64
 
 - [IllegalArgumentException](core_package_exceptions.md#class-illegalargumentexception) - 如果索引位置的字节码不符合首位字节码规则，会抛出异常。
 
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var arr: Array<UInt8> = [ 1u8, 2u8, 231u8, 136u8, 177u8, 145u8]
+    var len: Int64 = Rune.utf8Size(arr, 2)
+    println(len) // 索引为2-4的数组元素为中文字符爱的utf-8编码，占用三字节
+}
+```
+
+运行结果：
+
+```text
+3
+```
+
 #### static func utf8Size(Rune)
 
 ```cangjie
@@ -1611,6 +3156,23 @@ public static func utf8Size(c: Rune): Int64
 返回值：
 
 - [Int64](core_package_intrinsics.md#int64) - 字符的 UTF-8 字节码长度。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var char: Rune = r'爱'
+    var len: Int64 = Rune.utf8Size(char)
+    println(len) // 中文字符爱的utf-8编码，占用三字节
+}
+```
+
+运行结果：
+
+```text
+3
+```
 
 #### func isAscii()
 
@@ -1808,7 +3370,24 @@ public func compare(rhs: Rune): Ordering
 
 返回值：
 
-- [Ordering](core_package_enums.md#enum-ordering) - 如果大于，返回 [Ordering](core_package_enums.md#enum-ordering).GT，如果等于，返回 [Ordering](core_package_enums.md#enum-ordering).EQ，如果小于，返回 [Ordering](core_package_enums.md#enum-ordering).LT。
+- [Ordering](core_package_enums.md#enum-ordering) - 如果大于，返回 [Ordering](core_package_enums.md#enum-ordering).GT；如果等于，返回 [Ordering](core_package_enums.md#enum-ordering).EQ；如果小于，返回 [Ordering](core_package_enums.md#enum-ordering).LT。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var char1: Rune = r'i'
+    var char2: Rune = r'j'
+    println(char1.compare(char2))
+}
+```
+
+运行结果：
+
+```text
+Ordering.LT
+```
 
 ### extend Rune <: Countable\<Rune>
 
@@ -1906,6 +3485,34 @@ public func toString(): String
 
 功能：表示 16 位无符号整型，表示范围为 [0, 2^{16} - 1]。
 
+### extend UInt16
+
+```cangjie
+extend UInt16
+```
+
+功能：拓展 16 位无符号整数以支持一些数学常数。
+
+#### static prop Max
+
+```cangjie
+public static prop Max: UInt16
+```
+
+功能：获取 16 位无符号整数的最大值。
+
+类型：[UInt16](./core_package_intrinsics.md#uint16)
+
+#### static prop Min
+
+```cangjie
+public static prop Min: UInt16
+```
+
+功能：获取 16 位无符号整数的最小值。
+
+类型：[UInt16](./core_package_intrinsics.md#uint16)
+
 ### extend UInt16 <: Comparable\<UInt16>
 
 ```cangjie
@@ -1932,7 +3539,24 @@ public func compare(rhs: UInt16): Ordering
 
 返回值：
 
-- [Ordering](core_package_enums.md#enum-ordering) - 如果大于，返回 [Ordering](core_package_enums.md#enum-ordering).GT，如果等于，返回 [Ordering](core_package_enums.md#enum-ordering).EQ，如果小于，返回 [Ordering](core_package_enums.md#enum-ordering).LT。
+- [Ordering](core_package_enums.md#enum-ordering) - 如果大于，返回 [Ordering](core_package_enums.md#enum-ordering).GT；如果等于，返回 [Ordering](core_package_enums.md#enum-ordering).EQ；如果小于，返回 [Ordering](core_package_enums.md#enum-ordering).LT。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var num1: UInt16 = 2
+    var num2: UInt16 = 3
+    println(num1.compare(num2))
+}
+```
+
+运行结果：
+
+```text
+Ordering.LT
+```
 
 ### extend UInt16 <: Countable\<UInt16>
 
@@ -1952,7 +3576,7 @@ extend UInt16 <: Countable<UInt16>
 public func next(right: Int64): UInt16
 ```
 
-功能：获取当前 [UInt16](core_package_intrinsics.md#uint16) 值往右数 `right` 后所到位置的 [UInt16](core_package_intrinsics.md#uint16) 值。
+功能：获取在数轴上当前 [UInt16](core_package_intrinsics.md#int32) 位置往右移动 `right` 后对应位置的 [UInt16](core_package_intrinsics.md#int32) 值。如果值溢出，则会从数轴最左边继续移动。
 
 参数：
 
@@ -1961,6 +3585,22 @@ public func next(right: Int64): UInt16
 返回值：
 
 - [UInt16](core_package_intrinsics.md#uint16) - 往右数 `right` 后所到位置的 [UInt16](core_package_intrinsics.md#uint16) 值。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var num: UInt16 = 3
+    println(num.next(10))
+}
+```
+
+运行结果：
+
+```text
+13
+```
 
 #### func position()
 
@@ -1973,6 +3613,22 @@ public func position(): Int64
 返回值：
 
 - [Int64](core_package_intrinsics.md#int64) - 当前 [UInt16](core_package_intrinsics.md#uint16) 值的位置信息。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var num: UInt16 = 8
+    println(num.position())
+}
+```
+
+运行结果：
+
+```text
+8
+```
 
 ### extend UInt16 <: Hashable
 
@@ -2026,6 +3682,34 @@ public func toString(): String
 
 功能：表示 32 位无符号整型，表示范围为 [0, 2^{32} - 1]。
 
+### extend UInt32
+
+```cangjie
+extend UInt32
+```
+
+功能：拓展 32 位无符号整数以支持一些数学常数。
+
+#### static prop Max
+
+```cangjie
+public static prop Max: UInt32
+```
+
+功能：获取 32 位无符号整数的最大值。
+
+类型：[UInt32](./core_package_intrinsics.md#uint32)
+
+#### static prop Min
+
+```cangjie
+public static prop Min: UInt32
+```
+
+功能：获取 32 位无符号整数的最小值。
+
+类型：[UInt32](./core_package_intrinsics.md#uint32)
+
 ### extend UInt32 <: Comparable\<UInt32>
 
 ```cangjie
@@ -2052,7 +3736,24 @@ public func compare(rhs: UInt32): Ordering
 
 返回值：
 
-- [Ordering](core_package_enums.md#enum-ordering) - 如果大于，返回 [Ordering](core_package_enums.md#enum-ordering).GT，如果等于，返回 [Ordering](core_package_enums.md#enum-ordering).EQ，如果小于，返回 [Ordering](core_package_enums.md#enum-ordering).LT。
+- [Ordering](core_package_enums.md#enum-ordering) - 如果大于，返回 [Ordering](core_package_enums.md#enum-ordering).GT；如果等于，返回 [Ordering](core_package_enums.md#enum-ordering).EQ；如果小于，返回 [Ordering](core_package_enums.md#enum-ordering).LT。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var num1: UInt32 = 2
+    var num2: UInt32 = 3
+    println(num1.compare(num2))
+}
+```
+
+运行结果：
+
+```text
+Ordering.LT
+```
 
 ### extend UInt32 <: Countable\<UInt32>
 
@@ -2072,7 +3773,7 @@ extend UInt32 <: Countable<UInt32>
 public func next(right: Int64): UInt32
 ```
 
-功能：获取当前 [UInt32](core_package_intrinsics.md#uint32) 值往右数 `right` 后所到位置的 [UInt32](core_package_intrinsics.md#uint32) 值。
+功能：获取在数轴上当前 [UInt32](core_package_intrinsics.md#int32) 位置往右移动 `right` 后对应位置的 [UInt32](core_package_intrinsics.md#int32) 值。如果值溢出，则会从数轴最左边继续移动。
 
 参数：
 
@@ -2081,6 +3782,22 @@ public func next(right: Int64): UInt32
 返回值：
 
 - [UInt32](core_package_intrinsics.md#uint32) - 往右数 `right` 后所到位置的 [UInt32](core_package_intrinsics.md#uint32) 值。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var num: UInt32 = 3
+    println(num.next(10))
+}
+```
+
+运行结果：
+
+```text
+13
+```
 
 #### func position()
 
@@ -2093,6 +3810,22 @@ public func position(): Int64
 返回值：
 
 - [Int64](core_package_intrinsics.md#int64) - 当前 [UInt32](core_package_intrinsics.md#uint32) 值的位置信息。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var num: UInt32 = 8
+    println(num.position())
+}
+```
+
+运行结果：
+
+```text
+8
+```
 
 ### extend UInt32 <: Hashable
 
@@ -2146,6 +3879,34 @@ public func toString(): String
 
 功能：表示 64 位无符号整型，表示范围为 [0, 2^{64} - 1]。
 
+### extend UInt64
+
+```cangjie
+extend UInt64
+```
+
+功能：拓展 64 位无符号整数以支持一些数学常数。
+
+#### static prop Max
+
+```cangjie
+public static prop Max: UInt64
+```
+
+功能：获取 64 位无符号整数的最大值。
+
+类型：[UInt64](./core_package_intrinsics.md#uint64)
+
+#### static prop Min
+
+```cangjie
+public static prop Min: UInt64
+```
+
+功能：获取 64 位无符号整数的最小值。
+
+类型：[UInt64](./core_package_intrinsics.md#uint64)
+
 ### extend UInt64 <: Comparable\<UInt64>
 
 ```cangjie
@@ -2172,7 +3933,24 @@ public func compare(rhs: UInt64): Ordering
 
 返回值：
 
-- [Ordering](core_package_enums.md#enum-ordering) - 如果大于，返回 [Ordering](core_package_enums.md#enum-ordering).GT，如果等于，返回 [Ordering](core_package_enums.md#enum-ordering).EQ，如果小于，返回 [Ordering](core_package_enums.md#enum-ordering).LT。
+- [Ordering](core_package_enums.md#enum-ordering) - 如果大于，返回 [Ordering](core_package_enums.md#enum-ordering).GT；如果等于，返回 [Ordering](core_package_enums.md#enum-ordering).EQ；如果小于，返回 [Ordering](core_package_enums.md#enum-ordering).LT。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var num1: UInt64 = 2
+    var num2: UInt64 = 3
+    println(num1.compare(num2))
+}
+```
+
+运行结果：
+
+```text
+Ordering.LT
+```
 
 ### extend UInt64 <: Countable\<UInt64>
 
@@ -2192,7 +3970,7 @@ extend UInt64 <: Countable<UInt64>
 public func next(right: Int64): UInt64
 ```
 
-功能：获取当前 [UInt64](core_package_intrinsics.md#uint64) 值往右数 `right` 后所到位置的 [UInt64](core_package_intrinsics.md#uint64) 值。
+功能：获取在数轴上当前 [UInt64](core_package_intrinsics.md#int32) 位置往右移动 `right` 后对应位置的 [UInt64](core_package_intrinsics.md#int32) 值。如果值溢出，则会从数轴最左边继续移动。
 
 参数：
 
@@ -2201,6 +3979,22 @@ public func next(right: Int64): UInt64
 返回值：
 
 - [UInt64](core_package_intrinsics.md#uint64) - 往右数 `right` 后所到位置的 [UInt64](core_package_intrinsics.md#uint64) 值。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var num: UInt64 = 3
+    println(num.next(10))
+}
+```
+
+运行结果：
+
+```text
+13
+```
 
 #### func position()
 
@@ -2213,6 +4007,22 @@ public func position(): Int64
 返回值：
 
 - [Int64](core_package_intrinsics.md#int64) - 当前 [UInt64](core_package_intrinsics.md#uint64) 值的位置信息。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var num: UInt64 = 8
+    println(num.position())
+}
+```
+
+运行结果：
+
+```text
+8
+```
 
 ### extend UInt64 <: Hashable
 
@@ -2266,6 +4076,34 @@ public func toString(): String
 
 功能：表示 8 位无符号整型，表示范围为 [0, 2^8 - 1]。
 
+### extend UInt8
+
+```cangjie
+extend UInt8
+```
+
+功能：拓展 8 位无符号整数以支持一些数学常数。
+
+#### static prop Max
+
+```cangjie
+public static prop Max: UInt8
+```
+
+功能：获取 8 位无符号整数的最大值。
+
+类型：[UInt8](./core_package_intrinsics.md#uint8)
+
+#### static prop Min
+
+```cangjie
+public static prop Min: UInt8
+```
+
+功能：获取 8 位无符号整数的最小值。
+
+类型：[UInt8](./core_package_intrinsics.md#uint8)
+
 ### extend UInt8 <: Comparable\<UInt8>
 
 ```cangjie
@@ -2292,7 +4130,24 @@ public func compare(rhs: UInt8): Ordering
 
 返回值：
 
-- [Ordering](core_package_enums.md#enum-ordering) - 如果大于，返回 [Ordering](core_package_enums.md#enum-ordering).GT，如果等于，返回 [Ordering](core_package_enums.md#enum-ordering).EQ，如果小于，返回 [Ordering](core_package_enums.md#enum-ordering).LT。
+- [Ordering](core_package_enums.md#enum-ordering) - 如果大于，返回 [Ordering](core_package_enums.md#enum-ordering).GT；如果等于，返回 [Ordering](core_package_enums.md#enum-ordering).EQ；如果小于，返回 [Ordering](core_package_enums.md#enum-ordering).LT。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var num1: UInt8 = 2
+    var num2: UInt8 = 3
+    println(num1.compare(num2))
+}
+```
+
+运行结果：
+
+```text
+Ordering.LT
+```
 
 ### extend UInt8 <: Countable\<UInt8>
 
@@ -2312,7 +4167,7 @@ extend UInt8 <: Countable<UInt8>
 public func next(right: Int64): UInt8
 ```
 
-功能：获取当前 [UInt8](core_package_intrinsics.md#uint8) 值往右数 `right` 后所到位置的 [UInt8](core_package_intrinsics.md#uint8) 值。
+功能：获取在数轴上当前 [UInt8](core_package_intrinsics.md#int32) 位置往右移动 `right` 后对应位置的 [UInt8](core_package_intrinsics.md#int32) 值。如果值溢出，则会从数轴最左边继续移动。
 
 参数：
 
@@ -2321,6 +4176,22 @@ public func next(right: Int64): UInt8
 返回值：
 
 - [UInt8](core_package_intrinsics.md#uint8) - 往右数 `right` 后所到位置的 [UInt8](core_package_intrinsics.md#uint8) 值。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var num: UInt8 = 3
+    println(num.next(10))
+}
+```
+
+运行结果：
+
+```text
+13
+```
 
 #### func position()
 
@@ -2333,6 +4204,22 @@ public func position(): Int64
 返回值：
 
 - [Int64](core_package_intrinsics.md#int64) - 当前 [UInt8](core_package_intrinsics.md#uint8) 值的位置信息。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var num: UInt8 = 8
+    println(num.position())
+}
+```
+
+运行结果：
+
+```text
+8
+```
 
 ### extend UInt8 <: Hashable
 
@@ -2386,6 +4273,34 @@ public func toString(): String
 
 功能：表示平台相关的无符号整型，其长度与当前系统的位宽一致。
 
+### extend UIntNative
+
+```cangjie
+extend UIntNative
+```
+
+功能：拓展平台相关无符号整数以支持一些数学常数。
+
+#### static prop Max
+
+```cangjie
+public static prop Max: UIntNative
+```
+
+功能：获取平台相关无符号整数的最大值。
+
+类型：[UIntNative](./core_package_intrinsics.md#uintnative)
+
+#### static prop Min
+
+```cangjie
+public static prop Min: UIntNative
+```
+
+功能：获取平台相关无符号整数的最小值。
+
+类型：[UIntNative](./core_package_intrinsics.md#uintnative)
+
 ### extend UIntNative <: Comparable\<UIntNative>
 
 ```cangjie
@@ -2412,7 +4327,24 @@ public func compare(rhs: UIntNative): Ordering
 
 返回值：
 
-- [Ordering](core_package_enums.md#enum-ordering) - 如果大于，返回 [Ordering](core_package_enums.md#enum-ordering).GT，如果等于，返回 [Ordering](core_package_enums.md#enum-ordering).EQ，如果小于，返回 [Ordering](core_package_enums.md#enum-ordering).LT。
+- [Ordering](core_package_enums.md#enum-ordering) - 如果大于，返回 [Ordering](core_package_enums.md#enum-ordering).GT；如果等于，返回 [Ordering](core_package_enums.md#enum-ordering).EQ；如果小于，返回 [Ordering](core_package_enums.md#enum-ordering).LT。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var num1: UIntNative = 2
+    var num2: UIntNative = 3
+    println(num1.compare(num2))
+}
+```
+
+运行结果：
+
+```text
+Ordering.LT
+```
 
 ### extend UIntNative <: Countable
 
@@ -2432,7 +4364,7 @@ extend UIntNative <: Countable<UIntNative>
 public func next(right: Int64): UIntNative
 ```
 
-功能：获取当前 [UIntNative](core_package_intrinsics.md#uintnative) 值往右数 `right` 后所到位置的 [UIntNative](core_package_intrinsics.md#uintnative) 值。
+功能：获取在数轴上当前 [UIntNative](core_package_intrinsics.md#int32) 位置往右移动 `right` 后对应位置的 [UIntNative](core_package_intrinsics.md#int32) 值。如果值溢出，则会从数轴最左边继续移动。
 
 参数：
 
@@ -2441,6 +4373,22 @@ public func next(right: Int64): UIntNative
 返回值：
 
 - [UIntNative](core_package_intrinsics.md#uintnative) - 往右数 `right` 后所到位置的 [UIntNative](core_package_intrinsics.md#uintnative) 值。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var num: UIntNative = 3
+    println(num.next(10))
+}
+```
+
+运行结果：
+
+```text
+13
+```
 
 #### func position()
 
@@ -2453,6 +4401,22 @@ public func position(): Int64
 返回值：
 
 - [Int64](core_package_intrinsics.md#int64) - 当前 [UIntNative](core_package_intrinsics.md#uintnative) 值的位置信息。
+
+示例：
+
+<!-- verify -->
+```cangjie
+main() {
+    var num: UIntNative = 8
+    println(num.position())
+}
+```
+
+运行结果：
+
+```text
+8
+```
 
 ### extend UIntNative <: Hashable
 

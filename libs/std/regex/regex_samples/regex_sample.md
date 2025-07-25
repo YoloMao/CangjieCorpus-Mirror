@@ -1,48 +1,22 @@
 # regex 示例
 
-## RegexOption 获取当前正则匹配模式
-<!-- verify -->
-
-```cangjie
-import std.regex.*
-
-main(): Unit {
-    var a = RegexOption()
-    println(a.toString())
-    a = RegexOption().ignoreCase()
-    println(a.toString())
-    a = RegexOption().multiLine()
-    println(a.toString())
-    a = RegexOption().multiLine().ignoreCase()
-    println(a.toString())
-}
-
-```
-
-运行结果：
-
-```text
-NORMAL,NFA
-IGNORECASE,NFA
-MULTILINE,NFA
-MULTILINE,IGNORECASE,NFA
-```
-
 ## Regex 匹配大小写
-<!-- verify -->
 
+示例：
+
+<!-- verify -->
 ```cangjie
 import std.regex.*
 
 main(): Unit {
     let r1 = Regex("ab")
-    let r2 = Regex("ab", RegexOption().ignoreCase())
-    match (r1.matches("aB")) {
-        case Some(r) => println(r.matchStr())
+    let r2 = Regex("ab", IgnoreCase)
+    match (r1.find("aB")) {
+        case Some(r) => println(r.matchString())
         case None => println("None")
     }
-    match (r2.matches("aB")) {
-        case Some(r) => println(r.matchStr())
+    match (r2.find("aB")) {
+        case Some(r) => println(r.matchString())
         case None => println("None")
     }
 }
@@ -55,25 +29,27 @@ None
 aB
 ```
 
-## MatchOption 匹配多行
-<!-- verify -->
+## Regex 匹配多行
 
+示例：
+
+<!-- verify -->
 ```cangjie
 import std.regex.*
 
 main(): Unit {
     let rule = ##"^(\w+)\s(\d+)*$"##
-    let pattern: String = """
+    let input: String = """
 Joe 164
 Sam 208
 Allison 211
 Gwen 171
 """
 
-    let r1 = Regex(rule, RegexOption().multiLine())
-    var arr = r1.matcher(pattern).findAll() ?? Array<MatchData>()
+    let r = Regex(rule, MultiLine)
+    var arr = r.findAll(input)
     for (md in arr) {
-        println(md.matchStr())
+        println(md.matchString())
     }
 }
 ```
@@ -87,23 +63,80 @@ Allison 211
 Gwen 171
 ```
 
-## Matcher 和 MatchData 的使用
-<!-- verify -->
+## Regex 匹配 Unicode
 
+示例：
+
+<!-- verify -->
 ```cangjie
 import std.regex.*
 
 main(): Unit {
-    let r = Regex(#"a\wa"#).matcher("1aba12ada555")
-    for (_ in 0..2) {
-        let matchData = r.find()
-        match (matchData) {
-            case Some(md) =>
-                println(md.matchStr())
-                let pos = md.matchPosition()
-                println("[${pos.start}, ${pos.end})")
-            case None => println("None")
+    let printMatchData: (MatchData) -> Unit = {
+        md =>
+        println("found: `${md.matchString()}`")
+        let pos = md.matchPosition()
+        println("[${pos.start}, ${pos.end})")
+    }
+
+    let unicodePattern = "(?:[\u{2460}\u{2461}\u{2462}\u{2463}\u{2464}\u{2465}\u{2466}\u{2467}\u{2468}]{2,4})"
+    let unicodeInput = "\u{2460}\u{2461}  \u{2464}\u{2465}"
+
+    println("#Unicode disabled: ")
+    try {
+        for (md in Regex(unicodePattern).lazyFindAll(unicodeInput)) {
+            printMatchData(md)
         }
+    } catch (e: IllegalArgumentException) {
+        println(e)
+    }
+    println("\n#Unicode enabled: ")
+    for (md in Regex(unicodePattern, Unicode).lazyFindAll(unicodeInput)) {
+        printMatchData(md)
+    }
+
+    println("\n#Unicode enabled with literals: ")
+    let unicodeLiteralPattern = "(?:[①②③④⑤⑥⑦⑧⑨]{2,4})"
+    let unicodeLiteralInput = "①②  ⑤⑥"
+    for (md in Regex(unicodeLiteralPattern, Unicode).lazyFindAll(unicodeLiteralInput)) {
+        printMatchData(md)
+    }
+}
+```
+
+运行结果：
+
+```text
+#Unicode disabled:
+IllegalArgumentException: Invalid utf8 byte sequence.
+
+#Unicode enabled:
+found: `①②`
+[0, 6)
+found: `⑤⑥`
+[8, 14)
+
+#Unicode enabled with literals:
+found: `①②`
+[0, 6)
+found: `⑤⑥`
+[8, 14)
+```
+
+## Regex 和 MatchData 的使用
+
+示例：
+
+<!-- verify -->
+```cangjie
+import std.regex.*
+
+main(): Unit {
+    let r = Regex(#"a\wa"#)
+    for (md in r.findAll("1aba12ada555")) {
+        println(md.matchString())
+        let pos = md.matchPosition()
+        println("[${pos.start}, ${pos.end})")
     }
 }
 ```
@@ -117,56 +150,31 @@ ada
 [6, 9)
 ```
 
-## Matcher 中 resetString/fullMatch/matchStart 函数
-<!-- verify -->
+## Regex 中 replace/replaceAll 函数
 
+示例：
+
+<!-- verify -->
 ```cangjie
 import std.regex.*
 
 main(): Unit {
-    let r = Regex("\\d+")
-    let m = r.matcher("13588123456")
-    let matchData1 = m.fullMatch()
-    m.resetString("13588abc")
-    let matchData2 = m.matchStart()
-    m.resetString("abc13588123abc")
-    let matchData3 = m.matchStart()
-    match (matchData1) {
-        case Some(md) => println(md.matchStr())
-        case None => println("None")
-    }
-    match (matchData2) {
-        case Some(md) => println(md.matchStr())
-        case None => println("None")
-    }
-    match (matchData3) {
-        case Some(md) => println(md.matchStr())
-        case None => println("None")
-    }
-}
-```
+    let r = Regex("\\d")
 
-运行结果：
+    /* 用 X 替换第一个数字 */
+    println(r.replace("a1b1c2d3f4", "X"))
 
-```text
-13588123456
-13588
-None
-```
+    /* 用 X 替换 index 为 2 之后出现的第一个数字 */
+    println(r.replace("a1b1c2d3f4", "X", 2))
 
-## Matcher 中 replace/replaceAll 函数
-<!-- verify -->
+    /* 用 X 替换所有数字 */
+    println(r.replaceAll("a1b1c2d3f4", "X"))
 
-```cangjie
-import std.regex.*
+    /* 用 X 替换 index 为 2 之后出现的所有数字 */
+    println(r.replaceAll("a1b1c2d3f4", "X", 2))
 
-main(): Unit {
-    let r = Regex("\\d").matcher("a1b1c2d3f4")
-    println(r.replace("X")) //replace a digit once with X
-    println(r.replace("X", 2)) //replace once from index 4
-    println(r.replaceAll("X")) //replace all digit with X
-    println(r.replaceAll("X", 2)) //replace all at most 2 times
-    println(r.replaceAll("X", -1)) //replace all digit with X
+    /* 用 X 替换所有数字 */
+    println(r.replaceAll("a1b1c2d3f4", "X", -1))
 }
 ```
 
@@ -180,45 +188,29 @@ aXbXc2d3f4
 aXbXcXdXfX
 ```
 
-## Matcher 获取匹配总数
-<!-- verify -->
+## MatchData 中捕获组的使用
 
+示例：
+
+<!-- verify -->
 ```cangjie
 import std.regex.*
 
 main(): Unit {
-    var matcher = Regex("a+b").matcher("1ab2aab3aaab4aaaab")
-    println(matcher.allCount())
-}
-```
-
-运行结果：
-
-```text
-4
-```
-
-## MatchData 中 groupNumber 函数
-<!-- verify -->
-
-```cangjie
-import std.regex.*
-
-main(): Unit {
-    var r = Regex("(a+c)(a?b)()(()?c+((e|s([a-h]*))))")
-    var m = r.matcher("aacbcsdedd")
-    var matchData = m.find()
-    match (matchData) {
-        case Some(s) =>
-            println("groupNum : ${s.groupNumber()}")
-            if (s.groupNumber() > 0) {
-                for (i in 1..=s.groupNumber()) {
-                    println("group[${i}] : ${s.matchStr(i)}")
-                    var pos = s.matchPosition(i)
-                    println("position : [${pos.start}, ${pos.end})")
-                }
+    var r = Regex(#"(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})"#)
+    for (md in r.lazyFindAll("2024-10-24&2025-01-01", group: true)) {
+        println("# found: `${md.matchString()}` and groupCount: ${md.groupCount()}")
+        if (md.groupCount() > 0) {
+            for (i in 0..=md.groupCount()) {
+                println("group[${i}] : ${md.matchString(i)}")
+                let pos = md.matchPosition(i)
+                println("position : [${pos.start}, ${pos.end})")
             }
-        case None => ()
+        }
+        for ((name, index) in r.getNamedGroups()) {
+            let pos = md.matchPosition(name)
+            println("${name} 是第 ${index} 组, position: [${pos.start}, ${pos.end}), 捕获: ${md.matchString(name)}")
+        }
     }
 }
 ```
@@ -226,21 +218,28 @@ main(): Unit {
 运行结果：
 
 ```text
-groupNum : 8
-group[1] : aac
-position : [0, 3)
-group[2] : b
-position : [3, 4)
-group[3] :
-position : [4, 4)
-group[4] : csdedd
-position : [4, 10)
-group[5] :
-position : [10, 10)
-group[6] : sdedd
-position : [5, 10)
-group[7] : sdedd
-position : [5, 10)
-group[8] : dedd
-position : [6, 10)
+# found: `2024-10-24` and groupCount: 3
+group[0] : 2024-10-24
+position : [0, 10)
+group[1] : 2024
+position : [0, 4)
+group[2] : 10
+position : [5, 7)
+group[3] : 24
+position : [8, 10)
+day 是第 3 组, position: [8, 10), 捕获: 24
+month 是第 2 组, position: [5, 7), 捕获: 10
+year 是第 1 组, position: [0, 4), 捕获: 2024
+# found: `2025-01-01` and groupCount: 3
+group[0] : 2025-01-01
+position : [11, 21)
+group[1] : 2025
+position : [11, 15)
+group[2] : 01
+position : [16, 18)
+group[3] : 01
+position : [19, 21)
+day 是第 3 组, position: [19, 21), 捕获: 01
+month 是第 2 组, position: [16, 18), 捕获: 01
+year 是第 1 组, position: [11, 15), 捕获: 2025
 ```

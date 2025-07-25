@@ -6,6 +6,8 @@
 
 常量模式是 `refutable` 模式。例如，下例中第一个 case 中的 `1` 和第二个 case 中的 `2` 都有可能和 `x` 的值不相等。
 
+<!-- compile -->
+
 ```cangjie
 func constPat(x: Int64) {
     match (x) {
@@ -18,6 +20,8 @@ func constPat(x: Int64) {
 
 通配符模式是 `irrefutable` 模式。例如，下例中无论 `x` 的值是多少，`_` 总能和其匹配。
 
+<!-- compile -->
+
 ```cangjie
 func wildcardPat(x: Int64) {
     match (x) {
@@ -28,6 +32,8 @@ func wildcardPat(x: Int64) {
 
 绑定模式是 `irrefutable` 模式。例如，下例中无论 `x` 的值是多少，绑定模式 `a` 总能和其匹配。
 
+<!-- compile -->
+
 ```cangjie
 func varPat(x: Int64) {
     match (x) {
@@ -37,6 +43,8 @@ func varPat(x: Int64) {
 ```
 
 Tuple 模式是 `irrefutable` 模式，当且仅当其包含的每个模式都是 `irrefutable` 模式。例如，下例中 `(1, 2)` 和 `(a, 2)` 都有可能和 `x` 的值不匹配，所以它们是 `refutable` 模式，而 `(a, b)` 可以匹配任何 `x` 的值，所以它是 `irrefutable` 模式。
+
+<!-- compile -->
 
 ```cangjie
 func tuplePat(x: (Int64, Int64)) {
@@ -49,6 +57,8 @@ func tuplePat(x: (Int64, Int64)) {
 ```
 
 类型模式是 `refutable` 模式。例如，下例中（假设 `Base` 是 `Derived` 的父类，并且 `Base` 实现了接口 `I`），`x` 的运行时类型有可能既不是 `Base` 也不是 `Derived`，所以 `a: Derived` 和 `b: Base` 均是 `refutable` 模式。
+
+<!-- compile -->
 
 ```cangjie
 interface I {}
@@ -65,6 +75,8 @@ func typePat(x: I) {
 ```
 
 enum 模式是 `irrefutable` 模式，当且仅当它对应的 `enum` 类型中只有一个有参构造器，且 enum 模式中包含的其他模式也是 `irrefutable` 模式。例如，对于下例中的 `E1` 和 `E2` 定义，函数 `enumPat1` 中的 `A(1)` 是 `refutable` 模式，`A(a)` 是 `irrefutable` 模式；而函数 `enumPat2` 中的 `B(b)` 和 `C(c)` 均是 `refutable` 模式。
+
+<!-- compile -->
 
 ```cangjie
 enum E1 {

@@ -9,7 +9,9 @@ public enum Exhaustiveness {
 ```
 
 功能：此枚举类型用于指定 `unordered` 函数的验证模式，包含两种模式。
+
 Exhaustive 模式要求对于验证范围内的所有[桩签名](../unittest_mock_samples/mock_framework_basics.md#桩签名)，均需在验证动作中定义。
+
 Partial 模式的要求较松，可以忽略“桩签名”在验证范围内未被验证动作定义的执行行为。
 
 举例来说:
@@ -80,7 +82,7 @@ public enum MockSessionKind {
 public enum StubMode {
     | ReturnsDefaults
     | SyntheticFields
-} 
+}
 ```
 
 功能：控制[桩的模式](../unittest_mock_samples/mock_framework_stubs.md#桩的模式)。
@@ -89,7 +91,7 @@ public enum StubMode {
 
 功能：`Mock object` 将为基础类型返回默认的值。用于简化 `mock object` 的配置步骤。
 这些默认值一般为空或 0 。
-支持的基础类型为：Unit、数值类型（如 Int64）、Option 类型、Bool、String、Array、ArrayList、HashSet、HashMap。
+支持的基础类型为：Unit, 数值类型（ 如 Int64 ）, option 类型, Bool, String, Array, ArrayList, HashSet, HashMap 。
 
 ### SyntheticFields
 

@@ -8,25 +8,13 @@ public interface Any
 
 功能：[Any](core_package_interfaces.md#interface-any) 是所有类型的父类型，所有 `interface` 都默认继承它，所有非 `interface` 类型都默认实现它。
 
-## interface ByteExtension
+### extend Byte
 
 ```cangjie
-public interface ByteExtension
-```
-
-功能：该接口用于为 [Byte](core_package_types.md#type-byte) 类型实现扩展方法，接口本身为不包含任何属性、方法。
-
-### extend Byte <: ByteExtension
-
-```cangjie
-extend Byte <: ByteExtension
+extend Byte
 ```
 
 功能：为 [Byte](core_package_types.md#type-byte) 类型实现一系列扩展方法，主要为在 Ascii 字符集范围内的一些字符判断、转换等操作。
-
-父类型：
-
-- [ByteExtension](#interface-byteextension)
 
 #### func isAscii()
 
@@ -214,6 +202,7 @@ sealed interface CType
 
 示例：
 
+<!-- run -->
 ```cangjie
 @C
 struct Data {}
@@ -253,7 +242,7 @@ public interface Collection<T> <: Iterable<T> {
 prop size: Int64
 ```
 
-功能：获取当前集合的大小，即容器的容量。
+功能：获取当前集合的大小，即集合中元素的个数。
 
 类型：[Int64](core_package_intrinsics.md#int64)
 
@@ -286,10 +275,17 @@ func toArray(): Array<T>
 ```cangjie
 public interface Comparable<T> <: Equatable<T> & Less<T> & Greater<T> & LessOrEqual<T> & GreaterOrEqual<T> {
     func compare(that: T): Ordering
+    operator func <(rhs: T): Bool
+    operator func <=(rhs: T): Bool
+    operator func ==(rhs: T): Bool
+    operator func >(rhs: T): Bool
+    operator func >=(rhs: T): Bool
 }
 ```
 
-功能：该接口表示比较运算，是等于、小于、大于、小于等于、大于等于接口的集合体。
+功能：该接口表示比较运算，是等于、不等于、小于、大于、小于等于、大于等于接口的集合体。
+
+该接口中提供运算符 ==、!=、<、<=、>、>= 重载的默认实现，默认实现根据 compare 函数的返回值来确定其返回值。例如：如果 a.compare(b) 的返回值为 EQ，则 a == b 返回 true，否则返回 false。
 
 父类型：
 
@@ -315,6 +311,86 @@ func compare(that: T): Ordering
 
 - [Ordering](core_package_enums.md#enum-ordering) - 如果大于，返回 [Ordering](core_package_enums.md#enum-ordering).GT，如果等于，返回 [Ordering](core_package_enums.md#enum-ordering).EQ，如果小于，返回 [Ordering](core_package_enums.md#enum-ordering).LT。
 
+### operator func <(T)
+
+```cangjie
+operator func <(rhs: T): Bool
+```
+
+功能：判断当前 `T` 类型实例是否小于参数指向的 `T` 类型实例，该函数是此接口的一个默认实现函数。
+
+参数：
+
+- rhs: T - 待与当前实例比较的另一个实例。
+
+返回值：
+
+- [Bool](core_package_intrinsics.md#bool) - 如果小于，返回 true，否则返回 false。
+
+### operator func <=(T)
+
+```cangjie
+operator func <=(rhs: T): Bool
+```
+
+功能：判断当前 `T` 类型实例是否小于等于参数指向的 `T` 类型实例，该函数是此接口的一个默认实现函数。
+
+参数：
+
+- rhs: T - 待与当前实例比较的另一个实例。
+
+返回值：
+
+- [Bool](core_package_intrinsics.md#bool) - 如果小于等于，返回 true，否则返回 false。
+
+### operator func ==(T)
+
+```cangjie
+operator func ==(rhs: T): Bool
+```
+
+功能：判断两个实例是否相等，该函数是此接口的一个默认实现函数。
+
+参数：
+
+- rhs: T - 待比较的另一个实例。
+
+返回值：
+
+- [Bool](core_package_intrinsics.md#bool) - 如果相等，返回 true，否则返回 false。
+
+### operator func >(T)
+
+```cangjie
+operator func >(rhs: T): Bool
+```
+
+功能：判断当前 `T` 类型实例是否大于参数指向的 `T` 类型实例，该函数是此接口的一个默认实现函数。
+
+参数：
+
+- rhs: T - 待与当前实例比较的另一个实例。
+
+返回值：
+
+- [Bool](core_package_intrinsics.md#bool) - 如果大于，返回 true，否则返回 false。
+
+### operator func >=(T)
+
+```cangjie
+operator func >=(rhs: T): Bool
+```
+
+功能：判断当前 `T` 类型实例是否大于等于参数指向的 `T` 类型实例，该函数是此接口的一个默认实现函数。
+
+参数：
+
+- rhs: T - 待与当前实例比较的另一个实例。
+
+返回值：
+
+- [Bool](core_package_intrinsics.md#bool) - 如果大于等于，返回 true，否则返回 false。
+
 ## interface Countable\<T>
 
 ```cangjie
@@ -334,7 +410,7 @@ public interface Countable<T> {
 func next(right: Int64): T
 ```
 
-功能：获取当前实例往右数 `right` 后所到位置的 `T` 类型实例。
+功能：获取当前实例向右移动 `right` 后对应位置的 `T` 类型实例。
 
 参数：
 
@@ -342,7 +418,7 @@ func next(right: Int64): T
 
 返回值：
 
-- T - 往右数 `right` 后所到位置的 `T` 类型实例。
+- T - 向右移动 `right` 后对应位置的 `T` 类型实例。
 
 ### func position()
 
@@ -355,6 +431,64 @@ func position(): Int64
 返回值：
 
 - [Int64](core_package_intrinsics.md#int64) - 转换后的 [Int64](core_package_intrinsics.md#int64) 值。
+
+### extend Float64
+
+```cangjie
+extend Float64
+```
+
+功能：拓展了 [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) 类型作为左操作数和 [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) 类型作为右操作数的乘法运算。
+
+#### operator func *(Duration)
+
+```cangjie
+public operator func *(r: Duration): Duration
+```
+
+功能：实现 [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) 类型和 [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) 类型的乘法，即 [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) * [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) 运算。
+
+参数：
+
+- r: [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) - [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) 实例。
+
+返回值：
+
+- [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) - [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) 类型实例和 `r` 的乘积。
+
+异常：
+
+- [ArithmeticException](../../core/core_package_api/core_package_exceptions.md#class-arithmeticexception) - 当相乘后的结果超出 [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) 的表示范围时，抛出异常。
+
+### extend Int64
+
+```cangjie
+extend Int64
+```
+
+功能：拓展了 [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) 类型作为左操作数和 [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) 类型作为右操作数的乘法运算。
+
+#### operator func *(Duration)
+
+```cangjie
+public operator func *(r: Duration): Duration
+```
+
+功能：实现 [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) 类型和 [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) 类型的乘法，即 [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) * [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) 运算。
+
+例如 2 * [Duration](../../core/core_package_api/core_package_structs.md#struct-duration).second 返回表示时间间隔为 2 秒的 [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) 实例。
+
+参数：
+
+- r: [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) - 乘法的右操作数。
+
+返回值：
+
+- [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) - [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) 类型实例和 `r` 的乘积。
+
+异常：
+
+- [ArithmeticException](../../core/core_package_api/core_package_exceptions.md#class-arithmeticexception) - 当相乘后的结果超出 [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) 的表示范围时，抛出异常。
 
 ## interface Equal\<T>
 
@@ -385,10 +519,14 @@ operator func ==(rhs: T): Bool
 ## interface Equatable\<T>
 
 ```cangjie
-public interface Equatable<T> <: Equal<T> & NotEqual<T>
+public interface Equatable<T> <: Equal<T> & NotEqual<T> {
+    operator func !=(rhs: T): Bool
+}
 ```
 
 功能：该接口是判等和判不等两个接口的集合体。
+
+该接口中提供运算符 != 重载的默认实现，默认实现根据 == 运算的返回值来确定其返回值。例如：如果 a == b 的返回值为 true，则 a != b 返回 false，否则返回 true。
 
 已为部分仓颉类型实现该接口，包括：[Unit](core_package_intrinsics.md#unit)、[Bool](core_package_intrinsics.md#bool) 、[Rune](core_package_intrinsics.md#rune)、[Int64](core_package_intrinsics.md#int64)、[Int32](core_package_intrinsics.md#int32)、[Int16](core_package_intrinsics.md#int16)、[Int8](core_package_intrinsics.md#int8)、[UIntNative](core_package_intrinsics.md#uintnative)、[UInt64](core_package_intrinsics.md#uint64)、[UInt32](core_package_intrinsics.md#uint32)、[UInt16](core_package_intrinsics.md#uint16)、[UInt8](core_package_intrinsics.md#uint8)、[Float64](core_package_intrinsics.md#float64)、[Float32](core_package_intrinsics.md#float32)、[Float16](core_package_intrinsics.md#float16)、[String](core_package_structs.md#struct-string)、[Array](core_package_structs.md#struct-arrayt)、[Box](core_package_classes.md#class-boxt)、[ArrayList](../../collection/collection_package_api/collection_package_class.md#class-arraylistt)、[HashSet](../../collection/collection_package_api/collection_package_class.md#class-hashsett-where-t--hashable--equatablet)。
 
@@ -397,13 +535,21 @@ public interface Equatable<T> <: Equal<T> & NotEqual<T>
 - [Equal](#interface-equalt)\<T>
 - [NotEqual](#interface-notequalt)\<T>
 
-## interface FloatToBits
+### operator func !=(T)
 
 ```cangjie
-public interface FloatToBits
+operator func !=(rhs: T): Bool
 ```
 
-功能：该接口用于扩展 Float 类型与以位表示的整形数值转换。
+功能：判断两个实例是否不相等，该函数是此接口的一个默认实现函数。
+
+参数：
+
+- rhs: T - 待比较的另一个实例。
+
+返回值：
+
+- [Bool](core_package_intrinsics.md#bool) - 如果不相等，返回 true，否则返回 false。
 
 ## interface GreaterOrEqual\<T>
 
@@ -506,7 +652,7 @@ public interface Hasher {
 
 功能：该接口用于处理哈希组合运算。
 
-可以使用一系列 write 函数传入不同数据类型实例，并计算他们的组合哈希值。
+可以使用一系列 write 函数传入不同数据类型实例，并计算它们的组合哈希值。
 
 ### func finish()
 
@@ -622,7 +768,7 @@ mut func write(value: Int8): Unit
 
 参数：
 
-- value: [Int8](core_package_intrinsics.md#int8) - 待运算的值
+- value: [Int8](core_package_intrinsics.md#int8) - 待运算的值。
 
 ### func write(Rune)
 
@@ -706,7 +852,7 @@ public interface Iterable<E> {
 
 功能：该接口表示可迭代，实现了该接口的类型（通常为容器类型）可以在 `for-in` 语句中实现迭代，也可以获取其对应的迭代器类型实例，调用 `next` 函数实现迭代。
 
-本包已经为 [Array](core_package_structs.md#struct-arrayt)、[ArrayList](../../collection/collection_package_api/collection_package_class.md#class-arraylistt)、[HashMap](../../collection/collection_package_api/collection_package_class.md#class-hashmapk-v-where-k--hashable--equatablek) 等基础容器类型实现了该接口，用户可以为其他类型实现该接口，使之支持迭代遍历的功能。
+本包已经为 [Array](core_package_structs.md#struct-arrayt)、[ArrayList](../../collection/collection_package_api/collection_package_class.md#class-arraylistt)、[HashMap](../../collection/collection_package_api/collection_package_class.md#class-hashmapk-v) 等基础容器类型实现了该接口，用户可以为其他类型实现该接口，使之支持迭代遍历的功能。
 
 ### func iterator()
 
@@ -718,7 +864,7 @@ func iterator(): Iterator<E>
 
 返回值：
 
-- [Iterator](core_package_classes.md#class-iteratort)\<T> - 迭代器。
+- [Iterator](core_package_classes.md#class-iteratort)\<E> - 迭代器。
 
 ## interface LessOrEqual\<T>
 
@@ -830,14 +976,6 @@ func close(): Unit
 ```
 
 功能：关闭资源。
-
-## interface RuneExtension
-
-```cangjie
-public interface RuneExtension
-```
-
-功能：该接口用于为 [Rune](../../../std/core/core_package_api/core_package_intrinsics.md#rune) 类型实现扩展方法，接口本身为不包含任何属性、方法。
 
 ## interface ThreadContext
 

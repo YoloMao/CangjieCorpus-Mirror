@@ -6,11 +6,8 @@
 
 代码如下：
 
-<!-- verify -->
-
+<!-- run -->
 ```cangjie
-import std.sync.sleep
-import std.time.{Duration, DurationExtension}
 
 main(): Int64 {
     spawn { =>
@@ -28,7 +25,7 @@ main(): Int64 {
 }
 ```
 
-运行结果如下：
+运行结果：
 
 ```text
 Main thread, number = 0
@@ -57,30 +54,29 @@ New thread, number = 5
 代码如下：
 
 <!-- verify -->
-
 ```cangjie
-import std.sync.sleep
-import std.time.{Duration, DurationExtension}
-
 main(): Int64 {
     let fut: Future<Unit> = spawn { =>
         for (i in 0..10) {
             println("New thread, number = ${i}")
-            sleep(100 * Duration.millisecond) /* 睡眠 100 毫秒 */
+            /* 睡眠 100 毫秒 */
+            sleep(100 * Duration.millisecond)
         }
     }
 
-    fut.get() /* 等待线程完成 */
+    /* 等待线程完成 */
+    fut.get()
 
     for (i in 0..5) {
         println("Main thread, number = ${i}")
-        sleep(100 * Duration.millisecond) /* 睡眠 100 毫秒 */
+        /* 睡眠 100 毫秒 */
+        sleep(100 * Duration.millisecond)
     }
     return 0
 }
 ```
 
-运行结果如下：
+运行结果：
 
 ```text
 New thread, number = 0
@@ -105,10 +101,10 @@ Main thread, number = 4
 子线程接收主线程发送的取消请求。
 
 <!-- verify -->
-
 ```cangjie
 main(): Unit {
-    let future = spawn { // Create a new thread
+    /* 创建线程 */
+    let future = spawn {
         while (true) {
             if (Thread.currentThread.hasPendingCancellation) {
                 return 0
@@ -116,10 +112,10 @@ main(): Unit {
         }
         return 1
     }
-    //...
-    future.cancel()    // Send a termination request
-    let res = future.get() // Wait for thread termination
-    println(res) // 0
+    /* 发起线程取消请求 */
+    future.cancel()
+    let res = future.get()
+    println(res)
 }
 ```
 

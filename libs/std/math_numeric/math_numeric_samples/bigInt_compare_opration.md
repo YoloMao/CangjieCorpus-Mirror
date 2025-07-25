@@ -7,8 +7,8 @@
 import std.math.numeric.*
 
 main() {
-    let int1 = BigInt("123456789")
-    let int2 = BigInt("987654321")
+    let int1 = BigInt.parse("123456789")
+    let int2 = BigInt.parse("987654321")
     println("${int1} > ${int2} = ${int1 > int2}")
     println("${int1} < ${int2} = ${int1 < int2}")
     println("${int1} == ${int2} = ${int1 == int2}")
@@ -20,7 +20,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 123456789 > 987654321 = false

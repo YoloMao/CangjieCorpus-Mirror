@@ -3,7 +3,7 @@
 ## struct Position
 
 ```cangjie
-public struct Position {
+public struct Position <: ToBytes {
     public let column: Int32
     public let fileID: UInt32
     public let line: Int32
@@ -13,6 +13,10 @@ public struct Position {
 ```
 
 功能：表示位置信息的数据结构，包含文件ID，行号和列号。
+
+父类型：
+
+- [ToBytes](ast_package_interfaces.md#interface-tobytes)
 
 ### let column
 
@@ -86,6 +90,18 @@ public func isEmpty(): Bool
 
 - [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 当行号和列号为 `0` 时返回 true。
 
+### func toBytes()
+
+```cangjie
+public func toBytes(): Array<UInt8>
+```
+
+功能：Position 类型的序列化。
+
+返回值：
+
+- [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8)> - 序列化后的字节序列。
+
 ### operator func !=(Position)
 
 ```cangjie
@@ -121,7 +137,7 @@ public operator func ==(r: Position): Bool
 ## struct Token
 
 ```cangjie
-public struct Token {
+public struct Token <: ToBytes {
     public let kind: TokenKind
     public let pos: Position
     public let value: String
@@ -135,6 +151,10 @@ public struct Token {
 功能：词法单元类型。
 
 词法单元是构成仓颉源码的最小单元，一组合法的词法单元列表经过语法解析后可生成一个语法树节点。
+
+父类型：
+
+- [ToBytes](ast_package_interfaces.md#interface-tobytes)
 
 ### let kind
 
@@ -238,6 +258,18 @@ public func dump(): Unit
 ```
 
 功能：将 [Token](ast_package_structs.md#struct-token) 的信息打印出来。
+
+### func toBytes()
+
+```cangjie
+public func toBytes(): Array<UInt8>
+```
+
+功能：Token 类型的序列化。
+
+返回值：
+
+- [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8)> - 序列化后的字节序列。
 
 ### operator func !=(Token)
 

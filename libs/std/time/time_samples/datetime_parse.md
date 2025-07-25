@@ -23,13 +23,13 @@ main() {
         nanosecond: 789000000,
         timeZone: TimeZone.load("Asia/Shanghai")
     )
-    let str = datetime.toString(pattern)
+    let str = datetime.format(pattern)
     println(str)
     println(DateTime.parse(str, pattern))
 }
 ```
 
-运行结果
+运行结果：
 
 ```text
 2024/05/22 12:34:56789000000 +08:00

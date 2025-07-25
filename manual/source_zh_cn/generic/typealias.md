@@ -9,6 +9,7 @@ type I64 = Int64
 类型别名的定义以关键字 `type` 开头，接着是类型的别名（如上例中的 `I64`），然后是等号 `=`，最后是原类型（即被取别名的类型，如上例中的 `Int64`）。
 
 只能在源文件顶层定义类型别名，并且原类型必须在别名定义处可见。例如，下例中 `Int64` 的别名定义在 `main` 中将报错，`LongNameClassB` 类型在为其定义别名时不可见，同样报错。
+<!-- compile.error  -->
 
 ```cangjie
 main() {
@@ -20,10 +21,10 @@ type B = LongNameClassB // Error, type 'LongNameClassB' is not defined
 ```
 
 一个（或多个）类型别名定义中禁止出现（直接或间接的）循环引用。
+<!-- compile.error  -->
 
 ```cangjie
 type A = (Int64, A) // Error, 'A' refered itself
-
 type B = (Int64, C) // Error, 'B' and 'C' are circularly refered
 type C = (B, Int64)
 ```
@@ -80,6 +81,7 @@ type C = (B, Int64)
     ```
 
 需要注意的是，当前用户自定义的类型别名暂不支持在类型转换表达式中使用，参考如下示例：
+<!-- compile.error  -->
 
 ```cangjie
 type MyInt = Int32
@@ -88,11 +90,11 @@ MyInt(0)  // Error, no matching function for operator '()' function call
 
 ## 泛型别名
 
-类型别名也是可以声明类型形参的，但是不能对其形参使用 `where` 声明约束，对于泛型变元的约束我们会在后面给出解释。
+类型别名也是可以声明类型形参的，但是不能对其形参使用 `where` 声明约束，对于泛型变元的约束会在后面给出解释。
 
-当一个泛型类型的名称过长时，我们就可以使用类型别名来为其声明一个更短的别名。例如，有一个类型为 `RecordData` ，我们可以把他用类型别名简写为 `RD` ：
+当一个泛型类型的名称过长时，可以使用类型别名来为其声明一个更短的别名。例如，有一个类型为 `RecordData` ，可以把他用类型别名简写为 `RD` ：
 
-<!-- run -->
+<!-- compile -->
 
 ```cangjie
 struct RecordData<T> {

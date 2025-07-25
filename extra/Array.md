@@ -9,9 +9,11 @@ element type `T` has type `Array<T>`. If arrays with dynamic length are needed, 
 Ways to initialize an `Array` include:
 
 ```
-let a = Array<Int64>([1, 2, 3])   // Initialize using a concrete list
-let a = Array<Int64>(3, item: 0)   // Length 3 and all elements are 0
-let b = Array<Int64>(3, {i => i + 1})   // Initialize using lambda function, result is [1, 2, 3]
+let a: Array<Int64> = [1, 2, 3] // Array whose element type is Int64
+let b: Array<String> = ["a1", "a2", "a3"] // Array whose element type is String
+let c = Array<Int64>() // Created an empty Array whose element type is Int64
+let d = Array<Int64>(3, repeat: 0) // Created an Array whose element type is Int64, length is 3 and all elements are initialized as 0
+let e = Array<Int64>(3, {i => i + 1}) // Created an Array whose element type is Int64, length is 3 and all elements are initialized by the initialization function. Result is [1, 2, 3]
 ```
 
 ### Size
@@ -21,11 +23,7 @@ property, so no parenthesis is needed afterwards.
 
 ### Comparing two arrays for equality
 
-Two compare two arrays for equality, use `a == b`. Note `a.equals(b)` is not valid.
-
-### Adding elements
-
-To add an element `i` to the end of an array `arr`, use `arr.append(i)`.
+To compare two arrays for equality, use `a == b`. Note `a.equals(b)` is not valid.
 
 ### Slice of an `Array`
 
@@ -53,9 +51,9 @@ Note there is no pattern matching before `in`. If the elements of an array are t
 access entries of the tuple individually, e.g.:
 
 ```
-var a = Array<(Int64, Int64)>([(2, 3), (3, 4)])
+var a = [(2, 3), (3, 4)]
 for (pair in a) {
-    println("(${pair[0]}, {pair[1]})")
+    println("(${pair[0]}, ${pair[1]})")
 }
 ```
 
@@ -68,7 +66,7 @@ the usage:
 
 ```
 let a = [1, 1, 2, 3, 3]
-let b = Array(a)  // make a copy of a
+let b = a.clone()  // make a copy of a
 b.reverse()
 println(a)   // [1, 1, 2, 3, 3]
 println(b)   // [3, 3, 2, 1, 1]
@@ -80,7 +78,8 @@ As an application, the following checks whether the input string `s` is a palind
 ```
 func isPalindrome(s: String): Bool {
     let arr = s.toRuneArray()
-    let arr2 = Array(arr)
+    let arr2 = arr.clone()
+    arr2.reverse()
     return arr == arr2
 }
 

@@ -4,35 +4,56 @@
 
 ```cangjie
 public class DateTimeFormat {
-    public static prop RFC1123: DateTimeFormat
-    public static prop RFC3339: DateTimeFormat
-    public prop format: String
+    public static const RFC1123: String = "www, dd MMM yyyy HH:mm:ss z"
+    public static const RFC3339: String = "yyyy-MM-ddTHH:mm:ssOOOO"
+    public static const RFC822: String = "ww dd MMM yy HH:mm:ss z"
+    public static const RFC850: String = "wwww, dd-MMM-yy HH:mm:ss z"
 }
 ```
 
 功能：提供时间格式的功能，用于解析和生成 [DateTime](../time_package_api/time_package_structs.md#struct-datetime) 。
 
-### static prop RFC1123
+### static const RFC1123
 
 ```cangjie
-public static prop RFC1123: DateTimeFormat
+public static const RFC1123: String = "www, dd MMM yyyy HH:mm:ss z"
 ```
 
 功能：提供 RFC1123 时间格式，时间字符串格式为 `www, dd MMM yyyy HH:mm:ss z`。
 
-类型：[DateTimeFormat](#class-datetimeformat)
+类型：[String](../../../std/core/core_package_api/core_package_structs.md#struct-string)
 
-### static prop RFC3339
+### static const RFC3339
 
 ```cangjie
-public static prop RFC3339: DateTimeFormat
+public static const RFC3339: String = "yyyy-MM-ddTHH:mm:ssOOOO"
 ```
 
 功能：提供 RFC3339 时间格式，时间字符串格式为 `yyyy-MM-ddTHH:mm:ssOOOO`。
 
-类型：[DateTimeFormat](#class-datetimeformat)
+类型：[String](../../../std/core/core_package_api/core_package_structs.md#struct-string)
 
-### prop format: String
+### static const RFC822
+
+```cangjie
+public static const RFC822: String = "ww dd MMM yy HH:mm:ss z"
+```
+
+功能：提供 RFC822 时间格式，时间字符串格式为 `ww dd MMM yy HH:mm:ss z`。
+
+类型：[String](../../../std/core/core_package_api/core_package_structs.md#struct-string)
+
+### static const RFC850
+
+```cangjie
+public static const RFC850: String = "wwww, dd-MMM-yy HH:mm:ss z"
+```
+
+功能：提供 RFC850 时间格式，时间字符串格式为 `wwww, ww-MMM-yy HH:mm:ss z`。
+
+类型：[String](../../../std/core/core_package_api/core_package_structs.md#struct-string)
+
+### prop format: String <sup>(deprecated)</sup>
 
 ```cangjie
 public prop format: String
@@ -40,9 +61,13 @@ public prop format: String
 
 功能：DateTimeFormat实例的字符串格式。
 
+> **注意：**
+>
+> 未来版本即将废弃不再使用。
+
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
-### static func of(String)
+### static func of(String) <sup>(deprecated)</sup>
 
 ```cangjie
 public static func of(format: String): DateTimeFormat
@@ -52,9 +77,13 @@ public static func of(format: String): DateTimeFormat
 
 字符串的具体格式见[时间字符串格式](../time_package_overview.md#时间字符串格式)
 
+> **注意：**
+>
+> 未来版本即将废弃不再使用。
+
 参数：
 
-- format: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 字符串格式
+- format: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 字符串格式。
 
 返回值：
 
@@ -68,6 +97,8 @@ public static func of(format: String): DateTimeFormat
 
 ```cangjie
 public class TimeZone <: ToString & Equatable<TimeZone> {
+    public static let Local: TimeZone
+    public static let UTC: TimeZone
     public init(id: String, offset: Duration)
 }
 ```
@@ -129,7 +160,7 @@ public init(id: String, offset: Duration)
 参数：
 
 - id: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 时区 ID。使用“/”作为分隔符，例如“Asia/Shanghai”，各操作系统使用相同规范。
-- offset: [Duration](time_package_structs.md#struct-duration) - 相对 UTC 时区的偏移量，精度为秒，向东为正、向西为负。取值范围为 (-25 * [Duration](time_package_structs.md#struct-duration).hour, 26 * [Duration](time_package_structs.md#struct-duration).hour)。
+- offset: [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) - 相对 UTC 时区的偏移量，精度为秒，向东为正、向西为负。取值范围为 (-25 * [Duration](../../core/core_package_api/core_package_structs.md#struct-duration).hour, 26 * [Duration](../../core/core_package_api/core_package_structs.md#struct-duration).hour)。
 
 异常：
 
@@ -143,8 +174,10 @@ public static func load(id: String): TimeZone
 
 功能：从系统中加载参数 `id` 指定的时区。
 
-- 在 Linux 、 macOS 和 HarmonyOS 系统中，若存在环境变量 CJ_TZPATH，则使用环境变量指定的路径加载时区文件（若存在多个通过分隔符 “:” 分开的环境变量值，则按照分隔路径的先后顺序依次查找时区文件，并加载第一个找到的时区文件），否则从系统时区文件目录（Linux 和 macOS 为 "/usr/share/zoneinfo"，HarmonyOS 为 "/system/etc/zoneinfo"）加载时区。
-- 在 Windows 系统中，用户需下载[时区文件](https://www.iana.org/time-zones)并编译，设置环境变量 CJ_TZPATH 指向 zoneinfo 目录（若存在多个通过分隔符 “;” 分开的环境变量值，则按照分隔路径的先后顺序依次查找时区文件，并加载第一个找到的时区文件），否则会导致异常。
+> **说明：**
+>
+> - 在 Linux 、 macOS 和 HarmonyOS 系统中，若存在环境变量 CJ_TZPATH，则使用环境变量指定的路径加载时区文件（若存在多个通过分隔符 “:” 分开的环境变量值，则按照分隔路径的先后顺序依次查找时区文件，并加载第一个找到的时区文件），否则从系统时区文件目录（Linux 和 macOS 为 "/usr/share/zoneinfo"，HarmonyOS 不支持）加载时区。
+> - 在 Windows 系统中，用户需下载[时区文件](https://www.iana.org/time-zones)并编译，设置环境变量 CJ_TZPATH 指向 zoneinfo 目录（若存在多个通过分隔符 “;” 分开的环境变量值，则按照分隔路径的先后顺序依次查找时区文件，并加载第一个找到的时区文件），否则会导致异常。
 
 参数：
 

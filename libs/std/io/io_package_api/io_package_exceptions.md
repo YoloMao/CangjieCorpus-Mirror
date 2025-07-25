@@ -38,7 +38,7 @@ public init(message: String)
 ## class IOException
 
 ```cangjie
-public class IOException <: Exception {
+public open class IOException <: Exception {
     public init()
     public init(message: String)
 }
@@ -69,3 +69,15 @@ public init(message: String)
 参数：
 
 - message: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 异常提示信息。
+
+### func getClassName()
+
+```cangjie
+protected open func getClassName(): String
+```
+
+功能：获得类名。
+
+返回值：
+
+- [String](../../core/core_package_api/core_package_structs.md#struct-string) - 类名。

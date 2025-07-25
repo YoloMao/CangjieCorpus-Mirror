@@ -46,6 +46,10 @@ The type of r5 is 'Float64', and r5 = 1024.000000
 The type of r6 is 'Int64', and r6 = 1024
 ```
 
+> **注意：**
+>
+> 类型转换时可能发生溢出，若溢出可提前在编译器检测出来，则编译器会直接给出报错，否则根据默认的溢出策略将抛出异常。
+
 ## `Rune` 到 `UInt32` 和整数类型到 `Rune` 的转换
 
 `Rune` 到 `UInt32` 的转换使用 `UInt32(e)` 的方式，其中 `e` 是一个 `Rune` 类型的表达式，`UInt32(e)` 的结果是 `e` 的 Unicode scalar value 对应的 `UInt32` 类型的整数值。
@@ -123,6 +127,8 @@ Is the type of b2 'Derived'? true
 `as` 操作符可以用于将某个表达式的类型转换为指定的类型。因为类型转换有可能会失败，所以 `as` 操作返回的是一个 `Option` 类型。具体而言，对于表达式 `e as T`（`e` 可以是任意表达式，`T` 可以是任何类型），当 `e` 的运行时类型是 `T` 的子类型时，`e as T` 的值为 `Option<T>.Some(e)`，否则 `e as T` 的值为 `Option<T>.None`。
 
 下面的例子展示了 `as` 操作符的使用（注释中标明了 `as` 操作的结果）：
+
+<!-- compile -->
 
 ```cangjie
 open class Base {

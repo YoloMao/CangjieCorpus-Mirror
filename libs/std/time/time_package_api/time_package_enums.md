@@ -3,7 +3,7 @@
 ## enum DayOfWeek
 
 ```cangjie
-public enum DayOfWeek <: ToString {
+public enum DayOfWeek <: ToString & Equatable<DayOfWeek> {
     | Sunday
     | Monday
     | Tuesday
@@ -19,6 +19,7 @@ public enum DayOfWeek <: ToString {
 父类型：
 
 - [ToString](../../core/core_package_api/core_package_interfaces.md#interface-tostring)
+- [Equatable](../../../std/core/core_package_api/core_package_interfaces.md#interface-equatablet)\<[DayOfWeek](time_package_enums.md#enum-dayofweek)>
 
 ### Friday
 
@@ -108,13 +109,29 @@ public func toString(): String
 
 - [String](../../core/core_package_api/core_package_structs.md#struct-string) - 当前 [DayOfWeek](time_package_enums.md#enum-dayofweek) 实例的字符串表示。
 
-### func value()
+### func toInteger()
+
+```cangjie
+public func toInteger(): Int64
+```
+
+功能：获取当前 [DayOfWeek](time_package_enums.md#enum-dayofweek) 实例的整数表示，周日表示为 0，周一至周六表示为 1 至 6。
+
+返回值：
+
+- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 当前 [DayOfWeek](time_package_enums.md#enum-dayofweek) 实例的整数表示。
+
+### func value() <sup>(deprecated)</sup>
 
 ```cangjie
 public func value(): Int64
 ```
 
 功能：获取当前 [DayOfWeek](time_package_enums.md#enum-dayofweek) 实例的整数表示，周日表示为 0，周一至周六表示为 1 至 6。
+
+> **注意：**
+>
+> 未来版本即将废弃，可使用 [toInteger()](#func-tointeger) 替代。
 
 返回值：
 
@@ -136,7 +153,6 @@ public operator func !=(r: DayOfWeek): Bool
 
 - [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - `true` 或 `false`。当前 [DayOfWeek](time_package_enums.md#enum-dayofweek) 实例不等于 `r` 时，返回 `true`；否则，返回 `false`。
 
-
 ### operator func ==(DayOfWeek)
 
 ```cangjie
@@ -153,10 +169,42 @@ public operator func ==(r: DayOfWeek): Bool
 
 - [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - `true` 或 `false`。当前 [DayOfWeek](time_package_enums.md#enum-dayofweek) 实例等于 `r` 时，返回 `true`；否则，返回 `false`。
 
+### operator func +(Int64)
+
+```cangjie
+public operator func +(n: Int64): DayOfWeek
+```
+
+功能：计算基于当前实例 `n` 天之后（n 为正数时）的表示值。若 `n` 为负数，则表示当天之前。
+
+参数：
+
+- n: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 后多少天。
+
+返回值：
+
+- [DayOfWeek](time_package_enums.md#enum-dayofweek) - `n` 天后的周数值。
+
+### operator func -(Int64)
+
+```cangjie
+public operator func -(n: Int64): DayOfWeek
+```
+
+功能：计算基于当前实例 `n` 天之前（n 为正数时）的表示值。若 `n` 为负数，则表示当天之后。
+
+参数：
+
+- n: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 前多少天。
+
+返回值：
+
+- [DayOfWeek](time_package_enums.md#enum-dayofweek) - `n` 天前的周数值。
+
 ## enum Month
 
 ```cangjie
-public enum Month <: ToString {
+public enum Month <: ToString & Equatable<Month> {
     | January
     | February
     | March
@@ -176,7 +224,8 @@ public enum Month <: ToString {
 
 父类型：
 
-- [ToString](../../core/core_package_api/core_package_interfaces.md#interface-tostring)
+- [ToString](../../../std/core/core_package_api/core_package_interfaces.md#interface-tostring)
+- [Equatable](../../../std/core/core_package_api/core_package_interfaces.md#interface-equatablet)\<[Month](time_package_enums.md#enum-month)>
 
 ### April
 
@@ -306,13 +355,29 @@ public func toString(): String
 
 - [String](../../core/core_package_api/core_package_structs.md#struct-string) - 当前 [Month](time_package_enums.md#enum-month) 实例的字符串表示。
 
-### func value()
+### func toInteger()
+
+```cangjie
+public func toInteger(): Int64
+```
+
+功能：获取当前 [Month](time_package_enums.md#enum-month) 实例的整数表示，一月至十二月分别表示为 1 至 12。
+
+返回值：
+
+- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 当前 [Month](time_package_enums.md#enum-month) 实例的整数表示。
+
+### func value() <sup>(deprecated)</sup>
 
 ```cangjie
 public func value(): Int64
 ```
 
 功能：获取当前 [Month](time_package_enums.md#enum-month) 实例的整数表示，一月至十二月分别表示为 1 至 12。
+
+> **注意：**
+>
+> 未来版本即将废弃，可使用 [toInteger()](#func-tointeger-1) 替代。
 
 返回值：
 
@@ -349,7 +414,6 @@ public operator func +(n: Int64): Month
 返回值：
 
 - [Month](time_package_enums.md#enum-month) - `n` 月后的月份。
-
 
 ### operator func -(Int64)
 

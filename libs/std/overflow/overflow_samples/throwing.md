@@ -2,7 +2,7 @@
 
 下面是抛出异常策略的示例，示例中尝试运算 Int64.Max + 1，发生溢出，抛出 OverflowException。
 
-<!-- verify -->
+<!-- run.error -->
 
 ```cangjie
 import std.overflow.*
@@ -14,7 +14,7 @@ main() {
 }
 ```
 
-运行结果如下：
+运行结果：
 
 ```text
 An exception has occurred:

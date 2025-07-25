@@ -143,6 +143,10 @@ public func getTokenKind(no: UInt16): TokenKind
 
 - [TokenKind](ast_package_enums.md#enum-tokenkind) - 词法单元种类序号对应的 [TokenKind](ast_package_enums.md#enum-tokenkind)。
 
+> **注意：**
+>
+> 当前 [SINGLE_QUOTED_STRING_LITERAL](ast_package_enums.md#SINGLE_QUOTED_STRING_LITERAL) 和 [STRING_LITERAL](ast_package_enums.md#STRING_LITERAL) 共用序号 147，输入序号 147 只能获得 [STRING_LITERAL](ast_package_enums.md#STRING_LITERAL)，其他 [TokenKind](ast_package_enums.md#enum-tokenkind) 无共用序号情况。
+
 ## func insideParentContext(String)
 
 ```cangjie
@@ -172,6 +176,10 @@ public func parseDecl(input: Tokens, astKind!: String = ""): Decl
 
 功能：用于解析一组词法单元，获取一个 [Decl](ast_package_classes.md#class-decl) 类型的节点。
 
+> **注意：**
+>
+> 该函数不支持解析 [FuncParam](ast_package_classes.md#class-funcparam) 类型。
+
 参数：
 
 - input: [Tokens](ast_package_classes.md#class-tokens) - 待解析源码的词法单元。
@@ -185,7 +193,7 @@ public func parseDecl(input: Tokens, astKind!: String = ""): Decl
 
 异常：
 
-- [ParseASTException](ast_package_exceptions.md#class-parseastexception) - 当输入的 [Tokens](ast_package_classes.md#class-tokens) 类型无法构造为 [Decl](ast_package_classes.md#class-decl) 节点时，抛出异常。
+- [ParseASTException](ast_package_exceptions.md#class-parseastexception) - 当输入的 [Tokens](ast_package_classes.md#class-tokens) 类型无法构造为 [Decl](ast_package_classes.md#class-decl) 节点时，抛出异常，异常中包含报错提示信息。
 
 示例：
 
@@ -247,6 +255,10 @@ public func parseDeclFragment(input: Tokens, startFrom !: Int64 = 0): (Decl, Int
 
 功能：用于解析一组词法单元，获取一个 [Decl](ast_package_classes.md#class-decl) 类型的节点和继续解析节点的索引。
 
+> **注意：**
+>
+> 该函数不支持解析 [FuncParam](ast_package_classes.md#class-funcparam)、 [PropDecl](ast_package_classes.md#class-propdecl)、[PrimaryCtorDecl](ast_package_classes.md#class-primaryctordecl) 类型。
+
 参数：
 
 - input: [Tokens](ast_package_classes.md#class-tokens) - 待解析源码的词法单元。
@@ -258,7 +270,7 @@ public func parseDeclFragment(input: Tokens, startFrom !: Int64 = 0): (Decl, Int
 
 异常：
 
-- [ParseASTException](ast_package_exceptions.md#class-parseastexception) - 当输入的 [Tokens](ast_package_classes.md#class-tokens) 类型无法构造为 [Decl](ast_package_classes.md#class-decl) 节点时，抛出异常。
+- [ParseASTException](ast_package_exceptions.md#class-parseastexception) - 当输入的 [Tokens](ast_package_classes.md#class-tokens) 类型无法构造为 [Decl](ast_package_classes.md#class-decl) 节点时，抛出异常，异常中包含报错提示信息。
 
 ## func parseExpr(Tokens)
 
@@ -278,7 +290,7 @@ public func parseExpr(input: Tokens): Expr
 
 异常：
 
-- [ParseASTException](ast_package_exceptions.md#class-parseastexception) - 当输入的 [Tokens](ast_package_classes.md#class-tokens) 类型无法构造为 [Expr](ast_package_classes.md#class-expr) 节点时，抛出异常。
+- [ParseASTException](ast_package_exceptions.md#class-parseastexception) - 当输入的 [Tokens](ast_package_classes.md#class-tokens) 类型无法构造为 [Expr](ast_package_classes.md#class-expr) 节点时，抛出异常，异常中包含报错提示信息。
 
 ## func parseExprFragment(Tokens, Int64)
 
@@ -299,7 +311,48 @@ public func parseExprFragment(input: Tokens, startFrom !: Int64 = 0): (Expr, Int
 
 异常：
 
-- [ParseASTException](ast_package_exceptions.md#class-parseastexception) - 当输入的 [Tokens](ast_package_classes.md#class-tokens) 类型无法构造为 [Expr](ast_package_classes.md#class-expr) 节点时，抛出异常。
+- [ParseASTException](ast_package_exceptions.md#class-parseastexception) - 当输入的 [Tokens](ast_package_classes.md#class-tokens) 类型无法构造为 [Expr](ast_package_classes.md#class-expr) 节点时，抛出异常，异常中包含报错提示信息。
+
+## func parsePattern(Tokens)
+
+```cangjie
+public func parsePattern(input: Tokens): Pattern
+```
+
+功能：用于解析一组词法单元，获取一个 [Pattern](ast_package_classes.md#class-pattern) 类型的节点。
+
+参数：
+
+- input: [Tokens](ast_package_classes.md#class-tokens) - 待解析源码的词法单元。
+
+返回值：
+
+- [Pattern](ast_package_classes.md#class-pattern) - 一个 [Pattern](ast_package_classes.md#class-pattern) 类型的节点。
+
+异常：
+
+- [ParseASTException](ast_package_exceptions.md#class-parseastexception) - 当输入的 [Tokens](ast_package_classes.md#class-tokens) 类型无法构造为 [Pattern](ast_package_classes.md#class-pattern) 节点时，抛出异常，异常中包含报错提示信息。
+
+## func parsePatternFragment(Tokens, Int64)
+
+```cangjie
+public func parsePatternFragment(input: Tokens, startFrom !: Int64 = 0): (Pattern, Int64)
+```
+
+功能：用于解析一组词法单元，获取一个 [Pattern](ast_package_classes.md#class-pattern) 类型的节点和继续解析节点的索引。
+
+参数：
+
+- input: [Tokens](ast_package_classes.md#class-tokens) - 待解析源码的词法单元。
+- startFrom!: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 起始位置。
+
+返回值：
+
+- ([Pattern](ast_package_classes.md#class-pattern), [Int64](../../core/core_package_api/core_package_intrinsics.md#int64)) - 语法树节点，继续解析的位置。
+
+异常：
+
+- [ParseASTException](ast_package_exceptions.md#class-parseastexception) - 当输入的 [Tokens](ast_package_classes.md#class-tokens) 类型无法构造为 [Pattern](ast_package_classes.md#class-pattern) 节点时，抛出异常，异常中包含报错提示信息。
 
 ## func parseProgram(Tokens)
 
@@ -319,7 +372,48 @@ public func parseProgram(input: Tokens): Program
 
 异常：
 
-- [ParseASTException](ast_package_exceptions.md#class-parseastexception) - 当输入的 [Tokens](ast_package_classes.md#class-tokens) 类型无法构造为 [Program](ast_package_classes.md#class-program) 节点时，抛出异常。
+- [ParseASTException](ast_package_exceptions.md#class-parseastexception) - 当输入的 [Tokens](ast_package_classes.md#class-tokens) 类型无法构造为 [Program](ast_package_classes.md#class-program) 节点时，抛出异常，异常中包含报错提示信息。
+
+## func parseType(Tokens)
+
+```cangjie
+public func parseType(input: Tokens): TypeNode
+```
+
+功能：用于解析一组词法单元，获取一个 [TypeNode](ast_package_classes.md#class-typenode) 类型的节点。
+
+参数：
+
+- input: [Tokens](ast_package_classes.md#class-tokens) - 待解析源码的词法单元。
+
+返回值：
+
+- [TypeNode](ast_package_classes.md#class-typenode) - 一个 [TypeNode](ast_package_classes.md#class-typenode) 类型的节点。
+
+异常：
+
+- [ParseASTException](ast_package_exceptions.md#class-parseastexception) - 当输入的 [Tokens](ast_package_classes.md#class-tokens) 类型无法构造为 [TypeNode](ast_package_classes.md#class-typenode) 节点时，抛出异常。
+
+## func parseTypeFragment(Tokens, Int64)
+
+```cangjie
+public func parseTypeFragment(input: Tokens, startFrom !: Int64 = 0): (TypeNode, Int64)
+```
+
+功能：用于解析一组词法单元，获取一个 [TypeNode](ast_package_classes.md#class-typenode) 类型的节点和继续解析节点的索引。
+
+参数：
+
+- input: [Tokens](ast_package_classes.md#class-tokens) - 待解析源码的词法单元。
+- startFrom!: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 起始位置。
+
+返回值：
+
+- ([TypeNode](ast_package_classes.md#class-typenode), [Int64](../../core/core_package_api/core_package_intrinsics.md#int64)) - 语法树节点，继续解析的位置。
+
+异常：
+
+- [ParseASTException](ast_package_exceptions.md#class-parseastexception) - 当输入的 [Tokens](ast_package_classes.md#class-tokens) 类型无法构造为 [TypeNode](ast_package_classes.md#class-typenode) 节点时，抛出异常。
 
 ## func setItem(String, Bool)
 
@@ -371,3 +465,20 @@ public func setItem(key: String, value: String): Unit
 
 - key: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 发送的关键字，用于检索信息。
 - value: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 要发送的 [String](../../core/core_package_api/core_package_structs.md#struct-string) 类型的信息。
+
+## func setItem(String, Tokens)
+
+```cangjie
+public func setItem(key: String, value: Tokens): Unit
+```
+
+功能：内层宏通过该接口发送 [Tokens](ast_package_classes.md#class-tokens) 类型的信息到外层宏。
+
+> **注意：**
+>
+> 该函数只能作为函数被直接调用，不能作为赋值给变量，不能作为实参或返回值使用。
+
+参数：
+
+- key: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 发送的关键字，用于检索信息。
+- value: [Tokens](ast_package_classes.md#class-tokens) - 要发送的 [Tokens](ast_package_classes.md#class-tokens) 类型的信息。

@@ -68,7 +68,7 @@ public init(message: String)
 
 参数：
 
-- message: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 异常信息
+- message: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 异常信息。
 
 ## class ParseASTException
 
@@ -79,7 +79,7 @@ public class ParseASTException <: Exception {
 }
 ```
 
-功能：ast库的解析异常类，在节点解析过程中发生异常时使用。
+功能：ast 库的解析异常类，在节点解析过程中发生异常时使用。
 
 父类型：
 

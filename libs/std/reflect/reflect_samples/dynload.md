@@ -37,9 +37,7 @@ import std.reflect.*
 
 main(): Unit {
     // 加载仓颉动态库。
-    let myModule = ModuleInfo.load("../myPackage/target/release/myPackage/libmyPackage.so")
-    println(myModule.name)
-    let myPackage = myModule.getPackageInfo("myPackage")
+    let myPackage = PackageInfo.load("../myPackage/target/release/myPackage/libmyPackage")
     println(myPackage.name)
     TypeInfo.get("myPackage.MyPublicType") |> println
 
@@ -54,7 +52,6 @@ EOF
 $ cjpm run
 Initializing myPublicGlobalVariable1 in myPackage
 Initializing myStaticVariable in myPackage.MyPublicType
-myPackage
 myPackage
 myPackage.MyPublicType
 2333
@@ -97,4 +94,4 @@ $ tree ..
 
 > **注意：**
 >
-> 由于当前 ModuleInfo.load 函数根据文件名来判断包名，因此不允许修改该文件名，否则将抛出无法找到仓颉动态库模块文件的异常。
+> 由于当前 PackageInfo.load 函数根据文件名来判断包名，因此不允许修改该文件名，否则将抛出无法找到仓颉动态库模块文件的异常。

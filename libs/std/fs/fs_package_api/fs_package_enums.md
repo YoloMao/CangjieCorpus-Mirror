@@ -1,19 +1,38 @@
 # 枚举
 
-## enum OpenOption
+## enum OpenMode
 
 ```cangjie
-public enum OpenOption {
+public enum OpenMode <: ToString & Equatable<OpenMode> {
+    | Read
+    | Write
     | Append
-    | Create(Bool)
-    | CreateOrAppend
-    | CreateOrTruncate(Bool)
-    | Open(Bool, Bool)
-    | Truncate(Bool)
+    | ReadWrite
 }
 ```
 
-功能：表示不同的文件打开选项。
+功能：表示不同的文件打开模式。
+
+父类型：
+
+- [ToString](../../../std/core/core_package_api/core_package_interfaces.md#interface-tostring)
+- [Equatable](../../../std/core/core_package_api/core_package_interfaces.md#interface-equatablet)\<[OpenMode](./fs_package_enums.md#enum-openmode)>
+
+### Read
+
+```cangjie
+Read
+```
+
+功能：构造一个 [OpenMode](fs_package_enums.md#enum-openmode) 实例，指定以只读的方式打开文件。如果文件不存在，则将引发 [FSException](fs_package_exceptions.md#class-fsexception) 异常。
+
+### Write
+
+```cangjie
+Write
+```
+
+功能：构造一个 [OpenMode](fs_package_enums.md#enum-openmode) 实例，指定以只写的方式打开文件，即文件存在时会将该文件截断为零字节大小，文件不存在则将创建文件。
 
 ### Append
 
@@ -21,44 +40,60 @@ public enum OpenOption {
 Append
 ```
 
-功能：构造一个 [OpenOption](fs_package_enums.md#enum-openoption) 实例，指定文件系统应打开现有文件并查找到文件尾，用这个选项创建的 [File](fs_package_classes.md#class-file) 默认只具有 Write 权限，试图查找文件尾之前的位置时会引发 [FSException](fs_package_exceptions.md#class-fsexception) 异常，并且任何试图读取的操作都会失败并引发 [FSException](fs_package_exceptions.md#class-fsexception) 异常。如果文件不存在，则将引发 [FSException](fs_package_exceptions.md#class-fsexception) 异常。
+功能：构造一个 [OpenMode](fs_package_enums.md#enum-openmode) 实例，指定以追加写入的方式打开文件。如果文件不存在，则将创建文件。
 
-### Create(Bool)
-
-```cangjie
-Create(Bool)
-```
-
-功能：构造一个 [OpenOption](fs_package_enums.md#enum-openoption) 实例，指定文件系统应创建新文件，用这个选项创建的 [File](fs_package_classes.md#class-file) 默认具有 Write 权限，可以通过参数指定是否具有 Read 权限。如果文件已存在，则将引发 [FSException](fs_package_exceptions.md#class-fsexception) 异常。
-
-### CreateOrAppend
+### ReadWrite
 
 ```cangjie
-CreateOrAppend
+ReadWrite
 ```
 
-功能：构造一个 [OpenOption](fs_package_enums.md#enum-openoption) 实例，指定文件系统应打开文件（如果文件存在），否则，应创建新文件。用这个选项创建的 [File](fs_package_classes.md#class-file) 默认只具有 Write 权限，并且试图查找文件尾之前的位置时会引发 [FSException](fs_package_exceptions.md#class-fsexception) 异常。分为两种情况：如果文件不存在，则使用 Create；否则使用 Append。
+功能：构造一个 [OpenMode](fs_package_enums.md#enum-openmode) 实例，指定以可读可写的方式打开文件。如果文件不存在，则将创建文件。
 
-### CreateOrTruncate(Bool)
+> **注意：**
+>
+> ReadWrite 模式不会使文件被截断为零字节大小。
+
+### func toString()
 
 ```cangjie
-CreateOrTruncate(Bool)
+public func toString(): String
 ```
 
-功能：构造一个 [OpenOption](fs_package_enums.md#enum-openoption) 实例，指定文件系统应创建新文件，如果此文件已存在，则会将其覆盖。用这个选项创建的 [File](fs_package_classes.md#class-file) 默认具有 Write 权限，可以通过参数指定是否具有 Read 权限。分为两种情况：如果文件不存在，则使用 Create；否则使用 Truncate。
+功能：文件打开模式的字符串表示。
 
-### Open(Bool, Bool)
+返回值：
+
+- [String](../../../std/core/core_package_api/core_package_structs.md#struct-string) - 文件打开模式名称。
+
+### func operator func ==(OpenMode)
 
 ```cangjie
-Open(Bool, Bool)
+public operator func ==(that: OpenMode): Bool
 ```
 
-功能：构造一个 [OpenOption](fs_package_enums.md#enum-openoption) 实例，指定文件系统应打开现有文件，第一个参数指定文件是否具有 Read 权限，第二个参数指定文件是否具有 Write 权限。如果文件不存在，则将引发 [FSException](fs_package_exceptions.md#class-fsexception) 异常。
+功能：比较 [OpenMode](fs_package_enums.md#enum-openmode) 实例是否相等。
 
-### Truncate(Bool)
+参数：
+
+- that: [OpenMode](fs_package_enums.md#enum-openmode) - 待比较的 [OpenMode](fs_package_enums.md#enum-openmode) 实例。
+
+返回值：
+
+- [Bool](../../../std/core/core_package_api/core_package_intrinsics.md#bool) - 如果相等，则返回 true，否则返回 false。
+
+### func operator func !=(OpenMode)
 
 ```cangjie
-Truncate(Bool)
+public operator func !=(that: OpenMode): Bool
 ```
 
-功能：构造一个 [OpenOption](fs_package_enums.md#enum-openoption) 实例，指定文件系统应打开现有文件，该文件被打开时，将被截断为零字节大小。用这个选项创建的 [File](fs_package_classes.md#class-file) 默认具有 Write 权限，可以通过参数指定是否具有 Read 权限。如果文件不存在，则将引发 [FSException](fs_package_exceptions.md#class-fsexception) 异常。
+功能：比较 [OpenMode](fs_package_enums.md#enum-openmode) 实例是否不等。
+
+参数：
+
+- that: [OpenMode](fs_package_enums.md#enum-openmode) - 待比较的 [OpenMode](fs_package_enums.md#enum-openmode) 实例。
+
+返回值：
+
+- [Bool](../../../std/core/core_package_api/core_package_intrinsics.md#bool) - 如果不相等，则返回 true，否则返回 false。

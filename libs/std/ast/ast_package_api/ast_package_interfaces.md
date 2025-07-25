@@ -22,78 +22,6 @@ func toBytes(): Array<UInt8>
 
 - [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8)> - 序列化后的字节序列。
 
-### extend Position <: ToBytes
-
-```cangjie
-extend Position <: ToBytes
-```
-
-功能：提供 [Position](ast_package_structs.md#struct-position) 类型的序列化功能。
-
-父类型：
-
-- [ToBytes](#interface-tobytes)
-
-#### func toBytes()
-
-```cangjie
-public func toBytes(): Array<UInt8>
-```
-
-功能：提供 [Position](ast_package_structs.md#struct-position) 类型的序列化功能。
-
-返回值：
-
-- [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8)> - 序列化后的字节序列。
-
-### extend Token <: ToBytes
-
-```cangjie
-extend Token <: ToBytes
-```
-
-功能：提供 [Token](ast_package_structs.md#struct-token) 类型的序列化功能。
-
-父类型：
-
-- [ToBytes](#interface-tobytes)
-
-#### func toBytes()
-
-```cangjie
-public func toBytes(): Array<UInt8>
-```
-
-功能：提供 [Token](ast_package_structs.md#struct-token) 类型的序列化功能。
-
-返回值：
-
-- [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8)> - 序列化后的字节序列。
-
-### extend Tokens <: ToBytes
-
-```cangjie
-extend Tokens <: ToBytes
-```
-
-功能：提供 [Tokens](ast_package_classes.md#class-tokens) 类型的序列化功能。
-
-父类型：
-
-- [ToBytes](#interface-tobytes)
-
-#### func toBytes()
-
-```cangjie
-public func toBytes(): Array<UInt8>
-```
-
-功能：提供 [Tokens](ast_package_classes.md#class-tokens) 类型的序列化功能。
-
-返回值：
-
-- [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8)> - 序列化后的字节序列。
-
 ## interface ToTokens
 
 ```cangjie
@@ -158,7 +86,7 @@ extend<T> ArrayList<T> <: ToTokens
 public func toTokens(): Tokens
 ```
 
-功能：实现 [ArrayList](../../collection/collection_package_api/collection_package_class.md#class-arraylistt) 类型到 [Tokens](ast_package_classes.md#class-tokens) 类型的转换，目前支持的类型有 [Decl](ast_package_classes.md#class-decl)、[Node](ast_package_classes.md#class-node)、[Constructor](ast_package_classes.md#class-constructor)、[Argument](ast_package_classes.md#class-argument)、[FuncParam](ast_package_classes.md#class-funcparam)、[MatchCase](ast_package_classes.md#class-matchcase)、[Modifier](ast_package_classes.md#class-modifier)、[Annotation](ast_package_classes.md#class-annotation)、[ImportList](ast_package_classes.md#class-importlist)、[Pattern](ast_package_classes.md#class-pattern)、[TypeNode](ast_package_classes.md#class-typenode)等。
+功能：实现 [ArrayList](../../collection/collection_package_api/collection_package_class.md#class-arraylistt) 类型到 [Tokens](ast_package_classes.md#class-tokens) 类型的转换，目前支持的类型有 [Decl](ast_package_classes.md#class-decl)、[Node](ast_package_classes.md#class-node)、[Constructor](ast_package_classes.md#class-constructor)、[Argument](ast_package_classes.md#class-argument)、[FuncParam](ast_package_classes.md#class-funcparam)、[MatchCase](ast_package_classes.md#class-matchcase)、[Modifier](ast_package_classes.md#class-modifier)、[Annotation](ast_package_classes.md#class-annotation)、[ImportList](ast_package_classes.md#class-importlist)、[Pattern](ast_package_classes.md#class-pattern)、[TypeNode](ast_package_classes.md#class-typenode) 等。
 
 返回值：
 

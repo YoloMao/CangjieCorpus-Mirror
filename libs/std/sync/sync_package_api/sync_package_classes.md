@@ -3,7 +3,9 @@
 ## class AtomicBool
 
 ```cangjie
-public class AtomicBool
+public class AtomicBool {
+    public init(val: Bool)
+}
 ```
 
 功能：提供 [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) 类型的原子操作相关函数。
@@ -26,7 +28,7 @@ public init(val: Bool)
 public func compareAndSwap(old: Bool, new: Bool): Bool
 ```
 
-功能：CAS（Compare and Swap）操作，采用[默认内存排序方式](sync_package_constants_vars.md#let-defaultmemoryorder)。
+功能：CAS（Compare and Swap）操作，采用[默认内存排序方式](sync_package_constants_vars.md#let-defaultmemoryorder-deprecated)。
 
 比较当前原子类型的值与参数 `old` 指定的值是否相等。若相等，则写入参数 `new` 指定的值，并返回 `true`；否则，不写入值，并返回 `false`。
 
@@ -39,7 +41,7 @@ public func compareAndSwap(old: Bool, new: Bool): Bool
 
 - [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 比较后交换成功返回 `true`，否则返回 `false`。
 
-### func compareAndSwap(Bool, Bool, MemoryOrder, MemoryOrder)
+### func compareAndSwap(Bool, Bool, MemoryOrder, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func compareAndSwap(old: Bool, new: Bool, successOrder!: MemoryOrder, failureOrder!: MemoryOrder): Bool
@@ -49,12 +51,16 @@ public func compareAndSwap(old: Bool, new: Bool, successOrder!: MemoryOrder, fai
 
 比较当前原子类型的值与参数 `old` 指定的值是否相等。若相等，写入参数 `new` 指定的值，返回 `true`；否则，不写入值，并返回 `false`。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [compareAndSwap(Bool, Bool)](#func-compareandswapbool-bool) 替代。
+
 参数：
 
 - old: [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 与当前原子类型进行比较的值。
 - new: [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 比较结果相等时，写入原子类型的值。
-- successOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - CAS 操作成功时，执行“读 > 修改 > 写”操作需要的内存排序方式。
-- failureOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - CAS 操作失败时，执行“读”操作需要的内存排序方式。
+- successOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - CAS 操作成功时，执行“读 > 修改 > 写”操作需要的内存排序方式。
+- failureOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - CAS 操作失败时，执行“读”操作需要的内存排序方式。
 
 返回值：
 
@@ -72,7 +78,7 @@ public func load(): Bool
 
 - [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 当前原子类型的值。
 
-### func load(MemoryOrder)
+### func load(MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func load(memoryOrder!: MemoryOrder): Bool
@@ -80,9 +86,13 @@ public func load(memoryOrder!: MemoryOrder): Bool
 
 功能：读取操作，采用参数 `memoryOrder` 指定的内存排序方式，读取原子类型的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [load()](#func-load) 替代。
+
 参数：
 
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -100,7 +110,7 @@ public func store(val: Bool): Unit
 
 - val: [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 写入原子类型的值。
 
-### func store(Bool, MemoryOrder)
+### func store(Bool, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func store(val: Bool, memoryOrder!: MemoryOrder): Unit
@@ -108,10 +118,14 @@ public func store(val: Bool, memoryOrder!: MemoryOrder): Unit
 
 功能：写入操作，采用参数 `memoryOrder` 指定的内存排序方式，将参数 `val` 指定的值写入原子类型。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [store(Bool)](#func-storebool) 替代。
+
 参数：
 
 - val: [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 写入原子类型的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 ### func swap(Bool)
 
@@ -129,7 +143,7 @@ public func swap(val: Bool): Bool
 
 - [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 写入前的值。
 
-### func swap(Bool, MemoryOrder)
+### func swap(Bool, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func swap(val: Bool, memoryOrder!: MemoryOrder): Bool
@@ -137,10 +151,14 @@ public func swap(val: Bool, memoryOrder!: MemoryOrder): Bool
 
 功能：交换操作，采用参数 `memoryOrder` 指定的内存排序方式，将参数 `val` 指定的值写入原子类型，并返回写入前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [swap(Bool)](#func-swapbool) 替代。
+
 参数：
 
 - val: [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 写入原子类型的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -149,7 +167,9 @@ public func swap(val: Bool, memoryOrder!: MemoryOrder): Bool
 ## class AtomicInt16
 
 ```cangjie
-public class AtomicInt16
+public class AtomicInt16 {
+    public init(val: Int16)
+}
 ```
 
 功能：提供 [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) 类型的原子操作相关函数。
@@ -185,7 +205,7 @@ public func compareAndSwap(old: Int16, new: Int16): Bool
 
 - [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 比较后交换成功返回 `true`，否则返回 `false`
 
-### func compareAndSwap(Int16, Int16, MemoryOrder, MemoryOrder)
+### func compareAndSwap(Int16, Int16, MemoryOrder, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func compareAndSwap(old: Int16, new: Int16, successOrder!: MemoryOrder, failureOrder!: MemoryOrder): Bool
@@ -195,12 +215,16 @@ public func compareAndSwap(old: Int16, new: Int16, successOrder!: MemoryOrder, f
 
 比较当前原子类型的值与参数 `old` 指定的值是否相等。若相等，写入参数 `new` 指定的值，返回 `true`；否则，不写入值，并返回 `false`。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [compareAndSwap(Int16, Int16)](#func-compareandswapint16-int16) 替代。
+
 参数：
 
 - old: [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 与当前原子类型进行比较的值。
 - new: [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 比较结果相等时，写入原子类型的值。
-- successOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - CAS 操作成功时，执行“读 > 修改 > 写”操作需要的内存排序方式。
-- failureOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - CAS 操作失败时，执行“读”操作需要的内存排序方式。
+- successOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - CAS 操作成功时，执行“读 > 修改 > 写”操作需要的内存排序方式。
+- failureOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - CAS 操作失败时，执行“读”操作需要的内存排序方式。
 
 返回值：
 
@@ -222,7 +246,7 @@ public func fetchAdd(val: Int16): Int16
 
 - [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 执行加操作前的值。
 
-### func fetchAdd(Int16, MemoryOrder)
+### func fetchAdd(Int16, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func fetchAdd(val: Int16, memoryOrder!: MemoryOrder): Int16
@@ -230,10 +254,14 @@ public func fetchAdd(val: Int16, memoryOrder!: MemoryOrder): Int16
 
 功能：采用参数 `memoryOrder` 指定的内存排序方式，将原子类型的值与参数 `val` 进行加操作。将结果写入当前原子类型实例，并返回加法运算前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [fetchAdd(Int16)](#func-fetchaddint16) 替代。
+
 参数：
 
 - val: [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 与原子类型进行加操作的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -255,7 +283,7 @@ public func fetchAnd(val: Int16): Int16
 
 - [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 执行与操作前的值。
 
-### func fetchAnd(Int16, MemoryOrder)
+### func fetchAnd(Int16, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func fetchAnd(val: Int16, memoryOrder!: MemoryOrder): Int16
@@ -263,10 +291,14 @@ public func fetchAnd(val: Int16, memoryOrder!: MemoryOrder): Int16
 
 功能：采用参数 `memoryOrder` 指定的内存排序方式，将当前原子类型实例的值与参数 `val` 进行与操作。将结果写入当前原子类型实例，并返回与操作前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [fetchAnd(Int16)](#func-fetchandint16) 替代。
+
 参数：
 
 - val: [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 与原子类型进行与操作的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -288,7 +320,7 @@ public func fetchOr(val: Int16): Int16
 
 - [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 执行或操作前的值。
 
-### func fetchOr(Int16, MemoryOrder)
+### func fetchOr(Int16, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func fetchOr(val: Int16, memoryOrder!: MemoryOrder): Int16
@@ -296,10 +328,14 @@ public func fetchOr(val: Int16, memoryOrder!: MemoryOrder): Int16
 
 功能：采用参数 `memoryOrder` 指定的内存排序方式，将当前原子类型实例的值与参数 `val` 进行或操作。将结果写入当前原子类型实例，并返回或操作前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [fetchOr(Int16)](#func-fetchorint16) 替代。
+
 参数：
 
 - val: [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 与原子类型进行或操作的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -321,7 +357,7 @@ public func fetchSub(val: Int16): Int16
 
 - [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 执行减操作前的值。
 
-### func fetchSub(Int16, MemoryOrder)
+### func fetchSub(Int16, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func fetchSub(val: Int16, memoryOrder!: MemoryOrder): Int16
@@ -329,10 +365,14 @@ public func fetchSub(val: Int16, memoryOrder!: MemoryOrder): Int16
 
 功能：采用参数 `memoryOrder` 指定的内存排序方式，以原子类型的值为被减数，参数 `val` 为减数，做减操作。将结果写入当前原子类型实例，并返回减操作前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [fetchSub(Int16)](#func-fetchsubint16) 替代。
+
 参数：
 
 - val: [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 与原子类型进行减操作的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -354,7 +394,7 @@ public func fetchXor(val: Int16): Int16
 
 - [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 执行异或操作前的值。
 
-### func fetchXor(Int16, MemoryOrder)
+### func fetchXor(Int16, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func fetchXor(val: Int16, memoryOrder!: MemoryOrder): Int16
@@ -362,10 +402,14 @@ public func fetchXor(val: Int16, memoryOrder!: MemoryOrder): Int16
 
 功能：采用参数 `memoryOrder` 指定的内存排序方式，将当前原子类型实例的值与参数 `val` 进行异或操作。将结果写入当前原子类型实例，并返回异或操作前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [fetchXor(Int16)](#func-fetchxorint16) 替代。
+
 参数：
 
 - val: [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 与原子类型进行异或操作的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -383,7 +427,7 @@ public func load(): Int16
 
 - [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 当前原子类型的值。
 
-### func load(MemoryOrder)
+### func load(MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func load(memoryOrder!: MemoryOrder): Int16
@@ -391,9 +435,13 @@ public func load(memoryOrder!: MemoryOrder): Int16
 
 功能：读取操作，采用参数 `memoryOrder` 指定的内存排序方式，读取原子类型的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [load()](#func-load-1) 替代。
+
 参数：
 
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -411,7 +459,7 @@ public func store(val: Int16): Unit
 
 - val: [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 写入原子类型的值。
 
-### func store(Int16, MemoryOrder)
+### func store(Int16, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func store(val: Int16, memoryOrder!: MemoryOrder): Unit
@@ -419,10 +467,14 @@ public func store(val: Int16, memoryOrder!: MemoryOrder): Unit
 
 功能：写入操作，采用参数 `memoryOrder` 指定的内存排序方式，将参数 `val` 指定的值写入原子类型。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [store(Int16)](#func-storeint16) 替代。
+
 参数：
 
 - val: [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 写入原子类型的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 ### func swap(Int16)
 
@@ -440,7 +492,7 @@ public func swap(val: Int16): Int16
 
 - [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 写入前的值。
 
-### func swap(Int16, MemoryOrder)
+### func swap(Int16, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func swap(val: Int16, memoryOrder!: MemoryOrder): Int16
@@ -448,10 +500,14 @@ public func swap(val: Int16, memoryOrder!: MemoryOrder): Int16
 
 功能：交换操作，采用参数 `memoryOrder` 指定的内存排序方式，将参数 `val` 指定的值写入原子类型，并返回写入前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [swap(Int16)](#func-swapint16) 替代。
+
 参数：
 
 - val: [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 写入原子类型的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -460,7 +516,9 @@ public func swap(val: Int16, memoryOrder!: MemoryOrder): Int16
 ## class AtomicInt32
 
 ```cangjie
-public class AtomicInt32
+public class AtomicInt32 {
+    public init(val: Int32)
+}
 ```
 
 功能：提供 [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) 类型的原子操作相关函数。
@@ -496,7 +554,7 @@ public func compareAndSwap(old: Int32, new: Int32): Bool
 
 - [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 比较后交换成功返回 `true`，否则返回 `false`。
 
-### func compareAndSwap(Int32, Int32, MemoryOrDer, MemoryOrder)
+### func compareAndSwap(Int32, Int32, MemoryOrder, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func compareAndSwap(old: Int32, new: Int32, successOrder!: MemoryOrder, failureOrder!: MemoryOrder): Bool
@@ -506,12 +564,16 @@ public func compareAndSwap(old: Int32, new: Int32, successOrder!: MemoryOrder, f
 
 比较当前原子类型的值与参数 `old` 指定的值是否相等。若相等，写入参数 `new` 指定的值，返回 `true`；否则，不写入值，并返回 `false`。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [compareAndSwap(Int32, Int32)](#func-compareandswapint32-int32) 替代。
+
 参数：
 
 - old: [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 与当前原子类型进行比较的值。
 - new: [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 比较结果相等时，写入原子类型的值。
-- successOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - CAS 操作成功时，执行“读 > 修改 > 写”操作需要的内存排序方式。
-- failureOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - CAS 操作失败时，执行“读”操作需要的内存排序方式。
+- successOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - CAS 操作成功时，执行“读 > 修改 > 写”操作需要的内存排序方式。
+- failureOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - CAS 操作失败时，执行“读”操作需要的内存排序方式。
 
 返回值：
 
@@ -533,7 +595,7 @@ public func fetchAdd(val: Int32): Int32
 
 - [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 执行加操作前的值。
 
-### func fetchAdd(Int32, MemoryOrder)
+### func fetchAdd(Int32, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func fetchAdd(val: Int32, memoryOrder!: MemoryOrder): Int32
@@ -541,10 +603,14 @@ public func fetchAdd(val: Int32, memoryOrder!: MemoryOrder): Int32
 
 功能：采用参数 `memoryOrder` 指定的内存排序方式，将原子类型的值与参数 `val` 进行加操作。将结果写入当前原子类型实例，并返回加法运算前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [fetchAdd(Int32)](#func-fetchaddint32) 替代。
+
 参数：
 
 - val: [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 与原子类型进行加操作的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -566,7 +632,7 @@ public func fetchAnd(val: Int32): Int32
 
 - [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 执行与操作前的值。
 
-### func fetchAnd(Int32, MemoryOrder)
+### func fetchAnd(Int32, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func fetchAnd(val: Int32, memoryOrder!: MemoryOrder): Int32
@@ -574,10 +640,14 @@ public func fetchAnd(val: Int32, memoryOrder!: MemoryOrder): Int32
 
 功能：采用参数 `memoryOrder` 指定的内存排序方式，将当前原子类型实例的值与参数 `val` 进行与操作。将结果写入当前原子类型实例，并返回与操作前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [fetchAnd(Int32)](#func-fetchandint32) 替代。
+
 参数：
 
 - val: [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 与原子类型进行与操作的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -599,7 +669,7 @@ public func fetchOr(val: Int32): Int32
 
 - [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 执行或操作前的值。
 
-### func fetchOr(Int32, MemoryOrder)
+### func fetchOr(Int32, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func fetchOr(val: Int32, memoryOrder!: MemoryOrder): Int32
@@ -607,10 +677,14 @@ public func fetchOr(val: Int32, memoryOrder!: MemoryOrder): Int32
 
 功能：采用参数 `memoryOrder` 指定的内存排序方式，将当前原子类型实例的值与参数 `val` 进行或操作。将结果写入当前原子类型实例，并返回或操作前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [fetchOr(Int32)](#func-fetchorint32) 替代。
+
 参数：
 
 - val: [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 与原子类型进行或操作的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -632,7 +706,7 @@ public func fetchSub(val: Int32): Int32
 
 - [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 执行减操作前的值。
 
-### func fetchSub(Int32, MemoryOrder)
+### func fetchSub(Int32, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func fetchSub(val: Int32, memoryOrder!: MemoryOrder): Int32
@@ -640,10 +714,14 @@ public func fetchSub(val: Int32, memoryOrder!: MemoryOrder): Int32
 
 功能：采用参数 `memoryOrder` 指定的内存排序方式，以原子类型的值为被减数，参数 `val` 为减数，做减操作。将结果写入当前原子类型实例，并返回减操作前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [fetchSub(Int32)](#func-fetchsubint32) 替代。
+
 参数：
 
 - val: [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 与原子类型进行减操作的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -665,7 +743,7 @@ public func fetchXor(val: Int32): Int32
 
 - [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 执行异或操作前的值。
 
-### func fetchXor(Int32, MemoryOrder)
+### func fetchXor(Int32, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func fetchXor(val: Int32, memoryOrder!: MemoryOrder): Int32
@@ -673,10 +751,14 @@ public func fetchXor(val: Int32, memoryOrder!: MemoryOrder): Int32
 
 功能：采用参数 `memoryOrder` 指定的内存排序方式，将当前原子类型实例的值与参数 `val` 进行异或操作。将结果写入当前原子类型实例，并返回异或操作前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [fetchXor(Int32)](#func-fetchxorint32) 替代。
+
 参数：
 
 - val: [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 与原子类型进行异或操作的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -694,7 +776,7 @@ public func load(): Int32
 
 - [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 当前原子类型的值。
 
-### func load(MemoryOrder)
+### func load(MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func load(memoryOrder!: MemoryOrder): Int32
@@ -702,9 +784,13 @@ public func load(memoryOrder!: MemoryOrder): Int32
 
 功能：读取操作，采用参数 `memoryOrder` 指定的内存排序方式，读取原子类型的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [load()](#func-load-2) 替代。
+
 参数：
 
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -722,7 +808,7 @@ public func store(val: Int32): Unit
 
 - val: [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 写入原子类型的值。
 
-### func store(Int32, MemoryOrder)
+### func store(Int32, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func store(val: Int32, memoryOrder!: MemoryOrder): Unit
@@ -730,10 +816,14 @@ public func store(val: Int32, memoryOrder!: MemoryOrder): Unit
 
 功能：写入操作，采用参数 `memoryOrder` 指定的内存排序方式，将参数 `val` 指定的值写入原子类型。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [store(Int32)](#func-storeint32) 替代。
+
 参数：
 
 - val: [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 写入原子类型的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 ### func swap(Int32)
 
@@ -751,7 +841,7 @@ public func swap(val: Int32): Int32
 
 - [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 写入前的值。
 
-### func swap(Int32, MemoryOrder)
+### func swap(Int32, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func swap(val: Int32, memoryOrder!: MemoryOrder): Int32
@@ -759,10 +849,14 @@ public func swap(val: Int32, memoryOrder!: MemoryOrder): Int32
 
 功能：交换操作，采用参数 `memoryOrder` 指定的内存排序方式，将参数 `val` 指定的值写入原子类型，并返回写入前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [swap(Int32)](#func-swapint32) 替代。
+
 参数：
 
 - val: [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 写入原子类型的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -771,7 +865,9 @@ public func swap(val: Int32, memoryOrder!: MemoryOrder): Int32
 ## class AtomicInt64
 
 ```cangjie
-public class AtomicInt64
+public class AtomicInt64 {
+    public init(val: Int64)
+}
 ```
 
 功能：提供 [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) 类型的原子操作相关函数。
@@ -807,7 +903,7 @@ public func compareAndSwap(old: Int64, new: Int64): Bool
 
 - [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 比较后交换成功返回 `true`，否则返回 `false`。
 
-### func compareAndSwap(Int64, Int64, MemoryOrder, MemoryOrder)
+### func compareAndSwap(Int64, Int64, MemoryOrder, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func compareAndSwap(old: Int64, new: Int64, successOrder!: MemoryOrder, failureOrder!: MemoryOrder): Bool
@@ -817,12 +913,16 @@ public func compareAndSwap(old: Int64, new: Int64, successOrder!: MemoryOrder, f
 
 比较当前原子类型的值与参数 `old` 指定的值是否相等。若相等，写入参数 `new` 指定的值，返回 `true`；否则，不写入值，并返回 `false`。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [compareAndSwap(Int64, Int64)](#func-compareandswapint64-int64) 替代。
+
 参数：
 
 - old: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 与当前原子类型进行比较的值。
 - new: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 比较结果相等时，写入原子类型的值。
-- successOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - CAS 操作成功时，执行“读 > 修改 > 写”操作需要的内存排序方式。
-- failureOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - CAS 操作失败时，执行“读”操作需要的内存排序方式。
+- successOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - CAS 操作成功时，执行“读 > 修改 > 写”操作需要的内存排序方式。
+- failureOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - CAS 操作失败时，执行“读”操作需要的内存排序方式。
 
 返回值：
 
@@ -844,7 +944,7 @@ public func fetchAdd(val: Int64): Int64
 
 - [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 执行加操作前的值。
 
-### func fetchAdd(Int64, MemoryOrder)
+### func fetchAdd(Int64, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func fetchAdd(val: Int64, memoryOrder!: MemoryOrder): Int64
@@ -852,10 +952,14 @@ public func fetchAdd(val: Int64, memoryOrder!: MemoryOrder): Int64
 
 功能：采用参数 `memoryOrder` 指定的内存排序方式，将原子类型的值与参数 `val` 进行加操作。将结果写入当前原子类型实例，并返回加法运算前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [fetchAdd(Int64)](#func-fetchaddint64) 替代。
+
 参数：
 
 - val: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 与原子类型进行加操作的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -877,7 +981,7 @@ public func fetchAnd(val: Int64): Int64
 
 - [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 执行与操作前的值。
 
-### func fetchAnd(Int64, MemoryOrder)
+### func fetchAnd(Int64, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func fetchAnd(val: Int64, memoryOrder!: MemoryOrder): Int64
@@ -885,10 +989,14 @@ public func fetchAnd(val: Int64, memoryOrder!: MemoryOrder): Int64
 
 功能：采用参数 `memoryOrder` 指定的内存排序方式，将当前原子类型实例的值与参数 `val` 进行与操作。将结果写入当前原子类型实例，并返回与操作前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [fetchAnd(Int64)](#func-fetchandint64) 替代。
+
 参数：
 
 - val: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 与原子类型进行与操作的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -910,7 +1018,7 @@ public func fetchOr(val: Int64): Int64
 
 - [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 执行或操作前的值。
 
-### func fetchOr(Int64, MemoryOrder)
+### func fetchOr(Int64, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func fetchOr(val: Int64, memoryOrder!: MemoryOrder): Int64
@@ -918,10 +1026,14 @@ public func fetchOr(val: Int64, memoryOrder!: MemoryOrder): Int64
 
 功能：采用参数 `memoryOrder` 指定的内存排序方式，将当前原子类型实例的值与参数 `val` 进行或操作。将结果写入当前原子类型实例，并返回或操作前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [fetchOr(Int64)](#func-fetchorint64) 替代。
+
 参数：
 
 - val: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 与原子类型进行或操作的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -943,7 +1055,7 @@ public func fetchSub(val: Int64): Int64
 
 - [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 执行减操作前的值。
 
-### func fetchSub(Int64, MemoryOrder)
+### func fetchSub(Int64, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func fetchSub(val: Int64, memoryOrder!: MemoryOrder): Int64
@@ -951,10 +1063,14 @@ public func fetchSub(val: Int64, memoryOrder!: MemoryOrder): Int64
 
 功能：采用参数 `memoryOrder` 指定的内存排序方式，以原子类型的值为被减数，参数 `val` 为减数，做减操作。将结果写入当前原子类型实例，并返回减操作前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [fetchSub(Int64)](#func-fetchsubint64) 替代。
+
 参数：
 
 - val: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 与原子类型进行减操作的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -976,7 +1092,7 @@ public func fetchXor(val: Int64): Int64
 
 - [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 执行异或操作前的值。
 
-### func fetchXor(Int64, MemoryOrder)
+### func fetchXor(Int64, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func fetchXor(val: Int64, memoryOrder!: MemoryOrder): Int64
@@ -984,10 +1100,14 @@ public func fetchXor(val: Int64, memoryOrder!: MemoryOrder): Int64
 
 功能：采用参数 `memoryOrder` 指定的内存排序方式，将当前原子类型实例的值与参数 `val` 进行异或操作。将结果写入当前原子类型实例，并返回异或操作前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [fetchXor(Int64)](#func-fetchxorint64) 替代。
+
 参数：
 
 - val: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 与原子类型进行异或操作的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -1005,7 +1125,7 @@ public func load(): Int64
 
 - [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 当前原子类型的值。
 
-### func load(MemoryOrder)
+### func load(MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func load(memoryOrder!: MemoryOrder): Int64
@@ -1013,9 +1133,13 @@ public func load(memoryOrder!: MemoryOrder): Int64
 
 功能：读取操作，采用参数 `memoryOrder` 指定的内存排序方式，读取原子类型的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [load()](#func-load-3) 替代。
+
 参数：
 
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -1033,7 +1157,7 @@ public func store(val: Int64): Unit
 
 - val: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 写入原子类型的值。
 
-### func store(Int64, MemoryOrder)
+### func store(Int64, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func store(val: Int64, memoryOrder!: MemoryOrder): Unit
@@ -1041,10 +1165,14 @@ public func store(val: Int64, memoryOrder!: MemoryOrder): Unit
 
 功能：写入操作，采用参数 `memoryOrder` 指定的内存排序方式，将参数 `val` 指定的值写入原子类型。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [store(Int64)](#func-storeint64) 替代。
+
 参数：
 
 - val: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 写入原子类型的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 ### func swap(Int64)
 
@@ -1062,7 +1190,7 @@ public func swap(val: Int64): Int64
 
 - [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 写入前的值。
 
-### func swap(Int64, MemoryOrder)
+### func swap(Int64, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func swap(val: Int64, memoryOrder!: MemoryOrder): Int64
@@ -1070,19 +1198,67 @@ public func swap(val: Int64, memoryOrder!: MemoryOrder): Int64
 
 功能：交换操作，采用参数 `memoryOrder` 指定的内存排序方式，将参数 `val` 指定的值写入原子类型，并返回写入前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [swap(Int64)](#func-swapint64) 替代。
+
 参数：
 
 - val: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 写入原子类型的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
 - [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 写入前的值。
 
+示例：
+
+<!-- verify -->
+```cangjie
+import std.sync.*
+
+let count = AtomicInt64(1)
+
+main(): Int64 {
+    var val1 = 0
+    if (count.compareAndSwap(1, 2)) {
+        val1 = count.load()
+        println("count1 = ${val1}")
+    }
+
+    if (count.fetchAdd(2) == val1) {
+        var val2 = count.load()
+        println("count2 = ${val2}")
+    }
+
+    count.store(6)
+    var val3 = count.load()
+    println("count3 = ${val3}")
+
+    if (count.swap(8) == val3) {
+        var val4 = count.load()
+        println("count4 = ${val4}")        
+    }
+
+    return 0
+}
+```
+
+运行结果：
+
+```text
+count1 = 2
+count2 = 4
+count3 = 6
+count4 = 8
+```
+
 ## class AtomicInt8
 
 ```cangjie
-public class AtomicInt8
+public class AtomicInt8 {
+    public init(val: Int8)
+}
 ```
 
 功能：提供 [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) 类型的原子操作相关函数。
@@ -1118,7 +1294,7 @@ public func compareAndSwap(old: Int8, new: Int8): Bool
 
 - [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 比较后交换成功返回 `true`，否则返回 `false`。
 
-### func compareAndSwap(Int8, Int8, MemoryOrder, MemoryOrder)
+### func compareAndSwap(Int8, Int8, MemoryOrder, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func compareAndSwap(old: Int8, new: Int8, successOrder!: MemoryOrder, failureOrder!: MemoryOrder): Bool
@@ -1128,12 +1304,16 @@ public func compareAndSwap(old: Int8, new: Int8, successOrder!: MemoryOrder, fai
 
 比较当前原子类型的值与参数 `old` 指定的值是否相等。若相等，写入参数 `new` 指定的值，返回 `true`；否则，不写入值，并返回 `false`。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [compareAndSwap(Int8, Int8)](#func-compareandswapint8-int8) 替代。
+
 参数：
 
 - old: [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 与当前原子类型进行比较的值。
 - new: [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 比较结果相等时，写入原子类型的值。
-- successOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - CAS 操作成功时，执行“读 > 修改 > 写”操作需要的内存排序方式。
-- failureOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - CAS 操作失败时，执行“读”操作需要的内存排序方式。
+- successOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - CAS 操作成功时，执行“读 > 修改 > 写”操作需要的内存排序方式。
+- failureOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - CAS 操作失败时，执行“读”操作需要的内存排序方式。
 
 返回值：
 
@@ -1155,7 +1335,7 @@ public func fetchAdd(val: Int8): Int8
 
 - [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 执行加操作前的值。
 
-### func fetchAdd(Int8, MemoryOrder)
+### func fetchAdd(Int8, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func fetchAdd(val: Int8, memoryOrder!: MemoryOrder): Int8
@@ -1163,10 +1343,14 @@ public func fetchAdd(val: Int8, memoryOrder!: MemoryOrder): Int8
 
 功能：采用参数 `memoryOrder` 指定的内存排序方式，将原子类型的值与参数 `val` 进行加操作。将结果写入当前原子类型实例，并返回加法运算前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [fetchAdd(Int8)](#func-fetchaddint8) 替代。
+
 参数：
 
 - val: [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 与原子类型进行加操作的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -1188,7 +1372,7 @@ public func fetchAnd(val: Int8): Int8
 
 - [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 执行与操作前的值。
 
-### func fetchAnd(Int8, MemoryOrder)
+### func fetchAnd(Int8, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func fetchAnd(val: Int8, memoryOrder!: MemoryOrder): Int8
@@ -1196,10 +1380,14 @@ public func fetchAnd(val: Int8, memoryOrder!: MemoryOrder): Int8
 
 功能：采用参数 `memoryOrder` 指定的内存排序方式，将当前原子类型实例的值与参数 `val` 进行与操作。将结果写入当前原子类型实例，并返回与操作前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [fetchAnd(Int8)](#func-fetchandint8) 替代。
+
 参数：
 
 - val: [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 与原子类型进行与操作的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -1221,7 +1409,7 @@ public func fetchOr(val: Int8): Int8
 
 - [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 执行或操作前的值。
 
-### func fetchOr(Int8, MemoryOrder)
+### func fetchOr(Int8, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func fetchOr(val: Int8, memoryOrder!: MemoryOrder): Int8
@@ -1229,10 +1417,14 @@ public func fetchOr(val: Int8, memoryOrder!: MemoryOrder): Int8
 
 功能：采用参数 `memoryOrder` 指定的内存排序方式，将当前原子类型实例的值与参数 `val` 进行或操作。将结果写入当前原子类型实例，并返回或操作前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [fetchOr(Int8)](#func-fetchorint8) 替代。
+
 参数：
 
 - val: [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 与原子类型进行或操作的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -1254,7 +1446,7 @@ public func fetchSub(val: Int8): Int8
 
 - [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 执行减操作前的值。
 
-### func fetchSub(Int8, MemoryOrder)
+### func fetchSub(Int8, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func fetchSub(val: Int8, memoryOrder!: MemoryOrder): Int8
@@ -1262,10 +1454,14 @@ public func fetchSub(val: Int8, memoryOrder!: MemoryOrder): Int8
 
 功能：采用参数 `memoryOrder` 指定的内存排序方式，以原子类型的值为被减数，参数 `val` 为减数，做减操作。将结果写入当前原子类型实例，并返回减操作前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [fetchSub(Int8)](#func-fetchsubint8) 替代。
+
 参数：
 
 - val: [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 与原子类型进行减操作的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -1287,7 +1483,7 @@ public func fetchXor(val: Int8): Int8
 
 - [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 执行异或操作前的值。
 
-### func fetchXor(Int8, MemoryOrder)
+### func fetchXor(Int8, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func fetchXor(val: Int8, memoryOrder!: MemoryOrder): Int8
@@ -1295,10 +1491,14 @@ public func fetchXor(val: Int8, memoryOrder!: MemoryOrder): Int8
 
 功能：采用参数 `memoryOrder` 指定的内存排序方式，将当前原子类型实例的值与参数 `val` 进行异或操作。将结果写入当前原子类型实例，并返回异或操作前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [fetchXor(Int8)](#func-fetchxorint8) 替代。
+
 参数：
 
 - val: [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 与原子类型进行异或操作的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -1316,7 +1516,7 @@ public func load(): Int8
 
 - [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 当前原子类型的值。
 
-### func load(MemoryOrder)
+### func load(MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func load(memoryOrder!: MemoryOrder): Int8
@@ -1324,9 +1524,13 @@ public func load(memoryOrder!: MemoryOrder): Int8
 
 功能：读取操作，采用参数 `memoryOrder` 指定的内存排序方式，读取原子类型的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [load()](#func-load-4) 替代。
+
 参数：
 
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -1344,7 +1548,7 @@ public func store(val: Int8): Unit
 
 - val: [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 写入原子类型的值。
 
-### func store(Int8, MemoryOrder)
+### func store(Int8, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func store(val: Int8, memoryOrder!: MemoryOrder): Unit
@@ -1352,10 +1556,14 @@ public func store(val: Int8, memoryOrder!: MemoryOrder): Unit
 
 功能：写入操作，采用参数 `memoryOrder` 指定的内存排序方式，将参数 `val` 指定的值写入原子类型。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [store(Int8)](#func-storeint8) 替代。
+
 参数：
 
 - val: [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 写入原子类型的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 ### func swap(Int8)
 
@@ -1373,7 +1581,7 @@ public func swap(val: Int8): Int8
 
 - [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 写入前的值。
 
-### func swap(Int8, MemoryOrder)
+### func swap(Int8, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func swap(val: Int8, memoryOrder!: MemoryOrder): Int8
@@ -1381,19 +1589,26 @@ public func swap(val: Int8, memoryOrder!: MemoryOrder): Int8
 
 功能：交换操作，采用参数 `memoryOrder` 指定的内存排序方式，将参数 `val` 指定的值写入原子类型，并返回写入前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [swap(Int8)](#func-swapint8) 替代。
+
 参数：
 
 - val: [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 写入原子类型的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
 - [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 写入前的值。
 
-## class AtomicOptionReference
+## class AtomicOptionReference\<T> where T <: Object
 
 ```cangjie
-public class AtomicOptionReference<T> where T <: Object
+public class AtomicOptionReference<T> where T <: Object {
+    public init()
+    public init(val: Option<T>)
+}
 ```
 
 功能：提供引用类型原子操作相关函数。
@@ -1406,7 +1621,7 @@ public class AtomicOptionReference<T> where T <: Object
 public init()
 ```
 
-功能：构造一个空的 [AtomicOptionReference](sync_package_classes.md#class-atomicoptionreference) 实例。
+功能：构造一个空的 [AtomicOptionReference](sync_package_classes.md#class-atomicoptionreferencet-where-t--object) 实例。
 
 ### init(Option\<T>)
 
@@ -1414,7 +1629,7 @@ public init()
 public init(val: Option<T>)
 ```
 
-功能：构造一个封装 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<T> 数据类型的原子类型 [AtomicOptionReference](sync_package_classes.md#class-atomicoptionreference) 的实例，其内部数据初始值为入参 `val` 的值。
+功能：构造一个封装 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<T> 数据类型的原子类型 [AtomicOptionReference](sync_package_classes.md#class-atomicoptionreferencet-where-t--object) 的实例，其内部数据初始值为入参 `val` 的值。
 
 参数：
 
@@ -1439,7 +1654,7 @@ public func compareAndSwap(old: Option<T>, new: Option<T>): Bool
 
 - [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 比较后交换成功返回 `true`，否则返回 `false`。
 
-### func compareAndSwap(Option\<T>, Option\<T>, MemoryOrder, MemoryOrder)
+### func compareAndSwap(Option\<T>, Option\<T>, MemoryOrder, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func compareAndSwap(old: Option<T>, new: Option<T>, successOrder!: MemoryOrder, failureOrder!: MemoryOrder): Bool
@@ -1449,12 +1664,16 @@ public func compareAndSwap(old: Option<T>, new: Option<T>, successOrder!: Memory
 
 比较当前原子类型的值与参数 `old` 指定的值是否相等。若相等，写入参数 `new` 指定的值，返回 `true`；否则，不写入值，并返回 `false`。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [compareAndSwap(Option\<T>, Option\<T>)](#func-compareandswapoptiont-optiont) 替代。
+
 参数：
 
 - old: [Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<T> - 与当前原子类型进行比较的值。
 - new: [Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<T> - 比较结果相等时，写入原子类型的值。
-- successOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - CAS 操作成功时，执行“读 > 修改 > 写”操作需要的内存排序方式。
-- failureOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - CAS 操作失败时，执行“读”操作需要的内存排序方式。
+- successOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - CAS 操作成功时，执行“读 > 修改 > 写”操作需要的内存排序方式。
+- failureOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - CAS 操作失败时，执行“读”操作需要的内存排序方式。
 
 返回值：
 
@@ -1472,7 +1691,7 @@ public func load(): Option<T>
 
 - [Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<T> - 当前原子类型的值。
 
-### func load(MemoryOrder)
+### func load(MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func load(memoryOrder!: MemoryOrder): Option<T>
@@ -1480,9 +1699,13 @@ public func load(memoryOrder!: MemoryOrder): Option<T>
 
 功能：读取操作，采用参数 `memoryOrder` 指定的内存排序方式，读取原子类型的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [load()](#func-load-5) 替代。
+
 参数：
 
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -1500,7 +1723,7 @@ public func store(val: Option<T>): Unit
 
 - val: [Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<T> - 写入原子类型的值。
 
-### func store(Option\<T>, MemoryOrder)
+### func store(Option\<T>, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func store(val: Option<T>, memoryOrder!: MemoryOrder): Unit
@@ -1508,10 +1731,14 @@ public func store(val: Option<T>, memoryOrder!: MemoryOrder): Unit
 
 功能：写入操作，采用参数 `memoryOrder` 指定的内存排序方式，将参数 `val` 指定的值写入原子类型。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [store(Option\<T>)](#func-storeoptiont) 替代。
+
 参数：
 
 - val: [Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<T> - 写入原子类型的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 ### func swap(Option\<T>)
 
@@ -1529,7 +1756,7 @@ public func swap(val: Option<T>): Option<T>
 
 - [Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<T> - 写入前的值。
 
-### func swap(Option\<T>, MemoryOrder)
+### func swap(Option\<T>, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func swap(val: Option<T>, memoryOrder!: MemoryOrder): Option<T>
@@ -1537,19 +1764,25 @@ public func swap(val: Option<T>, memoryOrder!: MemoryOrder): Option<T>
 
 功能：交换操作，采用参数 `memoryOrder` 指定的内存排序方式，将参数 `val` 指定的值写入原子类型，并返回写入前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [swap(Option\<T>)](#func-swapoptiont) 替代。
+
 参数：
 
 - val: [Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<T> - 写入原子类型的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
 - [Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<T> - 写入前的值。
 
-## class AtomicReference
+## class AtomicReference\<T> where T <: Object
 
 ```cangjie
-public class AtomicReference<T> where T <: Object
+public class AtomicReference<T> where T <: Object {
+    public init(val: T)
+}
 ```
 
 功能：引用类型原子操作相关函数。
@@ -1562,7 +1795,7 @@ public class AtomicReference<T> where T <: Object
 public init(val: T)
 ```
 
-功能：构造一个封装 `T` 数据类型的原子类型 [AtomicReference](sync_package_classes.md#class-atomicreference) 的实例，其内部数据初始值为入参 `val` 的值。
+功能：构造一个封装 `T` 数据类型的原子类型 [AtomicReference](sync_package_classes.md#class-atomicreferencet-where-t--object) 的实例，其内部数据初始值为入参 `val` 的值。
 
 参数：
 
@@ -1587,7 +1820,7 @@ public func compareAndSwap(old: T, new: T): Bool
 
 - [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 比较后交换成功返回 `true`，否则返回 `false`。
 
-### func compareAndSwap(T, T, MemoryOrder, MemoryOrder)
+### func compareAndSwap(T, T, MemoryOrder, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func compareAndSwap(old: T, new: T, successOrder!: MemoryOrder, failureOrder!: MemoryOrder): Bool
@@ -1597,12 +1830,16 @@ public func compareAndSwap(old: T, new: T, successOrder!: MemoryOrder, failureOr
 
 比较当前原子类型的值与参数 `old` 指定的值是否相等。若相等，写入参数 `new` 指定的值，返回 `true`；否则，不写入值，并返回 `false`。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [compareAndSwap(T, T)](#func-compareandswapt-t) 替代。
+
 参数：
 
 - old: T - 与当前原子类型进行比较的值。
 - new: T - 比较结果相等时，写入原子类型的值。
-- successOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - CAS 操作成功时，执行“读 > 修改 > 写”操作需要的内存排序方式。
-- failureOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - CAS 操作失败时，执行“读”操作需要的内存排序方式。
+- successOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - CAS 操作成功时，执行“读 > 修改 > 写”操作需要的内存排序方式。
+- failureOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - CAS 操作失败时，执行“读”操作需要的内存排序方式。
 
 返回值：
 
@@ -1620,7 +1857,7 @@ public func load(): T
 
 - T - 当前原子类型的值。
 
-### func load(MemoryOrder)
+### func load(MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func load(memoryOrder!: MemoryOrder): T
@@ -1628,9 +1865,13 @@ public func load(memoryOrder!: MemoryOrder): T
 
 功能：读取操作，采用参数 `memoryOrder` 指定的内存排序方式，读取原子类型的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [load()](#func-load-6) 替代。
+
 参数：
 
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -1648,7 +1889,7 @@ public func store(val: T): Unit
 
 - val: T - 写入原子类型的值。
 
-### func store(T, MemoryOrder)
+### func store(T, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func store(val: T, memoryOrder!: MemoryOrder): Unit
@@ -1656,10 +1897,14 @@ public func store(val: T, memoryOrder!: MemoryOrder): Unit
 
 功能：写入操作，采用参数 `memoryOrder` 指定的内存排序方式，将参数 `val` 指定的值写入原子类型。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [store(T)](#func-storet) 替代。
+
 参数：
 
 - val: T - 写入原子类型的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 ### func swap(T)
 
@@ -1677,7 +1922,7 @@ public func swap(val: T): T
 
 - T - 写入前的值。
 
-### func swap(T, MemoryOrder)
+### func swap(T, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func swap(val: T, memoryOrder!: MemoryOrder): T
@@ -1685,10 +1930,14 @@ public func swap(val: T, memoryOrder!: MemoryOrder): T
 
 功能：交换操作，采用参数 `memoryOrder` 指定的内存排序方式，将参数 `val` 指定的值写入原子类型，并返回写入前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [swap(T)](#func-swapt) 替代。
+
 参数：
 
 - val: T - 写入原子类型的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -1697,7 +1946,9 @@ public func swap(val: T, memoryOrder!: MemoryOrder): T
 ## class AtomicUInt16
 
 ```cangjie
-public class AtomicUInt16
+public class AtomicUInt16 {
+    public init(val: UInt16)
+}
 ```
 
 功能：提供 [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) 类型的原子操作相关函数。
@@ -1733,7 +1984,7 @@ public func compareAndSwap(old: UInt16, new: UInt16): Bool
 
 - [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 比较后交换成功返回 `true`，否则返回 `false`。
 
-### func compareAndSwap(UInt16, UInt16, MemoryOrder, MemoryOrder)
+### func compareAndSwap(UInt16, UInt16, MemoryOrder, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func compareAndSwap(old: UInt16, new: UInt16, successOrder!: MemoryOrder, failureOrder!: MemoryOrder): Bool
@@ -1743,12 +1994,16 @@ public func compareAndSwap(old: UInt16, new: UInt16, successOrder!: MemoryOrder,
 
 比较当前原子类型的值与参数 `old` 指定的值是否相等。若相等，写入参数 `new` 指定的值，返回 `true`；否则，不写入值，并返回 `false`。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [compareAndSwap(UInt16, UInt16)](#func-compareandswapuint16-uint16) 替代。
+
 参数：
 
 - old: [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 与当前原子类型进行比较的值。
 - new: [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 比较结果相等时，写入原子类型的值。
-- successOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - CAS 操作成功时，执行“读 > 修改 > 写”操作需要的内存排序方式。
-- failureOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - CAS 操作失败时，执行“读”操作需要的内存排序方式。
+- successOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - CAS 操作成功时，执行“读 > 修改 > 写”操作需要的内存排序方式。
+- failureOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - CAS 操作失败时，执行“读”操作需要的内存排序方式。
 
 返回值：
 
@@ -1770,7 +2025,7 @@ public func fetchAdd(val: UInt16): UInt16
 
 - [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 执行加操作前的值。
 
-### func fetchAdd(UInt16, MemoryOrder)
+### func fetchAdd(UInt16, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func fetchAdd(val: UInt16, memoryOrder!: MemoryOrder): UInt16
@@ -1778,10 +2033,14 @@ public func fetchAdd(val: UInt16, memoryOrder!: MemoryOrder): UInt16
 
 功能：采用参数 `memoryOrder` 指定的内存排序方式，将原子类型的值与参数 `val` 进行加操作。将结果写入当前原子类型实例，并返回加法运算前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [fetchAdd(UInt16)](#func-fetchadduint16) 替代。
+
 参数：
 
 - val: [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 与原子类型进行加操作的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -1803,7 +2062,7 @@ public func fetchAnd(val: UInt16): UInt16
 
 - [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 执行与操作前的值。
 
-### func fetchAnd(UInt16, MemoryOrder)
+### func fetchAnd(UInt16, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func fetchAnd(val: UInt16, memoryOrder!: MemoryOrder): UInt16
@@ -1811,10 +2070,14 @@ public func fetchAnd(val: UInt16, memoryOrder!: MemoryOrder): UInt16
 
 功能：采用参数 `memoryOrder` 指定的内存排序方式，将当前原子类型实例的值与参数 `val` 进行与操作。将结果写入当前原子类型实例，并返回与操作前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [fetchAnd(UInt16)](#func-fetchanduint16) 替代。
+
 参数：
 
 - val: [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 与原子类型进行与操作的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -1836,7 +2099,7 @@ public func fetchOr(val: UInt16): UInt16
 
 - [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 执行或操作前的值。
 
-### func fetchOr(UInt16, MemoryOrder)
+### func fetchOr(UInt16, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func fetchOr(val: UInt16, memoryOrder!: MemoryOrder): UInt16
@@ -1844,10 +2107,14 @@ public func fetchOr(val: UInt16, memoryOrder!: MemoryOrder): UInt16
 
 功能：采用参数 `memoryOrder` 指定的内存排序方式，将当前原子类型实例的值与参数 `val` 进行或操作。将结果写入当前原子类型实例，并返回或操作前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [fetchOr(UInt16)](#func-fetchoruint16) 替代。
+
 参数：
 
 - val: [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 与原子类型进行或操作的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -1869,7 +2136,7 @@ public func fetchSub(val: UInt16): UInt16
 
 - [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 执行减操作前的值。
 
-### func fetchSub(UInt16, MemoryOrder)
+### func fetchSub(UInt16, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func fetchSub(val: UInt16, memoryOrder!: MemoryOrder): UInt16
@@ -1877,10 +2144,14 @@ public func fetchSub(val: UInt16, memoryOrder!: MemoryOrder): UInt16
 
 功能：采用参数 `memoryOrder` 指定的内存排序方式，以原子类型的值为被减数，参数 `val` 为减数，做减操作。将结果写入当前原子类型实例，并返回减操作前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [fetchSub(UInt16)](#func-fetchsubuint16) 替代。
+
 参数：
 
 - val: [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 与原子类型进行减操作的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -1902,7 +2173,7 @@ public func fetchXor(val: UInt16): UInt16
 
 - [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 执行异或操作前的值。
 
-### func fetchXor(UInt16, MemoryOrder)
+### func fetchXor(UInt16, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func fetchXor(val: UInt16, memoryOrder!: MemoryOrder): UInt16
@@ -1910,10 +2181,14 @@ public func fetchXor(val: UInt16, memoryOrder!: MemoryOrder): UInt16
 
 功能：采用参数 `memoryOrder` 指定的内存排序方式，将当前原子类型实例的值与参数 `val` 进行异或操作。将结果写入当前原子类型实例，并返回异或操作前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [fetchXor(UInt16)](#func-fetchxoruint16) 替代。
+
 参数：
 
 - val: [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 与原子类型进行异或操作的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -1931,7 +2206,7 @@ public func load(): UInt16
 
 - [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 当前原子类型的值。
 
-### func load(MemoryOrder)
+### func load(MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func load(memoryOrder!: MemoryOrder): UInt16
@@ -1939,9 +2214,13 @@ public func load(memoryOrder!: MemoryOrder): UInt16
 
 功能：读取操作，采用参数 `memoryOrder` 指定的内存排序方式，读取原子类型的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [load()](#func-load-7) 替代。
+
 参数：
 
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -1959,7 +2238,7 @@ public func store(val: UInt16): Unit
 
 - val: [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 写入原子类型的值。
 
-### func store(UInt16, MemoryOrder)
+### func store(UInt16, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func store(val: UInt16, memoryOrder!: MemoryOrder): Unit
@@ -1967,10 +2246,14 @@ public func store(val: UInt16, memoryOrder!: MemoryOrder): Unit
 
 功能：写入操作，采用参数 `memoryOrder` 指定的内存排序方式，将参数 `val` 指定的值写入原子类型。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [store(UInt16)](#func-storeuint16) 替代。
+
 参数：
 
 - val: [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 写入原子类型的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 ### func swap(UInt16)
 
@@ -1988,7 +2271,7 @@ public func swap(val: UInt16): UInt16
 
 - [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 写入前的值。
 
-### func swap(UInt16, MemoryOrder)
+### func swap(UInt16, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func swap(val: UInt16, memoryOrder!: MemoryOrder): UInt16
@@ -1996,10 +2279,14 @@ public func swap(val: UInt16, memoryOrder!: MemoryOrder): UInt16
 
 功能：交换操作，采用参数 `memoryOrder` 指定的内存排序方式，将参数 `val` 指定的值写入原子类型，并返回写入前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [swap(UInt16)](#func-swapuint16) 替代。
+
 参数：
 
 - val: [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - 写入原子类型的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -2008,7 +2295,9 @@ public func swap(val: UInt16, memoryOrder!: MemoryOrder): UInt16
 ## class AtomicUInt32
 
 ```cangjie
-public class AtomicUInt32
+public class AtomicUInt32 {
+    public init(val: UInt32)
+}
 ```
 
 功能：提供 [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) 类型的原子操作相关函数。
@@ -2044,7 +2333,7 @@ public func compareAndSwap(old: UInt32, new: UInt32): Bool
 
 - [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 比较后交换成功返回 `true`，否则返回 `false`。
 
-### func compareAndSwap(UInt32, UInt32, MemoryOrder, MemoryOrder)
+### func compareAndSwap(UInt32, UInt32, MemoryOrder, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func compareAndSwap(old: UInt32, new: UInt32, successOrder!: MemoryOrder, failureOrder!: MemoryOrder): Bool
@@ -2054,12 +2343,16 @@ public func compareAndSwap(old: UInt32, new: UInt32, successOrder!: MemoryOrder,
 
 比较当前原子类型的值与参数 `old` 指定的值是否相等。若相等，写入参数 `new` 指定的值，返回 `true`；否则，不写入值，并返回 `false`。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [compareAndSwap(UInt32, UInt32)](#func-compareandswapuint32-uint32) 替代。
+
 参数：
 
 - old: [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 与当前原子类型进行比较的值。
 - new: [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 比较结果相等时，写入原子类型的值。
-- successOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - CAS 操作成功时，执行“读 > 修改 > 写”操作需要的内存排序方式。
-- failureOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - CAS 操作失败时，执行“读”操作需要的内存排序方式。
+- successOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - CAS 操作成功时，执行“读 > 修改 > 写”操作需要的内存排序方式。
+- failureOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - CAS 操作失败时，执行“读”操作需要的内存排序方式。
 
 返回值：
 
@@ -2081,7 +2374,7 @@ public func fetchAdd(val: UInt32): UInt32
 
 - [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 执行加操作前的值。
 
-### func fetchAdd(UInt32, MemoryOrder)
+### func fetchAdd(UInt32, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func fetchAdd(val: UInt32, memoryOrder!: MemoryOrder): UInt32
@@ -2089,10 +2382,14 @@ public func fetchAdd(val: UInt32, memoryOrder!: MemoryOrder): UInt32
 
 功能：采用参数 `memoryOrder` 指定的内存排序方式，将原子类型的值与参数 `val` 进行加操作。将结果写入当前原子类型实例，并返回加法运算前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [fetchAdd(UInt32)](#func-fetchadduint32) 替代。
+
 参数：
 
 - val: [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 与原子类型进行加操作的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -2114,7 +2411,7 @@ public func fetchAnd(val: UInt32): UInt32
 
 - [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 执行与操作前的值。
 
-### func fetchAnd(UInt32, MemoryOrder)
+### func fetchAnd(UInt32, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func fetchAnd(val: UInt32, memoryOrder!: MemoryOrder): UInt32
@@ -2122,10 +2419,14 @@ public func fetchAnd(val: UInt32, memoryOrder!: MemoryOrder): UInt32
 
 功能：采用参数 `memoryOrder` 指定的内存排序方式，将当前原子类型实例的值与参数 `val` 进行与操作。将结果写入当前原子类型实例，并返回与操作前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [fetchAnd(UInt32)](#func-fetchanduint32) 替代。
+
 参数：
 
 - val: [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 与原子类型进行与操作的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -2147,7 +2448,7 @@ public func fetchOr(val: UInt32): UInt32
 
 - [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 执行或操作前的值。
 
-### func fetchOr(UInt32, MemoryOrder)
+### func fetchOr(UInt32, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func fetchOr(val: UInt32, memoryOrder!: MemoryOrder): UInt32
@@ -2155,10 +2456,14 @@ public func fetchOr(val: UInt32, memoryOrder!: MemoryOrder): UInt32
 
 功能：采用参数 `memoryOrder` 指定的内存排序方式，将当前原子类型实例的值与参数 `val` 进行或操作。将结果写入当前原子类型实例，并返回或操作前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [fetchOr(UInt32)](#func-fetchoruint32) 替代。
+
 参数：
 
 - val: [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 与原子类型进行或操作的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -2180,7 +2485,7 @@ public func fetchSub(val: UInt32): UInt32
 
 - [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 执行减操作前的值。
 
-### func fetchSub(UInt32, MemoryOrder)
+### func fetchSub(UInt32, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func fetchSub(val: UInt32, memoryOrder!: MemoryOrder): UInt32
@@ -2188,10 +2493,14 @@ public func fetchSub(val: UInt32, memoryOrder!: MemoryOrder): UInt32
 
 功能：采用参数 `memoryOrder` 指定的内存排序方式，以原子类型的值为被减数，参数 `val` 为减数，做减操作。将结果写入当前原子类型实例，并返回减操作前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [fetchSub(UInt32)](#func-fetchsubuint32) 替代。
+
 参数：
 
 - val: [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 与原子类型进行减操作的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -2213,7 +2522,7 @@ public func fetchXor(val: UInt32): UInt32
 
 - [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 执行异或操作前的值。
 
-### func fetchXor(UInt32, MemoryOrder)
+### func fetchXor(UInt32, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func fetchXor(val: UInt32, memoryOrder!: MemoryOrder): UInt32
@@ -2221,10 +2530,14 @@ public func fetchXor(val: UInt32, memoryOrder!: MemoryOrder): UInt32
 
 功能：采用参数 `memoryOrder` 指定的内存排序方式，将当前原子类型实例的值与参数 `val` 进行异或操作。将结果写入当前原子类型实例，并返回异或操作前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [fetchXor(UInt32)](#func-fetchxoruint32) 替代。
+
 参数：
 
 - val: [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 与原子类型进行异或操作的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -2242,7 +2555,7 @@ public func load(): UInt32
 
 - [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 当前原子类型的值。
 
-### func load(MemoryOrder)
+### func load(MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func load(memoryOrder!: MemoryOrder): UInt32
@@ -2250,9 +2563,13 @@ public func load(memoryOrder!: MemoryOrder): UInt32
 
 功能：读取操作，采用参数 `memoryOrder` 指定的内存排序方式，读取原子类型的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [load()](#func-load-8) 替代。
+
 参数：
 
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -2270,7 +2587,7 @@ public func store(val: UInt32): Unit
 
 - val: [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 写入原子类型的值。
 
-### func store(UInt32, MemoryOrder)
+### func store(UInt32, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func store(val: UInt32, memoryOrder!: MemoryOrder): Unit
@@ -2278,10 +2595,14 @@ public func store(val: UInt32, memoryOrder!: MemoryOrder): Unit
 
 功能：写入操作，采用参数 `memoryOrder` 指定的内存排序方式，将参数 `val` 指定的值写入原子类型。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [store(UInt32)](#func-storeuint32) 替代。
+
 参数：
 
 - val: [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 写入原子类型的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 ### func swap(UInt32)
 
@@ -2299,7 +2620,7 @@ public func swap(val: UInt32): UInt32
 
 - [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 写入前的值。
 
-### func swap(UInt32, MemoryOrder)
+### func swap(UInt32, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func swap(val: UInt32, memoryOrder!: MemoryOrder): UInt32
@@ -2307,10 +2628,14 @@ public func swap(val: UInt32, memoryOrder!: MemoryOrder): UInt32
 
 功能：交换操作，采用参数 `memoryOrder` 指定的内存排序方式，将参数 `val` 指定的值写入原子类型，并返回写入前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [swap(UInt32)](#func-swapuint32) 替代。
+
 参数：
 
 - val: [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - 写入原子类型的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -2319,7 +2644,9 @@ public func swap(val: UInt32, memoryOrder!: MemoryOrder): UInt32
 ## class AtomicUInt64
 
 ```cangjie
-public class AtomicUInt64
+public class AtomicUInt64 {
+    public init(val: UInt64)
+}
 ```
 
 功能：提供 [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) 类型的原子操作相关函数。
@@ -2355,7 +2682,7 @@ public func compareAndSwap(old: UInt64, new: UInt64): Bool
 
 - [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 比较后交换成功返回 `true`，否则返回 `false`。
 
-### func compareAndSwap(UInt64, UInt64, MemoryOrder, MemoryOrder)
+### func compareAndSwap(UInt64, UInt64, MemoryOrder, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func compareAndSwap(old: UInt64, new: UInt64, successOrder!: MemoryOrder, failureOrder!: MemoryOrder): Bool
@@ -2365,12 +2692,16 @@ public func compareAndSwap(old: UInt64, new: UInt64, successOrder!: MemoryOrder,
 
 比较当前原子类型的值与参数 `old` 指定的值是否相等。若相等，写入参数 `new` 指定的值，返回 `true`；否则，不写入值，并返回 `false`。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [compareAndSwap(UInt64, UInt64)](#func-compareandswapuint64-uint64) 替代。
+
 参数：
 
 - old: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 与当前原子类型进行比较的值。
 - new: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 比较结果相等时，写入原子类型的值。
-- successOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - CAS 操作成功时，执行“读 > 修改 > 写”操作需要的内存排序方式。
-- failureOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - CAS 操作失败时，执行“读”操作需要的内存排序方式。
+- successOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - CAS 操作成功时，执行“读 > 修改 > 写”操作需要的内存排序方式。
+- failureOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - CAS 操作失败时，执行“读”操作需要的内存排序方式。
 
 返回值：
 
@@ -2392,7 +2723,7 @@ public func fetchAdd(val: UInt64): UInt64
 
 - [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 执行加操作前的值。
 
-### func fetchAdd(UInt64, MemoryOrder)
+### func fetchAdd(UInt64, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func fetchAdd(val: UInt64, memoryOrder!: MemoryOrder): UInt64
@@ -2400,10 +2731,14 @@ public func fetchAdd(val: UInt64, memoryOrder!: MemoryOrder): UInt64
 
 功能：采用参数 `memoryOrder` 指定的内存排序方式，将原子类型的值与参数 `val` 进行加操作。将结果写入当前原子类型实例，并返回加法运算前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [fetchAdd(UInt64)](#func-fetchadduint64) 替代。
+
 参数：
 
 - val: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 与原子类型进行加操作的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -2425,7 +2760,7 @@ public func fetchAnd(val: UInt64): UInt64
 
 - [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 执行与操作前的值。
 
-### func fetchAnd(UInt64, MemoryOrder)
+### func fetchAnd(UInt64, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func fetchAnd(val: UInt64, memoryOrder!: MemoryOrder): UInt64
@@ -2433,10 +2768,14 @@ public func fetchAnd(val: UInt64, memoryOrder!: MemoryOrder): UInt64
 
 功能：采用参数 `memoryOrder` 指定的内存排序方式，将当前原子类型实例的值与参数 `val` 进行与操作。将结果写入当前原子类型实例，并返回与操作前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [fetchAnd(UInt64)](#func-fetchanduint64) 替代。
+
 参数：
 
 - val: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 与原子类型进行与操作的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -2458,7 +2797,7 @@ public func fetchOr(val: UInt64): UInt64
 
 - [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 执行或操作前的值。
 
-### func fetchOr(UInt64, MemoryOrder)
+### func fetchOr(UInt64, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func fetchOr(val: UInt64, memoryOrder!: MemoryOrder): UInt64
@@ -2466,10 +2805,14 @@ public func fetchOr(val: UInt64, memoryOrder!: MemoryOrder): UInt64
 
 功能：采用参数 `memoryOrder` 指定的内存排序方式，将当前原子类型实例的值与参数 `val` 进行或操作。将结果写入当前原子类型实例，并返回或操作前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [fetchOr(UInt64)](#func-fetchoruint64) 替代。
+
 参数：
 
 - val: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 与原子类型进行或操作的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -2491,7 +2834,7 @@ public func fetchSub(val: UInt64): UInt64
 
 - [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 执行减操作前的值。
 
-### func fetchSub(UInt64, MemoryOrder)
+### func fetchSub(UInt64, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func fetchSub(val: UInt64, memoryOrder!: MemoryOrder): UInt64
@@ -2499,10 +2842,14 @@ public func fetchSub(val: UInt64, memoryOrder!: MemoryOrder): UInt64
 
 功能：采用参数 `memoryOrder` 指定的内存排序方式，以原子类型的值为被减数，参数 `val` 为减数，做减操作。将结果写入当前原子类型实例，并返回减操作前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [fetchSub(UInt64)](#func-fetchsubuint64) 替代。
+
 参数：
 
 - val: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 与原子类型进行减操作的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -2524,7 +2871,7 @@ public func fetchXor(val: UInt64): UInt64
 
 - [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 执行异或操作前的值。
 
-### func fetchXor(UInt64, MemoryOrder)
+### func fetchXor(UInt64, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func fetchXor(val: UInt64, memoryOrder!: MemoryOrder): UInt64
@@ -2532,10 +2879,14 @@ public func fetchXor(val: UInt64, memoryOrder!: MemoryOrder): UInt64
 
 功能：采用参数 `memoryOrder` 指定的内存排序方式，将当前原子类型实例的值与参数 `val` 进行异或操作。将结果写入当前原子类型实例，并返回异或操作前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [fetchXor(UInt64)](#func-fetchxoruint64) 替代。
+
 参数：
 
 - val: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 与原子类型进行异或操作的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -2553,7 +2904,7 @@ public func load(): UInt64
 
 - [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 当前原子类型的值。
 
-### func load(MemoryOrder)
+### func load(MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func load(memoryOrder!: MemoryOrder): UInt64
@@ -2561,9 +2912,13 @@ public func load(memoryOrder!: MemoryOrder): UInt64
 
 功能：读取操作，采用参数 `memoryOrder` 指定的内存排序方式，读取原子类型的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [load()](#func-load-9) 替代。
+
 参数：
 
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -2581,7 +2936,7 @@ public func store(val: UInt64): Unit
 
 - val: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 写入原子类型的值。
 
-### func store(UInt64, MemoryOrder)
+### func store(UInt64, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func store(val: UInt64, memoryOrder!: MemoryOrder): Unit
@@ -2589,10 +2944,14 @@ public func store(val: UInt64, memoryOrder!: MemoryOrder): Unit
 
 功能：写入操作，采用参数 `memoryOrder` 指定的内存排序方式，将参数 `val` 指定的值写入原子类型。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [store(UInt64)](#func-storeuint64) 替代。
+
 参数：
 
 - val: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 写入原子类型的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 ### func swap(UInt64)
 
@@ -2610,7 +2969,7 @@ public func swap(val: UInt64): UInt64
 
 - [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 写入前的值。
 
-### func swap(UInt64, MemoryOrder)
+### func swap(UInt64, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func swap(val: UInt64, memoryOrder!: MemoryOrder): UInt64
@@ -2618,10 +2977,14 @@ public func swap(val: UInt64, memoryOrder!: MemoryOrder): UInt64
 
 功能：交换操作，采用参数 `memoryOrder` 指定的内存排序方式，将参数 `val` 指定的值写入原子类型，并返回写入前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [swap(UInt64)](#func-swapuint64) 替代。
+
 参数：
 
 - val: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 写入原子类型的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -2630,7 +2993,9 @@ public func swap(val: UInt64, memoryOrder!: MemoryOrder): UInt64
 ## class AtomicUInt8
 
 ```cangjie
-public class AtomicUInt8
+public class AtomicUInt8 {
+    public init(val: UInt8)
+}
 ```
 
 功能：提供 [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) 类型的原子操作相关函数。
@@ -2666,7 +3031,7 @@ public func compareAndSwap(old: UInt8, new: UInt8): Bool
 
 - [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 比较后交换成功返回 `true`，否则返回 `false`。
 
-### func compareAndSwap(UInt8, UInt8, MemoryOrder, MemoryOrder)
+### func compareAndSwap(UInt8, UInt8, MemoryOrder, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func compareAndSwap(old: UInt8, new: UInt8, successOrder!: MemoryOrder, failureOrder!: MemoryOrder): Bool
@@ -2676,12 +3041,16 @@ public func compareAndSwap(old: UInt8, new: UInt8, successOrder!: MemoryOrder, f
 
 比较当前原子类型的值与参数 `old` 指定的值是否相等。若相等，写入参数 `new` 指定的值，返回 `true`；否则，不写入值，并返回 `false`。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [compareAndSwap(UInt8, UInt8)](#func-compareandswapuint8-uint8) 替代。
+
 参数：
 
 - old: [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 与当前原子类型进行比较的值。
 - new: [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 比较结果相等时，写入原子类型的值。
-- successOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - CAS 操作成功时，执行“读 > 修改 > 写”操作需要的内存排序方式。
-- failureOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - CAS 操作失败时，执行“读”操作需要的内存排序方式。
+- successOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - CAS 操作成功时，执行“读 > 修改 > 写”操作需要的内存排序方式。
+- failureOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - CAS 操作失败时，执行“读”操作需要的内存排序方式。
 
 返回值：
 
@@ -2703,7 +3072,7 @@ public func fetchAdd(val: UInt8): UInt8
 
 - [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 执行加操作前的值。
 
-### func fetchAdd(UInt8, MemoryOrder)
+### func fetchAdd(UInt8, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func fetchAdd(val: UInt8, memoryOrder!: MemoryOrder): UInt8
@@ -2711,10 +3080,14 @@ public func fetchAdd(val: UInt8, memoryOrder!: MemoryOrder): UInt8
 
 功能：采用参数 `memoryOrder` 指定的内存排序方式，将原子类型的值与参数 `val` 进行加操作。将结果写入当前原子类型实例，并返回加法运算前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [fetchAdd(UInt8)](#func-fetchadduint8) 替代。
+
 参数：
 
 - val: [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 与原子类型进行加操作的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -2736,7 +3109,7 @@ public func fetchAnd(val: UInt8): UInt8
 
 - [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 执行与操作前的值。
 
-### func fetchAnd(UInt8, MemoryOrder)
+### func fetchAnd(UInt8, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func fetchAnd(val: UInt8, memoryOrder!: MemoryOrder): UInt8
@@ -2744,10 +3117,14 @@ public func fetchAnd(val: UInt8, memoryOrder!: MemoryOrder): UInt8
 
 功能：采用参数 `memoryOrder` 指定的内存排序方式，将当前原子类型实例的值与参数 `val` 进行与操作。将结果写入当前原子类型实例，并返回与操作前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [fetchAnd(UInt8)](#func-fetchanduint8) 替代。
+
 参数：
 
 - val: [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 与原子类型进行与操作的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -2769,7 +3146,7 @@ public func fetchOr(val: UInt8): UInt8
 
 - [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 执行或操作前的值。
 
-### func fetchOr(UInt8, MemoryOrder)
+### func fetchOr(UInt8, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func fetchOr(val: UInt8, memoryOrder!: MemoryOrder): UInt8
@@ -2777,10 +3154,14 @@ public func fetchOr(val: UInt8, memoryOrder!: MemoryOrder): UInt8
 
 功能：采用参数 `memoryOrder` 指定的内存排序方式，将当前原子类型实例的值与参数 `val` 进行或操作。将结果写入当前原子类型实例，并返回或操作前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [fetchOr(UInt8)](#func-fetchoruint8) 替代。
+
 参数：
 
 - val: [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 与原子类型进行或操作的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -2802,7 +3183,7 @@ public func fetchSub(val: UInt8): UInt8
 
 - [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 执行减操作前的值。
 
-### func fetchSub(UInt8, MemoryOrder)
+### func fetchSub(UInt8, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func fetchSub(val: UInt8, memoryOrder!: MemoryOrder): UInt8
@@ -2810,10 +3191,14 @@ public func fetchSub(val: UInt8, memoryOrder!: MemoryOrder): UInt8
 
 功能：采用参数 `memoryOrder` 指定的内存排序方式，以原子类型的值为被减数，参数 `val` 为减数，做减操作。将结果写入当前原子类型实例，并返回减操作前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [fetchSub(UInt8)](#func-fetchsubuint8) 替代。
+
 参数：
 
 - val: [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 与原子类型进行减操作的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -2835,7 +3220,7 @@ public func fetchXor(val: UInt8): UInt8
 
 - [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 执行异或操作前的值。
 
-### func fetchXor(UInt8, MemoryOrder)
+### func fetchXor(UInt8, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func fetchXor(val: UInt8, memoryOrder!: MemoryOrder): UInt8
@@ -2843,10 +3228,14 @@ public func fetchXor(val: UInt8, memoryOrder!: MemoryOrder): UInt8
 
 功能：采用参数 `memoryOrder` 指定的内存排序方式，将当前原子类型实例的值与参数 `val` 进行异或操作。将结果写入当前原子类型实例，并返回异或操作前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [fetchXor(UInt8)](#func-fetchxoruint8) 替代。
+
 参数：
 
 - val: [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 与原子类型进行异或操作的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -2864,7 +3253,7 @@ public func load(): UInt8
 
 - [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 当前原子类型的值。
 
-### func load(MemoryOrder)
+### func load(MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func load(memoryOrder!: MemoryOrder): UInt8
@@ -2872,9 +3261,13 @@ public func load(memoryOrder!: MemoryOrder): UInt8
 
 功能：读取操作，采用参数 `memoryOrder` 指定的内存排序方式，读取原子类型的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [load()](#func-load-10) 替代。
+
 参数：
 
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -2892,7 +3285,7 @@ public func store(val: UInt8): Unit
 
 - val: [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 写入原子类型的值。
 
-### func store(UInt8, MemoryOrder)
+### func store(UInt8, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func store(val: UInt8, memoryOrder!: MemoryOrder): Unit
@@ -2900,10 +3293,14 @@ public func store(val: UInt8, memoryOrder!: MemoryOrder): Unit
 
 功能：写入操作，采用参数 `memoryOrder` 指定的内存排序方式，将参数 `val` 指定的值写入原子类型。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [store(UInt8)](#func-storeuint8) 替代。
+
 参数：
 
 - val: [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 写入原子类型的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 ### func swap(UInt8)
 
@@ -2921,7 +3318,7 @@ public func swap(val: UInt8): UInt8
 
 - [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 写入前的值。
 
-### func swap(UInt8, MemoryOrder)
+### func swap(UInt8, MemoryOrder) <sup>(deprecated)</sup>
 
 ```cangjie
 public func swap(val: UInt8, memoryOrder!: MemoryOrder): UInt8
@@ -2929,10 +3326,14 @@ public func swap(val: UInt8, memoryOrder!: MemoryOrder): UInt8
 
 功能：交换操作，采用参数 `memoryOrder` 指定的内存排序方式，将参数 `val` 指定的值写入原子类型，并返回写入前的值。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [swap(UInt8)](#func-swapuint8) 替代。
+
 参数：
 
 - val: [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - 写入原子类型的值。
-- memoryOrder!: [MemoryOrder](sync_package_enums.md#enum-memoryorder) - 当前操作的内存排序方式。
+- memoryOrder!: [MemoryOrder <sup>(deprecated)</sup>](sync_package_enums.md#enum-memoryorder-deprecated) - 当前操作的内存排序方式。
 
 返回值：
 
@@ -2941,7 +3342,9 @@ public func swap(val: UInt8, memoryOrder!: MemoryOrder): UInt8
 ## class Barrier
 
 ```cangjie
-public class Barrier
+public class Barrier {
+    public init(count: Int64)
+}
 ```
 
 功能：提供协调多个线程一起执行到某一个程序点的功能。
@@ -2962,7 +3365,7 @@ public init(count: Int64)
 
 异常：
 
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 参数 [count](../../collection/collection_package_api/collection_package_function.md#func-counttiterablet-where-t--equatablet) 为负数。
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 参数 [count](../../collection/collection_package_api/collection_package_function.md#func-counttiterablet) 为负数。
 
 ### func wait(Duration)
 
@@ -2976,12 +3379,14 @@ public func wait(timeout!: Duration = Duration.Max): Unit
 
 参数：
 
-- timeout!: [Duration](../../time/time_package_api/time_package_structs.md#struct-duration) - 阻塞时等待的最大时长，其默认值为 [Duration.Max](../../time/time_package_api/time_package_structs.md#static-prop-max)。
+- timeout!: [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) - 阻塞时等待的最大时长，其默认值为 [Duration.Max](../../core/core_package_api/core_package_structs.md#static-const-max)。
 
-## class Monitor
+## class Monitor <sup>(deprecated)<sup>
 
 ```cangjie
-public class Monitor <: ReentrantMutex
+public class Monitor <: ReentrantMutex {
+    public init()
+}
 ```
 
 功能：提供使线程阻塞并等待来自另一个线程的信号以恢复执行的功能。
@@ -2989,9 +3394,13 @@ public class Monitor <: ReentrantMutex
 这是一种利用共享变量进行线程同步的机制，当一些线程因等待共享变量的某个条件成立而挂起时，另一些线程改变共享的变量，使条件成立，
 然后执行唤醒操作。这使得挂起的线程被唤醒后可以继续执行。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [Condition](./sync_package_interfaces.md#interface-condition) 替代。
+
 父类型：
 
-- [ReentrantMutex](#class-reentrantmutex)
+- [ReentrantMutex <sup>(deprecated)<sup>](#class-reentrantmutex-deprecated)
 
 ### init()
 
@@ -2999,7 +3408,7 @@ public class Monitor <: ReentrantMutex
 public init()
 ```
 
-功能：通过默认构造函数创建 [Monitor](sync_package_classes.md#class-monitor)。
+功能：通过默认构造函数创建 [Monitor <sup>(deprecated)<sup>](sync_package_classes.md#class-monitor-deprecated)。
 
 ### func notify()
 
@@ -3033,36 +3442,43 @@ public func wait(timeout!: Duration = Duration.Max): Bool
 
 功能：当前线程挂起，直到对应的 `notify` 函数被调用，或者挂起时间超过 `timeout`。
 
+> **说明：**
+>
+> 线程在进入等待时会释放对应的互斥锁，被唤醒后再次持有互斥锁。
+
 参数：
 
-- timeout!: [Duration](../../time/time_package_api/time_package_structs.md#struct-duration) - 挂起时间，其默认值为 [Duration.Max](../../time/time_package_api/time_package_structs.md#static-prop-max)。
+- timeout!: [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) - 挂起时间，其默认值为 [Duration.Max](../../core/core_package_api/core_package_structs.md#static-const-max)。
 
 返回值：
 
-- [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 如果 [Monitor](sync_package_classes.md#class-monitor) 被其它线程唤醒，返回 `true`；如果超时，则返回 `false`。
+- [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 如果 [Monitor <sup>(deprecated)<sup>](sync_package_classes.md#class-monitor-deprecated) 被其他线程唤醒，返回 `true`；如果超时，则返回 `false`。
 
 异常：
 
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 如果 `timeout` 小于等于 [Duration.Zero](../../time/time_package_api/time_package_structs.md#static-prop-zero)，抛出异常。
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 如果 `timeout` 小于等于 [Duration.Zero](../../core/core_package_api/core_package_structs.md#static-const-zero)，抛出异常。
 - [IllegalSynchronizationStateException](sync_package_exceptions.md#class-illegalsynchronizationstateexception) - 如果当前线程没有持有该互斥体，抛出异常。
 
-## class MultiConditionMonitor
+## class MultiConditionMonitor <sup>(deprecated)<sup>
 
 ```cangjie
-public class MultiConditionMonitor <: ReentrantMutex
+public class MultiConditionMonitor <: ReentrantMutex {
+    public init()
+}
 ```
 
 功能：提供对同一个互斥锁绑定多个条件变量的功能。
 
 > **注意：**
 >
-> - 该类应仅当在 [Monitor](sync_package_classes.md#class-monitor) 类不足以实现高级并发算法时被使用。
-> - 初始化时，[MultiConditionMonitor](sync_package_classes.md#class-multiconditionmonitor) 没有与之相关的条件变量。
-> - 每次调用 `newCondition` 将创建一个新的等待队列并与当前对象关联，并返回[ConditionID](sync_package_structs.md#struct-conditionid)类型实例作为唯一标识符。
+> - 未来版本即将废弃，使用 [Mutex](#class-mutex) 替代。
+> - 该类应仅当在 [Monitor <sup>(deprecated)<sup>](sync_package_classes.md#class-monitor-deprecated) 类不足以实现高级并发算法时被使用。
+> - 初始化时，[MultiConditionMonitor <sup>(deprecated)<sup>](sync_package_classes.md#class-multiconditionmonitor-deprecated) 没有与之相关的条件变量。
+> - 每次调用 `newCondition` 将创建一个新的等待队列并与当前对象关联，并返回[ConditionID <sup>(deprecated)<sup>](sync_package_structs.md#struct-conditionid-deprecated)类型实例作为唯一标识符。
 
 父类型：
 
-- [ReentrantMutex](#class-reentrantmutex)
+- [ReentrantMutex <sup>(deprecated)<sup>](#class-reentrantmutex-deprecated)
 
 ### init()
 
@@ -3070,7 +3486,7 @@ public class MultiConditionMonitor <: ReentrantMutex
 public init()
 ```
 
-功能：通过默认构造函数创建 [MultiConditionMonitor](sync_package_classes.md#class-multiconditionmonitor)。
+功能：通过默认构造函数创建 [MultiConditionMonitor <sup>(deprecated)<sup>](sync_package_classes.md#class-multiconditionmonitor-deprecated)。
 
 ### func newCondition()
 
@@ -3078,11 +3494,11 @@ public init()
 public func newCondition(): ConditionID
 ```
 
-功能：创建一个与该 [Monitor](sync_package_classes.md#class-monitor) 相关的 [ConditionID](sync_package_structs.md#struct-conditionid)，可能被用来实现 “单互斥体多等待队列” 的并发原语。
+功能：创建一个与该 [Monitor <sup>(deprecated)<sup>](sync_package_classes.md#class-monitor-deprecated) 相关的 [ConditionID <sup>(deprecated)<sup>](sync_package_structs.md#struct-conditionid-deprecated)，可能被用来实现 “单互斥体多等待队列” 的并发原语。
 
 返回值：
 
-- [ConditionID](sync_package_structs.md#struct-conditionid) - 新的 [ConditionID](sync_package_structs.md#struct-conditionid)。
+- [ConditionID](sync_package_structs.md#struct-conditionid-deprecated) - 新的 [ConditionID <sup>(deprecated)<sup>](sync_package_structs.md#struct-conditionid-deprecated)。
 
 异常：
 
@@ -3098,11 +3514,11 @@ public func notify(condID: ConditionID): Unit
 
 参数：
 
-- condID: [ConditionID](sync_package_structs.md#struct-conditionid) - 条件变量。
+- condID: [ConditionID](sync_package_structs.md#struct-conditionid-deprecated) - 条件变量。
 
 异常：
 
-- [IllegalSynchronizationStateException](sync_package_exceptions.md#class-illegalsynchronizationstateexception) - 如果当前线程没有持有该互斥体，或 `condID` 不是由该 [MultiConditionMonitor](sync_package_classes.md#class-multiconditionmonitor) 实例通过 `newCondition` 函数创建时，抛出异常。
+- [IllegalSynchronizationStateException](sync_package_exceptions.md#class-illegalsynchronizationstateexception) - 如果当前线程没有持有该互斥体，或 `condID` 不是由该 [MultiConditionMonitor <sup>(deprecated)<sup>](sync_package_classes.md#class-multiconditionmonitor-deprecated) 实例通过 `newCondition` 函数创建时，抛出异常。
 
 ### func notifyAll(ConditionID)
 
@@ -3114,11 +3530,11 @@ public func notifyAll(condID: ConditionID): Unit
 
 参数：
 
-- condID: [ConditionID](sync_package_structs.md#struct-conditionid) - 条件变量。
+- condID: [ConditionID](sync_package_structs.md#struct-conditionid-deprecated) - 条件变量。
 
 异常：
 
-- [IllegalSynchronizationStateException](sync_package_exceptions.md#class-illegalsynchronizationstateexception) - 如果当前线程没有持有该互斥体，或 `condID` 不是由该 [MultiConditionMonitor](sync_package_classes.md#class-multiconditionmonitor) 实例通过 `newCondition` 函数创建时，抛出异常。
+- [IllegalSynchronizationStateException](sync_package_exceptions.md#class-illegalsynchronizationstateexception) - 如果当前线程没有持有该互斥体，或 `condID` 不是由该 [MultiConditionMonitor <sup>(deprecated)<sup>](sync_package_classes.md#class-multiconditionmonitor-deprecated) 实例通过 `newCondition` 函数创建时，抛出异常。
 
 ### func wait(ConditionID, Duration)
 
@@ -3128,24 +3544,185 @@ public func wait(condID: ConditionID, timeout!: Duration = Duration.Max): Bool
 
 功能：当前线程挂起，直到对应的 `notify` 函数被调用。
 
+> **说明：**
+>
+> 线程在进入等待时会释放对应的互斥锁，被唤醒后再次持有互斥锁。
+
 参数：
 
-- condID: [ConditionID](sync_package_structs.md#struct-conditionid) - 条件变量。
-- timeout!: [Duration](../../time/time_package_api/time_package_structs.md#struct-duration) - 挂起时间，其默认值为 [Duration.Max](../../time/time_package_api/time_package_structs.md#static-prop-max)。
+- condID: [ConditionID](sync_package_structs.md#struct-conditionid-deprecated) - 条件变量。
+- timeout!: [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) - 挂起时间，其默认值为 [Duration.Max](../../core/core_package_api/core_package_structs.md#static-const-max)。
 
 返回值：
 
-- [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 如果该 [Monitor](sync_package_classes.md#class-monitor) 指定的条件变量被其它线程唤醒，返回 `true`；如果超时，则返回 `false`。
+- [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 如果该 [Monitor <sup>(deprecated)<sup>](sync_package_classes.md#class-monitor-deprecated) 指定的条件变量被其他线程唤醒，返回 `true`；如果超时，则返回 `false`。
 
 异常：
 
-- [IllegalSynchronizationStateException](sync_package_exceptions.md#class-illegalsynchronizationstateexception) - 如果当前线程没有持有该互斥体，或者挂起时间超过 `timeout` 或 `condID` 不是由该 [MultiConditionMonitor](sync_package_classes.md#class-multiconditionmonitor) 实例通过 `newCondition` 函数创建时，抛出异常。
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 如果 `timeout` 小于等于 [Duration.Zero](../../time/time_package_api/time_package_structs.md#static-prop-zero)，抛出异常。
+- [IllegalSynchronizationStateException](sync_package_exceptions.md#class-illegalsynchronizationstateexception) - 如果当前线程没有持有该互斥体，或者挂起时间超过 `timeout` 或 `condID` 不是由该 [MultiConditionMonitor <sup>(deprecated)<sup>](sync_package_classes.md#class-multiconditionmonitor-deprecated) 实例通过 `newCondition` 函数创建时，抛出异常。
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 如果 `timeout` 小于等于 [Duration.Zero](../../core/core_package_api/core_package_structs.md#static-const-zero)，抛出异常。
 
-## class ReentrantMutex
+## class Mutex
 
 ```cangjie
-public open class ReentrantMutex <: IReentrantMutex
+public class Mutex <: UniqueLock {
+    public init()
+}
+```
+
+功能：提供可重入互斥锁相关功能。
+
+可重入互斥锁的作用是对临界区加以保护，使得任意时刻最多只有一个线程能够执行临界区的代码。
+当一个线程试图获取一个已被其他线程持有的锁时，该线程会被阻塞，直到锁被释放，该线程才会被唤醒，可重入是指线程获取该锁后可再次获得该锁。
+
+> **注意：**
+>
+> - 在访问共享数据之前，必须尝试获取锁。
+> - 处理完共享数据后，必须进行解锁，以便其他线程可以获得锁。
+
+父类型：
+
+- [UniqueLock](./sync_package_interfaces.md#interface-uniquelock)
+
+### init()
+
+```cangjie
+public init()
+```
+
+功能：创建可重入互斥锁。
+
+异常：
+
+- [IllegalSynchronizationStateException](sync_package_exceptions.md#class-illegalsynchronizationstateexception) - 当出现系统错误时，抛出异常。
+
+### func condition()
+
+```cangjie
+public func condition(): Condition
+```
+
+功能：创建一个与该 [Mutex](#class-mutex) 相关的 [Condition](./sync_package_interfaces.md#interface-condition)。
+
+可能被用来实现 “单 Lock 多等待队列” 的并发原语。
+
+返回值：
+
+- [Condition](./sync_package_interfaces.md#interface-condition) - 创建的与该 [Mutex](#class-mutex) 相关的 [Condition](./sync_package_interfaces.md#interface-condition) 实例。
+
+异常：
+
+- [IllegalSynchronizationStateException](sync_package_exceptions.md#class-illegalsynchronizationstateexception) - 如果当前线程没有持有该互斥体，抛出异常。
+
+### func lock()
+
+```cangjie
+public func lock(): Unit
+```
+
+功能：锁定互斥体，如果互斥体已被锁定，则阻塞。
+
+### func tryLock()
+
+```cangjie
+public func tryLock(): Bool
+```
+
+功能：尝试锁定互斥体。
+
+返回值：
+
+- [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 如果互斥体已被锁定，则返回 `false`；反之，则锁定互斥体并返回 `true`。
+
+### func unlock
+
+```cangjie
+public func unlock(): Unit
+```
+
+功能：解锁互斥体。
+
+如果互斥体被重复加锁了 N 次，那么需要调用 N 次该函数来完全解锁，一旦互斥体被完全解锁，如果有其他线程阻塞在此锁上，那么唤醒它们中的一个。
+
+异常：
+
+- [IllegalSynchronizationStateException](sync_package_exceptions.md#class-illegalsynchronizationstateexception) - 如果当前线程没有持有该互斥体，抛出异常。
+
+## class ReadWriteLock
+
+```cangjie
+public class ReadWriteLock {
+    public init(fair!: Bool = false)
+}
+```
+
+功能：提供可重入读写锁相关功能。
+
+它和普通互斥锁的差异在于：读写锁同时携带两个互斥锁，分别为“读锁”以及“写锁”，并且它允许多个线程同时持有读锁。
+
+读写锁的特殊性质说明：
+
+- 写互斥性：只有唯一的线程能够持有写锁。当一个线程持有写锁，而其他线程再次获取锁（读锁或是写锁）时将被阻塞。
+- 读并发性：允许多个线程同时持有读锁。当一个线程持有读锁，其他线程仍然可以获取读锁。但其他线程获取写锁时将被阻塞。
+- 可重入性：一个线程可以重复获取锁。
+    - 当线程已持有写锁时，它可以继续获取写锁或者读锁。只有当锁释放操作和获取操作一一对应时，锁才被完全释放。
+    - 当线程已持有读锁时，它可以继续获取读锁。当锁释放操作和获取操作一一对应时，锁才被完全释放。注意，不允许在持有读锁的情况下获取写锁，这将抛出异常。
+- 锁降级：一个线程在经历“持有写锁--持有读锁--释放写锁”后，它持有的是读锁而不再是写锁。
+- 读写公平性：读写锁支持两种不同的模式，分别为“公平”及“非公平”模式。
+    - 在非公平模式下，读写锁对线程获取锁的顺序不做任何保证。
+    - 在公平模式下，当线程获取读锁时（当前线程未持有读锁），如果写锁已被获取或是存在线程等待写锁，那么当前线程无法获取读锁并进入等待。
+    - 在公平模式下，写锁释放会优先唤醒所有读线程、读锁释放会优先唤醒一个等待写锁的线程。当存在多个线程等待写锁，它们之间被唤醒的先后顺序并不做保证。
+
+### prop readLock
+
+```cangjie
+public prop readLock: Lock
+```
+
+功能：获取读锁。
+
+类型：[Lock](./sync_package_interfaces.md#interface-lock)
+
+### prop writeLock
+
+```cangjie
+public prop writeLock: UniqueLock
+```
+
+功能：获取写锁。
+
+类型：[UniqueLock](./sync_package_interfaces.md#interface-uniquelock)
+
+### init(Bool)
+
+```cangjie
+public init(fair!: Bool = false)
+```
+
+功能：构造读写锁。
+
+参数：
+
+- fair!: [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 读写锁是否为公平模式，默认值为 `false`，即构造 “非公平” 的读写锁。
+
+### func isFair()
+
+```cangjie
+public func isFair(): Bool
+```
+
+功能：获取读写锁是否为 “公平” 模式。
+
+返回值：
+
+- [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - `true` 表示 “公平” 模式，否则表示 “非公平” 模式。
+
+## class ReentrantMutex <sup>(deprecated)<sup>
+
+```cangjie
+public open class ReentrantMutex <: IReentrantMutex {
+    public init()
+}
 ```
 
 功能：提供可重入锁相关功能。
@@ -3155,13 +3732,14 @@ public open class ReentrantMutex <: IReentrantMutex
 
 > **注意：**
 >
-> - [ReentrantMutex](sync_package_classes.md#class-reentrantmutex) 是内置的互斥锁，开发者需要保证不继承它。
+> - 未来版本即将废弃，使用 [Mutex](#class-mutex) 替代。
+> - [ReentrantMutex <sup>(deprecated)<sup>](sync_package_classes.md#class-reentrantmutex-deprecated) 是内置的互斥锁，开发者需要保证不继承它。
 > - 在访问共享数据之前，必须尝试获取锁。
 > - 处理完共享数据后，必须进行解锁，以便其他线程可以获得锁。
 
 父类型：
 
-- [IReentrantMutex](sync_package_interfaces.md#interface-ireentrantmutex)
+- [IReentrantMutex <sup>(deprecated)<sup>](sync_package_interfaces.md#interface-ireentrantmutex-deprecated)
 
 ### init()
 
@@ -3203,13 +3781,13 @@ public open func unlock(): Unit
 
 功能：解锁互斥体。
 
-如果互斥体被重复加锁了 N 次，那么需要调用 N 次该函数来完全解锁，一旦互斥体被完全解锁，如果有其他线程阻塞在此锁上，那么唤醒他们中的一个。
+如果互斥体被重复加锁了 N 次，那么需要调用 N 次该函数来完全解锁，一旦互斥体被完全解锁，如果有其他线程阻塞在此锁上，那么唤醒它们中的一个。
 
 异常：
 
 - [IllegalSynchronizationStateException](sync_package_exceptions.md#class-illegalsynchronizationstateexception) - 如果当前线程没有持有该互斥体，抛出异常。
 
-## class ReentrantReadMutex
+## class ReentrantReadMutex <sup>(deprecated)<sup>
 
 ```cangjie
 public class ReentrantReadMutex <: ReentrantMutex
@@ -3217,9 +3795,13 @@ public class ReentrantReadMutex <: ReentrantMutex
 
 功能：提供可重入读写锁中的读锁类型。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [Lock](./sync_package_interfaces.md#interface-lock) 替代。
+
 父类型：
 
-- [ReentrantMutex](#class-reentrantmutex)
+- [ReentrantMutex <sup>(deprecated)<sup>](#class-reentrantmutex-deprecated)
 
 ### func lock()
 
@@ -3259,15 +3841,21 @@ public func unlock(): Unit
 
 - [IllegalSynchronizationStateException](sync_package_exceptions.md#class-illegalsynchronizationstateexception) - 当前线程未持有读锁，那么将抛出异常。
 
-## class ReentrantReadWriteMutex
+## class ReentrantReadWriteMutex <sup>(deprecated)<sup>
 
 ```cangjie
-public class ReentrantReadWriteMutex
+public class ReentrantReadWriteMutex {
+    public init(mode!: ReadWriteMutexMode = ReadWriteMutexMode.Unfair)
+}
 ```
 
 功能：提供可重入读写锁相关功能。
 
 它和普通互斥锁的差异在于：读写锁同时携带两个互斥锁，分别为“读锁”以及“写锁”，并且它允许多个线程同时持有读锁。
+
+> **注意：**
+>
+> 未来版本即将废弃，使用 [ReadWriteLock](#class-readwritelock) 替代。
 
 读写锁的特殊性质说明：
 
@@ -3280,7 +3868,7 @@ public class ReentrantReadWriteMutex
 - 读写公平性：读写锁支持两种不同的模式，分别为“公平”及“非公平”模式。
     - 在非公平模式下，读写锁对线程获取锁的顺序不做任何保证。
     - 在公平模式下，当线程获取读锁时（当前线程未持有读锁），如果写锁已被获取或是存在线程等待写锁，那么当前线程无法获取读锁并进入等待。
-    - 在公平模式下，写锁释放会优先唤醒所有读线程、读锁释放会优先唤醒一个等待写锁的线程。当存在多个线程等待写锁，他们之间被唤醒的先后顺序并不做保证。
+    - 在公平模式下，写锁释放会优先唤醒所有读线程、读锁释放会优先唤醒一个等待写锁的线程。当存在多个线程等待写锁，它们之间被唤醒的先后顺序并不做保证。
 
 ### prop readMutex
 
@@ -3290,7 +3878,7 @@ public prop readMutex: ReentrantReadMutex
 
 功能：获取读锁。
 
-类型：[ReentrantReadMutex](sync_package_classes.md#class-reentrantreadmutex)
+类型：[ReentrantReadMutex <sup>(deprecated)<sup>](sync_package_classes.md#class-reentrantreadmutex-deprecated)
 
 ### prop writeMutex
 
@@ -3300,7 +3888,7 @@ public prop writeMutex: ReentrantWriteMutex
 
 功能：获取写锁。
 
-类型：[ReentrantWriteMutex](sync_package_classes.md#class-reentrantwritemutex)
+类型：[ReentrantWriteMutex <sup>(deprecated)<sup>](sync_package_classes.md#class-reentrantwritemutex-deprecated)
 
 ### init(ReadWriteMutexMode)
 
@@ -3312,9 +3900,9 @@ public init(mode!: ReadWriteMutexMode = ReadWriteMutexMode.Unfair)
 
 参数：
 
-- mode!: [ReadWriteMutexMode](sync_package_enums.md#enum-readwritemutexmode) - 读写锁模式，默认值为 `Unfair`，即构造“非公平”的读写锁。
+- mode!: [ReadWriteMutexMode <sup>(deprecated)<sup>](sync_package_enums.md#enum-readwritemutexmode-deprecated) - 读写锁模式，默认值为 `Unfair`，即构造“非公平”的读写锁。
 
-## class ReentrantWriteMutex
+## class ReentrantWriteMutex <sup>(deprecated)<sup>
 
 ```cangjie
 public class ReentrantWriteMutex <: ReentrantMutex
@@ -3322,9 +3910,13 @@ public class ReentrantWriteMutex <: ReentrantMutex
 
 功能：提供可重入读写锁中的写锁类型。
 
+> **注意：**
+>
+> 未来版本即将废弃，使用 [UniqueLock](./sync_package_interfaces.md#interface-uniquelock) 替代。
+
 父类型：
 
-- [ReentrantMutex](#class-reentrantmutex)
+- [ReentrantMutex <sup>(deprecated)<sup>](#class-reentrantmutex-deprecated)
 
 ### func lock()
 
@@ -3371,12 +3963,14 @@ public func unlock(): Unit
 ## class Semaphore
 
 ```cangjie
-public class Semaphore
+public class Semaphore {
+    public init(count: Int64)
+}
 ```
 
 功能：提供信号量相关功能。
 
-[Semaphore](sync_package_classes.md#class-semaphore) 可以被视为携带计数器的 [Monitor](sync_package_classes.md#class-monitor)，常用于控制并发访问共享资源的线程数量。
+[Semaphore](sync_package_classes.md#class-semaphore) 可以被视为携带计数器的 [Monitor <sup>(deprecated)<sup>](sync_package_classes.md#class-monitor-deprecated)，常用于控制并发访问共享资源的线程数量。
 
 ### prop count
 
@@ -3398,11 +3992,11 @@ public init(count: Int64)
 
 参数：
 
-- [count](../../collection/collection_package_api/collection_package_function.md#func-counttiterablet-where-t--equatablet): [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 计数器初始值, 取值范围 [0, [Int64](../../core/core_package_api/core_package_intrinsics.md#int64).Max]。
+- [count](../../collection/collection_package_api/collection_package_function.md#func-counttiterablet): [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 计数器初始值, 取值范围 [0, [Int64](../../core/core_package_api/core_package_intrinsics.md#int64).Max]。
 
 异常：
 
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 参数 [count](../../collection/collection_package_api/collection_package_function.md#func-counttiterablet-where-t--equatablet) 为负数时抛出异常。
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 参数 [count](../../collection/collection_package_api/collection_package_function.md#func-counttiterablet) 为负数时抛出异常。
 
 ### func acquire(Int64)
 
@@ -3469,7 +4063,9 @@ public func tryAcquire(amount!: Int64 = 1): Bool
 ## class SyncCounter
 
 ```cangjie
-public class SyncCounter
+public class SyncCounter {
+    public init(count: Int64)
+}
 ```
 
 功能：提供倒数计数器功能。
@@ -3496,11 +4092,11 @@ public init(count: Int64)
 
 参数：
 
-- [count](../../collection/collection_package_api/collection_package_function.md#func-counttiterablet-where-t--equatablet): [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 倒数计数器的初始值。
+- [count](../../collection/collection_package_api/collection_package_function.md#func-counttiterablet): [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 倒数计数器的初始值。
 
 异常：
 
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 如果参数 [count](../../collection/collection_package_api/collection_package_function.md#func-counttiterablet-where-t--equatablet) 为负数。
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 如果参数 [count](../../collection/collection_package_api/collection_package_function.md#func-counttiterablet) 为负数。
 
 ### func dec()
 
@@ -3522,7 +4118,7 @@ public func waitUntilZero(timeout!: Duration = Duration.Max): Unit
 
 参数：
 
-- timeout!: [Duration](../../time/time_package_api/time_package_structs.md#struct-duration) - 阻塞时等待的最大时长，其默认值为 [Duration.Max](../../time/time_package_api/time_package_structs.md#static-prop-max)。
+- timeout!: [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) - 阻塞时等待的最大时长，其默认值为 [Duration.Max](../../core/core_package_api/core_package_structs.md#static-const-max)。
 
 ## class Timer
 
@@ -3548,18 +4144,18 @@ public class Timer <: Equatable<Timer> & Hashable
 - [Equatable](../../core/core_package_api/core_package_interfaces.md#interface-equatablet)\<[Timer](#class-timer)>
 - [Hashable](../../core/core_package_api/core_package_interfaces.md#interface-hashable)
 
-### static func after(Duration, ()->?Duration)
+### static func after(Duration, ()->Option\<Duration>)
 
 ```cangjie
 public static func after(delay: Duration, task: () -> Option<Duration>): Timer
 ```
 
-功能：初始化一个 [Timer](sync_package_classes.md#class-timer)，关联的 Task 被调度执行的次数取决于它的返回值。如果定时器第一次触发的时间点小于当前时间，关联的 Task 会立刻被调度执行。如果关联 Task 的返回值为 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont).None，该 [Timer](sync_package_classes.md#class-timer) 将会失效，并停止调度关联 Task。如果关联 Task 的返回值为 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont).Some(v) 且 `v` 大于 [Duration.Zero](../../time/time_package_api/time_package_structs.md#static-prop-zero)，下次运行前的最小时间间隔将被设置为 v。否则，关联 Task 会立刻再次被调度执行。
+功能：初始化一个 [Timer](sync_package_classes.md#class-timer)，关联的 Task 被调度执行的次数取决于它的返回值。如果定时器第一次触发的时间点小于当前时间，关联的 Task 会立刻被调度执行。如果关联 Task 的返回值为 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont).None，该 [Timer](sync_package_classes.md#class-timer) 将会失效，并停止调度关联 Task。如果关联 Task 的返回值为 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont).Some(v) 且 `v` 大于 [Duration.Zero](../../core/core_package_api/core_package_structs.md#static-const-zero)，下次运行前的最小时间间隔将被设置为 v。否则，关联 Task 会立刻再次被调度执行。
 
 参数：
 
-- delay: [Duration](../../time/time_package_api/time_package_structs.md#struct-duration) - 从现在开始到关联 Task 首次被调度执行的时间间隔
-- task: () ->[Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<[Duration](../../time/time_package_api/time_package_structs.md#struct-duration)> - 该 [Timer](sync_package_classes.md#class-timer) 调度执行的 Task
+- delay: [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) - 从现在开始到关联 Task 首次被调度执行的时间间隔
+- task: () ->[Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<[Duration](../../core/core_package_api/core_package_structs.md#struct-duration)> - 该 [Timer](sync_package_classes.md#class-timer) 调度执行的 Task
 
 返回值：
 
@@ -3575,16 +4171,17 @@ public static func once(delay: Duration, task: ()->Unit): Timer
 
 参数：
 
-- delay: 从现在开始到 Task 被执行的时间间隔。取值范围 [[Duration.Min](../../time/time_package_api/time_package_structs.md#static-prop-min), [Duration.Max](../../time/time_package_api/time_package_structs.md#static-prop-max)]，小于或等于 [Duration.Zero](../../time/time_package_api/time_package_structs.md#static-prop-zero) 时 Task 将立即被执行。
-- task: 待定时执行的任务。
+- delay: [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) - 从现在开始到 Task 被执行的时间间隔。取值范围 [[Duration.Min](../../core/core_package_api/core_package_structs.md#static-const-min), [Duration.Max](../../core/core_package_api/core_package_structs.md#static-const-max)]，小于或等于 [Duration.Zero](../../core/core_package_api/core_package_structs.md#static-const-zero) 时 Task 将立即被执行。
+- task: ()->Unit - 待定时执行的任务。
 
-返回值: [Timer](sync_package_classes.md#class-timer) 对象实例。
+返回值：
+
+- [Timer](sync_package_classes.md#class-timer) - 生成的对象实例。
 
 示例：
 
 ```cangjie
-import std.sync.{Timer, sleep}
-import std.time.{Duration, MonoTime}
+import std.time.MonoTime
 
 main() {
     let start = MonoTime.now()
@@ -3597,7 +4194,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 Tick at: 1s2ms74us551ns
@@ -3613,29 +4210,30 @@ public static func repeat(delay: Duration, interval: Duration, task: ()->Unit, s
 
 参数：
 
-- delay: 从现在开始到 Task 被执行的时间间隔。取值范围 [[Duration.Min](../../time/time_package_api/time_package_structs.md#static-prop-min), [Duration.Max](../../time/time_package_api/time_package_structs.md#static-prop-max)]，小于或等于 [Duration.Zero](../../time/time_package_api/time_package_structs.md#static-prop-zero) 时 Task 将立即被执行。
-- interval: 两次 Task 之间的时间间隔。取值范围 ([Duration.Zero](../../time/time_package_api/time_package_structs.md#static-prop-zero), [Duration.Max](../../time/time_package_api/time_package_structs.md#static-prop-max)]。
-- task: 待定时执行的任务。
-- style: 追平策略，默认 Burst。当 Task 执行时间过长时，后续任务执行时间点可能发生延迟，不同的追平策略适用于不同的场景，详见 [CatchupStyle](sync_package_enums.md#enum-catchupstyle) 说明。
+- delay: [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) - 从现在开始到 Task 被执行的时间间隔。取值范围 [[Duration.Min](../../core/core_package_api/core_package_structs.md#static-const-min), [Duration.Max](../../core/core_package_api/core_package_structs.md#static-const-max)]，小于或等于 [Duration.Zero](../../core/core_package_api/core_package_structs.md#static-const-zero) 时 Task 将立即被执行。
+- interval: [Duration](../../../std/core/core_package_api/core_package_structs.md#struct-duration) - 两次 Task 之间的时间间隔。取值范围 ([Duration.Zero](../../core/core_package_api/core_package_structs.md#static-const-zero), [Duration.Max](../../core/core_package_api/core_package_structs.md#static-const-max)]。
+- task: ()->Unit - 待定时执行的任务。
+- style!: [CatchupStyle](./sync_package_enums.md#enum-catchupstyle) - 追平策略，默认 Burst。当 Task 执行时间过长时，后续任务执行时间点可能发生延迟，不同的追平策略适用于不同的场景，详见 [CatchupStyle](sync_package_enums.md#enum-catchupstyle) 说明。
 
-返回值: [Timer](sync_package_classes.md#class-timer) 对象实例。
+返回值：
+
+- [Timer](sync_package_classes.md#class-timer) - 生成的对象实例。
 
 异常：
 
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception): 当 `interval` 小于等于 [Duration.Zero](../../time/time_package_api/time_package_structs.md#static-prop-zero) 时，抛出异常。
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当 `interval` 小于等于 [Duration.Zero](../../core/core_package_api/core_package_structs.md#static-const-zero) 时，抛出异常。
 
-示例：
+示例:
 
 ```cangjie
-import std.sync.{Timer, sleep}
-import std.time.{Duration, MonoTime}
+import std.sync.{Timer}
+import std.time.{MonoTime}
 
 main() {
     let start = MonoTime.now()
     let timer = Timer.repeat(Duration.second, Duration.second, {=>
         println("Tick at: ${MonoTime.now() - start}")
     })
-
 
     sleep(Duration.second * 5)
     timer.cancel()
@@ -3644,7 +4242,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 Tick at: 1s2ms72us188ns
@@ -3664,23 +4262,25 @@ public static func repeatDuring(period: Duration, delay: Duration, interval: Dur
 
 参数：
 
-- period: 重复周期的最大持续时间，从 delay 之后开始计时。取值范围 ([Duration.Zero](../../time/time_package_api/time_package_structs.md#static-prop-zero), [Duration.Max](../../time/time_package_api/time_package_structs.md#static-prop-max)]。
-- delay: 从现在开始到 Task 被执行的时间间隔。取值范围 [Duration.Min, [Duration.Max](../../time/time_package_api/time_package_structs.md#static-prop-max)]，小于或等于 [Duration.Zero](../../time/time_package_api/time_package_structs.md#static-prop-zero)时 Task 将立即被执行。
-- interval: 两次 Task 之间的时间间隔。取值范围 ([Duration.Zero](../../time/time_package_api/time_package_structs.md#static-prop-zero), [Duration.Max](../../time/time_package_api/time_package_structs.md#static-prop-max)]。
-- task: 待定时执行的任务。
-- style: 追平策略，默认 Burst。当 Task 执行时间过长时，后续任务执行时间点可能发生延迟，不同的追平策略适用于不同的场景，详见 [CatchupStyle](sync_package_enums.md#enum-catchupstyle) 说明。
+- period: [Duration](../../../std/core/core_package_api/core_package_structs.md#struct-duration) - 重复周期的最大持续时间，从 delay 之后开始计时。取值范围 ([Duration.Zero](../../core/core_package_api/core_package_structs.md#static-const-zero), [Duration.Max](../../core/core_package_api/core_package_structs.md#static-const-max)]。
+- delay: [Duration](../../../std/core/core_package_api/core_package_structs.md#struct-duration) - 从现在开始到 Task 被执行的时间间隔。取值范围 [Duration.Min, [Duration.Max](../../core/core_package_api/core_package_structs.md#static-const-max)]，小于或等于 [Duration.Zero](../../core/core_package_api/core_package_structs.md#static-const-zero)时 Task 将立即被执行。
+- interval: [Duration](../../../std/core/core_package_api/core_package_structs.md#struct-duration) - 两次 Task 之间的时间间隔。取值范围 ([Duration.Zero](../../core/core_package_api/core_package_structs.md#static-const-zero), [Duration.Max](../../core/core_package_api/core_package_structs.md#static-const-max)]。
+- task: ()->Unit - 待定时执行的任务。
+- style!: [CatchupStyle](./sync_package_enums.md#enum-catchupstyle) - 追平策略，默认 Burst。当 Task 执行时间过长时，后续任务执行时间点可能发生延迟，不同的追平策略适用于不同的场景，详见 [CatchupStyle](sync_package_enums.md#enum-catchupstyle) 说明。
 
-返回值: [Timer](sync_package_classes.md#class-timer) 对象实例。
+返回值：
+
+- [Timer](sync_package_classes.md#class-timer) - 生成的对象实例。
 
 异常：
 
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception): 当 period 小于等于 [Duration.Zero](../../time/time_package_api/time_package_structs.md#static-prop-zero) 或 interval 小于等于 [Duration.Zero](../../time/time_package_api/time_package_structs.md#static-prop-zero) 时，抛出异常。
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception): 当 period 小于等于 [Duration.Zero](../../core/core_package_api/core_package_structs.md#static-const-zero) 或 interval 小于等于 [Duration.Zero](../../core/core_package_api/core_package_structs.md#static-const-zero) 时，抛出异常。
 
 示例：
 
 ```cangjie
-import std.sync.{Timer, sleep}
-import std.time.{Duration, MonoTime}
+import std.sync.{Timer}
+import std.time.{MonoTime}
 
 main() {
     let start = MonoTime.now()
@@ -3693,7 +4293,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 Tick at: 1s2ms372us626ns
@@ -3714,23 +4314,25 @@ public static func repeatTimes(count: Int64, delay: Duration, interval: Duration
 
 参数：
 
-- [count](../../collection/collection_package_api/collection_package_function.md#func-counttiterablet-where-t--equatablet): Task 最大执行次数。取值范围 (0, [Int64](../../core/core_package_api/core_package_intrinsics.md#int64).Max]。
-- delay: 从现在开始到 Task 被执行的时间间隔。取值范围 [Duration.Min, [Duration.Max](../../time/time_package_api/time_package_structs.md#static-prop-max)]，小于或等于 [Duration.Zero](../../time/time_package_api/time_package_structs.md#static-prop-zero) 时 Task 将立即被执行。
-- interval: 两次 Task 之间的时间间隔。取值范围 ([Duration.Zero](../../time/time_package_api/time_package_structs.md#static-prop-zero), [Duration.Max](../../time/time_package_api/time_package_structs.md#static-prop-max)]。
-- task: 待定时执行的任务。
-- style: 追平策略，默认 Burst。当 Task 执行时间过长时，后续任务执行时间点可能发生延迟，不同的追平策略适用于不同的场景，详见 [CatchupStyle](sync_package_enums.md#enum-catchupstyle) 说明。
+- count: [Int64](../../../std/core/core_package_api/core_package_intrinsics.md#int64) - Task 最大执行次数。取值范围 (0, [Int64](../../core/core_package_api/core_package_intrinsics.md#int64).Max]。
+- delay: [Duration](../../../std/core/core_package_api/core_package_structs.md#struct-duration) - 从现在开始到 Task 被执行的时间间隔。取值范围 [Duration.Min, [Duration.Max](../../core/core_package_api/core_package_structs.md#static-const-max)]，小于或等于 [Duration.Zero](../../core/core_package_api/core_package_structs.md#static-const-zero) 时 Task 将立即被执行。
+- interval: [Duration](../../../std/core/core_package_api/core_package_structs.md#struct-duration) - 两次 Task 之间的时间间隔。取值范围 ([Duration.Zero](../../core/core_package_api/core_package_structs.md#static-const-zero), [Duration.Max](../../core/core_package_api/core_package_structs.md#static-const-max)]。
+- task: ()->Unit - 待定时执行的任务。
+- style!: [CatchupStyle](./sync_package_enums.md#enum-catchupstyle) - 追平策略，默认 Burst。当 Task 执行时间过长时，后续任务执行时间点可能发生延迟，不同的追平策略适用于不同的场景，详见 [CatchupStyle](sync_package_enums.md#enum-catchupstyle) 说明。
 
-返回值: [Timer](sync_package_classes.md#class-timer) 对象实例。
+返回值：
+
+- [Timer](sync_package_classes.md#class-timer) - 生成的对象实例。
 
 异常：
 
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception): 当 [count](../../collection/collection_package_api/collection_package_function.md#func-counttiterablet-where-t--equatablet) <= 0 或 interval 小于等于 [Duration.Zero](../../time/time_package_api/time_package_structs.md#static-prop-zero) 时，抛出异常。
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当 [count](../../collection/collection_package_api/collection_package_function.md#func-counttiterablet) <= 0 或 interval 小于等于 [Duration.Zero](../../core/core_package_api/core_package_structs.md#static-const-zero) 时，抛出异常。
 
 示例：
 
 ```cangjie
-import std.sync.{Timer, sleep}
-import std.time.{Duration, MonoTime}
+import std.sync.{Timer}
+import std.time.{MonoTime}
 
 main() {
     let start = MonoTime.now()
@@ -3743,7 +4345,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 Tick at: 1s2ms855us251ns
@@ -3769,7 +4371,9 @@ public func hashCode(): Int64
 
 功能：获取 [Timer](sync_package_classes.md#class-timer) 对象的哈希值。
 
-返回值: [Timer](sync_package_classes.md#class-timer) 对象的哈希值。
+返回值：
+
+- [Int64](../../../std/core/core_package_api/core_package_intrinsics.md#int64) - 对象的哈希值。
 
 ### operator func !=(Timer)
 
@@ -3778,6 +4382,10 @@ public operator func !=(rhs: Timer): Bool
 ```
 
 功能：判断当前 [Timer](sync_package_classes.md#class-timer) 与入参 `rhs` 指定的 [Timer](sync_package_classes.md#class-timer) 是否不是同一个实例。
+
+参数：
+
+- rhs: [Timer](#class-timer) - 待比较的另一个 [Timer](#class-timer) 对象。
 
 返回值：
 
@@ -3791,6 +4399,12 @@ public operator func ==(rhs: Timer): Bool
 
 功能：判断当前 [Timer](sync_package_classes.md#class-timer) 与入参 `rhs` 指定的 [Timer](sync_package_classes.md#class-timer) 是否是同一个实例。
 
+参数：
+
+- rhs: [Timer](#class-timer) - 待比较的另一个 [Timer](#class-timer) 对象。
+
 返回值：
 
 - [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 若两个 [Timer](sync_package_classes.md#class-timer) 是同一个实例，则返回 `true`，否则返回 `false`。
+
+> 未来版本即将废弃，使用 [load()](#func-load-10) 替代。

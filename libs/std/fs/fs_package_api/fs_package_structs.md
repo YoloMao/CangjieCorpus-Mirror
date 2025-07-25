@@ -16,22 +16,12 @@ public struct FileDescriptor
 ### prop fileHandle
 
 ```cangjie
-public prop fileHandle: CPointer<Unit>
+public prop fileHandle: IntNative
 ```
 
-功能：Windows 下获取文件句柄信息。
+功能：获取文件句柄信息。
 
-类型：[CPointer](../../core/core_package_api/core_package_intrinsics.md#cpointert)\<[Unit](../../core/core_package_api/core_package_intrinsics.md#unit)>
-
-### prop fileHandle
-
-```cangjie
-public prop fileHandle: Int32
-```
-
-功能：Linux 下获取文件句柄信息。
-
-类型：[Int32](../../core/core_package_api/core_package_intrinsics.md#int32)
+类型：[IntNative](../../core/core_package_api/core_package_intrinsics.md#IntNative)
 
 ## struct FileInfo
 
@@ -69,7 +59,7 @@ public prop creationTime: DateTime
 
 异常：
 
-- [FSException](fs_package_exceptions.md#class-fsexception) - 如果判断过程中底层调用的系统接口发生错误，则抛异常。
+- [FSException](fs_package_exceptions.md#class-fsexception) - 如果判断过程中底层调用的系统接口发生错误，则抛出异常。
 
 ### prop lastAccessTime
 
@@ -83,7 +73,7 @@ public prop lastAccessTime: DateTime
 
 异常：
 
-- [FSException](fs_package_exceptions.md#class-fsexception) - 如果判断过程中底层调用的系统接口发生错误，则抛异常。
+- [FSException](fs_package_exceptions.md#class-fsexception) - 如果判断过程中底层调用的系统接口发生错误，则抛出异常。
 
 ### prop lastModificationTime
 
@@ -97,24 +87,19 @@ public prop lastModificationTime: DateTime
 
 异常：
 
-- [FSException](fs_package_exceptions.md#class-fsexception) - 如果判断过程中底层调用的系统接口发生错误，则抛异常。
+- [FSException](fs_package_exceptions.md#class-fsexception) - 如果判断过程中底层调用的系统接口发生错误，则抛出异常。
 
-### prop length
+### prop name
 
 ```cangjie
-public prop length: Int64
+public prop name: String
 ```
 
-功能：返回当前文件大小。
+功能：获取当前实例对应的文件名或目录名。
 
-- 当前是文件时，表示单个文件占用磁盘空间的大小。
-- 当前是目录时，表示当前目录的所有文件占用磁盘空间的大小。
+该属性与 this.path.fileName 等价，路径解析规则详见 [Path](./fs_package_structs.md#struct-path) 结构体的 [fileName](./fs_package_structs.md#prop-filename) 属性。
 
-类型：[Int64](../../core/core_package_api/core_package_intrinsics.md#int64)
-
-异常：
-
-- [FSException](fs_package_exceptions.md#class-fsexception) - 如果判断过程中底层调用的系统接口发生错误，则抛异常。
+类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
 ### prop parentDirectory
 
@@ -136,15 +121,22 @@ public prop path: Path
 
 类型：[Path](fs_package_structs.md#struct-path)
 
-### prop symbolicLinkTarget
+### prop size
 
 ```cangjie
-public prop symbolicLinkTarget: Option<Path>
+public prop size: Int64
 ```
 
-功能：获得链接目标路径，以 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<[Path](fs_package_structs.md#struct-path)> 形式返回，当前是符号链接返回 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<[Path](fs_package_structs.md#struct-path)>.Some(v)；否则返回 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<[Path](fs_package_structs.md#struct-path)>.None。
+功能：返回当前文件大小。
 
-类型：[Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<[Path](fs_package_structs.md#struct-path)>
+- 当前是文件时，表示单个文件占用磁盘空间的大小。
+- 当前是目录时，表示当前目录的所有文件占用磁盘空间的大小。
+
+类型：[Int64](../../core/core_package_api/core_package_intrinsics.md#int64)
+
+异常：
+
+- [FSException](fs_package_exceptions.md#class-fsexception) - 如果判断过程中底层调用的系统接口发生错误，则抛出异常。
 
 ### init(Path)
 
@@ -161,6 +153,7 @@ public init(path: Path)
 异常：
 
 - [FSException](fs_package_exceptions.md#class-fsexception) - 当路径非法时，抛出异常。
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当路径为空，或包含字符串结束符则抛出异常。
 
 ### init(String)
 
@@ -177,6 +170,7 @@ public init(path: String)
 异常：
 
 - [FSException](fs_package_exceptions.md#class-fsexception) - 当路径非法时，抛出异常。
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当路径为空，或包含字符串结束符则抛出异常。
 
 ### func canExecute()
 
@@ -197,7 +191,7 @@ public func canExecute(): Bool
 
 异常：
 
-- [FSException](fs_package_exceptions.md#class-fsexception) - 如果判断过程中底层调用的系统接口发生错误，则抛异常。
+- [FSException](fs_package_exceptions.md#class-fsexception) - 如果判断过程中底层调用的系统接口发生错误，则抛出异常。
 
 ### func canRead()
 
@@ -209,7 +203,7 @@ public func canRead(): Bool
 
 - 对文件而言，判断用户是否有读取文件的权限。
 - 对目录而言，判断用户是否有浏览目录的权限。
-- 在 windows 环境下，用户始终拥有对于文件和目录的可读权限，该函数不生效，返回 true。
+- 在 Windows 环境下，用户始终拥有对于文件和目录的可读权限，该函数不生效，返回 true。
 - 在 Linux 和 macOS 环境下，该函数正常使用。
 
 返回值：
@@ -218,7 +212,7 @@ public func canRead(): Bool
 
 异常：
 
-- [FSException](fs_package_exceptions.md#class-fsexception) - 如果判断过程中底层调用的系统接口发生错误，则抛异常。
+- [FSException](fs_package_exceptions.md#class-fsexception) - 如果判断过程中底层调用的系统接口发生错误，则抛出异常。
 
 ### func canWrite()
 
@@ -239,7 +233,7 @@ public func canWrite(): Bool
 
 异常：
 
-- [FSException](fs_package_exceptions.md#class-fsexception) - 如果判断过程中底层调用的系统接口发生错误，则抛异常。
+- [FSException](fs_package_exceptions.md#class-fsexception) - 如果判断过程中底层调用的系统接口发生错误，则抛出异常。
 
 ### func isDirectory()
 
@@ -255,12 +249,12 @@ public func isDirectory(): Bool
 
 异常：
 
-- [FSException](fs_package_exceptions.md#class-fsexception) - 如果判断过程中底层调用的系统接口发生错误，则抛异常。
+- [FSException](fs_package_exceptions.md#class-fsexception) - 如果判断过程中底层调用的系统接口发生错误，则抛出异常。
 
-### func isFile()
+### func isRegular()
 
 ```cangjie
-public func isFile(): Bool
+public func isRegular(): Bool
 ```
 
 功能：判断当前文件是否是普通文件。
@@ -271,7 +265,7 @@ public func isFile(): Bool
 
 异常：
 
-- [FSException](fs_package_exceptions.md#class-fsexception) - 如果判断过程中底层调用的系统接口发生错误，则抛异常。
+- [FSException](fs_package_exceptions.md#class-fsexception) - 如果判断过程中底层调用的系统接口发生错误，则抛出异常。
 
 ### func isHidden()
 
@@ -302,7 +296,7 @@ public func isReadOnly(): Bool
 
 异常：
 
-- [FSException](fs_package_exceptions.md#class-fsexception) - 如果判断过程中底层调用的系统接口发生错误，则抛异常。
+- [FSException](fs_package_exceptions.md#class-fsexception) - 如果判断过程中底层调用的系统接口发生错误，则抛出异常。
 
 ### func isSymbolicLink()
 
@@ -318,7 +312,7 @@ public func isSymbolicLink(): Bool
 
 异常：
 
-- [FSException](fs_package_exceptions.md#class-fsexception) - 如果判断过程中底层调用的系统接口发生错误，则抛异常。
+- [FSException](fs_package_exceptions.md#class-fsexception) - 如果判断过程中底层调用的系统接口发生错误，则抛出异常。
 
 ### func setExecutable(Bool)
 
@@ -326,11 +320,11 @@ public func isSymbolicLink(): Bool
 public func setExecutable(executable: Bool): Bool
 ```
 
-功能：对当前实例对应的文件设置当前用户是否可执行的权限，当前用户没有权限修改抛异常。
+功能：对当前实例对应的文件设置当前用户是否可执行的权限，当前用户没有权限修改抛出异常。
 
 - 对文件而言，设置用户是否有执行文件的权限，对目录而言，设置用户是否有进入目录的权限。
 - 在 Windows 环境下，用户对于文件的执行权限由文件扩展名决定，用户始终拥有对于目录的执行权限该函数不生效，返回 false。
-- 在 Linux 和 macOS 环境下，该函数正常使用如果在此函数调用期间，该 [FileInfo](fs_package_structs.md#struct-fileinfo) 对应的文件实体被其它用户或者进程修改，有可能因为竞争条件(Race Condition)导致其它修改不能生效。
+- 在 Linux 和 macOS 环境下，该函数正常使用如果在此函数调用期间，该 [FileInfo](fs_package_structs.md#struct-fileinfo) 对应的文件实体被其他用户或者进程修改，有可能因为竞争条件(Race Condition)导致其他修改不能生效。
 
 参数：
 
@@ -346,12 +340,12 @@ public func setExecutable(executable: Bool): Bool
 public func setReadable(readable: Bool): Bool
 ```
 
-功能：对当前实例对应的文件设置当前用户是否可读取的权限，当前用户没有权限修改抛异常。
+功能：对当前实例对应的文件设置当前用户是否可读取的权限，当前用户没有权限修改抛出异常。
 
 - 对文件而言，设置用户是否有读取文件的权限。
 - 对目录而言，设置用户是否有浏览目录的权限。
 - 在 Windows 环境下，用户始终拥有对于文件以及目录的可读权限，不可更改，该函数不生效当 readable 为 true 时，函数返回 true，当 readable 为 false 时，函数返回 false。
-- 在 Linux 和 macOS 环境下，该函数正常使用如果在此函数调用期间，该 [FileInfo](fs_package_structs.md#struct-fileinfo) 对应的文件实体被其它用户或者进程修改，有可能因为竞争条件(Race Condition)导致其它修改不能生效。
+- 在 Linux 和 macOS 环境下，该函数正常使用如果在此函数调用期间，该 [FileInfo](fs_package_structs.md#struct-fileinfo) 对应的文件实体被其他用户或者进程修改，有可能因为竞争条件(Race Condition)导致其他修改不能生效。
 
 参数：
 
@@ -367,12 +361,12 @@ public func setReadable(readable: Bool): Bool
 public func setWritable(writable: Bool): Bool
 ```
 
-功能：对当前实例对应的文件设置当前用户是否可写入的权限，当前用户没有权限修改抛异常。
+功能：对当前实例对应的文件设置当前用户是否可写入的权限，当前用户没有权限修改抛出异常。
 
 - 对文件而言，设置用户是否有写入文件的权限。
 - 对目录而言，设置用户是否有删除、移动、创建目录内文件的权限。
 - 在 Windows 环境下，用户对于文件的可写权限正常使用；用户始终拥有对于目录的可写权限，不可更改，该函数不生效，返回 false。
-- 在 Linux 和 macOS 环境下，该函数正常使用如果在此函数调用期间，该 [FileInfo](fs_package_structs.md#struct-fileinfo) 对应的文件实体被其它用户或者进程修改，有可能因为竞争条件(Race Condition)导致其它修改不能生效。
+- 在 Linux 和 macOS 环境下，该函数正常使用如果在此函数调用期间，该 [FileInfo](fs_package_structs.md#struct-fileinfo) 对应的文件实体被其他用户或者进程修改，有可能因为竞争条件(Race Condition)导致其他修改不能生效。
 
 参数：
 
@@ -381,22 +375,6 @@ public func setWritable(writable: Bool): Bool
 返回值：
 
 - [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - true，操作成功；false，操作失败。
-
-### operator func !=(FileInfo)
-
-```cangjie
-public operator func !=(that: FileInfo): Bool
-```
-
-功能：判断当前 [FileInfo](fs_package_structs.md#struct-fileinfo) 和另一个 [FileInfo](fs_package_structs.md#struct-fileinfo) 是否对应非同一文件。
-
-参数：
-
-- that: [FileInfo](fs_package_structs.md#struct-fileinfo) - 另一个 [FileInfo](fs_package_structs.md#struct-fileinfo)。
-
-返回值：
-
-- [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - true，不是同一文件；false，是同一文件。
 
 ### operator func ==(FileInfo)
 
@@ -418,6 +396,8 @@ public operator func ==(that: FileInfo): Bool
 
 ```cangjie
 public struct Path <: Equatable<Path> & Hashable & ToString {
+    public static const Separator: String = PATH_SEPARATOR
+    public static const ListSeparator: String = PATH_LISTSEPARATOR
     public init(rawPath: String)
 }
 ```
@@ -443,100 +423,149 @@ Path 用来表示本地路径（Windows 平台已支持 DOS 设备路径和 UNC 
 - [Hashable](../../core/core_package_api/core_package_interfaces.md#interface-hashable)
 - [ToString](../../core/core_package_api/core_package_interfaces.md#interface-tostring)
 
-### prop directoryName
+### static const ListSeparator
 
 ```cangjie
-public prop directoryName: Option<Path>
+public static const ListSeparator: String = PATH_LISTSEPARATOR
 ```
 
-功能：获得 [Path](fs_package_structs.md#struct-path) 的目录部分，以 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<[Path](fs_package_structs.md#struct-path)> 形式返回。
+功能：获取路径列表分隔符，用于分隔路径列表中的不同路径。
 
-- 对于路径 "/a/b/c"，此属性返回 Some(Path("/a/b"))。
-- 对于路径 "/a/b/"，此属性返回 Some(Path("/a/b"))。
-- 对于路径 "/a"，此属性返回 Some(Path("/"))。
-- 对于路径 "/"，此属性返回 Some(Path("/"))。
-- 对于路径 "./a/b"，此属性返回 Some(Path("./a"))。
-- 对于路径 "./"，此属性返回 Some(Path("."))。
-- 对于路径 "."，此属性返回 `None`。
-- 对于路径 ".gitignore"，此属性返回 `None`。
-- 对于路径 "a.txt"，此属性返回 `None`。
-- 对于路径 "C:\a\b\c"，此属性返回 Some(Path("C:\a\b"))。
-- 对于路径 "C:\a\b\"，此属性返回 Some(Path("C:\a\b"))。
+Windows 系统中路径列表分隔符为 ";"，非 Windows 系统中为 ":"。
 
-返回值：返回构造时传入的路径中的目录部分，构造时传入的路径中无目录部分时返回 None。
+类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
-类型：[Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<[Path](fs_package_structs.md#struct-path)>
+### static const Separator
 
-异常：
+```cangjie
+public static const Separator: String = PATH_SEPARATOR
+```
 
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当路径为空，或包含字符串结束符则抛出异常。
+功能：获取路径分隔符，用于分隔多级目录。
+
+Windows 系统中分隔符为 "\\"，非 Windows 系统中为 "/"。
+
+类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
 ### prop extensionName
 
 ```cangjie
-public prop extensionName: Option<String>
+public prop extensionName: String
 ```
 
-功能：获得 [Path](fs_package_structs.md#struct-path) 的文件扩展名部分，以 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<[String](../../core/core_package_api/core_package_structs.md#struct-string)> 形式返回。
+功能：获得 [Path](fs_package_structs.md#struct-path) 的文件扩展名部分。
 
-- 对于路径 "./NewFile.txt"，此属性返回 `Some("txt")`。
-- 对于路径 "./.gitignore"，此属性返回 `Some("gitignore")`。
-- 对于路径 "./noextension"，此属性返回 `None`。
-- 对于路径 "./a.b.c"，此属性返回 `Some("c")`。
-- 对于路径 "./NewDir/"，此属性返回 `None`。
-- 对于路径 "./NewDir/NewFile."，此属性返回 `None`。
+文件名 fileName 根据最后一个 r'.' 被划分为不带扩展名的文件名 fileNameWithoutExtension 和扩展名 extensionName 两部分。无扩展名时返回空字符串。
 
-返回值：返回构造时传入的路径中的文件扩展名部分，构造时传入的路径中无文件扩展名部分时返回 None。
+- 对于路径 "./NewFile.txt"，此属性返回 `"txt"`。
+- 对于路径 "./.gitignore"，此属性返回 `"gitignore"`。
+- 对于路径 "./noextension"，此属性返回 `""`。
+- 对于路径 "./a.b.c"，此属性返回 `"c"`。
+- 对于路径 "./NewFile.txt/"，此属性返回 `"txt"`。
 
-类型：[Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<[String](../../core/core_package_api/core_package_structs.md#struct-string)>
+类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
 异常：
 
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当路径为空，或包含字符串结束符则抛出异常。
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当路径为空或包含字符串结束符则抛出异常。
 
 ### prop fileName
 
 ```cangjie
-public prop fileName: Option<String>
+public prop fileName: String
 ```
 
-功能：获得 [Path](fs_package_structs.md#struct-path) 的文件名（含扩展名）部分，以 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<[String](../../core/core_package_api/core_package_structs.md#struct-string)> 形式返回。
+功能：获得 [Path](fs_package_structs.md#struct-path) 的文件名（含扩展名）部分。
 
-- 对于路径 "./NewFile.txt"，此属性返回 `Some("NewFile.txt")`。
-- 对于路径 "./.gitignore"，此属性返回 `Some(".gitignore")`。
-- 对于路径 "./noextension"，此属性返回 `Some("noextension")`。
-- 对于路径 "./a.b.c"，此属性返回 `Some("a.b.c")`。
-- 对于路径 "./NewDir/"，此属性返回 `None`。
+整个路径字符串被划分为 parent 和 fileName 两部分，详见 [parent](./fs_package_structs.md#prop-parent)。无文件名时返回空字符串。
 
-返回值：返回构造时传入的路径中的文件名（含扩展名）部分，构造时传入的路径中无文件名（含扩展名）部分时返回 None。
+以下示例适用于所有系统：
 
-类型：[Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<[String](../../core/core_package_api/core_package_structs.md#struct-string)>
+- 对于路径 "./NewFile.txt"，此属性返回 "NewFile.txt"；
+- 对于路径 "./.gitignore"，此属性返回 ".gitignore"；
+- 对于路径 "./noextension"，此属性返回 "noextension"；
+- 对于路径 "./a.b.c"，此属性返回 "a.b.c"；
+- 对于路径 "./NewDir/"，此属性返回 "NewDir"；
+
+特别地，在 Windows 文件系统中，fileName 不包括卷名部分。
+
+以下示例仅适用于 Windows 系统：
+
+- 对于路径 "c:\\a.txt"，此属性返回 "a.txt"；
+- 对于路径 "c:"，此属性返回 ""；
+- 对于路径 "\\\\Server\\Share\\a.txt"，此属性返回 "a.txt"；
+- 对于路径 "\\\\Server\\Share\\"，此属性返回 ""；
+- 对于路径 "\\\\?\\C:a\\b.txt"，此属性返回 "b.txt"；
+- 对于路径 "\\\\?\\C:"，此属性返回 ""。
+
+类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
 异常：
 
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当路径为空，或包含字符串结束符则抛出异常。
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当路径为空或包含字符串结束符则抛出异常。
 
 ### prop fileNameWithoutExtension
 
 ```cangjie
-public prop fileNameWithoutExtension: Option<String>
+public prop fileNameWithoutExtension: String
 ```
 
-功能：获得 [Path](fs_package_structs.md#struct-path) 的文件名（不含扩展名）部分，以 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<[String](../../core/core_package_api/core_package_structs.md#struct-string)> 形式返回。
+功能：获得 [Path](fs_package_structs.md#struct-path) 的文件名（不含扩展名）部分。
 
-- 对于路径 "./NewFile.txt"，此属性返回 `Some("NewFile")`。
-- 对于路径 "./.gitignore"，此属性返回 `None`。
-- 对于路径 "./noextension"，此属性返回 `Some("noextension")`。
-- 对于路径 "./a.b.c"，此属性返回 `Some("a.b")`。
-- 对于路径 "./NewDir/"，此属性返回 `None`。
+文件名 fileName 根据最后一个 r'.' 被划分为不带扩展名的文件名 fileNameWithoutExtension 和扩展名 extensionName 两部分。无文件名（不含扩展名）时返回空字符串。
 
-返回值：返回构造时传入的路径中的文件名（不含扩展名）部分，构造时传入的路径中无文件名（不含扩展名）部分时返回 None。
+- 对于路径 "./NewFile.txt"，此属性返回 `"NewFile"`。
+- 对于路径 "./.gitignore"，此属性返回 `""`。
+- 对于路径 "./noextension"，此属性返回 `"noextension"`。
+- 对于路径 "./a.b.c"，此属性返回 `"a.b"`。
+- 对于路径 "./NewFile/"，此属性返回 `"NewFile"`。
 
-类型：[Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<[String](../../core/core_package_api/core_package_structs.md#struct-string)>
+类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
 异常：
 
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当路径为空，或包含字符串结束符则抛出异常。
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当路径为空或包含字符串结束符则抛出异常。
+
+### prop parent
+
+```cangjie
+public prop parent: Path
+```
+
+功能：获得该 [Path](fs_package_structs.md#struct-path) 实例的父路径。
+
+整个路径字符串被划分为 parent 和 fileName，以最后一个有效文件分隔符（末尾的分隔符会被忽略）作为分界。如果 parent 不存在，就返回空字符串构造的 Path 实例。parent 和 fileName 部分都不包含末尾分隔符，parent 保留表示根目录的分隔符。无父目录时返回空的 [Path](./fs_package_structs.md#struct-path) 实例。
+
+该属性不会访问文件系统，也不会消除特殊名称。如果有需要可以跟规范化搭配使用。
+
+该属性在不同操作系统行为有差异，在 Windows 系统中，文件分隔符为 "\\" 或 "/"（规范化时会统一转换为 "\\"），在 Linux、macOS、ohos 系统中，文件分隔符为 "/"。
+
+以下示例适用于所有系统：
+
+- 对于路径 "/a/b/c"，此属性返回 Path("/a/b")；
+- 对于路径 "/a/b/"，此属性返回 Path("/a")；
+- 对于路径 "/a"，此属性返回 Path("/")；
+- 对于路径 "/"，此属性返回 Path("/")；
+- 对于路径 "./a/b"，此属性返回 Path("./a")；
+- 对于路径 "./"，此属性返回 Path("")；
+- 对于路径 ".gitignore"，此属性返回 Path("")；
+- 对于路径 "/a/./../b"，此属性返回 Path("/a/./..")。
+
+此外，在 Windows 系统中，path 被分为卷名、目录名和文件名，详情请参见微软官方文档。属性 parent 包含卷名和目录名。
+
+以下示例仅适用于 Windows 系统：
+
+- 对于路径 "C:"，此属性返回 Path("C:")；
+- 对于路径 "C:\\a\\b"，此属性返回 Path("C:\\a")；
+- 对于路径 "\\\\Server\\Share\\xx\\yy"，此属性返回 Path("\\\\Server\\Share\\xx")；
+- 对于路径 "\\\\?\\UNC\\Server\\Share\\xx\\yy"，此属性返回 Path("\\\\?\\UNC\\Server\\Share\\xx")；
+- 对于路径 "\\\\?\\c:\\xx\\yy"，此属性返回 Path("\\\\?\\c:\\xx")。
+
+类型：[Path](fs_package_structs.md#struct-path)
+
+异常：
+
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当路径为空或包含字符串结束符则抛出异常。
 
 ### init(String)
 
@@ -576,41 +605,19 @@ public func isAbsolute(): Bool
 
 异常：
 
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当路径为空，或包含字符串结束符则抛出异常。
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当路径为空或包含字符串结束符则抛出异常。
 
-### func isDirectory()
+### func isEmpty()
 
 ```cangjie
-public func isDirectory(): Bool
+public func isEmpty(): Bool
 ```
 
-功能：判断 [Path](fs_package_structs.md#struct-path) 是否是目录，与 isFile，isSymbolicLink 互斥。
+功能：判断当前实例是否为空路径。
 
 返回值：
 
-- [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - true，是目录；false，不是目录。
-
-异常：
-
-- [FSException](fs_package_exceptions.md#class-fsexception) - 如果路径不存在，或者判断过程中底层调用的系统接口发生错误，则抛异常。
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当路径为空，或包含字符串结束符则抛出异常。
-
-### func isFile()
-
-```cangjie
-public func isFile(): Bool
-```
-
-功能：判断 [Path](fs_package_structs.md#struct-path) 是否是文件，与 isSymbolicLink，isDirectory 互斥。
-
-返回值：
-
-- [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - true，是文件；false，不是文件。
-
-异常：
-
-- [FSException](fs_package_exceptions.md#class-fsexception) - 如果路径不存在，或者判断过程中底层调用的系统接口发生错误，则抛异常。
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当路径为空，或包含字符串结束符则抛出异常。
+- [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 如果当前实例为空路径，返回 true，否则返回 false。
 
 ### func isRelative()
 
@@ -626,24 +633,7 @@ public func isRelative(): Bool
 
 异常：
 
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当路径为空，或包含字符串结束符则抛出异常。
-
-### func isSymbolicLink()
-
-```cangjie
-public func isSymbolicLink(): Bool
-```
-
-功能：判断 [Path](fs_package_structs.md#struct-path) 是否是软链接，与 isFile，isDirectory 互斥。
-
-返回值：
-
-- [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - true，是软链接；false，不是软链接。
-
-异常：
-
-- [FSException](fs_package_exceptions.md#class-fsexception) - 如果路径不存在，或者判断过程中底层调用的系统接口发生错误，则抛异常。
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当路径为空，或包含字符串结束符则抛出异常。
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当路径为空或包含字符串结束符则抛出异常。
 
 ### func join(Path)
 
@@ -662,8 +652,8 @@ public func join(path: Path): Path
 
 异常：
 
-- [FSException](fs_package_exceptions.md#class-fsexception) - 如果参数 path 是绝对路径则抛异常。
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当前路径为空，或当前路径、入参路径非法时抛出异常。
+- [FSException](fs_package_exceptions.md#class-fsexception) - 如果参数 path 是绝对路径则抛出异常。
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当前路径为空或当前路径、入参路径非法时抛出异常。
 
 ### func join(String)
 
@@ -682,43 +672,32 @@ public func join(path: String): Path
 
 异常：
 
-- [FSException](fs_package_exceptions.md#class-fsexception) - 如果参数 path 是绝对路径则抛异常。
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当前路径为空，或当前路径、入参路径非法时抛出异常。
+- [FSException](fs_package_exceptions.md#class-fsexception) - 如果参数 path 是绝对路径则抛出异常。
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当前路径为空或当前路径、入参路径非法时抛出异常。
 
-### func split()
+### func normalize()
 
 ```cangjie
-public func split(): (Option<Path>, Option<String>)
+public func normalize(): Path
 ```
 
-功能：将 [Path](fs_package_structs.md#struct-path) 分割成目录和文件名两部分以元组形式返回分割结果 `(directoryName, fileName)` 。
+功能：将路径字符串进行规范化处理，并用规范化后的字符串构造新的 [Path](./fs_package_structs.md#struct-path) 实例。该函数仅做字符串解析，不会进行 io 操作。
+
+规范化规则：
+
+- 将连续的多个路径分隔符替换为单个路径分隔符；
+- 删除末尾的路径分隔符（不删除作为根目录的路径分隔符或卷名中的字符）；
+- 删除每一个 "." 路径名元素（代表当前目录）；
+- 删除每一个路径内的 ".." 路径名元素（代表父目录）和它前面的非 ".." 路径名元素；
+- 删除开始于根路径的 ".." 路径名元素，即将路径开始处的 "/.." 替换为 "/"（Windows 系统中还会将 "\\.." 替换为 "\\"）；
+- 相对路径保留开头的 "../"（Windows 系统中还将保留 "..\\"）;
+- 最后如果得到空路径，返回 Path(".")。
+
+特别地，Windows 文件系统中，卷名部分仅做分隔符转换，即 "/" 转换为 "\\"。
 
 返回值：
 
-- ([Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<[Path](fs_package_structs.md#struct-path)>, [Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<[String](../../core/core_package_api/core_package_structs.md#struct-string)>) - 返回值为元组类型，第一个元素表示路径，路径获取成功，返回 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<[Path](fs_package_structs.md#struct-path)>.Some(p)，失败，返回 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<[Path](fs_package_structs.md#struct-path)>.None；第二个元素表示文件名，文件名获取成功，返回 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<[String](../../core/core_package_api/core_package_structs.md#struct-string)>.Some(s)，失败，返回 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<[String](../../core/core_package_api/core_package_structs.md#struct-string)>.None。
-
-异常：
-
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当路径为空，或包含字符串结束符则抛出异常。
-
-### func toCanonical()
-
-```cangjie
-public func toCanonical(): Path
-```
-
-功能：将 [Path](fs_package_structs.md#struct-path) 规范化返回绝对路径形式的规范化路径。
-
-所有的中间引用和软链接都会处理 （UNC 路径下的软链接无法被规范化），例如，对于路径 "/foo/test/../test/bar.txt"，该函数会返回 "/foo/test/bar.txt"。
-
-返回值：
-
-- [Path](fs_package_structs.md#struct-path) - 规范化路径的 [Path](fs_package_structs.md#struct-path) 实例。
-
-异常：
-
-- [FSException](fs_package_exceptions.md#class-fsexception) - 路径不存在或无法规范化时抛出异常。
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 路径为空，或包含字符串结束符时抛出异常。
+- [Path](./fs_package_structs.md#struct-path) - 规范化后的 [Path](./fs_package_structs.md#struct-path) 实例。
 
 ### func toString()
 
@@ -732,29 +711,15 @@ public func toString(): String
 
 - [String](../../core/core_package_api/core_package_structs.md#struct-string) - [Path](fs_package_structs.md#struct-path) 的路径字符串。
 
-### operator func !=(Path)
-
-```cangjie
-public operator func !=(that: Path): Bool
-```
-
-功能：判断 [Path](fs_package_structs.md#struct-path) 是否不是同一路径。
-
-参数：
-
-- that: [Path](fs_package_structs.md#struct-path) - 另一个 [Path](fs_package_structs.md#struct-path)。
-
-返回值：
-
-- [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - true，不是同一路径；false，是同一路径。
-
 ### operator func ==(Path)
 
 ```cangjie
 public operator func ==(that: Path): Bool
 ```
 
-功能：判断 [Path](fs_package_structs.md#struct-path) 是否是同一路径。
+功能：判断 [Path](fs_package_structs.md#struct-path) 是否相等。
+
+判等时将对 [Path](fs_package_structs.md#struct-path) 进行规范化，如果规范化后的字符串相等，则认为两个 [Path](fs_package_structs.md#struct-path) 实例相等。规范化规则详见函数 [normalize](./fs_package_structs.md#func-normalize)。
 
 参数：
 

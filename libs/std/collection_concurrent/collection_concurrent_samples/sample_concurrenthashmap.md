@@ -1,7 +1,8 @@
 # ConcurrentHashMap 使用示例
 
-<!-- verify -->
+示例：
 
+<!-- verify -->
 ```cangjie
 import std.collection.*
 import std.collection.concurrent.*
@@ -12,7 +13,7 @@ main() {
     let M = 1024
 
     let cmap = ConcurrentHashMap<Int64, Int64>(concurrencyLevel: 64)
-    let jobs = Array<Future<Unit>>(threads, item: unsafe { zeroValue<Future<Unit>>() })
+    let jobs = Array<Future<Unit>>(threads, repeat: unsafe { zeroValue<Future<Unit>>() })
     for (t in 0..threads) {
         jobs[t] = spawn {
             for (i in t..M : threads) {
@@ -55,10 +56,9 @@ main() {
 
     println("Size after remove second: ${cmap.size}")
 }
-
 ```
 
-结果如下：
+运行结果：
 
 ```text
 Size after put: 1024

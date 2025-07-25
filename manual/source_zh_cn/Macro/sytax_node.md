@@ -1,6 +1,6 @@
 # 语法节点
 
-在仓颉语言的编译过程中，首先通过词法分析将代码转换成 `Tokens`，然后对 `Tokens` 进行语法解析，得到一个语法树。每个语法树的节点可能是一个表达式、声明、类型、模式等。仓颉 `ast` 库提供了每种节点对应的类，它们之间具有适当的继承关系。其中，主要的抽象类如下：
+在仓颉语言的编译过程中，首先通过词法分析将代码转换成 `Tokens`，然后对 `Tokens` 进行语法解析，得到一个语法树。每个语法树的节点可能是一个表达式、声明、类型、模式等。仓颉标准库 `std.ast` 包提供了每种节点对应的类，它们之间具有适当的继承关系。其中，主要的抽象类如下：
 
 - `Node`：所有语法节点的父类
 - `TypeNode`：所有类型节点的父类
@@ -8,25 +8,31 @@
 - `Decl`：所有声明节点的父类
 - `Pattern`：所有模式节点的父类
 
-具体节点的类型众多，具体细节请参考 《仓颉编程语言库 API》文档。在下面的案例中，主要使用以下节点：
+具体节点的类型众多，具体细节请参见《仓颉编程语言库 API》。在下面的案例中，主要使用以下节点：
 
 - `BinaryExpr`：二元运算表达式
 - `FuncDecl`：函数的声明
 
 ## 节点的解析
 
-通过 `ast` 库，基本上每种节点都可以从 `Tokens` 解析。有两种调用解析的方法。
+通过标准库 `std.ast` 包，基本上每种节点都可以从 `Tokens` 解析。有两种解析 `Tokens` 并构造语法节点的方法。
 
-### 使用解析表达式和声明的函数
+### 使用解析函数来解析 Tokens
 
-以下函数用于从 `Tokens` 解析任意的表达式或任意的声明：
+以下函数用于从 `Tokens` 解析并构造任意的语法节点：
 
-- `parseExpr(input: Tokens): Expr`：将输入的 `Tokens` 解析为表达式
-- `parseExprFragment(input: Tokens, startFrom!: Int64 = 0): (Expr, Int64)`：将输入 `Tokens` 的一个片段解析为表达式，片段从 `startFrom` 索引开始，解析可能只消耗从索引 `startFrom` 开始的片段的一部分，并返回第一个未被消耗的 `Token` 的索引（如果消耗了整个片段，返回值为 `input.size`）
-- `parseDecl(input: Tokens, astKind!: String = "")`：将输入的 `Tokens` 解析为声明，`astKind` 为额外的设置，具体请见《仓颉编程语言库 API》文档。
-- `parseDeclFragment(input: Tokens, startFrom!: Int64 = 0): (Decl, Int64)`：将输入 `Tokens` 的一个片段解析为声明，`startFrom` 参数和返回索引的含义和 `parseExpr` 相同。
+- `parseExpr(input: Tokens): Expr`：将输入的 `Tokens` 解析为表达式节点。
+- `parseExprFragment(input: Tokens, startFrom!: Int64 = 0): (Expr, Int64)`：将输入 `Tokens` 的一个片段解析为表达式节点，片段从 `startFrom` 索引开始，解析可能只消耗从索引 `startFrom` 开始的片段的一部分，并返回第一个未被消耗的 `Token` 的索引（如果消耗了整个片段，返回值为 `input.size`）。
+- `parseDecl(input: Tokens, astKind!: String = "")`：将输入的 `Tokens` 解析为声明节点，`astKind` 为额外的设置，具体请参见《仓颉编程语言库 API》文档。
+- `parseDeclFragment(input: Tokens, startFrom!: Int64 = 0): (Decl, Int64)`：将输入 `Tokens` 的一个片段解析为声明节点，`startFrom` 参数和返回索引的含义和 `parseExpr` 相同。
+- `parseType(input: Tokens): TypeNode`：将输入的 `Tokens` 解析为类型节点。
+- `parseTypeFragment(input: Tokens, startFrom!: Int64 = 0): (TypeNode, Int64)`：将输入 `Tokens` 的一个片段解析为类型节点，`startFrom` 参数和返回索引的含义和 `parseExpr` 相同。
+- `parsePattern(input: Tokens): Pattern`：将输入的 `Tokens` 解析为模式节点。
+- `parsePatternFragment(input: Tokens, startFrom!: Int64 = 0): (Pattern, Int64)`：将输入 `Tokens` 的一个片段解析为模式节点，`startFrom` 参数和返回索引的含义和 `parseExpr` 相同。
 
-通过代码案例展示这些函数的使用：
+如果解析失败将抛出异常。这种解析方式适用于类型未知的代码片段，如果需要获取具体的子类型节点，需要将解析结果手动转换成具体的子类型。
+
+这些函数的使用如下例所示：
 
 <!-- verify -->
 
@@ -72,9 +78,9 @@ func f3(x: Int64) {
 }
 ```
 
-### 使用构造函数进行解析
+### 使用语法节点的构造函数来解析 Tokens
 
-大多数节点类型都支持 `init(input: Tokens)` 构造函数，将输入的 `Tokens` 解析为相应类型的节点，例如：
+大多数语法节点都支持 `init(input: Tokens)` 构造函数，将输入的 `Tokens` 解析为相应类型的节点，例如：
 
 <!-- run -->
 
@@ -89,7 +95,7 @@ let funcDecl = FuncDecl(quote(func f1(x: Int64) { return x + 1 }))
 
 ## 节点的组成部分
 
-从 `Tokens` 解析出节点之后，可以查看节点的组成部分。作为例子，仅列出 `BinaryExpr` 和 `FuncDecl` 的组成部分，关于其他节点的更详细的解释请见《仓颉编程语言库 API》文档。
+从 `Tokens` 解析出节点之后，可以查看节点的组成部分。作为例子，仅列出 `BinaryExpr` 和 `FuncDecl` 的组成部分，关于其他节点的更详细的解释请参见《仓颉编程语言库 API》文档。
 
 - `BinaryExpr` 节点：
     - `leftExpr: Expr`：运算符左侧的表达式
@@ -130,7 +136,7 @@ a + b + y
 
 首先，通过解析，获得 `binExpr` 为节点 `x * y`，图示如下：
 
-```
+```text
     *
   /   \
  x     y
@@ -138,7 +144,7 @@ a + b + y
 
 第二步，将左侧的节点（即 `x`）替换为 `a + b`，因此，获得的语法树如下：
 
-```
+```text
       *
     /   \
    +     y
@@ -150,7 +156,7 @@ a + b + y
 
 第三步，将语法树根部的运算符从 `*` 替换为 `+`，因此得到语法树如下：
 
-```
+```text
       +
     /   \
    +     y
@@ -187,7 +193,7 @@ func foo(a: Int64) {
 
 ## 使用 quote 插值语法节点
 
-任何 AST 节点都可以在 `quote` 语句中插值，部分 AST 节点的 `ArrayList` 列表也可以被插值（主要对应实际情况中会出现这类节点列表的情况）。插值直接通过 `$(node)` 表达即可，其中 `node` 是任意节点类型的实例。
+任何语法节点都可以在 `quote` 语句中插值，部分语法节点的 `ArrayList` 列表也可以被插值（主要对应实际情况中会出现这类节点列表的情况）。插值直接通过 `$(node)` 表达即可，其中 `node` 是任意节点类型的实例。
 
 下面，通过一些案例展示节点的插值。
 
@@ -223,7 +229,7 @@ d: 1 + 2.leftExpr
 ```cangjie
 var incrs = ArrayList<Node>()
 for (i in 1..=5) {
-    incrs.append(parseExpr(quote(x += $(i))))
+    incrs.add(parseExpr(quote(x += $(i))))
 }
 var foo = quote(
     func foo(n: Int64) {
@@ -273,4 +279,4 @@ binExpr2.rightExpr: y * z
 binExpr3: (x + y) * z
 ```
 
-首先，构建表达式 `x + y`，然后将该表达式插入到模版 `$(binExpr1) * z` 中。这里的意图是得到一个先计算 `x + y`，然后再乘 `z` 的表达式，但是，插值的结果是 `x + y * z`，先做 `y * z`，然后再加 `x`。这是因为插值不会自动添加括号以保证被插入的表达式的原子性（这和前一阶介绍的 `leftExpr` 的替换不同）。因此，需要在 `$(binExpr1)` 周围添加小括号，保证得到正确的结果。
+首先，构建表达式 `x + y`，然后将该表达式插入到模板 `$(binExpr1) * z` 中。这里的意图是得到一个先计算 `x + y` 再乘 `z` 的表达式，但是，插值的结果是 `x + y * z`，即先计算 `y * z` 再加 `x`。这是因为插值不会自动添加括号以保证被插入的表达式的原子性（这和前一节介绍的 `leftExpr` 的替换不同）。因此，需要在 `$(binExpr1)` 周围添加小括号，保证得到正确的结果。

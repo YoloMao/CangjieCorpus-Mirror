@@ -1,6 +1,6 @@
 # WebSocket 编程
 
-在网络编程中，WebSocket 也是一种常用的应用层协议，与 HTTP 一样，它也基于 TCP 协议之上，并且常用于 web 服务端应用开发。
+在网络编程中，WebSocket 是一种常用的应用层协议。与 HTTP 一样，它也基于 TCP 协议之上，并且常用于 web 服务端应用开发。
 
 不同于 HTTP 的是， WebSocket 只需要客户端和服务端进行一次握手，即可创建长久的连接，并且进行双向的数据传输。即基于 WebSocket 实现的服务端可以主动传输数据给客户端，从而实现实时通讯。
 
@@ -14,15 +14,19 @@ WebSocket 是一个独立的协议，它与 HTTP 的关联在于，它的握手�
 
 如下示例展示了 WebSocket 的握手以及消息收发过程：创建 HTTP 客户端和服务端，分别发起 WebSocket 升级（或握手），握手成功后开始帧的读写。
 
+> **说明：**
+>
+> net、encoding、log 等库已从仓颉 SDK 移到 stdx 模块，使用前需要下载软件包，并在 cjpm.toml 中配置。
+
 <!-- verify -->
 
 ```cangjie
-import net.http.*
-import encoding.url.*
+import stdx.net.http.*
+import stdx.encoding.url.*
 import std.time.*
 import std.sync.*
 import std.collection.*
-import std.log.*
+import stdx.log.*
 
 let server = ServerBuilder()
                         .addr("127.0.0.1")
@@ -60,7 +64,7 @@ main() {
     while(true) {
         match(frame.frameType) {
             case ContinuationWebFrame =>
-                data.appendAll(frame.payload)
+                data.add(all: frame.payload)
                 if (frame.fin) {
                     break
                 }
@@ -68,7 +72,7 @@ main() {
                 if (!data.isEmpty()) {
                     throw Exception("invalid frame")
                 }
-                data.appendAll(frame.payload)
+                data.add(all: frame.payload)
                 if (frame.fin) {
                     break
                 }
@@ -82,7 +86,7 @@ main() {
         frame = websocket.read()
     }
     println("data size: ${data.size}")      // 4097
-    println("last item: ${String.fromUtf8(Array(data)[4096])}")        // a
+    println("last item: ${String.fromUtf8(data.toArray()[4096])}")        // a
 
 
     // 4 关闭 websocket，
@@ -100,7 +104,7 @@ main() {
 func startServer() {
     // 1 注册 handler
     server.distributor.register("/webSocket", handler1)
-    server.logger.level = OFF
+    server.logger.level = LogLevel.OFF
     server.serve()
 }
 
@@ -121,7 +125,7 @@ func handler1(ctx: HttpContext): Unit {
     while(true) {
         match(frame.frameType) {
             case ContinuationWebFrame =>
-                data.appendAll(frame.payload)
+                data.add(all: frame.payload)
                 if (frame.fin) {
                     break
                 }
@@ -129,7 +133,7 @@ func handler1(ctx: HttpContext): Unit {
                 if (!data.isEmpty()) {
                     throw Exception("invalid frame")
                 }
-                data.appendAll(frame.payload)
+                data.add(all: frame.payload)
                 if (frame.fin) {
                     break
                 }
@@ -142,9 +146,9 @@ func handler1(ctx: HttpContext): Unit {
         }
         frame = websocketServer.read()
     }
-    println("data: ${String.fromUtf8(Array(data))}")    // hello
+    println("data: ${String.fromUtf8(data.toArray())}")    // hello
     // 发 4097 个 a
-    websocketServer.write(TextWebFrame, Array<UInt8>(4097, item: 97))
+    websocketServer.write(TextWebFrame, Array<UInt8>(4097, repeat: 97))
 
     // 4 关闭 websocket，
     // 收发 CloseFrame

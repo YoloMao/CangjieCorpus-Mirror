@@ -52,7 +52,7 @@ main() {
 
 对于上面的例子，`Foo` 是 `I` 的子类型，因此任何一个 `Foo` 类型的实例，都可以当作 `I` 类型的实例使用。
 
-在 `main` 中我们将一个 `Foo` 类型的变量 `a`，赋值给一个 `I` 类型的变量 `b`。然后我们再调用 `b` 中的函数 `f`，就会打印出 `Foo` 实现的 `f` 版本。程序的输出结果为：
+在 `main` 中将一个 `Foo` 类型的变量 `a`，赋值给一个 `I` 类型的变量 `b`。然后再调用 `b` 中的函数 `f`，就会打印出 `Foo` 实现的 `f` 版本。程序的输出结果为：
 
 <!-- verify -interface -->
 
@@ -60,7 +60,9 @@ main() {
 Foo
 ```
 
-`interface` 也可以使用 `sealed` 修饰符表示只能在 `interface` 定义所在的包内继承、实现或扩展该 `interface`。`sealed` 已经蕴含了 `public`/`open` 的语义，因此定义 `sealed interface` 时若提供 `public`/`open` 修饰符，编译器将会告警。继承 `sealed` 接口的子接口或实现 `sealed` 接口的类仍可被 `sealed` 修饰或不使用 `sealed` 修饰。若 `sealed` 接口的子接口被 `public` 修饰，且不被 `sealed` 修饰，则其子接口可在包外被继承、实现或扩展。继承、实现 sealed 接口的类型可以不被 `public` 修饰。
+`interface` 也可以使用 `sealed` 修饰符表示只能在 `interface` 定义所在的包内继承、实现或扩展该 `interface`。`sealed` 已经蕴含了 `public`/`open` 的语义，因此定义 `sealed interface` 时若提供 `public`/`open` 修饰符，编译器将会告警。继承 `sealed` 接口的子接口或实现 `sealed` 接口的抽象类仍可被 `sealed` 修饰或不使用 `sealed` 修饰。若 `sealed` 接口的子接口被 `public` 修饰，且不被 `sealed` 修饰，则其子接口可在包外被继承、实现或扩展。继承、实现 sealed 接口的类型可以不被 `public` 修饰。
+
+<!-- compile -->
 
 ```cangjie
 package A
@@ -71,9 +73,11 @@ sealed open interface I4 {}    // Warning, redundant modifier, 'sealed' implies 
 
 class C1 <: I1 {}
 public open class C2 <: I1 {}
-sealed class C3 <: I2 {}
+sealed abstract class C3 <: I2 {}
 extend Int64 <: I2 {}
 ```
+
+<!-- compile.error -error-->
 
 ```cangjie
 package B
@@ -83,9 +87,9 @@ class S1 <: I1 {}  // OK
 class S2 <: I2 {}  // Error, I2 is sealed interface, cannot be inherited here.
 ```
 
-通过接口的这种约束能力，我们可以对一系列的类型约定共同的功能，达到对功能进行抽象的目的。
+通过接口的这种约束能力，可以对一系列的类型约定共同的功能，达到对功能进行抽象的目的。
 
-例如下面的代码，我们可以定义一个 Flyable 接口，并且让其他具有 Flyable 属性的类实现它。
+例如下面的代码，可以定义一个 Flyable 接口，并且让其他具有 Flyable 属性的类实现它。
 
 <!-- verify -->
 
@@ -126,7 +130,7 @@ main() {
 }
 ```
 
-编译并执行上面的代码，我们会看到如下输出：
+编译并执行上面的代码，会看到如下输出：
 
 ```text
 Bird flying
@@ -134,13 +138,13 @@ Bat flying
 Airplane flying
 ```
 
-接口的成员可以是实例的或者静态的，以上的例子已经展示过实例成员函数的作用，接下来我们来看看静态成员函数的作用。
+接口的成员可以是实例的或者静态的，以上的例子已经展示过实例成员函数的作用，接下来来看看静态成员函数的作用。
 
 静态成员函数和实例成员函数类似，都要求实现类型提供实现。
 
-例如下面的例子，我们定义了一个 `NamedType` 接口，这个接口含有一个静态成员函数 `typename` 用来获得每个类型的字符串名称。
+例如下面的例子，定义了一个 `NamedType` 接口，这个接口含有一个静态成员函数 `typename` 用来获得每个类型的字符串名称。
 
-这样其它类型在实现 `NamedType` 接口时就必须实现 `typename` 函数，之后我们就可以安全地在 `NamedType` 的子类型上获得类型的名称。
+这样其他类型在实现 `NamedType` 接口时就必须实现 `typename` 函数，之后就可以安全地在 `NamedType` 的子类型上获得类型的名称。
 
 <!-- verify -->
 
@@ -178,7 +182,12 @@ the type is B
 
 当其没有默认实现时，将无法通过接口类型名对其进行访问。例如下面的代码，直接访问 `NamedType` 的 `typename` 函数会发生编译报错，因为 `NamedType` 不具有 `typename` 函数的实现。
 
+<!-- compile.error -->
+
 ```cangjie
+interface NamedType {
+    static func typename(): String
+}
 main() {
     NamedType.typename() // Error
 }
@@ -211,9 +220,11 @@ interface NamedType
 interface NamedType
 ```
 
-通常我们会通过泛型约束，在泛型函数中使用这类静态成员。
+通常会通过泛型约束，在泛型函数中使用这类静态成员。
 
-例如下面的 `printTypeName` 函数，当我们约束泛型变元 `T` 是 `NamedType` 的子类型时，我们需要保证 `T` 的实例化类型中所有的静态成员函数（或属性）都必须拥有实现，以保证可以使用 `T.typename` 的方式访问泛型变元的实现，达到了我们对静态成员抽象的目的。详见[泛型](../generic/generic_overview.md)章节。
+例如下面的 `printTypeName` 函数，当约束泛型变元 `T` 是 `NamedType` 的子类型时，需要保证 `T` 的实例化类型中所有的静态成员函数（或属性）都必须拥有实现，以保证可以使用 `T.typename` 的方式访问泛型变元的实现，达到了对静态成员抽象的目的。详见[泛型](../generic/generic_overview.md)。
+
+<!-- compile.error -->
 
 ```cangjie
 interface NamedType {
@@ -250,7 +261,33 @@ main() {
 }
 ```
 
+接口中可以定义泛型实例成员函数或泛型静态成员函数，与非泛型函数一样具有 `open` 语义。
+
+<!-- compile -->
+
+```cangjie
+import std.collection.*
+interface M {
+    func foo<T>(a: T): T
+    static func toString<T>(b: ArrayList<T>): String where T <: ToString
+}
+class C <: M {
+    public func foo<S>(a: S): S { // implements M::foo, names of generic parameters do not matter
+        a
+    }
+    public static func toString<T>(b: ArrayList<T>) where T <: ToString {
+        var res = ""
+        for (s in b) {
+            res += s.toString()
+        }
+        res
+    }
+}
+```
+
 需要注意的是，接口的成员默认就被 `public` 修饰，不可以声明额外的访问控制修饰符，同时也要求实现类型必须使用 `public` 实现。
+
+<!-- compile.error -->
 
 ```cangjie
 interface I {
@@ -262,11 +299,13 @@ open class C <: I {
 }
 ```
 
-## 接口继承
+## 接口继承与接口实现
 
-当我们想为一个类型实现多个接口，可以在声明处使用 `&` 分隔多个接口，实现的接口之间没有顺序要求。
+当想为一个类型实现多个接口，可以在声明处使用 `&` 分隔多个接口，实现的接口之间没有顺序要求。
 
-例如下面的例子，我们可以让 MyInt 同时实现 Addable 和 Subtractable 两个接口。
+例如下面的例子，可以让 MyInt 同时实现 Addable 和 Subtractable 两个接口。
+
+<!-- compile -->
 
 ```cangjie
 interface Addable {
@@ -346,6 +385,8 @@ main() {
 
 对于 `interface` 的继承，子接口如果继承了父接口中有默认实现的函数或属性，则在子接口中不允许仅写此函数或属性的声明（即没有默认实现），而是必须要给出新的默认实现，并且函数定义前的 `override` 修饰符（或 `redef` 修饰符）是可选的；子接口如果继承了父接口中没有默认实现的函数或属性，则在子接口中允许仅写此函数或属性的声明（当然也允许定义默认实现），并且函数声明或定义前的 override 修饰符（或 `redef` 修饰符）是可选的。
 
+<!-- compile.error -->
+
 ```cangjie
 interface I1 {
    func f(a: Int64) {
@@ -371,14 +412,14 @@ interface I2 <: I1 {
 }
 ```
 
-## 接口实现
+### 接口实现的要求
 
-仓颉所有的类型都可以实现接口，包括数值类型、Rune、String、struct、class、enum、Tuple、函数以及其它类型。
+仓颉除 Tuple、VArray 和函数外的其他类型都可以实现接口。
 
 一个类型实现接口有三种途径：
 
-1. 在定义类型时就声明实现接口，在以上的内容中我们已经见过相关例子。
-2. 通过扩展实现接口，这种方式详见[扩展](../extension/interface_extension.md)章节。
+1. 在定义类型时就声明实现接口，在以上的内容中已经见过相关例子。
+2. 通过扩展实现接口，这种方式详见[扩展](../extension/interface_extension.md)。
 3. 由语言内置实现，具体详见《仓颉编程语言库 API》相关文档。
 
 实现类型声明实现接口时，需要实现接口中要求的所有成员，为此需要满足下面一些规则。
@@ -386,11 +427,13 @@ interface I2 <: I1 {
 1. 对于成员函数和操作符重载函数，要求实现类型提供的函数实现与接口对应的函数名称相同、参数列表相同、返回类型相同。
 2. 对于成员属性，要求是否被 `mut` 修饰保持一致，并且属性的类型相同。
 
-所以大部分情况都如同上面的例子，我们需要让实现类型中包含与接口要求的一样的成员的实现。
+所以大部分情况都如同上面的例子，需要让实现类型中包含与接口要求的一样的成员的实现。
 
 但有个地方是个例外，如果接口中的成员函数或操作符重载函数的返回值类型是 class 类型，那么允许实现函数的返回类型是其子类型。
 
 例如下面这个例子，`I` 中的 `f` 返回类型是一个 `class` 类型 `Base`，因此 `C` 中实现的 `f` 返回类型可以是 `Base` 的子类型 `Sub`。
+
+<!-- compile -->
 
 ```cangjie
 open class Base {}
@@ -407,13 +450,9 @@ class C <: I {
 }
 ```
 
-除此以外，接口的成员还可以为 class 类型提供默认实现。拥有默认实现的接口成员，当实现类型是 class 的时候，class 可以不提供自己的实现而继承接口的实现。
+除此以外，接口的成员还可以提供默认实现。例如下面的代码中，`SayHi` 中的 `say` 拥有默认实现，因此 `A` 实现 `SayHi` 时可以继承 `say` 的实现，而 `B` 也可以选择提供自己的 `say` 实现。
 
-> **注意：**
->
-> 默认实现只对类型是 class 的实现类型有效，对其它类型无效。
-
-例如下面的代码中，`SayHi` 中的 `say` 拥有默认实现，因此 `A` 实现 `SayHi` 时可以继承 `say` 的实现，而 `B` 也可以选择提供自己的 `say` 实现。
+<!-- compile -->
 
 ```cangjie
 interface SayHi {
@@ -434,6 +473,8 @@ class B <: SayHi {
 特别地，如果一个类型在实现多个接口时，多个接口中包含同一个成员的默认实现，这时会发生多重继承的冲突，语言无法选择最适合的实现，因此这时接口中的默认实现也会失效，需要实现类型提供自己的实现。
 
 例如下面的例子，`SayHi` 和 `SayHello` 中都包含了 `say` 的实现，`Foo` 在实现这两个接口时就必须提供自己的实现，否则会出现编译错误。
+
+<!-- compile -->
 
 ```cangjie
 interface SayHi {
@@ -457,6 +498,8 @@ class Foo <: SayHi & SayHello {
 
 struct、enum 和 class 在实现接口时，函数或属性定义前的 `override` 修饰符（或 `redef` 修饰符）是可选的，无论接口中的函数或属性是否存在默认实现。
 
+<!-- compile -->
+
 ```cangjie
 interface I {
     func foo(): Int64 {
@@ -478,7 +521,9 @@ struct S <: I {
 
 ## Any 类型
 
-Any 类型是一个内置的接口，它的定义如下面。
+Any 类型是一个内置的接口，它的定义如下：
+
+<!-- compile -->
 
 ```cangjie
 interface Any {}
@@ -486,7 +531,7 @@ interface Any {}
 
 仓颉中所有接口都默认继承它，所有非接口类型都默认实现它，因此所有类型都可以作为 Any 类型的子类型使用。
 
-如下面的代码，我们可以将一系列不同类型的变量赋值给 Any 类型的变量。
+如下面的代码，可以将一系列不同类型的变量赋值给 Any 类型的变量。
 
 <!-- compile -->
 

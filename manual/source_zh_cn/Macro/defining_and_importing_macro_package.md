@@ -1,6 +1,7 @@
 # 宏包定义和导入
 
-仓颉宏的定义需要放在由 `macro package` 声明的包中，被 `macro package` 限定的包仅允许宏定义对外可见，其他声明包内可见。
+仓颉语言中宏的定义需要放在由 `macro package` 声明的包中，被 `macro package` 限定的包仅允许宏定义对外可见，其他声明包内可见。
+
 > **说明：**
 >
 > 重导出的声明也允许对外可见，关于包管理和重导出的相关概念，请参见[包的导入](../package/import.md)章节。
@@ -13,14 +14,14 @@
 macro package define         // 编译 define.cjo 携带 macro 属性
 import std.ast.*
 
-public func A() {}          // Error, 宏包不允许定义外部可见的非宏定义，此处需报错
+public func A() {}          // Error, 宏包不允许定义外部可见的非宏定义，此处会报错
 
 public macro M(input: Tokens): Tokens { // macro M 外部可见
     return input
 }
 ```
 
-需要特殊说明的是，在 `macro package` 中允许其它 `macro package` 和非 `macro package` 符号被重导出，在非 `macro package` 中仅允许非 `macro package` 符号被重导出。
+需要特殊说明的是，在宏包中，允许其他宏包和非宏包的声明被重导出。在非宏包中仅允许非宏包的声明被重导出。
 
 参考如下示例：
 
@@ -58,7 +59,7 @@ public macro M(input: Tokens): Tokens { // macro M 外部可见
   }
   ```
 
-  编译命令如下，这里选择使用 `--output-type` 选项将 B 包编译成到动态库，关于 cjc 编译选项介绍可以参考[cjc 编译选项](../Appendix/compile_options_OHOS.md)章节。
+  编译命令如下，这里选择使用 `--output-type` 选项将 B 包编译成动态库，关于 cjc 编译选项介绍可以参考 "附录 > cjc 编译选项" 章节。
 
   ```shell
   cjc B.cj --output-type=dylib -o libB.so

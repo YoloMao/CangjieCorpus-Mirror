@@ -6,64 +6,78 @@
 
 仓颉中提供三种属性宏来控制整数溢出的处理策略，即 `@OverflowThrowing`，`@OverflowWrapping` 和 `@OverflowSaturating` ，这些属性宏当前只能标记于函数声明之上，作用于函数内的整数运算和整型转换。它们分别对应以下三种溢出处理策略：
 
-(1) 抛出异常（throwing）：当整数运算溢出时，抛出异常。
+1. 抛出异常（throwing）：当整数运算溢出时，抛出异常。
 
-```cangjie
-@OverflowThrowing
-main() {
-    let res: Int8 = Int8(100) + Int8(29)
-    /* 100 + 29 在数学上等于 129，
-     * 在 Int8 的表示范围上发生了上溢出，
-     * 程序抛出异常
-     */
-    let con: UInt8 = UInt8(-132)
-    /* -132 在 UInt8 的表示范围上发生了下溢出，
-     * 程序抛出异常
-     */
-    0
-}
-```
+    ```cangjie
+    @OverflowThrowing
+    func add(a: Int8, b: Int8){
+        return a + b
+    }
+    main() {
+        add(100,29)
+        /* 100 + 29 在数学上等于 129，
+        * 在 Int8 的表示范围上发生了上溢出，
+        * 程序抛出异常
+        */
+        0
+    }
+    ```
 
-(2) 高位截断（wrapping）：当整数运算的结果超出用于接收它的内存空间所能表示的数据范围时，则截断超出该内存空间的部分。
+    需要注意的是，对于整数溢出行为是 throwing 的场景，若整数溢出可提前在编译期检测出来，则编译器会直接给出报错。
 
-```cangjie
-@OverflowWrapping
-main() {
-    let res: Int8 = Int8(105) * Int8(4)
-    /* 105 * 4 在数学上等于 420，
-     * 对应的二进制为 1 1010 0100，
-     * 超过了用于接收该结果的 8 位内存空间，
-     * 截断后的结果在二进制上表示为 1010 0100，
-     * 对应为有符号整数 -92
-     */
-    let temp: Int16 = Int16(-132)
-    let con: UInt8 = UInt8(temp)
-    /* -132 对应的二进制为 1111 1111 0111 1100，
-     * 超过了用于接收该结果的 8 位内存空间，
-     * 截断后的结果在二进制上表示为 0111 1100
-     * 对应为有符号整数 124
-     */
-    0
-}
-```
+    ```cangjie
+    @OverflowThrowing
+    main() {
+        let res: Int8 = Int8(100) + Int8(29) // Error, arithmetic operation '+' overflow
+        // 100 + 29 在数学上等于 129，在 Int8 的表示范围上发生了上溢出，编译器检测出来并报错
+        let con: UInt8 = UInt8(-132) // Error, integer type conversion overflow
+        /* -132 在 UInt8 的表示范围上发生了下溢出，
+        * 程序抛出异常
+        */
+        0
+    }
+    ```
 
-(3) 饱和（saturating）：当整数运算溢出时，选择对应固定精度的极值作为结果。
+2. 高位截断（wrapping）：当整数运算的结果超出用于接收它的内存空间所能表示的数据范围时，则截断超出该内存空间的部分。
 
-```cangjie
-@OverflowSaturating
-main() {
-    let res: Int8 = Int8(-100) - Int8(45)
-    /* -100 - 45 在数学上等于 -145，
-     * 在 Int8 的表示范围上发生了下溢出，
-     * 选择 Int8 的最小值 -128 作为结果
-     */
-    let con: Int8 = Int8(1024)
-    /* 1024 在 Int8 的表示范围上发生了上溢出，
-     * 选择 Int8 的最大值 127 作为结果
-     */
-    0
-}
-```
+    ```cangjie
+    @OverflowWrapping
+    main() {
+        let res: Int8 = Int8(105) * Int8(4)
+        /* 105 * 4 在数学上等于 420，
+        * 对应的二进制为 1 1010 0100，
+        * 超过了用于接收该结果的 8 位内存空间，
+        * 截断后的结果在二进制上表示为 1010 0100，
+        * 对应为有符号整数 -92
+        */
+        let temp: Int16 = Int16(-132)
+        let con: UInt8 = UInt8(temp)
+        /* -132 对应的二进制为 1111 1111 0111 1100，
+        * 超过了用于接收该结果的 8 位内存空间，
+        * 截断后的结果在二进制上表示为 0111 1100
+        * 对应为有符号整数 124
+        */
+        0
+    }
+    ```
+
+3. 饱和（saturating）：当整数运算溢出时，选择对应固定精度的极值作为结果。
+
+    ```cangjie
+    @OverflowSaturating
+    main() {
+        let res: Int8 = Int8(-100) - Int8(45)
+        /* -100 - 45 在数学上等于 -145，
+        * 在 Int8 的表示范围上发生了下溢出，
+        * 选择 Int8 的最小值 -128 作为结果
+        */
+        let con: Int8 = Int8(1024)
+        /* 1024 在 Int8 的表示范围上发生了上溢出，
+        * 选择 Int8 的最大值 127 作为结果
+        */
+        0
+    }
+    ```
 
 默认情况下（即未标注该类属性宏时），采取抛出异常（`@OverflowThrowing`）的处理策略。
 
@@ -116,18 +130,61 @@ main() {
 | `=`  | N  | <code>&vert;=</code> | N  |        `!=`         | N  |      |    |
 | `+=` | Y  |         `^=`         | N  |        `**`         | Y  |      |    |
 
-## 性能优化注解
+## 测试框架注解
 
-为了提升与 `C` 语言互操作的性能，仓颉提供属性宏 `@FastNative` 控制 `cjnative` 后端优化对于 `C` 函数的调用。值得注意的是，属性宏 `@FastNative` 只能用于 `foreign` 声明的函数。
+在测试中使用 mock 时，当 mock 的是与静态和顶级声明相关内容时，需要通过测试框架注解来指示编译器做一些准备工作，才能正常使用 mock。
 
-### `@FastNative` 使用限制
+测试框架注解 `@EnsurePreparedToMock` 只能在 lambda 表达式上使用，lambda 表达式调用静态和顶级声明作为其最后一个表达式，然后编译器将准备这个声明以供 mock。
 
-开发者在使用 `@FastNative` 修饰 `foreign` 函数时，应确保对应的 `C` 函数满足以下两点要求。
+例如：
 
-- 首先，函数的整体执行时间不宜太长。例如：
-    - 不允许函数内部存在很大的循环；
-    - 不允许函数内部产生阻塞行为，如，调用 `sleep`、`wait` 等函数。
-- 其次，函数内部不能调用仓颉方法。
+```cangjie
+package prod
+
+public func test(a: String, b: String): String {
+    a + b
+}
+```
+
+```cangjie
+package test
+
+import prod.*
+import std.unittest.mock.*
+
+@Test
+public class TestA {
+    @TestCase
+    func case1(): Unit {
+        { =>
+            let matcher0 = Matchers.eq("z")
+            let matcher1 = Matchers.eq("y")
+            let stubCall = @EnsurePreparedToMock { => return(test(matcher0.value(), matcher1.value())) }
+            ConfigureMock.stubFunction(stubCall,[matcher0.withDescription(#"eq("z")"#), matcher1.withDescription(#"eq("y")"#)], Option<String>.None, "test", #"test("z", "y")"#, 15)
+        }().returns("mocked value")
+        println(test("z", "y")) // prints "mocked value"
+    }
+}
+```
+
+上述示例中，`ConfigureMock.stubFunction` 为函数 `test` 注册了一个桩，`returns` 为定义的桩设置返回值。
+
+> **注意：**
+>
+> 通常，标准库的 mock 接口可用于定义 mock 声明，并且在常规情况下不应直接使用此内置注释。相反，应该使用相应的标准库函数。这些标准库函数在内部使用 `@EnsurePreparedToMock`。
+
+使用 `@EnsurePreparedToMock` 注解的约束：
+
+- 仅当使用测试和 mock 相关编译选项进行编译时才允许使用（使用 `--test`/`--test-only` 和 `--mock=on`/`--mock=runtime-error` 编译选项）。
+- 只能应用于具有合适的最后一个表达式的 lambda。
+- lambda 的最后一个表达式应该是调用、成员访问或引用表达式，解析为：
+    - 顶级函数或变量；
+    - 静态函数、属性或字段；
+    - foreign 声明​​；
+    - 不是局部函数或变量；
+    - 非私人声明；
+    - 不是 const 表达式或声明；
+    - 不是来自不通过 mock 模式构建的包的声明。
 
 ## 自定义注解
 
@@ -135,7 +192,7 @@ main() {
 
 开发者可以通过自定义类型标注 `@Annotation` 方式创建自己的自定义注解。`@Annotation` 只能修饰 `class`，并且不能是 `abstract` 或 `open` 或 `sealed` 修饰的 `class`。当一个 `class` 声明它标注了 `@Annotation`，那么它必须要提供至少一个 `const init` 函数，否则编译器会报错。
 
-下面的例子定义了一个自定义注解 `@Version`，并用其修饰 `A`, `B` 和 `C`。在 `main` 中，我们通过反射获取到类上的 `@Version` 注解信息，并将其打印出来。
+下面的例子定义了一个自定义注解 `@Version`，并用其修饰 `A`, `B` 和 `C`。在 `main` 中，通过反射获取到类上的 `@Version` 注解信息，并将其打印出来。
 
 ```cangjie
 package pkg
@@ -161,9 +218,7 @@ main() {
     for (obj in objects) {
         let annOpt = TypeInfo.of(obj).findAnnotation<Version>()
         if (let Some(ann) <- annOpt) {
-            if (let Some(version) <- ann as Version) {
-                println(version.code)
-            }
+            println(ann.code)
         }
     }
 }
@@ -178,7 +233,7 @@ main() {
 
 注解信息需要在编译时生成信息并绑定到类型上，自定义注解在使用时必须使用 `const init` 构建出合法的实例。注解声明语法与声明宏语法一致，后面的 `[]` 括号中需要按顺序或命名参数规则传入参数，且参数必须是 const 表达式（详见常量求值章节）。对于拥有无参构造函数的注解类型，声明时允许省略括号。
 
-下面的例子中定义了一个拥有无参 `const init` 的自定义注解 `@Deprecated`，使用时 `@Deprecated` 和 `@Deprecated[]` 这两种写法均可。
+下面的例子中定义了一个拥有无参 `const init` 的自定义注解 `@Marked`，使用时 `@Marked` 和 `@Marked[]` 这两种写法均可。
 
 ```cangjie
 package pkg
@@ -186,22 +241,22 @@ package pkg
 import std.reflect.TypeInfo
 
 @Annotation
-public class Deprecated {
+public class Marked {
     const init() {}
 }
 
-@Deprecated
+@Marked
 class A {}
 
-@Deprecated[]
+@Marked[]
 class B {}
 
 main() {
-    if (TypeInfo.of(A()).findAnnotation<Deprecated>().isSome()) {
-        println("A is deprecated")
+    if (TypeInfo.of(A()).findAnnotation<Marked>().isSome()) {
+        println("A is Marked")
     }
-    if (TypeInfo.of(B()).findAnnotation<Deprecated>().isSome()) {
-        println("B is deprecated")
+    if (TypeInfo.of(B()).findAnnotation<Marked>().isSome()) {
+        println("B is Marked")
     }
 }
 ```
@@ -209,21 +264,21 @@ main() {
 编译并执行上述代码，输出结果为：
 
 ```text
-A is deprecated
-B is deprecated
+A is Marked
+B is Marked
 ```
 
 对于同一个注解目标，同一个注解类不允许声明多次，即不可重复。
 
 ```cangjie
-@Deprecated
-@Deprecated // Error
+@Marked
+@Marked // Error
 class A {}
 ```
 
 `Annotation` 不会被继承，因此一个类型的注解元数据只会来自它定义时声明的注解。如果需要父类型的注解元数据信息，需要开发者自己用反射接口查询。
 
-下面的例子中，`A` 被 `@Deprecated` 注解修饰，`B` 继承 `A`，但是 `B` 没有 `A` 的注解。
+下面的例子中，`A` 被 `@Marked` 注解修饰，`B` 继承 `A`，但是 `B` 没有 `A` 的注解。
 
 ```cangjie
 package pkg
@@ -231,21 +286,21 @@ package pkg
 import std.reflect.TypeInfo
 
 @Annotation
-public class Deprecated {
+public class Marked {
     const init() {}
 }
 
-@Deprecated
+@Marked
 open class A {}
 
 class B <: A {}
 
 main() {
-    if (TypeInfo.of(A()).findAnnotation<Deprecated>().isSome()) {
-        println("A is deprecated")
+    if (TypeInfo.of(A()).findAnnotation<Marked>().isSome()) {
+        println("A is Marked")
     }
-    if (TypeInfo.of(B()).findAnnotation<Deprecated>().isSome()) {
-        println("B is deprecated")
+    if (TypeInfo.of(B()).findAnnotation<Marked>().isSome()) {
+        println("B is Marked")
     }
 }
 ```
@@ -253,13 +308,13 @@ main() {
 编译并执行上述代码，输出结果为：
 
 ```text
-A is deprecated
+A is Marked
 ```
 
 自定义注解可以用在类型声明（`class`、`struct`、`enum`、`interface`）、成员函数/构造函数中的参数、构造函数声明、成员函数声明、成员变量声明、成员属性声明。也可以限制自己可以使用的位置，这样可以减少开发者的误用，这类注解需要在声明 `@Annotation` 时标注 `target` 参数，参数类型为 `Array<AnnotationKind>`。其中，`AnnotationKind` 是标准库中定义的 `enum`。当没有限定 target 的时候，该自定义注解可以用在以上全部位置。当限定 target 时，只能用在声明的列表中。
 
 ```cangjie
-public enum AnnotaitionKind {
+public enum AnnotationKind {
     | Type
     | Parameter
     | Init
@@ -273,16 +328,16 @@ public enum AnnotaitionKind {
 
 ```cangjie
 @Annotation[target: [MemberFunction]]
-public class Deprecated {
+public class Marked {
     const init() {}
 }
 
 class A {
-    @Deprecated // Ok, member funciton
-    func deprecated() {}
+    @Marked // Ok, member funciton
+    func marked() {}
 }
 
-@Deprecated // Error, type
+@Marked // Error, type
 class B {}
 
 main() {}

@@ -1,6 +1,6 @@
 # 结构体
 
-## struct BatchInputProvider
+## struct BatchInputProvider\<T>
 
 ```cangjie
 public struct BatchInputProvider<T> <: BenchInputProvider<T> {
@@ -14,13 +14,13 @@ public struct BatchInputProvider<T> <: BenchInputProvider<T> {
 
 - [BenchInputProvider](unittest_package_interfaces.md#interface-benchinputprovider)\<T>
 
-### init(() -> T)
+### BatchInputProvider(() -> T)
 
 ```cangjie
 public BatchInputProvider(let builder: () -> T)
 ```
 
-功能： 默认构造函数。
+功能：BatchInputProvider构造函数。
 
 参数：
 
@@ -36,7 +36,7 @@ public mut func get(idx: Int64): T
 
 参数：
 
-- idx : [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) -  元素索引值。
+- idx : [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 元素索引值。
 
 返回值：
 
@@ -52,9 +52,9 @@ public mut func reset(max: Int64)
 
 参数：
 
-- max : [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) -  最大值。
+- max : [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 最大值。
 
-## struct BatchSizeOneInputProvider
+## struct BatchSizeOneInputProvider\<T>
 
 ```cangjie
 public struct BatchSizeOneInputProvider<T> <: BenchInputProvider<T>{
@@ -71,13 +71,13 @@ public struct BatchSizeOneInputProvider<T> <: BenchInputProvider<T>{
 
 - [BenchInputProvider](unittest_package_interfaces.md#interface-benchinputprovider)\<T>
 
-### init(() -> T)
+### BatchSizeOneInputProvider(() -> T)
 
 ```cangjie
 public BatchSizeOneInputProvider(let builder: () -> T)
 ```
 
-功能： 默认构造函数。
+功能：BatchSizeOneInputProvider构造函数。
 
 参数：
 
@@ -93,7 +93,7 @@ public mut func get(idx: Int64): T
 
 参数：
 
-- idx : [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) -  元素索引值。
+- idx : [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 元素索引值。
 
 返回值：
 
@@ -109,9 +109,62 @@ public mut func reset(max: Int64)
 
 参数：
 
-- max : [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) -  最大值。
+- max: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 最大值。
 
-## struct GenerateEachInputProvider
+## struct CpuCycles
+
+```cangjie
+public struct CpuCycles <: Measurement {}
+```
+
+功能：使用本机 `rdtscp` 指令测量 CPU 周期数。仅适用于 x86 平台。
+
+父类型：
+
+- [Measurement](unittest_package_interfaces.md#interface-measurement)
+
+### prop conversionTable
+
+```cangjie
+prop conversionTable: MeasurementUnitTable
+```
+
+功能：提供当前时间的单位换算表。
+例如 `[(1.0, "cycles")]`。
+
+类型：[MeasurementUnitTable](../unittest_package_api/unittest_package_types.md#type-measurementunittable)。
+
+### prop name
+
+```cangjie
+prop name: String
+```
+
+功能：提供当前时间单位唯一的显示名称，例如：`CpuCycles`。
+
+类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)。
+
+### func measure()
+
+```cangjie
+public func measure(): Float64
+```
+
+功能：返回执行了多少个 CPU 周期。
+
+返回值：
+
+- [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 计算得到的数据，用于统计分析。
+
+### func setup()
+
+```cangjie
+public func setup()
+```
+
+功能：在测量前执行的配置动作。
+
+## struct GenerateEachInputProvider\<T>
 
 ```cangjie
 public struct GenerateEachInputProvider<T> <: BenchInputProvider<T>{
@@ -126,13 +179,13 @@ public struct GenerateEachInputProvider<T> <: BenchInputProvider<T>{
 
 - [BenchInputProvider](unittest_package_interfaces.md#interface-benchinputprovider)\<T>
 
-### init(() -> T)
+### GenerateEachInputProvider(() -> T)
 
 ```cangjie
 public GenerateEachInputProvider(let builder: () -> T)
 ```
 
-功能： 默认构造函数。
+功能：GenerateEachInputProvider构造函数。
 
 参数：
 
@@ -148,7 +201,7 @@ public mut func get(idx: Int64): T
 
 参数：
 
-- idx : [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) -  元素索引值。
+- idx : [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 元素索引值。
 
 返回值：
 
@@ -164,9 +217,9 @@ public mut func reset(max: Int64)
 
 参数：
 
-- max : [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) -  最大值。
+- max : [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 最大值。
 
-## struct ImmutableInputProvider
+## struct ImmutableInputProvider\<T>
 
 ```cangjie
 public struct ImmutableInputProvider<T> <: BenchInputProvider<T> {
@@ -180,13 +233,13 @@ public struct ImmutableInputProvider<T> <: BenchInputProvider<T> {
 
 - [BenchInputProvider](unittest_package_interfaces.md#interface-benchinputprovider)\<T>
 
-### init(T)
+### ImmutableInputProvider(T)
 
 ```cangjie
 public ImmutableInputProvider(let data: T)
 ```
 
-功能： 默认构造函数。
+功能：ImmutableInputProvider构造函数。
 
 参数：
 
@@ -202,7 +255,7 @@ public mut func get(idx: Int64): T
 
 参数：
 
-- idx : [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) -  元素索引值。
+- idx : [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 元素索引值。
 
 返回值：
 
@@ -219,7 +272,7 @@ public static func createOrExisting(arg: T, x!:Int64=0): ImmutableInputProvider<
 参数：
 
 - arg : T - 提供器需复制的参数。
-- x!: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) -  为实现重载而增加的参数。
+- x!: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 为实现重载而增加的参数。
 
 返回值：
 
@@ -241,6 +294,81 @@ public static func createOrExisting<U>(arg: U): U where U <: BenchInputProvider<
 
 - U where U <: BenchInputProvider\<T> - 输入提供器。
 
+## struct Perf
+
+```cangjie
+public struct Perf <: Measurement {
+    public init()
+    public init(counter: PerfCounter)
+}
+```
+
+功能：使用linux 系统调用 `perf_event_open` 测量各种硬件和软件 CPU 计数器。仅在 Linux 上可用。
+
+父类型：
+
+- [Measurement](unittest_package_interfaces.md#interface-measurement)
+
+### prop conversionTable
+
+```cangjie
+prop conversionTable: MeasurementUnitTable
+```
+
+功能：提供对应 CPU 计数器的换算表。
+
+类型：[MeasurementUnitTable](../unittest_package_api/unittest_package_types.md#type-measurementunittable)。
+
+### prop name
+
+```cangjie
+prop name: String
+```
+
+功能：为当前 CPU 计数器提供唯一的显示名称，例如：`Perf(cycles)`。
+
+类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)。
+
+### init()
+
+```cangjie
+public init()
+```
+
+功能：使用 CPU 周期计数器的默认构造函数。
+
+### init(PerfCounter)
+
+```cangjie
+public init(counter: PerfCounter)
+```
+
+功能：指定要测量的 CPU 计数器的构造函数。
+
+参数：
+
+- counter: [PerfCounter](unittest_package_enums.md#enum-perfcounter)
+
+### func measure()
+
+```cangjie
+public func measure(): Float64
+```
+
+功能：返回指定 CPU 计数器的值。
+
+返回值：
+
+- [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 计算得到的数据，用于统计分析。
+
+### func setup()
+
+```cangjie
+func setup()
+```
+
+功能：此 CPU 计数器的初始化例程。在每个基准步骤之前调用。
+
 ## struct TimeNow
 
 ```cangjie
@@ -250,11 +378,42 @@ public struct TimeNow <: Measurement {
 }
 ```
 
-功能：[Measurement](unittest_package_interfaces.md#interface-measurement) 的实现，用于测量执行一个函数所花费的时间。
+功能：[Measurement](../../unittest/unittest_package_api/unittest_package_interfaces.md#interface-measurement) 的实现，用于测量执行一个函数所花费的时间。
 
 父类型：
 
 - [Measurement](unittest_package_interfaces.md#interface-measurement)
+
+### prop conversionTable
+
+```cangjie
+prop conversionTable: MeasurementUnitTable
+```
+
+功能：提供当前时间的单位换算表。
+例如 `[(1.0, "ns"), (1e3, "us"), (1e6, "ms"), (1e9, "s")]`。
+
+类型：[MeasurementUnitTable](../unittest_package_api/unittest_package_types.md#type-measurementunittable)。
+
+### prop name
+
+```cangjie
+prop name: String
+```
+
+功能：提供当前时间单位唯一的显示名称，例如：`Duration(ns)` 或 `Duration(s)`。
+
+类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)。
+
+### prop textDescription
+
+```cangjie
+prop textDescription: String
+```
+
+功能：描述此测量的简单文本将显示在某些报告中。
+
+类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)。
 
 ### init()
 
@@ -267,35 +426,19 @@ public init()
 ### init(?TimeUnit)
 
 ```cangjie
-public init(unit: ?TimeUnit) 
+public init(unit: ?TimeUnit)
 ```
 
-功能： `unit` 参数用于指定打印结果时将使用的时间单位。
+功能：`unit` 参数用于指定打印结果时将使用的时间单位。
 
 参数：
 
 - unit: ?[TimeUnit](unittest_package_enums.md#enum-timeunit) - 指定的时间单位。
 
-### func measure(() -> Unit)
+### func measure()
 
 ```cangjie
-public func measure(f: () -> Unit): Float64
-```
-
-功能：计算将用于统计分析的对 f 的执行时长的测量数据。
-
-参数：
-
-- f: () -> [Unit](../../core/core_package_api/core_package_intrinsics.md#unit) - 被计算时间的执行体。
-
-返回值：
-
-- [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 计算得到的数据，用于统计分析。
-
-### func measureIntermediate()
-
-```cangjie
-public func measureIntermediate(): Float64
+public func measure(): Float64
 ```
 
 功能：获取当前时间用于统计分析。
@@ -303,19 +446,3 @@ public func measureIntermediate(): Float64
 返回值：
 
 - [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 计算得到的数据，用于统计分析。
-
-### func toString(Float64)
-
-```cangjie
-public func toString(duration: Float64): String
-```
-
-功能：按时间单位打印传入的时间值。
-
-参数：
-
-- duration: [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 需要被打印的时间数值。
-
-返回值：
-
-- [String](../../core/core_package_api/core_package_structs.md#struct-string) - 按指定单位输出的时间数字字符串。

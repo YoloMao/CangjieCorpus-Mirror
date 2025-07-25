@@ -66,3 +66,30 @@ Summary: TOTAL: 2
 - 它只能修饰顶层函数，且该函数不能是 `foreign` 函数。
 - 它的返回值类型必须被显式指定，且必须为 `TestSuite` 类型。
 - 它可以与 `@Configure` / `@Timeout` / `@Parallel` 宏组合使用，不允许与 unittest.testmacro 包中其他的宏组合。
+
+## 运行动态测试并获取输出
+
+如果需要不从单元测试框架运行测试用例，而是从程序内部运行测试，则可以借助 `TestSuite` `runTests()` 函数来实现。
+
+例如：
+
+```cangjie
+import std.unittest.*
+
+main() {
+   let suiteBuilder = TestSuite.builder("A")
+   let caseConfiguration = Configuration()
+   suiteBuilder.add(
+       UnitTestCase.create("f", configuration: caseConfiguration) { @Assert(false) })
+   suiteBuilder.add(
+       UnitTestCase.createParameterized("g", [1, 2]) { value => @Assert( value >= 1 ) })
+   let suite = suiteBuilder.build()
+   let report = suite.runTests()
+}
+```
+
+`runTests` 函数返回 `Report` 类的实例。您可以使用 `Report` 对象执行以下操作：
+
+- 使用 `ConsoleReporter` 类将其打印到控制台： `report.reportTo(ConsoleReporter(colored: true))` 。
+- 使用 `TextReporter` 类打印到任何 `PrettyPrinter` 实现： `report.reportTo(TextReporter(into: PrettyText()))` 。
+- 将结果输出为支持的格式之一，例如 XML（ `XmlReporter` ，仅用于单元测试，不用于性能测试）或 CSV（ `CsvReporter` 或 `CsvRawReporter` ，仅用于性能测试）。

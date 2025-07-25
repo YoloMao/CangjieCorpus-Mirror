@@ -9,25 +9,25 @@ import std.io.*
 main(): Unit {
     const size = 2
 
-    /* 将两个 ByteArrayStream 绑定到 MultiOutputStream */
-    let streamArr = Array<OutputStream>(size, {_ => ByteArrayStream()})
+    /* 将两个 ByteBuffer 绑定到 MultiOutputStream */
+    let streamArr = Array<OutputStream>(size, {_ => ByteBuffer()})
     let multiOutputStream = MultiOutputStream(streamArr)
 
-    /* 往 MultiOutputStream 写入数据，会同时写入绑定的两个 ByteArrayStream */
+    /* 往 MultiOutputStream 写入数据，会同时写入绑定的两个 ByteBuffer */
     multiOutputStream.write("test".toArray())
 
-    /* 读取 ByteArrayStream 中数据，验证结果 */
+    /* 读取 ByteBuffer 中数据，验证结果 */
     for (i in 0..size) {
         match (streamArr[i]) {
-            case v: ByteArrayStream =>
-                println(String.fromUtf8(v.readToEnd()))
+            case v: ByteBuffer =>
+                println(String.fromUtf8(readToEnd(v)))
             case _ => throw Exception()
         }
     }
 }
 ```
 
-运行结果
+运行结果：
 
 ```text
 test

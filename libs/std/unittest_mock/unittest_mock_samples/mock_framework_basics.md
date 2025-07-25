@@ -12,16 +12,20 @@ public func spy<T>(objectToSpyOn: T): T
 <!-- 链接至 mock/spy 构造函数 -->
 
 **mock** 作为骨架对象，默认不对成员进行任何操作。
+
 **spy** 作为一种特殊的 mock 对象用于封装某个类或接口的当前实例。默认情况下，spy 对象将其成员调用委托给底层对象。
 其他方面，spy 和 mock 对象非常相似。
 
-只有**类**（包括 final 类和 sealed 类）和**接口**支持 mock 。
+只有**类**（包括 final 类和 sealed 类）和**接口**支持通过这种方式 mock 。
 
 参阅[使用 mock 和 spy 对象](#使用-spy-和-mock-对象)。
 
+参阅[顶级和静态声明](#顶级和静态声明) 了解如何 mock 顶级和静态声明。
+
 ## 配置 API
 
-**配置 API** 是框架的核心，可以定义 mock/spy 对象成员的行为（或重新定义 spy 对象）。
+**配置 API** 是框架的核心，可以定义 mock/spy 对象成员（或顶层/静态声明）的行为（或重新定义 spy 对象（或顶层/静态声明））。
+
 **配置 API** 的入口是 `@On` 宏调用。
 
 ```cangjie
@@ -32,11 +36,20 @@ public func spy<T>(objectToSpyOn: T): T
 
 如上行为即为**打桩**，桩（Stub， 模拟还未实现或无法在测试环境中执行的组件）需在测试用例主体内部先定义。
 
-只有类和接口的实例成员（包括 final 成员）**才能**打桩。以下实体**不能**打桩：
+如下声明类型可以被打桩：
 
-* 静态成员
+* 类和接口的实例成员（包括 final 成员）
+* 静态函数、属性和字段
+* 顶层函数和变量
+
+以下声明**不能**打桩：
+
 * 扩展成员
-* 顶层函数，包括外部函数
+* Foreign 函数
+* 局部函数和变量
+* 构造器
+* 常量
+* 任意私有声明
 
 一个完整的**桩声明**包含以下部分：
 
@@ -45,14 +58,54 @@ public func spy<T>(objectToSpyOn: T): T
 3. （可选）用于设置[预期](#预期)的基数说明符（ cardinality specifier， 指定预期执行次数的表达式）。
 4. （可选）[续体](#桩链)（ continuation， 支持链式调用的表达式）。
 
-mock 框架拦截匹配桩签名的调用，并执行桩声明中指定的操作。只能拦截 spy 对象和 mock 对象的成员。
+mock 框架拦截匹配桩签名的调用，并执行桩声明中指定的操作。
+
+### 顶级和静态声明
+
+与类或接口的成员不同，要打桩静态成员或顶层函数或变量时，不需要创建模拟对象。这些声明应该直接使用配置 API （例如 `@On` 宏）进行打桩。
+
+如下是一个为顶层函数打桩的示例：
+
+```cangjie
+package catalog
+
+public class Entry {
+    init(let id: Int64, let title: String, let description: String) {}
+    statuc func parse() { ... }
+}
+
+public func loadLastEntryInCatalog(): Entry {
+    let resp = client.get("http://mycatalog.com/api/entries/last")
+    let buf = Array<UInt8>(50, repeat: 0)
+    let len = resp.body.read(buf)
+    return Entry.parse(String.fromUtf8(buf[..len]))
+}
+
+public func drawLastEntryWidget() {
+    let lastEntry = loadLastEntryInCatalog()
+    // drawing...
+}
+```
+
+```cangjie
+package test
+
+@Test
+class RightsTest {
+    @TestCase
+    func removeLastEntry() {
+        @On(loadLastEntryInCatalog()).returns(Entry(1, "Test entry", "Test description"))
+        drawLastEntryWidget()
+    }
+}
+```
 
 ### 桩签名
 
 **桩签名**定义了与特定调用子集匹配的一组条件，包括以下部分：
 
-* mock/spy 对象的引用，必须是单个标识符。
-* 成员调用。
+* mock/spy 对象的引用，必须是单个标识符。（独立声明（顶层或静态函数、变量）不需要此部分）
+* 成员以及独立声明的调用。
 * 特定格式的参数调用，参见[参数匹配器](#参数匹配器)。
 
 签名可以匹配以下实体：
@@ -62,8 +115,16 @@ mock 框架拦截匹配桩签名的调用，并执行桩声明中指定的操作
 * 属性 setter
 * 字段读操作
 * 字段写操作
+* 静态函数
+* 静态属性 getter
+* 静态 属性 setter
+* 静态字段读操作
+* 静态字段写操作
+* 顶层函数
+* 顶层字段读操作
+* 顶层字段写操作
 
-只要 mock/spy 对象调用相应的成员，并且所有参数（若有）都与相应的参数匹配器匹配时，桩签名就会匹配调用。
+只要对应声明被调用，并且所有参数（若有）都与相应的参数匹配器匹配时，桩签名就会匹配调用。
 
 方法的桩的签名结构：`<mock object name>.<method name>(<argument matcher>*)`。
 
@@ -75,15 +136,25 @@ mock 框架拦截匹配桩签名的调用，并执行桩声明中指定的操作
 当桩属性 getter/setter 或字段读/写操作时，使用 `<mock object name>.<property or field name>` 或 `<mock object name>.<property or field name> = <argument matcher>` 。
 
 ```cangjie
-@On(foo.prop)      //属性 getter
-@On(foo.prop = 3)  //参数为3的属性 setter
+@On(foo.prop)      // 属性 getter
+@On(foo.prop = 3)  // 参数为 3 的属性 setter
 ```
+
+对于顶层函数和静态函数，签名是类似的：
+
+* 顶层函数：`<function name>(<argument matcher>*)`
+* 静态函数：`<class name>.<static method name>(<argument matcher>*)`
+
+顶层变量和静态属性或字段的签名如下：
+
+* 顶层变量：`<top-level variable name>` 或 `<top-level variable name> = <argument matcher>`
+* 静态属性或字段：`<class name>.<static property/field name>` 或 `<class name>.<static property/field name> = <argument matcher>`
 
 对运算符函数打桩时，运算符的接收者必须是对 mock/spy 对象的单个引用，而运算符的参数必须是参数匹配器。
 
 ```cangjie
-@On(foo + 3)  // 'operator func +'，参数为3
-@On(foo[0])   // 'operator func []'，参数为0
+@On(foo + 3)  // 'operator func +'，参数为 3
+@On(foo[0])   // 'operator func []'，参数为 0
 ```
 
 ### 参数匹配器
@@ -95,7 +166,7 @@ mock 框架拦截匹配桩签名的调用，并执行桩声明中指定的操作
 预定义的匹配器包括：
 
 | 匹配器| 描述| 语法糖|
-| ---               | ---         | ---          |
+| ---- | --- | ---- |
 | any() | 任何参数| `_` 符号|
 | `eq(value: Equatable)` | `value` 结构相等（ structural equality ，对象的值相等，不一定内存相同）的参数| 允许使用单个 `identifier` 和常量字面量|
 | `same(reference: Object)` | `reference` 引用相等（referential equality， 对象的引用相等，内存相同）的参数| 允许单个`identifier`|
@@ -141,7 +212,7 @@ let expectedArgument = calculateArgument()
 
 ### 操作 API
 
-mock 框架提供 API 来指定桩操作。触发桩后，打桩成员会执行指定的操作。如果调用与相应的 `@On` 宏调用指定的签名匹配，则会触发桩。
+mock 框架提供 API 来指定桩操作。触发桩后，打桩声明会执行指定的操作。如果调用与相应的 `@On` 宏调用指定的签名匹配，则会触发桩。
 
 每个桩函数**必须**指定一个操作。
 `@On` 宏调用返回的 `ActionSelector` 子类型会定义可用操作。操作列表取决于所打桩的实体。
@@ -156,13 +227,15 @@ mock 框架提供 API 来指定桩操作。触发桩后，打桩成员会执行�
 * `throws(exceptionFactory: () -> Exception)`：调用 `exceptionFactory` 去构造桩触发时抛出的异常。
 * `fails()`：如果触发了桩，则测试失败。
 
-> `throws` 用于测试桩成员抛出异常时的系统行为。`fails` 用于测试桩成员是否未被调用。
+> **注意：**
+>
+> `throws` 用于测试桩声明抛出异常时的系统行为。`fails` 用于测试桩声明是否未被调用。
 
 ```cangjie
 @On(service.request()).throws(TimeoutException())
 ```
 
-#### 方法和属性/字段 Getter
+#### 函数和属性/字段 Getter 和顶层变量读操作
 
 **R** 表示对应成员的返回类型。
 
@@ -176,10 +249,10 @@ mock 框架提供 API 来指定桩操作。触发桩后，打桩成员会执行�
 @On(foo.bar()).returnsConsecutively(1, 2, 3) // 依次返回 1，2，3
 ```
 
-#### 属性/字段 Setter
+#### 属性/字段 Setter 和顶层变量写操作
 
 * `doesNothing()`：忽略调用，不做任何操作。类似于返回 Unit 的函数的 `returns()`。
-更多信息详见[这里](./mock_framework_stubs.md#设置属性和字段)。
+更多信息详见[这里](./mock_framework_stubs.md#设置属性和字段和顶层变量)。
 
 #### spy 操作
 
@@ -277,6 +350,10 @@ let serviceSpy = spy(service)
 // 测试代码必须使用'serviceSpy'引用
 ```
 
+> **注意：**
+>
+> 静态成员或顶级函数/变量的打桩行为类似于 spy，即对于未打桩的声明，将调用原始成员或原顶级函数/变量，而不是像 mock 中那样抛出异常。
+
 ## mock 依赖
 
 接口始终可以被 mock 。从另一个包 mock 一个类时，类本身和它的超类必须按特定方式编译，
@@ -286,6 +363,9 @@ let serviceSpy = spy(service)
 
 对于 **cjc** 来说，mock 是通过 `--mock` 标志来控制的。
 如果想 mock 特定包中的类 `p` ，添加 `--mock=on` 标志到 cjc 进行调用。
+
+> **说明：**
+>
 > 在编译依赖 `p` 的包时，也必须添加此标志。
 
 在测试中使用mock对象（ `cjc--test` ）不需要额外的标志。

@@ -25,7 +25,7 @@ public class A {
 }
 ```
 
-运行结果如下：
+运行结果：
 
 ```text
 Annotation

@@ -26,7 +26,7 @@ public static func deregister(driverName: String): Unit
 public static func drivers(): Array<String>
 ```
 
-功能：返回已注册数据库驱动名称的列表(名称已按照字典序排序)。本方法并发安全。
+功能：返回已注册数据库驱动名称的列表（名称已按照字典序排序）。本方法并发安全。
 
 返回值：
 
@@ -46,7 +46,7 @@ public static func getDriver(driverName: String): Option<Driver>
 
 返回值：
 
-- [Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<[Driver](database_sql_package_interfaces.md#interface-driver)> - 若驱动存在返回 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont) 包装的驱动实例，否则返回 `None`。
+- [Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<[Driver](database_sql_package_interfaces.md#interface-driver)> - 若驱动存在则返回 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont) 包装的驱动实例，否则返回 `None`。
 
 ### static func register(String, Driver)
 
@@ -63,7 +63,7 @@ public static func register(driverName: String, driver: Driver): Unit
 
 异常：
 
-- [SqlException](database_sql_package_exceptions.md#class-sqlexception) - 当名称重复已经被注册时，抛出异常。
+- [SqlException](database_sql_package_exceptions.md#class-sqlexception) - 当指定的驱动名称已经存在时，抛出异常。
 
 ## class PooledDatasource
 
@@ -87,12 +87,12 @@ public mut prop connectionTimeout: Duration
 
 功能：从池中获取连接的超时时间。
 
-类型：[Duration](../../time/time_package_api/time_package_structs.md#struct-duration)
+类型：[Duration](../../core/core_package_api/core_package_structs.md#struct-duration)
 
 异常：
 
-- [ArithmeticException](../../core/core_package_api/core_package_exceptions.md#class-arithmeticexception) - 当该属性被设置为 [Duration](../../time/time_package_api/time_package_structs.md#struct-duration).Max 或 [Duration](../../time/time_package_api/time_package_structs.md#struct-duration).Min 时，抛此异常。
-- [SqlException](database_sql_package_exceptions.md#class-sqlexception) - 当超时后，抛出此异常。
+- [ArithmeticException](../../core/core_package_api/core_package_exceptions.md#class-arithmeticexception) - 当该属性被设置为 [Duration](../../core/core_package_api/core_package_structs.md#struct-duration).Max 或 [Duration](../../core/core_package_api/core_package_structs.md#struct-duration).Min 时，抛此异常。
+- [SqlException](database_sql_package_exceptions.md#class-sqlexception) - 当获取连接超时后，抛出此异常。
 
 ### prop idleTimeout
 
@@ -102,7 +102,7 @@ public mut prop idleTimeout: Duration
 
 功能：允许连接在池中闲置的最长时间，超过这个时间的空闲连接可能会被回收。
 
-类型：[Duration](../../time/time_package_api/time_package_structs.md#struct-duration)
+类型：[Duration](../../core/core_package_api/core_package_structs.md#struct-duration)
 
 ### prop keepaliveTime
 
@@ -112,7 +112,7 @@ public mut prop keepaliveTime: Duration
 
 功能：检查空闲连接健康状况的间隔时间，防止它被数据库或网络基础设施超时。
 
-类型：[Duration](../../time/time_package_api/time_package_structs.md#struct-duration)
+类型：[Duration](../../core/core_package_api/core_package_structs.md#struct-duration)
 
 ### prop maxIdleSize
 
@@ -130,9 +130,9 @@ public mut prop maxIdleSize: Int32
 public mut prop maxLifeTime: Duration
 ```
 
-功能：自连接创建以来的持续时间，在该持续时间之后，连接将自动关闭。
+功能：自连接创建以来的最大持续时间，在该持续时间之后，连接将自动关闭。
 
-类型：[Duration](../../time/time_package_api/time_package_structs.md#struct-duration)
+类型：[Duration](../../core/core_package_api/core_package_structs.md#struct-duration)
 
 ### prop maxSize
 
@@ -144,7 +144,7 @@ public mut prop maxSize: Int32
 
 类型：[Int32](../../core/core_package_api/core_package_intrinsics.md#int32)
 
-### init(DataSource)
+### init(Datasource)
 
 ```cangjie
 public init(datasource: Datasource)
@@ -162,7 +162,7 @@ public init(datasource: Datasource)
 public func close(): Unit
 ```
 
-功能：关闭连接池中的所有连接并阻止其它连接请求。调用该方法会阻塞至所有连接关闭并归还到连接池。
+功能：关闭连接池中的所有连接并阻止其他连接请求。调用该方法会阻塞至所有连接关闭并归还到连接池。
 
 ### func connect()
 
@@ -201,7 +201,7 @@ public func setOption(key: String, value: String): Unit
 - key: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 连接选项名称。
 - value: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 连接选项的值。
 
-## class SqlBigInt
+## class SqlBigInt <sup>(deprecated)</sup>
 
 ```cangjie
 public class SqlBigInt <: SqlDbType {
@@ -211,9 +211,13 @@ public class SqlBigInt <: SqlDbType {
 
 功能：大整数，对应仓颉 [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) 类型。
 
+> **注意：**
+>
+> 未来版本即将废弃不再使用，使用仓颉原生类型替代。
+
 父类型：
 
-- [SqlDbType](database_sql_package_interfaces.md#interface-sqldbtype)
+- [SqlDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqldbtype-deprecated)
 
 ### prop name
 
@@ -221,7 +225,7 @@ public class SqlBigInt <: SqlDbType {
 public prop name: String
 ```
 
-功能：类型名称，即 [SqlBigInt](database_sql_package_classes.md#class-sqlbigint)。
+功能：类型名称，即 [SqlBigInt <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlbigInt-deprecated)。
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
@@ -241,13 +245,13 @@ public mut prop value: Int64
 public init(v: Int64)
 ```
 
-功能：根据传入参数 v 构造一个 [SqlBigInt](database_sql_package_classes.md#class-sqlbigint) 实例。
+功能：根据传入参数 v 构造一个 [SqlBigInt <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlbigInt-deprecated) 实例。
 
 参数：
 
 - v: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 传入的数据。
 
-## class SqlBinary
+## class SqlBinary <sup>(deprecated)</sup>
 
 ```cangjie
 public class SqlBinary <: SqlDbType {
@@ -257,9 +261,13 @@ public class SqlBinary <: SqlDbType {
 
 功能：定长二进制字符串，对应仓颉 [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[Byte](../../core/core_package_api/core_package_types.md#type-byte)> 类型。
 
+> **注意：**
+>
+> 未来版本即将废弃不再使用，使用仓颉原生类型替代。
+
 父类型：
 
-- [SqlDbType](database_sql_package_interfaces.md#interface-sqldbtype)
+- [SqlDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqldbtype-deprecated)
 
 ### prop name
 
@@ -267,7 +275,7 @@ public class SqlBinary <: SqlDbType {
 public prop name: String
 ```
 
-功能：类型名称，即 [SqlBinary](database_sql_package_classes.md#class-sqlbinary)。
+功能：类型名称，即 [SqlBinary <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlbinary-deprecated)。
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
@@ -287,13 +295,13 @@ public mut prop value: Array<Byte>
 public init(v: Array<Byte>)
 ```
 
-功能：根据传入参数 v 构造一个 [SqlBinary](database_sql_package_classes.md#class-sqlbinary) 实例。
+功能：根据传入参数 v 构造一个 [SqlBinary <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlbinary-deprecated) 实例。
 
 参数：
 
 - v: [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[Byte](../../core/core_package_api/core_package_types.md#type-byte)> - 传入的数据。
 
-## class SqlBlob
+## class SqlBlob <sup>(deprecated)</sup>
 
 ```cangjie
 public class SqlBlob <: SqlDbType {
@@ -303,9 +311,13 @@ public class SqlBlob <: SqlDbType {
 
 功能：变长超大二进制字符串（BINARY LARGE OBJECT），对应仓颉 [InputStream](../../io/io_package_api/io_package_interfaces.md#interface-inputstream) 类型。
 
+> **注意：**
+>
+> 未来版本即将废弃不再使用，使用仓颉原生类型替代。
+
 父类型：
 
-- [SqlDbType](database_sql_package_interfaces.md#interface-sqldbtype)
+- [SqlDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqldbtype-deprecated)
 
 ### prop name
 
@@ -313,7 +325,7 @@ public class SqlBlob <: SqlDbType {
 public prop name: String
 ```
 
-功能：类型名称，即 [SqlBlob](database_sql_package_classes.md#class-sqlblob)。
+功能：类型名称，即 [SqlBlob <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlblob-deprecated)。
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
@@ -333,13 +345,13 @@ public mut prop value: InputStream
 public init(v: InputStream)
 ```
 
-功能：根据传入参数 v 构造一个 [SqlBlob](database_sql_package_classes.md#class-sqlblob) 实例。
+功能：根据传入参数 v 构造一个 [SqlBlob <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlblob-deprecated) 实例。
 
 参数：
 
 - v: [InputStream](../../io/io_package_api/io_package_interfaces.md#interface-inputstream) - 传入的数据。
 
-## class SqlBool
+## class SqlBool <sup>(deprecated)</sup>
 
 ```cangjie
 public class SqlBool <: SqlDbType {
@@ -349,9 +361,13 @@ public class SqlBool <: SqlDbType {
 
 功能：布尔类型，对应仓颉 [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) 类型。
 
+> **注意：**
+>
+> 未来版本即将废弃不再使用，使用仓颉原生类型替代。
+
 父类型：
 
-- [SqlDbType](database_sql_package_interfaces.md#interface-sqldbtype)
+- [SqlDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqldbtype-deprecated)
 
 ### prop name
 
@@ -359,7 +375,7 @@ public class SqlBool <: SqlDbType {
 public prop name: String
 ```
 
-功能：类型名称，即 [SqlBool](database_sql_package_classes.md#class-sqlbool)。
+功能：类型名称，即 [SqlBool<sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlbool-deprecated)。
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
@@ -379,13 +395,13 @@ public mut prop value: Bool
 public init(v: Bool)
 ```
 
-功能：根据传入参数 v 构造一个 [SqlBool](database_sql_package_classes.md#class-sqlbool) 实例。
+功能：根据传入参数 v 构造一个 [SqlBool<sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlbool-deprecated) 实例。
 
 参数：
 
 - v: [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 传入的数据。
 
-## class SqlByte
+## class SqlByte <sup>(deprecated)</sup>
 
 ```cangjie
 public class SqlByte <: SqlDbType {
@@ -395,9 +411,13 @@ public class SqlByte <: SqlDbType {
 
 功能：字节，对应仓颉 [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) 类型。
 
+> **注意：**
+>
+> 未来版本即将废弃不再使用，使用仓颉原生类型替代。
+
 父类型：
 
-- [SqlDbType](database_sql_package_interfaces.md#interface-sqldbtype)
+- [SqlDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqldbtype-deprecated)
 
 ### prop name
 
@@ -405,7 +425,7 @@ public class SqlByte <: SqlDbType {
 public prop name: String
 ```
 
-功能：类型名称，即 [SqlByte](database_sql_package_classes.md#class-sqlbyte)。
+功能：类型名称，即 [SqlByte <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlbyte-deprecated)。
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
@@ -425,13 +445,13 @@ public mut prop value: Int8
 public init(v: Int8)
 ```
 
-功能：根据传入参数 v 构造一个 [SqlByte](database_sql_package_classes.md#class-sqlbyte) 实例。
+功能：根据传入参数 v 构造一个 [SqlByte <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlbyte-deprecated) 实例。
 
 参数：
 
 - v: [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 传入的数据。
 
-## class SqlChar
+## class SqlChar <sup>(deprecated)</sup>
 
 ```cangjie
 public class SqlChar <: SqlDbType {
@@ -441,9 +461,13 @@ public class SqlChar <: SqlDbType {
 
 功能：定长字符串，对应仓颉 [String](../../core/core_package_api/core_package_structs.md#struct-string) 类型。
 
+> **注意：**
+>
+> 未来版本即将废弃不再使用，使用仓颉原生类型替代。
+
 父类型：
 
-- [SqlDbType](database_sql_package_interfaces.md#interface-sqldbtype)
+- [SqlDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqldbtype-deprecated)
 
 ### prop name
 
@@ -451,7 +475,7 @@ public class SqlChar <: SqlDbType {
 public prop name: String
 ```
 
-功能：类型名称，即 [SqlChar](database_sql_package_classes.md#class-sqlchar)。
+功能：类型名称，即 [SqlChar <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlchar-deprecated)。
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
@@ -471,13 +495,13 @@ public mut prop value: String
 public init(v: String)
 ```
 
-功能：根据传入参数 v 构造一个 [SqlChar](database_sql_package_classes.md#class-sqlchar) 实例。
+功能：根据传入参数 v 构造一个 [SqlChar <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlchar-deprecated) 实例。
 
 参数：
 
 - v: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 传入的数据。
 
-## class SqlClob
+## class SqlClob <sup>(deprecated)</sup>
 
 ```cangjie
 public class SqlClob <: SqlDbType {
@@ -487,9 +511,13 @@ public class SqlClob <: SqlDbType {
 
 功能：变长超大字符串（RUNE LARGE OBJECT），对应仓颉 [InputStream](../../io/io_package_api/io_package_interfaces.md#interface-inputstream) 类型。
 
+> **注意：**
+>
+> 未来版本即将废弃不再使用，使用仓颉原生类型替代。
+
 父类型：
 
-- [SqlDbType](database_sql_package_interfaces.md#interface-sqldbtype)
+- [SqlDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqldbtype-deprecated)
 
 ### prop name
 
@@ -497,7 +525,7 @@ public class SqlClob <: SqlDbType {
 public prop name: String
 ```
 
-功能：类型名称，即 [SqlClob](database_sql_package_classes.md#class-sqlclob)。
+功能：类型名称，即 [SqlClob](database_sql_package_classes.md#class-sqlclob-deprecated)。
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
@@ -517,13 +545,13 @@ public mut prop value: InputStream
 public init(v: InputStream)
 ```
 
-功能：根据传入参数 v 构造一个 [SqlClob](database_sql_package_classes.md#class-sqlclob) 实例。
+功能：根据传入参数 v 构造一个 [SqlClob](database_sql_package_classes.md#class-sqlclob-deprecated) 实例。
 
 参数：
 
 - v: [InputStream](../../io/io_package_api/io_package_interfaces.md#interface-inputstream) - 传入的数据。
 
-## class SqlDate
+## class SqlDate <sup>(deprecated)</sup>
 
 ```cangjie
 public class SqlDate <: SqlDbType {
@@ -533,9 +561,13 @@ public class SqlDate <: SqlDbType {
 
 功能：日期，仅年月日有效，对应仓颉 [DateTime](../../time/time_package_api/time_package_structs.md#struct-datetime) 类型。
 
+> **注意：**
+>
+> 未来版本即将废弃不再使用，使用仓颉原生类型替代。
+
 父类型：
 
-- [SqlDbType](database_sql_package_interfaces.md#interface-sqldbtype)
+- [SqlDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqldbtype-deprecated)
 
 ### prop name
 
@@ -543,7 +575,7 @@ public class SqlDate <: SqlDbType {
 public prop name: String
 ```
 
-功能：类型名称，即 [SqlDate](database_sql_package_classes.md#class-sqldate)。
+功能：类型名称，即 [SqlDate <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqldate-deprecated)。
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
@@ -563,59 +595,63 @@ public mut prop value: DateTime
 public init(v: DateTime)
 ```
 
-功能：根据传入参数 v 构造一个 [SqlDate](database_sql_package_classes.md#class-sqldate) 实例。
+功能：根据传入参数 v 构造一个 [SqlDate <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqldate-deprecated) 实例。
 
 参数：
 
 - v: [DateTime](../../time/time_package_api/time_package_structs.md#struct-datetime) - 传入的数据。
 
-## class SqlDecimal
- 
+## class SqlDecimal <sup>(deprecated)</sup>
+
 ```cangjie
 public class SqlDecimal <: SqlDbType {
     public init(v: Decimal)
 }
 ```
- 
+
 功能：高精度数，对应仓颉 [Decimal](../../math_numeric/math_numeric_package_api/math_numeric_package_structs.md#struct-decimal) 类型。
- 
+
+> **注意：**
+>
+> 未来版本即将废弃不再使用，使用仓颉原生类型替代。
+
 父类型：
 
-- [SqlDbType](database_sql_package_interfaces.md#interface-sqldbtype)
+- [SqlDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqldbtype-deprecated)
 
 ### prop name
- 
+
 ```cangjie
 public prop name: String
 ```
- 
-功能：类型名称，即 [SqlDecimal](database_sql_package_classes.md#class-sqldecimal)。
- 
+
+功能：类型名称，即 [SqlDecimal <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqldecimal-deprecated)。
+
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
- 
+
 ### prop value
- 
+
 ```cangjie
 public mut prop value: Decimal
 ```
- 
+
 功能：该数据的值。
- 
+
 类型：[Decimal](../../math_numeric/math_numeric_package_api/math_numeric_package_structs.md#struct-decimal)
- 
+
 ### init(Decimal)
- 
+
 ```cangjie
 public init(v: Decimal)
 ```
- 
-功能：根据传入参数 v 构造一个 [SqlDecimal](database_sql_package_classes.md#class-sqldecimal) 实例。
- 
+
+功能：根据传入参数 v 构造一个 [SqlDecimal <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqldecimal-deprecated) 实例。
+
 参数：
- 
+
 - v: [Decimal](../../math_numeric/math_numeric_package_api/math_numeric_package_structs.md#struct-decimal) - 传入的数据。
- 
-## class SqlDouble
+
+## class SqlDouble <sup>(deprecated)</sup>
 
 ```cangjie
 public class SqlDouble <: SqlDbType {
@@ -625,9 +661,13 @@ public class SqlDouble <: SqlDbType {
 
 功能：双精度数，对应仓颉 [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) 类型。
 
+> **注意：**
+>
+> 未来版本即将废弃不再使用，使用仓颉原生类型替代。
+
 父类型：
 
-- [SqlDbType](database_sql_package_interfaces.md#interface-sqldbtype)
+- [SqlDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqldbtype-deprecated)
 
 ### prop name
 
@@ -635,7 +675,7 @@ public class SqlDouble <: SqlDbType {
 public prop name: String
 ```
 
-功能：类型名称，即 [SqlDouble](database_sql_package_classes.md#class-sqldouble)。
+功能：类型名称，即 [SqlDouble <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqldouble-deprecated)。
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
@@ -655,13 +695,13 @@ public mut prop value: Float64
 public init(v: Float64)
 ```
 
-功能：根据传入参数 v 构造一个 [SqlDouble](database_sql_package_classes.md#class-sqldouble) 实例。
+功能：根据传入参数 v 构造一个 [SqlDouble <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqldouble-deprecated) 实例。
 
 参数：
 
 - v: [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 传入的数据。
 
-## class SqlInteger
+## class SqlInteger <sup>(deprecated)</sup>
 
 ```cangjie
 public class SqlInteger <: SqlDbType {
@@ -671,9 +711,13 @@ public class SqlInteger <: SqlDbType {
 
 功能：中整数，对应仓颉 [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) 类型。
 
+> **注意：**
+>
+> 未来版本即将废弃不再使用，使用仓颉原生类型替代。
+
 父类型：
 
-- [SqlDbType](database_sql_package_interfaces.md#interface-sqldbtype)
+- [SqlDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqldbtype-deprecated)
 
 ### prop name
 
@@ -681,7 +725,7 @@ public class SqlInteger <: SqlDbType {
 public prop name: String
 ```
 
-功能：类型名称，即 [SqlInteger](database_sql_package_classes.md#class-sqlinteger)。
+功能：类型名称，即 [SqlInteger <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlinteger-deprecated)。
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
@@ -701,13 +745,13 @@ public mut prop value: Int32
 public init(v: Int32)
 ```
 
-功能：根据传入参数 v 构造一个 [SqlInteger](database_sql_package_classes.md#class-sqlinteger) 实例。
+功能：根据传入参数 v 构造一个 [SqlInteger <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlinteger-deprecated) 实例。
 
 参数：
 
 - v: [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 传入的数据。
 
-## class SqlInterval
+## class SqlInterval <sup>(deprecated)</sup>
 
 ```cangjie
 public class SqlInterval <: SqlDbType {
@@ -715,11 +759,15 @@ public class SqlInterval <: SqlDbType {
 }
 ```
 
-功能：时间间隔，对应仓颉 [Duration](../../time/time_package_api/time_package_structs.md#struct-duration) 类型。
+功能：时间间隔，对应仓颉 [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) 类型。
+
+> **注意：**
+>
+> 未来版本即将废弃不再使用，使用仓颉原生类型替代。
 
 父类型：
 
-- [SqlDbType](database_sql_package_interfaces.md#interface-sqldbtype)
+- [SqlDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqldbtype-deprecated)
 
 ### prop name
 
@@ -727,7 +775,7 @@ public class SqlInterval <: SqlDbType {
 public prop name: String
 ```
 
-功能：类型名称，即 [SqlInterval](database_sql_package_classes.md#class-sqlinterval)。
+功能：类型名称，即 [SqlInterval <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlinterval-deprecated)。
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
@@ -739,7 +787,7 @@ public mut prop value: Duration
 
 功能：该数据的值。
 
-类型：[Duration](../../time/time_package_api/time_package_structs.md#struct-duration)
+类型：[Duration](../../core/core_package_api/core_package_structs.md#struct-duration)
 
 ### init(Duration)
 
@@ -747,13 +795,13 @@ public mut prop value: Duration
 public init(v: Duration)
 ```
 
-功能：根据传入参数 v 构造一个 [SqlInterval](database_sql_package_classes.md#class-sqlinterval) 实例。
+功能：根据传入参数 v 构造一个 [SqlInterval <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlinterval-deprecated) 实例。
 
 参数：
 
-- v: [Duration](../../time/time_package_api/time_package_structs.md#struct-duration) - 传入的数据。
+- v: [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) - 传入的数据。
 
-## class SqlNullableBigInt
+## class SqlNullableBigInt <sup>(deprecated)</sup>
 
 ```cangjie
 public class SqlNullableBigInt <: SqlNullableDbType {
@@ -763,9 +811,13 @@ public class SqlNullableBigInt <: SqlNullableDbType {
 
 功能：大整数，对应仓颉 [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) 类型，可为数据库 `Null` 值。
 
+> **注意：**
+>
+> 未来版本即将废弃不再使用，使用仓颉原生类型替代。
+
 父类型：
 
-- [SqlNullableDbType](database_sql_package_interfaces.md#interface-sqlnullabledbtype)
+- [SqlNullableDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqlnullabledbtype-deprecated)
 
 ### prop name
 
@@ -773,7 +825,7 @@ public class SqlNullableBigInt <: SqlNullableDbType {
 public prop name: String
 ```
 
-功能：类型名称，即 [SqlNullableBigInt](database_sql_package_classes.md#class-sqlnullablebigint)。
+功能：类型名称，即 [SqlNullableBigInt <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlnullablebigInt-deprecated)。
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
@@ -793,13 +845,13 @@ public mut prop value: ?Int64
 public init(v: ?Int64)
 ```
 
-功能：根据传入参数 v 构造一个 [SqlNullableBigInt](database_sql_package_classes.md#class-sqlnullablebigint) 实例。
+功能：根据传入参数 v 构造一个 [SqlNullableBigInt <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlnullablebigInt-deprecated) 实例。
 
 参数：
 
 - v: ?[Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 传入的数据。
 
-## class SqlNullableBinary
+## class SqlNullableBinary <sup>(deprecated)</sup>
 
 ```cangjie
 public class SqlNullableBinary <: SqlNullableDbType {
@@ -809,9 +861,13 @@ public class SqlNullableBinary <: SqlNullableDbType {
 
 功能：定长二进制字符串，对应仓颉 [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[Byte](../../core/core_package_api/core_package_types.md#type-byte)> 类型，可为数据库 `Null` 值。
 
+> **注意：**
+>
+> 未来版本即将废弃不再使用，使用仓颉原生类型替代。
+
 父类型：
 
-- [SqlNullableDbType](database_sql_package_interfaces.md#interface-sqlnullabledbtype)
+- [SqlNullableDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqlnullabledbtype-deprecated)
 
 ### prop name
 
@@ -819,7 +875,7 @@ public class SqlNullableBinary <: SqlNullableDbType {
 public prop name: String
 ```
 
-功能：类型名称，即 [SqlNullableBinary](database_sql_package_classes.md#class-sqlnullablebinary)。
+功能：类型名称，即 [SqlNullableBinary <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlnullablebinary-deprecated)。
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
@@ -839,13 +895,13 @@ public mut prop value: ?Array<Byte>
 public init(v: ?Array<Byte>)
 ```
 
-功能：根据传入参数 v 构造一个 [SqlNullableBinary](database_sql_package_classes.md#class-sqlnullablebinary) 实例。
+功能：根据传入参数 v 构造一个 [SqlNullableBinary <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlnullablebinary-deprecated) 实例。
 
 参数：
 
-- v: ?[Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)<[Byte](../../core/core_package_api/core_package_types.md#type-byte)> - 传入的数据。
+- v: ?[Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[Byte](../../core/core_package_api/core_package_types.md#type-byte)> - 传入的数据。
 
-## class SqlNullableBlob
+## class SqlNullableBlob <sup>(deprecated)</sup>
 
 ```cangjie
 public class SqlNullableBlob <: SqlNullableDbType {
@@ -855,9 +911,13 @@ public class SqlNullableBlob <: SqlNullableDbType {
 
 功能：变长超大二进制字符串（BINARY LARGE OBJECT），对应仓颉 [InputStream](../../io/io_package_api/io_package_interfaces.md#interface-inputstream) 类型，可为数据库 `Null` 值。
 
+> **注意：**
+>
+> 未来版本即将废弃不再使用，使用仓颉原生类型替代。
+
 父类型：
 
-- [SqlNullableDbType](database_sql_package_interfaces.md#interface-sqlnullabledbtype)
+- [SqlNullableDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqlnullabledbtype-deprecated)
 
 ### prop name
 
@@ -865,7 +925,7 @@ public class SqlNullableBlob <: SqlNullableDbType {
 public prop name: String
 ```
 
-功能：类型名称，即 [SqlNullableBlob](database_sql_package_classes.md#class-sqlnullableblob)。
+功能：类型名称，即 [SqlNullableBlob <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlnullableblob-deprecated)。
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
@@ -885,13 +945,13 @@ public mut prop value: ?InputStream
 public init(v: ?InputStream)
 ```
 
-功能：根据传入参数 v 构造一个 [SqlNullableBlob](database_sql_package_classes.md#class-sqlnullableblob) 实例。
+功能：根据传入参数 v 构造一个 [SqlNullableBlob <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlnullableblob-deprecated) 实例。
 
 参数：
 
 - v: ?[InputStream](../../io/io_package_api/io_package_interfaces.md#interface-inputstream) - 传入的数据。
 
-## class SqlNullableBool
+## class SqlNullableBool <sup>(deprecated)</sup>
 
 ```cangjie
 public class SqlNullableBool <: SqlNullableDbType {
@@ -901,9 +961,13 @@ public class SqlNullableBool <: SqlNullableDbType {
 
 功能：布尔类型，对应仓颉 [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) 类型，可为数据库 `Null` 值。
 
+> **注意：**
+>
+> 未来版本即将废弃不再使用，使用仓颉原生类型替代。
+
 父类型：
 
-- [SqlNullableDbType](database_sql_package_interfaces.md#interface-sqlnullabledbtype)
+- [SqlNullableDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqlnullabledbtype-deprecated)
 
 ### prop name
 
@@ -911,7 +975,7 @@ public class SqlNullableBool <: SqlNullableDbType {
 public prop name: String
 ```
 
-功能：类型名称，即 [SqlNullableBool](database_sql_package_classes.md#class-sqlnullablebool)。
+功能：类型名称，即 [SqlNullableBool <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlnullablebool-deprecated)。
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
@@ -931,13 +995,13 @@ public mut prop value: ?Bool
 public init(v: ?Bool)
 ```
 
-功能：根据传入参数 v 构造一个 [SqlNullableBool](database_sql_package_classes.md#class-sqlnullablebool) 实例。
+功能：根据传入参数 v 构造一个 [SqlNullableBool <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlnullablebool-deprecated) 实例。
 
 参数：
 
 - v: ?[Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 传入的数据。
 
-## class SqlNullableByte
+## class SqlNullableByte <sup>(deprecated)</sup>
 
 ```cangjie
 public class SqlNullableByte <: SqlNullableDbType {
@@ -947,9 +1011,13 @@ public class SqlNullableByte <: SqlNullableDbType {
 
 功能：字节，对应仓颉 [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) 类型，可为数据库 `Null` 值。
 
+> **注意：**
+>
+> 未来版本即将废弃不再使用，使用仓颉原生类型替代。
+
 父类型：
 
-- [SqlNullableDbType](database_sql_package_interfaces.md#interface-sqlnullabledbtype)
+- [SqlNullableDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqlnullabledbtype-deprecated)
 
 ### prop name
 
@@ -957,7 +1025,7 @@ public class SqlNullableByte <: SqlNullableDbType {
 public prop name: String
 ```
 
-功能：类型名称，即 [SqlNullableByte](database_sql_package_classes.md#class-sqlnullablebyte)。
+功能：类型名称，即 [SqlNullableByte <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlnullablebyte-deprecated)。
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
@@ -977,13 +1045,13 @@ public mut prop value: ?Int8
 public init(v: ?Int8)
 ```
 
-功能：根据传入参数 v 构造一个 [SqlNullableByte](database_sql_package_classes.md#class-sqlnullablebyte) 实例。
+功能：根据传入参数 v 构造一个 [SqlNullableByte <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlnullablebyte-deprecated) 实例。
 
 参数：
 
 - v: ?[Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - 传入的数据。
 
-## class SqlNullableChar
+## class SqlNullableChar <sup>(deprecated)</sup>
 
 ```cangjie
 public class SqlNullableChar <: SqlNullableDbType {
@@ -993,9 +1061,13 @@ public class SqlNullableChar <: SqlNullableDbType {
 
 功能：定长字符串，对应仓颉 [String](../../core/core_package_api/core_package_structs.md#struct-string) 类型，可为数据库 `Null` 值。
 
+> **注意：**
+>
+> 未来版本即将废弃不再使用，使用仓颉原生类型替代。
+
 父类型：
 
-- [SqlNullableDbType](database_sql_package_interfaces.md#interface-sqlnullabledbtype)
+- [SqlNullableDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqlnullabledbtype-deprecated)
 
 ### prop name
 
@@ -1003,7 +1075,7 @@ public class SqlNullableChar <: SqlNullableDbType {
 public prop name: String
 ```
 
-功能：类型名称，即 [SqlNullableChar](database_sql_package_classes.md#class-sqlnullablechar)。
+功能：类型名称，即 [SqlNullableChar <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlnullablechar-deprecated)。
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
@@ -1023,13 +1095,13 @@ public mut prop value: ?String
 public init(v: ?String)
 ```
 
-功能：根据传入参数 v 构造一个 [SqlNullableChar](database_sql_package_classes.md#class-sqlnullablechar) 实例。
+功能：根据传入参数 v 构造一个 [SqlNullableChar <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlnullablechar-deprecated) 实例。
 
 参数：
 
 - v: ?[String](../../core/core_package_api/core_package_structs.md#struct-string) - 传入的数据。
 
-## class SqlNullableClob
+## class SqlNullableClob <sup>(deprecated)</sup>
 
 ```cangjie
 public class SqlNullableClob <: SqlNullableDbType {
@@ -1039,9 +1111,13 @@ public class SqlNullableClob <: SqlNullableDbType {
 
 功能：变长超大字符串（RUNE LARGE OBJECT），对应仓颉 [InputStream](../../io/io_package_api/io_package_interfaces.md#interface-inputstream) 类型，可为数据库 `Null` 值。
 
+> **注意：**
+>
+> 未来版本即将废弃不再使用，使用仓颉原生类型替代。
+
 父类型：
 
-- [SqlNullableDbType](database_sql_package_interfaces.md#interface-sqlnullabledbtype)
+- [SqlNullableDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqlnullabledbtype-deprecated)
 
 ### prop name
 
@@ -1049,7 +1125,7 @@ public class SqlNullableClob <: SqlNullableDbType {
 public prop name: String
 ```
 
-功能：类型名称，即 [SqlNullableClob](database_sql_package_classes.md#class-sqlnullableclob)。
+功能：类型名称，即 [SqlNullableClob <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlnullableclob-deprecated)。
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
@@ -1069,13 +1145,13 @@ public mut prop value: ?InputStream
 public init(v: ?InputStream)
 ```
 
-功能：根据传入参数 v 构造一个 [SqlNullableClob](database_sql_package_classes.md#class-sqlnullableclob) 实例。
+功能：根据传入参数 v 构造一个 [SqlNullableClob <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlnullableclob-deprecated) 实例。
 
 参数：
 
 - v: ?[InputStream](../../io/io_package_api/io_package_interfaces.md#interface-inputstream) - 传入的数据。
 
-## class SqlNullableDate
+## class SqlNullableDate <sup>(deprecated)</sup>
 
 ```cangjie
 public class SqlNullableDate <: SqlNullableDbType {
@@ -1085,9 +1161,13 @@ public class SqlNullableDate <: SqlNullableDbType {
 
 功能：日期，仅年月日有效，对应仓颉 [DateTime](../../time/time_package_api/time_package_structs.md#struct-datetime) 类型，可为数据库 `Null` 值。
 
+> **注意：**
+>
+> 未来版本即将废弃不再使用，使用仓颉原生类型替代。
+
 父类型：
 
-- [SqlNullableDbType](database_sql_package_interfaces.md#interface-sqlnullabledbtype)
+- [SqlNullableDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqlnullabledbtype-deprecated)
 
 ### prop name
 
@@ -1095,7 +1175,7 @@ public class SqlNullableDate <: SqlNullableDbType {
 public prop name: String
 ```
 
-功能：类型名称，即 [SqlNullableDate](database_sql_package_classes.md#class-sqlnullabledate)。
+功能：类型名称，即 [SqlNullableDate <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlnullabledate-deprecated)。
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
@@ -1115,59 +1195,63 @@ public mut prop value: ?DateTime
 public init(v: ?DateTime)
 ```
 
-功能：根据传入参数 v 构造一个 [SqlNullableDate](database_sql_package_classes.md#class-sqlnullabledate) 实例。
+功能：根据传入参数 v 构造一个 [SqlNullableDate <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlnullabledate-deprecated) 实例。
 
 参数：
 
 - v: ?[DateTime](../../time/time_package_api/time_package_structs.md#struct-datetime) - 传入的数据。
 
-## class SqlNullableDecimal
- 
+## class SqlNullableDecimal <sup>(deprecated)</sup>
+
 ```cangjie
 public class SqlNullableDecimal <: SqlNullableDbType {
     public init(v: ?Decimal)
 }
 ```
- 
+
 功能：高精度数，对应仓颉 [Decimal](../../math_numeric/math_numeric_package_api/math_numeric_package_structs.md#struct-decimal) 类型，可为数据库 `Null` 值。
- 
+
+> **注意：**
+>
+> 未来版本即将废弃不再使用，使用仓颉原生类型替代。
+
 父类型：
 
-- [SqlNullableDbType](database_sql_package_interfaces.md#interface-sqlnullabledbtype)
+- [SqlNullableDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqlnullabledbtype-deprecated)
 
 ### prop name
- 
+
 ```cangjie
 public prop name: String
 ```
- 
-功能：类型名称，即 [SqlNullableDecimal](database_sql_package_classes.md#class-sqlnullabledecimal)。
- 
+
+功能：类型名称，即 [SqlNullableDecimal <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlnullabledecimal-deprecated)。
+
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
- 
+
 ### prop value
- 
+
 ```cangjie
 public mut prop value: ?Decimal
 ```
- 
+
 功能：该数据的值。
- 
+
 类型：?[Decimal](../../math_numeric/math_numeric_package_api/math_numeric_package_structs.md#struct-decimal)
- 
+
 ### init(?Decimal)
- 
+
 ```cangjie
 public init(v: ?Decimal)
 ```
- 
-功能：根据传入参数 v 构造一个 [SqlNullableDecimal](database_sql_package_classes.md#class-sqlnullabledecimal) 实例。
- 
+
+功能：根据传入参数 v 构造一个 [SqlNullableDecimal <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlnullabledecimal-deprecated) 实例。
+
 参数：
- 
+
 - v: ?[Decimal](../../math_numeric/math_numeric_package_api/math_numeric_package_structs.md#struct-decimal) - 传入的数据。
- 
-## class SqlNullableDouble
+
+## class SqlNullableDouble <sup>(deprecated)</sup>
 
 ```cangjie
 public class SqlNullableDouble <: SqlNullableDbType {
@@ -1177,9 +1261,13 @@ public class SqlNullableDouble <: SqlNullableDbType {
 
 功能：双精度数，对应仓颉 [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) 类型，可为数据库 `Null` 值。
 
+> **注意：**
+>
+> 未来版本即将废弃不再使用，使用仓颉原生类型替代。
+
 父类型：
 
-- [SqlNullableDbType](database_sql_package_interfaces.md#interface-sqlnullabledbtype)
+- [SqlNullableDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqlnullabledbtype-deprecated)
 
 ### prop name
 
@@ -1187,7 +1275,7 @@ public class SqlNullableDouble <: SqlNullableDbType {
 public prop name: String
 ```
 
-功能：类型名称，即 [SqlNullableDouble](database_sql_package_classes.md#class-sqlnullabledouble)。
+功能：类型名称，即 [SqlNullableDouble <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlnullabledouble-deprecated)。
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
@@ -1207,13 +1295,13 @@ public mut prop value: ?Float64
 public init(v: ?Float64)
 ```
 
-功能：根据传入参数 v 构造一个 [SqlNullableDouble](database_sql_package_classes.md#class-sqlnullabledouble) 实例。
+功能：根据传入参数 v 构造一个 [SqlNullableDouble <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlnullabledouble-deprecated) 实例。
 
 参数：
 
 - v: ?[Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 传入的数据。
 
-## class SqlNullableInteger
+## class SqlNullableInteger <sup>(deprecated)</sup>
 
 ```cangjie
 public class SqlNullableInteger <: SqlNullableDbType {
@@ -1223,9 +1311,13 @@ public class SqlNullableInteger <: SqlNullableDbType {
 
 功能：中整数，对应仓颉 [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) 类型，可为数据库 `Null` 值。
 
+> **注意：**
+>
+> 未来版本即将废弃不再使用，使用仓颉原生类型替代。
+
 父类型：
 
-- [SqlNullableDbType](database_sql_package_interfaces.md#interface-sqlnullabledbtype)
+- [SqlNullableDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqlnullabledbtype-deprecated)
 
 ### prop name
 
@@ -1233,7 +1325,7 @@ public class SqlNullableInteger <: SqlNullableDbType {
 public prop name: String
 ```
 
-功能：类型名称，即 [SqlNullableInteger](database_sql_package_classes.md#class-sqlnullableinteger)。
+功能：类型名称，即 [SqlNullableInteger <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlnullableinteger-deprecated)。
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
@@ -1253,13 +1345,13 @@ public mut prop value: ?Int32
 public init(v: ?Int32)
 ```
 
-功能：根据传入参数 v 构造一个 [SqlNullableInteger](database_sql_package_classes.md#class-sqlnullableinteger) 实例。
+功能：根据传入参数 v 构造一个 [SqlNullableInteger <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlnullableinteger-deprecated) 实例。
 
 参数：
 
 - v: ?[Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - 传入的数据。
 
-## class SqlNullableInterval
+## class SqlNullableInterval <sup>(deprecated)</sup>
 
 ```cangjie
 public class SqlNullableInterval <: SqlNullableDbType {
@@ -1267,11 +1359,15 @@ public class SqlNullableInterval <: SqlNullableDbType {
 }
 ```
 
-功能：时间间隔，对应仓颉 [Duration](../../time/time_package_api/time_package_structs.md#struct-duration) 类型，可为数据库 `Null` 值。
+功能：时间间隔，对应仓颉 [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) 类型，可为数据库 `Null` 值。
+
+> **注意：**
+>
+> 未来版本即将废弃不再使用，使用仓颉原生类型替代。
 
 父类型：
 
-- [SqlNullableDbType](database_sql_package_interfaces.md#interface-sqlnullabledbtype)
+- [SqlNullableDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqlnullabledbtype-deprecated)
 
 ### prop name
 
@@ -1279,7 +1375,7 @@ public class SqlNullableInterval <: SqlNullableDbType {
 public prop name: String
 ```
 
-功能：类型名称，即 [SqlNullableInterval](database_sql_package_classes.md#class-sqlnullableinterval)。
+功能：类型名称，即 [SqlNullableInterval <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlnullableinterval-deprecated)。
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
@@ -1291,7 +1387,7 @@ public mut prop value: ?Duration
 
 功能：该数据的值。
 
-类型：?[Duration](../../time/time_package_api/time_package_structs.md#struct-duration)
+类型：?[Duration](../../core/core_package_api/core_package_structs.md#struct-duration)
 
 ### init(?Duration)
 
@@ -1299,13 +1395,13 @@ public mut prop value: ?Duration
 public init(v: ?Duration)
 ```
 
-功能：根据传入参数 v 构造一个 [SqlNullableInterval](database_sql_package_classes.md#class-sqlnullableinterval) 实例。
+功能：根据传入参数 v 构造一个 [SqlNullableInterval <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlnullableinterval-deprecated) 实例。
 
 参数：
 
-- v: ?[Duration](../../time/time_package_api/time_package_structs.md#struct-duration) - 传入的数据。
+- v: ?[Duration](../../core/core_package_api/core_package_structs.md#struct-duration) - 传入的数据。
 
-## class SqlNullableReal
+## class SqlNullableReal <sup>(deprecated)</sup>
 
 ```cangjie
 public class SqlNullableReal <: SqlNullableDbType {
@@ -1315,9 +1411,13 @@ public class SqlNullableReal <: SqlNullableDbType {
 
 功能：浮点数，对应仓颉 [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) 类型，可为数据库 `Null` 值。
 
+> **注意：**
+>
+> 未来版本即将废弃不再使用，使用仓颉原生类型替代。
+
 父类型：
 
-- [SqlNullableDbType](database_sql_package_interfaces.md#interface-sqlnullabledbtype)
+- [SqlNullableDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqlnullabledbtype-deprecated)
 
 ### prop name
 
@@ -1325,7 +1425,7 @@ public class SqlNullableReal <: SqlNullableDbType {
 public prop name: String
 ```
 
-功能：类型名称，即 [SqlNullableReal](database_sql_package_classes.md#class-sqlnullablereal)。
+功能：类型名称，即 [SqlNullableReal <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlnullablereal-deprecated)。
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
@@ -1345,13 +1445,13 @@ public mut prop value: ?Float32
 public init(v: ?Float32)
 ```
 
-功能：根据传入参数 v 构造一个 [SqlNullableReal](database_sql_package_classes.md#class-sqlnullablereal) 实例。
+功能：根据传入参数 v 构造一个 [SqlNullableReal <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlnullablereal-deprecated) 实例。
 
 参数：
 
 - v: ?[Float32](../../core/core_package_api/core_package_intrinsics.md#float32) - 传入的数据。
 
-## class SqlNullableSmallInt
+## class SqlNullableSmallInt <sup>(deprecated)</sup>
 
 ```cangjie
 public class SqlNullableSmallInt <: SqlNullableDbType {
@@ -1361,9 +1461,13 @@ public class SqlNullableSmallInt <: SqlNullableDbType {
 
 功能：小整数，对应仓颉 [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) 类型，可为数据库 `Null` 值。
 
+> **注意：**
+>
+> 未来版本即将废弃不再使用，使用仓颉原生类型替代。
+
 父类型：
 
-- [SqlNullableDbType](database_sql_package_interfaces.md#interface-sqlnullabledbtype)
+- [SqlNullableDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqlnullabledbtype-deprecated)
 
 ### prop name
 
@@ -1371,7 +1475,7 @@ public class SqlNullableSmallInt <: SqlNullableDbType {
 public prop name: String
 ```
 
-功能：类型名称，即 [SqlNullableSmallInt](database_sql_package_classes.md#class-sqlnullablesmallint)。
+功能：类型名称，即 [SqlNullableSmallInt <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlnullablesmallint-deprecated)。
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
@@ -1391,13 +1495,13 @@ public mut prop value: ?Int16
 public init(v: ?Int16)
 ```
 
-功能：根据传入参数 v 构造一个 [SqlNullableSmallInt](database_sql_package_classes.md#class-sqlnullablesmallint) 实例。
+功能：根据传入参数 v 构造一个 [SqlNullableSmallInt <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlnullablesmallint-deprecated) 实例。
 
 参数：
 
 - v: ?[Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 传入的数据。
 
-## class SqlNullableTime
+## class SqlNullableTime <sup>(deprecated)</sup>
 
 ```cangjie
 public class SqlNullableTime <: SqlNullableDbType {
@@ -1407,9 +1511,13 @@ public class SqlNullableTime <: SqlNullableDbType {
 
 功能：时间，仅时分秒毫秒有效，对应仓颉 [DateTime](../../time/time_package_api/time_package_structs.md#struct-datetime) 类型，可为数据库 `Null` 值。
 
+> **注意：**
+>
+> 未来版本即将废弃不再使用，使用仓颉原生类型替代。
+
 父类型：
 
-- [SqlNullableDbType](database_sql_package_interfaces.md#interface-sqlnullabledbtype)
+- [SqlNullableDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqlnullabledbtype-deprecated)
 
 ### prop name
 
@@ -1417,7 +1525,7 @@ public class SqlNullableTime <: SqlNullableDbType {
 public prop name: String
 ```
 
-功能：类型名称，即 [SqlNullableTime](database_sql_package_classes.md#class-sqlnullabletime)。
+功能：类型名称，即 [SqlNullableTime <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlnullabletime-deprecated)。
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
@@ -1437,13 +1545,13 @@ public mut prop value: ?DateTime
 public init(v: ?DateTime)
 ```
 
-功能：根据传入参数 v 构造一个 [SqlNullableTime](database_sql_package_classes.md#class-sqlnullabletime) 实例。
+功能：根据传入参数 v 构造一个 [SqlNullableTime <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlnullabletime-deprecated) 实例。
 
 参数：
 
 - v: ?[DateTime](../../time/time_package_api/time_package_structs.md#struct-datetime) - 传入的数据。
 
-## class SqlNullableTimeTz
+## class SqlNullableTimeTz <sup>(deprecated)</sup>
 
 ```cangjie
 public class SqlNullableTimeTz <: SqlNullableDbType {
@@ -1453,9 +1561,13 @@ public class SqlNullableTimeTz <: SqlNullableDbType {
 
 功能：带时区的时间，仅时分秒毫秒时区有效，对应仓颉 [DateTime](../../time/time_package_api/time_package_structs.md#struct-datetime) 类型，可为数据库 `Null` 值。
 
+> **注意：**
+>
+> 未来版本即将废弃不再使用，使用仓颉原生类型替代。
+
 父类型：
 
-- [SqlNullableDbType](database_sql_package_interfaces.md#interface-sqlnullabledbtype)
+- [SqlNullableDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqlnullabledbtype-deprecated)
 
 ### prop name
 
@@ -1463,7 +1575,7 @@ public class SqlNullableTimeTz <: SqlNullableDbType {
 public prop name: String
 ```
 
-功能：类型名称，即 [SqlNullableTimeTz](database_sql_package_classes.md#class-sqlnullabletimetz)。
+功能：类型名称，即 [SqlNullableTimeTz <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlnullabletimeTz-deprecated)。
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
@@ -1483,13 +1595,13 @@ public mut prop value: ?DateTime
 public init(v: ?DateTime)
 ```
 
-功能：根据传入参数 v 构造一个 [SqlNullableTimeTz](database_sql_package_classes.md#class-sqlnullabletimetz) 实例。
+功能：根据传入参数 v 构造一个 [SqlNullableTimeTz <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlnullabletimeTz-deprecated) 实例。
 
 参数：
 
 - v: ?[DateTime](../../time/time_package_api/time_package_structs.md#struct-datetime) - 传入的数据。
 
-## class SqlNullableTimestamp
+## class SqlNullableTimestamp <sup>(deprecated)</sup>
 
 ```cangjie
 public class SqlNullableTimestamp <: SqlNullableDbType {
@@ -1499,9 +1611,13 @@ public class SqlNullableTimestamp <: SqlNullableDbType {
 
 功能：时间戳，对应仓颉 [DateTime](../../time/time_package_api/time_package_structs.md#struct-datetime) 类型，可为数据库 `Null` 值。
 
+> **注意：**
+>
+> 未来版本即将废弃不再使用，使用仓颉原生类型替代。
+
 父类型：
 
-- [SqlNullableDbType](database_sql_package_interfaces.md#interface-sqlnullabledbtype)
+- [SqlNullableDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqlnullabledbtype-deprecated)
 
 ### prop name
 
@@ -1509,7 +1625,7 @@ public class SqlNullableTimestamp <: SqlNullableDbType {
 public prop name: String
 ```
 
-功能：类型名称，即 [SqlNullableTimestamp](database_sql_package_classes.md#class-sqlnullabletimestamp)。
+功能：类型名称，即 [SqlNullableTimestamp <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlnullabletimestamp-deprecated)。
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
@@ -1529,13 +1645,13 @@ public mut prop value: ?DateTime
 public init(v: ?DateTime)
 ```
 
-功能：根据传入参数 v 构造一个 [SqlNullableTimestamp](database_sql_package_classes.md#class-sqlnullabletimestamp) 实例。
+功能：根据传入参数 v 构造一个 [SqlNullableTimestamp <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlnullabletimestamp-deprecated) 实例。
 
 参数：
 
 - v: ?[DateTime](../../time/time_package_api/time_package_structs.md#struct-datetime) - 传入的数据。
 
-## class SqlNullableVarBinary
+## class SqlNullableVarBinary <sup>(deprecated)</sup>
 
 ```cangjie
 public class SqlNullableVarBinary <: SqlNullableDbType {
@@ -1545,9 +1661,13 @@ public class SqlNullableVarBinary <: SqlNullableDbType {
 
 功能：变长二进制字符串，对应仓颉 [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[Byte](../../core/core_package_api/core_package_types.md#type-byte)> 类型，可为数据库 `Null` 值。
 
+> **注意：**
+>
+> 未来版本即将废弃不再使用，使用仓颉原生类型替代。
+
 父类型：
 
-- [SqlNullableDbType](database_sql_package_interfaces.md#interface-sqlnullabledbtype)
+- [SqlNullableDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqlnullabledbtype-deprecated)
 
 ### prop name
 
@@ -1555,7 +1675,7 @@ public class SqlNullableVarBinary <: SqlNullableDbType {
 public prop name: String
 ```
 
-功能：类型名称，即 [SqlNullableVarBinary](database_sql_package_classes.md#class-sqlnullablevarbinary)。
+功能：类型名称，即 [SqlNullableVarBinary <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlnullablevarbinary-deprecated)。
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
@@ -1575,13 +1695,13 @@ public mut prop value: ?Array<Byte>
 public init(v: ?Array<Byte>)
 ```
 
-功能：根据传入参数 v 构造一个 [SqlNullableVarBinary](database_sql_package_classes.md#class-sqlnullablevarbinary) 实例。
+功能：根据传入参数 v 构造一个 [SqlNullableVarBinary <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlnullablevarbinary-deprecated) 实例。
 
 参数：
 
-- v: ?[Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)<[Byte](../../core/core_package_api/core_package_types.md#type-byte)> - 传入的数据。
+- v: ?[Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[Byte](../../core/core_package_api/core_package_types.md#type-byte)> - 传入的数据。
 
-## class SqlNullableVarchar
+## class SqlNullableVarchar <sup>(deprecated)</sup>
 
 ```cangjie
 public class SqlNullableVarchar <: SqlNullableDbType {
@@ -1591,9 +1711,13 @@ public class SqlNullableVarchar <: SqlNullableDbType {
 
 功能：变长字符串，对应仓颉 [String](../../core/core_package_api/core_package_structs.md#struct-string) 类型，可为数据库 `Null` 值。
 
+> **注意：**
+>
+> 未来版本即将废弃不再使用，使用仓颉原生类型替代。
+
 父类型：
 
-- [SqlNullableDbType](database_sql_package_interfaces.md#interface-sqlnullabledbtype)
+- [SqlNullableDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqlnullabledbtype-deprecated)
 
 ### prop name
 
@@ -1601,7 +1725,7 @@ public class SqlNullableVarchar <: SqlNullableDbType {
 public prop name: String
 ```
 
-功能：类型名称，即 [SqlNullableVarchar](database_sql_package_classes.md#class-sqlnullablevarchar)。
+功能：类型名称，即 [SqlNullableVarchar <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlnullablevarchar-deprecated)。
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
@@ -1620,7 +1744,7 @@ public mut prop value: ?String
 public init(v: ?String)
 ```
 
-功能：根据传入参数 v 构造一个 [SqlNullableVarchar](database_sql_package_classes.md#class-sqlnullablevarchar) 实例。
+功能：根据传入参数 v 构造一个 [SqlNullableVarchar <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlnullablevarchar-deprecated) 实例。
 
 参数：
 
@@ -1629,7 +1753,33 @@ public init(v: ?String)
 ## class SqlOption
 
 ```cangjie
-public class SqlOption
+public class SqlOption {
+    public static const URL = "url"
+    public static const Host = "host"
+    public static const Username = "username"
+    public static const Password = "password"
+    public static const Driver = "driver"
+    public static const Database = "database"
+    public static const Encoding = "encoding"
+    public static const ConnectionTimeout = "connection_timeout"
+    public static const UpdateTimeout = "update_timeout"
+    public static const QueryTimeout = "query_timeout"
+    public static const FetchRows = "fetch_rows"
+    public static const SSLMode = "ssl.mode"
+    public static const SSLModePreferred = "ssl.mode.preferred"
+    public static const SSLModeDisabled = "ssl.mode.disabled"
+    public static const SSLModeRequired = "ssl.mode.required"
+    public static const SSLModeVerifyCA = "ssl.mode.verify_ca"
+    public static const SSLModeVerifyFull = "ssl.mode.verify_full"
+    public static const SSLCA = "ssl.ca"
+    public static const SSLCert = "ssl.cert"
+    public static const SSLKey = "ssl.key"
+    public static const SSLKeyPassword = "ssl.key.password"
+    public static const SSLSni = "ssl.sni"
+    public static const Tls12Ciphersuites = "tls1.2.ciphersuites"
+    public static const Tls13Ciphersuites = "tls1.3.ciphersuites"
+    public static const TlsVersion = "tls.version"
+}
 ```
 
 功能：预定义的 sql 选项名称和值。如果需要扩展，请不要与这些名称和值冲突。
@@ -1680,7 +1830,7 @@ public static const Encoding = "encoding"
 public static const FetchRows = "fetch_rows"
 ```
 
-功能：获取指定需要获取额外行时从数据库中提取的行数。
+功能：获取每次获取额外数据时从数据库中提取的行数。
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
@@ -1690,7 +1840,7 @@ public static const FetchRows = "fetch_rows"
 public static const Host = "host"
 ```
 
-功能：获取数据库服务器主机名或者 [IP](../../../crypto/x509/x509_package_api/x509_package_type.md#type-ip) 地址。
+功能：获取数据库服务器主机名或者 [IP]() 地址。
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
@@ -1810,7 +1960,7 @@ public static const SSLModeVerifyCA = "ssl.mode.verify_ca"
 public static const SSLModeVerifyFull = "ssl.mode.verify_full"
 ```
 
-功能：SSLModeVerifyFull 和 SSLModeVerifyCA 类似，但通过对照服务器发送给客户端的证书中的标识检查客户端用于连接到服务器的主机名来执行主机名身份验证。
+功能：SSLModeVerifyFull 和 SSLModeVerifyCA 类似，但通过验证服务器证书中的标识与客户端连接的主机名是否匹配，来执行主机名身份验证。
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
@@ -1831,7 +1981,7 @@ public static const Tls12Ciphersuites = "tls1.2.ciphersuites"
 ```
 
 功能：此选项指定客户端允许使用 TLSv1.2 及以下的加密连接使用哪些密码套件。
-值为冒号分隔的字符串，比如 "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_[SHA256](../../../crypto/digest/digest_package_api/digest_package_classes.md#class-sha256):TLS_DHE_RSA_WITH_AES_128_CBC_SHA"。
+值为冒号分隔的字符串，比如 "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_[SHA256]():TLS_DHE_RSA_WITH_AES_128_CBC_SHA"。
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
@@ -1842,7 +1992,7 @@ public static const Tls13Ciphersuites = "tls1.3.ciphersuites"
 ```
 
 功能：此选项指定客户端允许使用 TLSv1.3 的加密连接使用哪些密码套件。
-值为冒号分隔的字符串，比如 "TLS_AES_256_GCM_[SHA384](../../../crypto/digest/digest_package_api/digest_package_classes.md#class-sha384):TLS_CHACHA20_POLY1305_[SHA256](../../../crypto/digest/digest_package_api/digest_package_classes.md#class-sha256)"。
+值为冒号分隔的字符串，比如 "TLS_AES_256_GCM_[SHA384]():TLS_CHACHA20_POLY1305_[SHA256]()"。
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
@@ -1862,7 +2012,7 @@ public static const TlsVersion = "tls.version"
 public static const URL = "url"
 ```
 
-功能：获取数据库连接 [URL](../../../encoding/url/url_package_api/url_package_classes.md#class-url) 字符串。
+功能：获取数据库连接 [URL]() 字符串。
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
@@ -1886,7 +2036,7 @@ public static const Username = "username"
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
-## class SqlReal
+## class SqlReal <sup>(deprecated)</sup>
 
 ```cangjie
 public class SqlReal <: SqlDbType {
@@ -1896,9 +2046,13 @@ public class SqlReal <: SqlDbType {
 
 功能：浮点数，对应仓颉 [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) 类型。
 
+> **注意：**
+>
+> 未来版本即将废弃不再使用，使用仓颉原生类型替代。
+
 父类型：
 
-- [SqlDbType](database_sql_package_interfaces.md#interface-sqldbtype)
+- [SqlDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqldbtype-deprecated)
 
 ### prop name
 
@@ -1906,7 +2060,7 @@ public class SqlReal <: SqlDbType {
 public prop name: String
 ```
 
-功能：类型名称，即 [SqlReal](database_sql_package_classes.md#class-sqlreal)。
+功能：类型名称，即 [SqlReal <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlreal-deprecated)。
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
@@ -1926,13 +2080,13 @@ public mut prop value: Float32
 public init(v: Float32)
 ```
 
-功能：根据传入参数 v 构造一个 [SqlReal](database_sql_package_classes.md#class-sqlreal) 实例。
+功能：根据传入参数 v 构造一个 [SqlReal <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlreal-deprecated) 实例。
 
 参数：
 
 - v: [Float32](../../core/core_package_api/core_package_intrinsics.md#float32) - 传入的数据。
 
-## class SqlSmallInt
+## class SqlSmallInt <sup>(deprecated)</sup>
 
 ```cangjie
 public class SqlSmallInt <: SqlDbType {
@@ -1942,9 +2096,13 @@ public class SqlSmallInt <: SqlDbType {
 
 功能：小整数，对应仓颉 [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) 类型。
 
+> **注意：**
+>
+> 未来版本即将废弃不再使用，使用仓颉原生类型替代。
+
 父类型：
 
-- [SqlDbType](database_sql_package_interfaces.md#interface-sqldbtype)
+- [SqlDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqldbtype-deprecated)
 
 ### prop name
 
@@ -1952,7 +2110,7 @@ public class SqlSmallInt <: SqlDbType {
 public prop name: String
 ```
 
-功能：类型名称，即 [SqlSmallInt](database_sql_package_classes.md#class-sqlsmallint)。
+功能：类型名称，即 [SqlSmallInt <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlsmallInt-deprecated)。
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
@@ -1972,13 +2130,13 @@ public mut prop value: Int16
 public init(v: Int16)
 ```
 
-功能：根据传入参数 v 构造一个 [SqlSmallInt](database_sql_package_classes.md#class-sqlsmallint) 实例。
+功能：根据传入参数 v 构造一个 [SqlSmallInt <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlsmallInt-deprecated) 实例。
 
 参数：
 
 - v: [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - 传入的数据。
 
-## class SqlTime
+## class SqlTime <sup>(deprecated)</sup>
 
 ```cangjie
 public class SqlTime <: SqlDbType {
@@ -1988,9 +2146,13 @@ public class SqlTime <: SqlDbType {
 
 功能：时间，仅时分秒毫秒有效，对应仓颉 [DateTime](../../time/time_package_api/time_package_structs.md#struct-datetime) 类型。
 
+> **注意：**
+>
+> 未来版本即将废弃不再使用，使用仓颉原生类型替代。
+
 父类型：
 
-- [SqlDbType](database_sql_package_interfaces.md#interface-sqldbtype)
+- [SqlDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqldbtype-deprecated)
 
 ### prop name
 
@@ -1998,7 +2160,7 @@ public class SqlTime <: SqlDbType {
 public prop name: String
 ```
 
-功能：类型名称，即 [SqlTime](database_sql_package_classes.md#class-sqltime)。
+功能：类型名称，即 [SqlTime <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqltime-deprecated)。
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
@@ -2018,13 +2180,13 @@ public mut prop value: DateTime
 public init(v: DateTime)
 ```
 
-功能：根据传入参数 v 构造一个 [SqlTime](database_sql_package_classes.md#class-sqltime) 实例。
+功能：根据传入参数 v 构造一个 [SqlTime <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqltime-deprecated) 实例。
 
 参数：
 
 - v: [DateTime](../../time/time_package_api/time_package_structs.md#struct-datetime) - 传入的数据。
 
-## class SqlTimeTz
+## class SqlTimeTz <sup>(deprecated)</sup>
 
 ```cangjie
 public class SqlTimeTz <: SqlDbType {
@@ -2034,9 +2196,13 @@ public class SqlTimeTz <: SqlDbType {
 
 功能：带时区的时间，仅时分秒毫秒时区有效，对应仓颉 [DateTime](../../time/time_package_api/time_package_structs.md#struct-datetime) 类型。
 
+> **注意：**
+>
+> 未来版本即将废弃不再使用，使用仓颉原生类型替代。
+
 父类型：
 
-- [SqlDbType](database_sql_package_interfaces.md#interface-sqldbtype)
+- [SqlDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqldbtype-deprecated)
 
 ### prop name
 
@@ -2044,7 +2210,7 @@ public class SqlTimeTz <: SqlDbType {
 public prop name: String
 ```
 
-功能：类型名称，即 [SqlTimeTz](database_sql_package_classes.md#class-sqltimetz)。
+功能：类型名称，即 [SqlTimeTz <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqltimetz-deprecated)。
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
@@ -2064,13 +2230,13 @@ public mut prop value: DateTime
 public init(v: DateTime)
 ```
 
-功能：根据传入参数 v 构造一个 [SqlTimeTz](database_sql_package_classes.md#class-sqltimetz) 实例。
+功能：根据传入参数 v 构造一个 [SqlTimeTz <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqltimetz-deprecated) 实例。
 
 参数：
 
 - v: [DateTime](../../time/time_package_api/time_package_structs.md#struct-datetime) - 传入的数据。
 
-## class SqlTimestamp
+## class SqlTimestamp <sup>(deprecated)</sup>
 
 ```cangjie
 public class SqlTimestamp <: SqlDbType {
@@ -2080,9 +2246,13 @@ public class SqlTimestamp <: SqlDbType {
 
 功能：时间戳，对应仓颉 [DateTime](../../time/time_package_api/time_package_structs.md#struct-datetime) 类型。
 
+> **注意：**
+>
+> 未来版本即将废弃不再使用，使用仓颉原生类型替代。
+
 父类型：
 
-- [SqlDbType](database_sql_package_interfaces.md#interface-sqldbtype)
+- [SqlDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqldbtype-deprecated)
 
 ### prop name
 
@@ -2090,7 +2260,7 @@ public class SqlTimestamp <: SqlDbType {
 public prop name: String
 ```
 
-功能：类型名称，即 [SqlTimestamp](database_sql_package_classes.md#class-sqltimestamp)。
+功能：类型名称，即 [SqlTimestamp <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqltimestamp-deprecated)。
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
@@ -2110,13 +2280,13 @@ public mut prop value: DateTime
 public init(v: DateTime)
 ```
 
-功能：根据传入参数 v 构造一个 [SqlTimestamp](database_sql_package_classes.md#class-sqltimestamp) 实例。
+功能：根据传入参数 v 构造一个 [SqlTimestamp <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqltimestamp-deprecated) 实例。
 
 参数：
 
 - v: [DateTime](../../time/time_package_api/time_package_structs.md#struct-datetime) - 传入的数据。
 
-## class SqlVarBinary
+## class SqlVarBinary <sup>(deprecated)</sup>
 
 ```cangjie
 public class SqlVarBinary <: SqlDbType {
@@ -2126,9 +2296,13 @@ public class SqlVarBinary <: SqlDbType {
 
 功能：变长二进制字符串，对应仓颉 [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[Byte](../../core/core_package_api/core_package_types.md#type-byte)> 类型。
 
+> **注意：**
+>
+> 未来版本即将废弃不再使用，使用仓颉原生类型替代。
+
 父类型：
 
-- [SqlDbType](database_sql_package_interfaces.md#interface-sqldbtype)
+- [SqlDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqldbtype-deprecated)
 
 ### prop name
 
@@ -2136,7 +2310,7 @@ public class SqlVarBinary <: SqlDbType {
 public prop name: String
 ```
 
-功能：类型名称，即 [SqlVarBinary](database_sql_package_classes.md#class-sqlvarbinary)。
+功能：类型名称，即 [SqlVarBinary <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlvarbinary-deprecated)。
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
@@ -2156,13 +2330,13 @@ public mut prop value: Array<Byte>
 public init(v: Array<Byte>)
 ```
 
-功能：根据传入参数 v 构造一个 [SqlVarBinary](database_sql_package_classes.md#class-sqlvarbinary) 实例。
+功能：根据传入参数 v 构造一个 [SqlVarBinary <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlvarbinary-deprecated) 实例。
 
 参数：
 
 - v: [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[Byte](../../core/core_package_api/core_package_types.md#type-byte)> - 传入的数据。
 
-## class SqlVarchar
+## class SqlVarchar <sup>(deprecated)</sup>
 
 ```cangjie
 public class SqlVarchar <: SqlDbType {
@@ -2172,9 +2346,13 @@ public class SqlVarchar <: SqlDbType {
 
 功能：变长字符串，对应仓颉 [String](../../core/core_package_api/core_package_structs.md#struct-string) 类型。
 
+> **注意：**
+>
+> 未来版本即将废弃不再使用，使用仓颉原生类型替代。
+
 父类型：
 
-- [SqlDbType](database_sql_package_interfaces.md#interface-sqldbtype)
+- [SqlDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqldbtype-deprecated)
 
 ### prop name
 
@@ -2182,7 +2360,7 @@ public class SqlVarchar <: SqlDbType {
 public prop name: String
 ```
 
-功能：类型名称，即 [SqlVarchar](database_sql_package_classes.md#class-sqlvarchar)。
+功能：类型名称，即 [SqlVarchar  <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlvarchar-deprecated)。
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
@@ -2202,7 +2380,7 @@ public mut prop value: String
 public init(v: String)
 ```
 
-功能：根据传入参数 v 构造一个 [SqlVarchar](database_sql_package_classes.md#class-sqlvarchar) 实例。
+功能：根据传入参数 v 构造一个 [SqlVarchar  <sup>(deprecated)</sup>](database_sql_package_classes.md#class-sqlvarchar-deprecated) 实例。
 
 参数：
 

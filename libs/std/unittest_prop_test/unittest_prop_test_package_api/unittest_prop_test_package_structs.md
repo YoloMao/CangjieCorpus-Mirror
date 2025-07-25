@@ -10,13 +10,13 @@ public struct Function0Wrapper<R> {
 
 功能：将闭包封装为结构体。
 
-### init(() -> R)
+### Function0Wrapper(() -> R)
 
 ```cangjie
 public Function0Wrapper(public let function: () -> R)
 ```
 
-功能：构造器。
+功能：Function0Wrapper构造器。
 
 参数：
 
@@ -37,7 +37,7 @@ public operator func () (): R
 ### extend\<R> Function0Wrapper\<R> <: Arbitrary\<Function0Wrapper\<R>> where R <: Arbitrary\<R>
 
 ```cangjie
-extend<R> Function0Wrapper<R> <: Arbitrary<Function0Wrapper\<R>> where R <: Arbitrary<R>
+extend<R> Function0Wrapper<R> <: Arbitrary<Function0Wrapper<R>> where R <: Arbitrary<R>
 ```
 
 功能：为 [Function0Wrapper](#struct-function0wrapperr) 扩展 [Arbitrary](./unittest_prop_test_package_interfaces.md#interface-arbitrary) 实现。
@@ -64,13 +64,13 @@ public struct TupleWrapper2<T0, T1> {
 
 功能：将闭包封装为结构体。闭包带两个参数。
 
-### init((T0, T1))
+### TupleWrapper2((T0, T1))
 
 ```cangjie
 public TupleWrapper2(public let tuple: (T0, T1))
 ```
 
-功能：构造器。
+功能：TupleWrapper2构造器。
 
 参数：
 
@@ -214,13 +214,13 @@ public struct TupleWrapper3<T0, T1, T2> {
 
 功能：将闭包封装为结构体。闭包带两个参数。
 
-### init((T0, T1,T2))
+### TupleWrapper3((T0, T1,T2))
 
 ```cangjie
 public TupleWrapper3(public let tuple: (T0, T1,T2))
 ```
 
-功能：构造器。
+功能：TupleWrapper3构造器。
 
 参数：
 
@@ -364,13 +364,13 @@ public struct TupleWrapper4<T0, T1, T2, T3> {
 
 功能：将闭包封装为结构体。闭包带两个参数。
 
-### init((T0, T1, T2, T3))
+### TupleWrapper4((T0, T1, T2, T3))
 
 ```cangjie
 public TupleWrapper4(public let tuple: (T0, T1, T2, T3))
 ```
 
-功能：构造器。
+功能：TupleWrapper4构造器。
 
 参数：
 
@@ -434,7 +434,7 @@ public operator func ==(other: TupleWrapper4<T0, T1, T2, T3>)
 
 参数：
 
-- other: TupleWrapper4<T0, T1, T2, T3> - 待比较的元组。
+- other: TupleWrapper4\<T0, T1, T2, T3> - 待比较的元组。
 
 返回值：
 
@@ -514,13 +514,13 @@ public struct TupleWrapper5<T0, T1, T2, T3, T4> {
 
 功能：将闭包封装为结构体。闭包带两个参数。
 
-### init((T0, T1, T2, T3, T4))
+### TupleWrapper5((T0, T1, T2, T3, T4))
 
 ```cangjie
 public TupleWrapper5(public let tuple: (T0, T1, T2, T3, T4))
 ```
 
-功能：构造器。
+功能：TupleWrapper5构造器。
 
 参数：
 

@@ -1,6 +1,6 @@
 # 宏的实现
 
-本章节介绍仓颉宏的定义和使用，仓颉宏可以分为[非属性宏](./implementation_of_macros.md#非属性宏)和[属性宏](./implementation_of_macros.md#属性宏)。同时本章还会介绍宏出现嵌套时的行为。
+本章节介绍仓颉宏的定义和使用，仓颉宏可以分为[非属性宏](./implementation_of_macros.md#非属性宏)和[属性宏](./implementation_of_macros.md#属性宏)。同时本章节还会介绍宏出现嵌套时的行为。
 
 ## 非属性宏
 
@@ -22,7 +22,7 @@ public macro MacroName(args: Tokens): Tokens {
 
 宏调用使用 `()` 括起来。括号里面可以是任意合法 `Tokens`，也可以是空。
 
-当宏作用于声明时，一般可以省略括号。参考下面例子：
+当宏作用于声明时，一般可以省略括号。参考如下示例：
 
 ```cangjie
 @MacroName func name() {}        // Before a FuncDecl
@@ -44,7 +44,7 @@ public macro MacroName(args: Tokens): Tokens {
 
 - 输入的内容中，若希望 "@" 作为输入的 `Token` 则必须使用转义符号 "\\" 对其进行转义。
 
-对于输入的特殊说明，可以参考下面例子：
+对于输入的特殊说明，可以参考如下示例：
 
 ```cangjie
 // Illegal input Tokens
@@ -62,7 +62,10 @@ public macro MacroName(args: Tokens): Tokens {
 @MacroName(\@)
 ```
 
-宏展开过程作用于仓颉语法树，宏展开后，编译器会继续进行后续的编译过程。因此，用户需要保证宏展开后的代码依然是合法的仓颉代码，否则可能引发编译问题。当宏用于声明时，如果省略括号，宏的输入必须是语法合法的声明，IDE 也会提供相应的语法检查和高亮。
+宏展开过程作用于仓颉语法树，宏展开后，编译器会继续进行后续的编译过程。因此，需要注意以下规则：
+
+- 宏展开后的代码依然是合法的仓颉代码，并且宏展开后的代码不允许出现包的声明与导入语句，否则可能引发编译问题。
+- 当宏用于声明时，如果省略括号，宏的输入必须是语法合法的声明。
 
 下面是几个宏应用的典型示例。
 
@@ -103,7 +106,7 @@ public macro MacroName(args: Tokens): Tokens {
 
   上述代码的编译过程可以参考[宏的编译和使用](./compiling_error_reporting_and_debugging.md#宏的编译和使用)。
 
-  在用例中添加打印信息，其中宏定义中的 `I'm in macro body` 将在编译 `macro_call.cj` 的期间输出，即对宏定义求值。同时，宏调用点被展开，如编译如下代码：
+  在用例中添加了打印信息，其中宏定义中的 `I'm in macro body` 将在编译 `macro_call.cj` 的期间输出。同时，宏调用点被展开，如编译如下代码：
 
   ```cangjie
   let a: Int64 = @testDef(1 + 2)
@@ -135,7 +138,7 @@ public macro MacroName(args: Tokens): Tokens {
   a = 3
   ```
 
-下面看一个更有意义的用宏处理函数的例子，这个宏 ModifyFunc 宏的作用是给 MyFunc 增加 Composer 参数，并在 `counter++` 前后插入一段代码。
+下面看一个更有意义的用宏处理函数的例子，这个宏 ModifyFunc 宏的作用是给 myFunc 增加 id 参数，并在 `counter++` 前后插入一段代码。
 
 - 示例 2
 
@@ -174,14 +177,14 @@ public macro MacroName(args: Tokens): Tokens {
   var counter = 0
 
   @ModifyFunc
-  func MyFunc() {
+  func myFunc() {
       counter++
   }
 
   func exModifyFunc() {
       println("I'm in function body")
-      MyFunc(123)
-      println("MyFunc called: ${counter} times")
+      myFunc(123)
+      println("myFunc called: ${counter} times")
       return 0
   }
 
@@ -196,7 +199,7 @@ public macro MacroName(args: Tokens): Tokens {
 
   ```cangjie
   @ModifyFunc
-  func MyFunc() {
+  func myFunc() {
       counter++
   }
   ```
@@ -204,14 +207,14 @@ public macro MacroName(args: Tokens): Tokens {
   经过宏展开后，得到如下代码：
 
   ```cangjie
-  func MyFunc(id: Int64) {
+  func myFunc(id: Int64) {
       println("start ${id}")
       counter++
       println("end")
   }
   ```
 
-  MyFunc 会在 main 中调用，它接受的实参也是在 main 中定义的，从而形成了一段合法的仓颉程序。运行时打印如下：
+  myFunc 会在 main 中调用，它接受的实参也是在 main 中定义的，从而形成了一段合法的仓颉程序。运行时打印如下：
 
   <!-- verify -macro7 -->
 
@@ -219,7 +222,7 @@ public macro MacroName(args: Tokens): Tokens {
   I'm in function body
   start 123
   end
-  MyFunc called: 1 times
+  myFunc called: 1 times
   ```
 
 ## 属性宏
@@ -480,7 +483,7 @@ main(): Int64 {
 
 如上代码所示，宏 `Foo` 修饰了 `struct Data`，而在 `struct Data` 内，出现了宏调用 `addToMul` 和 `Bar`。这种嵌套场景下，代码变换的规则是：将嵌套内层的宏（`addToMul` 和 `Bar`）展开后，再去展开外层的宏（`Foo`）。允许出现多层宏嵌套，代码变换的规则总是由内向外去依次展开宏。
 
-嵌套宏可以出现在带括号和不带括号的宏调用中，二者可以组合，但用户需要保证没有歧义，且明确宏的展开顺序：
+嵌套宏可以出现在带括号和不带括号的宏调用中，二者可以组合，但开发者需要保证没有歧义，且明确宏的展开顺序：
 
 ```cangjie
 var a = @foo(@foo1(2 * 3)+@foo2(1 + 3))  // foo1, foo2 have to be defined.
@@ -551,7 +554,7 @@ public macro Outer(input: Tokens): Tokens {
     let funcDecl = parseDecl(getTotalFunc)
 
     let decl = (parseDecl(input) as ClassDecl).getOrThrow()
-    decl.body.decls.append(funcDecl)
+    decl.body.decls.add(funcDecl)
     return decl.toTokens()
 
 }

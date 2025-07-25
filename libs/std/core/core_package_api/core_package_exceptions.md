@@ -69,6 +69,18 @@ public open prop message: String
 
 类型：[String](core_package_structs.md#struct-string)
 
+### func getClassName()
+
+```cangjie
+protected open func getClassName(): String
+```
+
+功能：获得类名。
+
+返回值：
+
+- [String](core_package_structs.md#struct-string) - 类名。
+
 ### func getStackTrace()
 
 ```cangjie
@@ -80,6 +92,18 @@ public func getStackTrace(): Array<StackTraceElement>
 返回值：
 
 - [Array](core_package_structs.md#struct-arrayt)\<[StackTraceElement](core_package_classes.md#class-stacktraceelement)> - 堆栈信息数组。
+
+### func getStackTraceMessage()
+
+```cangjie
+public open func getStackTraceMessage(): String
+```
+
+功能：获取堆栈信息。
+
+返回值：
+
+- [String](core_package_structs.md#struct-string) - 堆栈信息。
 
 ### func printStackTrace()
 
@@ -154,9 +178,7 @@ public init(message: String)
 protected open func getClassName(): String
 ```
 
-功能：获得类名，用字符串表示。
-
-类名将在异常字符串中体现（toString 函数返回值），覆写该函数将改变异常信息字符串中类名信息。
+功能：获得类名。
 
 返回值：
 
@@ -235,9 +257,7 @@ public init(message: String)
 protected override open func getClassName(): String
 ```
 
-功能：获得类名，用字符串表示。
-
-类名将在异常字符串中体现（toString 函数返回值），覆写该函数将改变异常信息字符串中类名信息。默认实现中类名为 "IllegalArgumentException"。
+功能：获得类名。
 
 返回值：
 
@@ -343,6 +363,41 @@ public init(message: String)
 ```
 
 功能：根据异常信息构造一个 [IllegalStateException](core_package_exceptions.md#class-illegalstateexception) 实例。
+
+参数：
+
+- message: [String](core_package_structs.md#struct-string) - 异常提示信息。
+
+## class IncompatiblePackageException
+
+```cangjie
+public class IncompatiblePackageException <: Exception {
+    public init()
+    public init(message: String)
+}
+```
+
+功能：表示包不兼容的异常类。
+
+父类型：
+
+- [Exception](#class-exception)
+
+### init()
+
+```cangjie
+public init()
+```
+
+功能：构造一个默认的 [IncompatiblePackageException](core_package_exceptions.md#class-incompatiblepackageexception) 实例，默认异常信息为空。
+
+### init(String)
+
+```cangjie
+public init(message: String)
+```
+
+功能：根据异常信息构造一个 [IncompatiblePackageException](core_package_exceptions.md#class-incompatiblepackageexception)实例。
 
 参数：
 
@@ -566,6 +621,41 @@ public override func printStackTrace(): Unit
 ```
 
 功能：向控制台打印堆栈信息。
+
+## class TimeoutException
+
+```cangjie
+public class TimeoutException <: Exception {
+    public init()
+    public init(message: String)
+}
+```
+
+功能：当阻塞操作超时时引发异常。
+
+父类型：
+
+- [Exception](#class-exception)
+
+### init()
+
+```cangjie
+public init()
+```
+
+功能：构造一个默认的 [TimeoutException](core_package_exceptions.md#class-timeoutexception) 实例，默认异常信息为空。
+
+### init(String)
+
+```cangjie
+public init(message: String)
+```
+
+功能：根据指定异常信息构造 [TimeoutException](core_package_exceptions.md#class-timeoutexception) 实例。
+
+参数：
+
+- message: [String](core_package_structs.md#struct-string) - 异常提示信息。
 
 ## class UnsupportedException
 

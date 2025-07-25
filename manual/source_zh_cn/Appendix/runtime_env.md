@@ -2,19 +2,19 @@
 
 本节介绍 `runtime`（运行时）所提供的环境变量。
 
-在 Linux shell 与 macOS shell 中，您可以使用以下方式设置仓颉运行时提供的环境变量：
+在 Linux shell 与 macOS shell 中，可以使用以下方式设置仓颉运行时提供的环境变量：
 
 ```shell
 $ export VARIABLE=value
 ```
 
-在 Windows cmd 中，您可以使用以下方式设置仓颉运行时提供的环境变量：
+在 Windows cmd 中，可以使用以下方式设置仓颉运行时提供的环境变量：
 
 ```shell
-> set VARAIBLE=value
+> set VARIABLE=value
 ```
 
-本节后续的示例都为 Linux shell 中的设置方式，若与您的运行平台不符，请根据您的运行平台选择合适的环境变量设置方式。
+本节后续的示例均为 Linux shell 中的设置方式，若与运行平台不符，请根据运行平台选择合适的环境变量设置方式。
 
 ## runtime 初始化可选配置
 
@@ -31,7 +31,7 @@ $ export VARIABLE=value
 例如：
 
 ```shell
-export cjHeapSize=32GB
+export cjHeapSize=4GB
 ```
 
 ### `cjRegionSize`
@@ -44,9 +44,25 @@ export cjHeapSize=32GB
 export cjRegionSize=1024kb
 ```
 
+### `cjLargeThresholdSize`
+
+需要大量连续内存空间的对象（例如长数组）称为大对象。堆内频繁分配大对象可能导致堆内连续空间不足，从而触发堆溢出问题。通过增加大对象的最大值，可以提升堆内空间的连续性。
+
+在仓颉语言中，大对象的阈值为 `cjLargeThresholdSize` 和 `cjRegionSize` 的较小者。`cjLargeThresholdSize` 支持的单位有 kb（KB）、mb（MB）、gb（GB)，支持的范围是 [4KB, 2048KB]，超出范围的设置无效，仍旧使用默认值。默认值为 32 KB。
+
+> **说明：**
+>
+> 较大的大对象阈值可能影响程序性能，开发者可根据实际情况设置。
+
+例如：
+
+```shell
+export cjLargeThresholdSize=1024kb
+```
+
 ### `cjExemptionThreshold`
 
-指定存活 region 的水线值，取值 (0,1]，该值与 region 的大小相乘，若 region 中存活对象数量大于相乘后的值，则该 region 不会被回收（其中死亡对象继续占用内存）。该值指定得越大，region 被回收的概率越大，堆中的碎片空间就越少，但频繁回收 region 也会影响性能。超出范围的设置无效，仍旧使用默认值。默认值为 1024 KB。默认值为 0.8，即 80%。
+指定存活 region 的水线值，取值 (0,1]，该值与 region 的大小相乘，若 region 中存活对象的大小大于相乘后的值，则该 region 不会被回收（其中死亡对象继续占用内存）。该值指定得越大，region 被回收的概率越大，堆中的碎片空间就越少，但频繁回收 region 也会影响性能。超出范围的设置无效，仍旧使用默认值。默认值为 0.8，即 80%。
 
 例如：
 
@@ -106,7 +122,7 @@ export cjGCThreshold=20480KB
 
 ### `cjGarbageThreshold`
 
-当 GC 发生时，如果 region 中死亡对象所占比率大于此环境变量，此 region 会被放入回收候选集中，后续可被回收（如果受到其它策略影响也可能不被回收），默认值为 0.5，无量纲，支持设置的区间为[0.0, 1.0]。
+当 GC 发生时，如果 region 中死亡对象所占比率大于此环境变量，此 region 会被放入回收候选集中，后续可被回收（如果受到其他策略影响也可能不被回收），默认值为 0.5，无量纲，支持设置的区间为[0.0, 1.0]。
 
 例如：
 
@@ -116,7 +132,7 @@ export cjGarbageThreshold=0.5
 
 ### `cjGCInterval`
 
-指定 2 次 GC 的间隔时间值，取值必须大于 0，支持单位为 s、ms、us、ns，推荐单位为毫秒（ms）。若本次 GC 距离上次 GC 的间隔小于此值，则本次 GC 将被忽略。该参数可以控制 GC 的频率。默认值为 150 ms。
+指定两次 GC 的间隔时间值，取值必须大于 0，支持单位为 s、ms、us、ns，推荐单位为毫秒（ms）。若本次 GC 距离上次 GC 的间隔小于此值，则本次 GC 将被忽略。该参数可以控制 GC 的频率。默认值为 150 ms。
 
 例如：
 
@@ -134,16 +150,6 @@ export cjGCInterval=150ms
 export cjBackupGCInterval=240s
 ```
 
-### `cjGCThreads`
-
-指定影响 GC 线程数的因数，取值必须大于 0。GC 线程数的计算方式为：(系统支持的并发线程数 / cjGCThreads) - 1。默认值为 8。
-
-例如：
-
-```shell
-export cjGCThreads=8
-```
-
 ### `cjProcessorNum`
 
 指定仓颉线程的最大并发数，支持设置范围为 (0, CPU 核数 * 2]，超出范围的设置无效，仍旧使用默认值。调用系统 API 获取 cpu 核数，若成功默认值为 cpu 核数，否则默认值为 8。
@@ -156,7 +162,7 @@ export cjProcessorNum=2
 
 ### `cjStackSize`
 
-指定仓颉线程的栈大小，支持单位为 kb（KB）、mb（MB）、gb（GB），支持设置范围为 Linux 平台下[64KB, 1GB]，Windows 平台下[128KB, 1GB]，超出范围的设置无效，仍旧使用默认值。Linux 平台下默认值为 64KB，Windows 平台下为 128KB。
+指定仓颉线程的栈大小，支持单位为 kb（KB）、mb（MB）、gb（GB），支持设置范围为 Linux 平台下[64KB, 1GB]，Windows 平台下[128KB, 1GB]，超出范围的设置无效，仍旧使用默认值。默认值为 128KB。
 
 例如：
 
@@ -222,7 +228,7 @@ export MRT_LOG_CJTHREAD=/home/cangjie/runtime/cjthread_log.txt
 
 #### `cjHeapDumpOnOOM`
 
-指定是否要在发生堆溢出后输出堆快照文件，默认不开启，支持设置值为[on|off]，设定为 on 时开启功能，设定 off 或者其他值不开启功能。
+指定是否要在发生堆溢出后输出堆快照文件，默认不开启。支持设置值为[on|off]，设定为 on 时开启功能，设定 off 或者其他值不开启功能。
 
 例如：
 
@@ -232,7 +238,7 @@ export cjHeapDumpOnOOM=on
 
 #### `cjHeapDumpLog`
 
-指定输出堆快照文件的路径，注意指定的路径必须存在，且应用执行者对其具有读写权限。如果不指定，堆快照文件将输出到当前执行目录。
+指定输出堆快照文件的路径。注意指定的路径必须存在，且应用执行者对其具有读写权限。如果不指定，堆快照文件将输出到当前执行目录。
 
 例如：
 

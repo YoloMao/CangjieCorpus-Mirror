@@ -19,7 +19,7 @@
 定义操作符函数有两种方式：
 
 1. 对于可以直接包含函数定义的类型 (包括 `struct`、`enum`、`class` 和 `interface` )，可以直接在其内部定义操作符函数的方式实现操作符的重载。
-2. 使用 `extend` 的方式为其添加操作符函数，从而实现操作符在这些类型上的重载。对于无法直接包含函数定义的类型（是指除 `struct`、`class`、`enum` 和 `interface` 之外其他的类型）或无法改变其实现的类型，比如第三方定义的 `struct`、`class`、`enum` 和 `interface`，只能采用这种方式（参见[扩展](../extension/extend_overview.md)）；
+2. 使用 `extend` 的方式为其添加操作符函数，从而实现操作符在这些类型上的重载。对于无法直接包含函数定义的类型（是指除 `struct`、`class`、`enum` 和 `interface` 之外其他的类型）或无法改变其实现的类型，比如第三方定义的 `struct`、`class`、`enum` 和 `interface`，只能采用这种方式（参见[扩展](../extension/extend_overview.md)）。
 
 操作符函数对参数类型的约定如下：
 
@@ -65,7 +65,7 @@
 
 3. 索引操作符（`[]`）分为取值 `let a = arr[i]` 和赋值 `arr[i] = a` 两种形式，它们通过是否存在特殊的命名参数 value 来区分不同的重载。索引操作符重载不要求同时重载两种形式，可以只重载赋值不重载取值，反之亦可。
 
-   索引操作符取值形式 `[]` 内的参数序列对应操作符重载的非命名参数，可以是 1 个或多个，可以是任意类型。不可以有其它命名参数。返回类型可以是任意类型。
+   索引操作符取值形式 `[]` 内的参数序列对应操作符重载的非命名参数，可以是 1 个或多个，可以是任意类型。不可以有其他命名参数。返回类型可以是任意类型。
 
     <!-- compile -->
 
@@ -116,8 +116,8 @@
     }
 
     func test1() {
-        let a = A() // Ok, A() is call the constructor of A.
-        a() // Ok, a() is to call the operator () overloading function.
+        let a = A() // Ok, A() is call the constructor of A
+        a() // Ok, a() is to call the operator () overloading function
     }
     ```
 
@@ -127,20 +127,20 @@
     open class A {
         public init() {}
         public init(x: Int64) {
-            this() // Ok, this() calls the constructor of A.
+            this() // Ok, this() calls the constructor of A
         }
 
         public operator func ()(): Unit {}
 
         public func foo() {
-            this()  // Error, this() calls the constructor of A.
+            this()  // Error, this() calls the constructor of A
             super() // Error
         }
     }
 
     class B <: A {
         public init() {
-            super() // Ok, super()  calls the constuctor of the super class.
+            super() // Ok, super()  calls the constuctor of the super class
         }
 
         public func goo() {
@@ -162,11 +162,11 @@
     }
 
     main() {
-        let e = X(1) // Ok, X(1) is to call the constructor X(Int64).
-        X(1.0) // Ok, X(1.0) is to call the operator () overloading function.
+        let e = X(1) // Ok, X(1) is to call the constructor X(Int64)
+        X(1.0) // Ok, X(1.0) is to call the operator () overloading function
         let e1 = X
-        e1(1) // Ok, e1(1) is to call the operator () overloading function.
-        Y(1) // oK, Y(1) is to call the operator () overloading function.
+        e1(1) // Ok, e1(1) is to call the operator () overloading function
+        Y(1) // oK, Y(1) is to call the operator () overloading function
     }
     ```
 
@@ -200,6 +200,8 @@
 
 需要注意的是：
 
-1. 一旦在某个类型上重载了除关系操作符（`<`、`<=`、`>`、`>=`、`==` 和 `!=`）之外的其他二元操作符，并且操作符函数的返回类型与左操作数的类型一致或是其子类型，那么此类型支持对应的复合赋值操作符。当操作符函数的返回类型与左操作数的类型不一致且不是其子类型时，在使用对应的复合赋值符号时将报类型不匹配错误。
-2. 仓颉编程语言不支持自定义操作符，即不允许定义除上表中所列 `operator` 之外的其他操作符函数。
-3. 对于类型 `T`, 如果 `T` 已经默认支持了上述若干可重载操作符，那么通过扩展的方式再次为其实现同签名的操作符函数时将报重定义错误。例如，为数值类型重载其已支持的同签名算术操作符、位操作符或关系操作符等操作符时，为 `Rune` 重载同签名的关系操作符时，为 `Bool` 类型重载同签名的逻辑操作符、判等或不等操作符时，等等这些情况，均会报重定义错误。
+> **注意：**
+>
+> - 一旦在某个类型上重载了除关系操作符（`<`、`<=`、`>`、`>=`、`==` 和 `!=`）之外的其他二元操作符，并且操作符函数的返回类型与左操作数的类型一致或是其子类型，那么此类型支持对应的复合赋值操作符。当操作符函数的返回类型与左操作数的类型不一致且不是其子类型时，在使用对应的复合赋值符号时将报类型不匹配错误。
+> - 仓颉编程语言不支持自定义操作符，即不允许定义除上表中所列 `operator` 之外的其他操作符函数。
+> - 对于类型 `T`, 如果 `T` 已经默认支持了上述若干可重载操作符，那么通过扩展的方式再次为其实现同签名的操作符函数时将报重定义错误。例如，为数值类型重载其已支持的同签名算术操作符、位操作符或关系操作符等操作符时，为 `Rune` 重载同签名的关系操作符时，为 `Bool` 类型重载同签名的逻辑操作符、判等或不等操作符时，等等这些情况，均会报重定义错误。

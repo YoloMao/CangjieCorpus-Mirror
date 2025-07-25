@@ -7,7 +7,7 @@
 import std.math.numeric.*
 
 main() {
-    let int = BigInt("-123456")
+    let int = BigInt.parse("-123456")
     println("BigInt: ${int}")
     println("BigInt sign: ${int.sign}")
     println("BigInt bitLen: ${int.bitLen}")
@@ -15,7 +15,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 BigInt: -123456

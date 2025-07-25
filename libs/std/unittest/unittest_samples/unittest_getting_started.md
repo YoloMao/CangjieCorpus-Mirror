@@ -2,7 +2,7 @@
 
 先编写一个简单的仓颉函数：
 
-<!--compile-->
+<!--compile -unittest -->
 ```cangjie
 package example
 
@@ -13,7 +13,7 @@ func add(left: Int64, right: Int64) {
 
 将这个函数保存在 `add.cj` 文件中，开始编写该函数的测试代码：
 
-<!--compile-->
+<!--compile -unittest -->
 ```cangjie
 package example
 
@@ -35,6 +35,15 @@ cjc add.cj add_test.cj --test -o add_test
 ./add_test
 ```
 
+在测试执行过程中，将动态显示进度报告：
+
+```text
+group example                                0% [-------------------------]      (00:00:01)
+test TestCase_addTest.addTest                                                    (00:00:01)
+
+passed: 0, failed: 0                            0% [-------------------------]  0/1 (00:00:01)
+```
+
 正常情况下，将得到如下类似输出：
 
 ```text
@@ -51,13 +60,13 @@ TP: default, time elapsed: 59363 ns, Result:
 至此，我们就完成了测试的构建和运行。
 下面我们来详细介绍一下用来构建测试的 `cjc` 命令。
 
-```text
-    待测试的代码文件
-    ↓
+```shell
+#   待测试的代码文件
+#   ↓
 cjc add.cj add_test.cj --test -o add_test
-           ↑           ↑
-           |           --test 表明在测试模式下构建生成二进制文件
-           测试文件
+#          ↑           ↑
+#          |           --test 表明在测试模式下构建生成二进制文件
+#          测试文件
 ```
 
 注意，对于复杂项目来说，不建议直接运行 `cjc` 编译器。

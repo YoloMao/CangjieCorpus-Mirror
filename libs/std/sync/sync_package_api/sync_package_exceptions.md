@@ -3,7 +3,10 @@
 ## class IllegalSynchronizationStateException
 
 ```cangjie
-public class IllegalSynchronizationStateException <: Exception
+public class IllegalSynchronizationStateException <: Exception {
+    public init()
+    public init(message: String)
+}
 ```
 
 功能：此类为非法同步状态异常。

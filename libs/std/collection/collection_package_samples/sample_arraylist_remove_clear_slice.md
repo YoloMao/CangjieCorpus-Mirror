@@ -9,14 +9,14 @@
 ```cangjie
 import std.collection.*
 main() {
-    var list: ArrayList<Int64> = ArrayList<Int64>(97, 100, 99) // Function call syntactic sugar of variable-length
-    list.remove(1) // list: [97, 99]
+    var list: ArrayList<Int64> = ArrayList<Int64>([97, 100, 99]) // Function call syntactic sugar of variable-length
+    list.remove(at: 1) // list: [97, 99]
     var b = list.get(1)
     print("b=${b.getOrThrow()},")
     list.clear()
-    list.append(11) // list: [97, 99, 11]
+    list.add(11) // list: [97, 99, 11]
     var arr: Array<Int64> = [1, 2, 3]
-    list.insertAll(0, arr) // list: [1, 2, 3, 97, 99]
+    list.add(all: arr, at: 0) // list: [1, 2, 3, 97, 99]
     var g = list.get(0)
     print("g=${g.getOrThrow()},")
     let r: Range<Int64> = 1..=2 : 1
@@ -27,7 +27,7 @@ main() {
 }
 ```
 
-运行结果如下:
+运行结果：
 
 ```text
 b=99,g=1,m=2

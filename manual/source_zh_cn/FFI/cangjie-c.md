@@ -38,12 +38,12 @@ main() {
 需要注意的是：
 
 1. `foreign` 修饰函数声明，代表该函数为外部函数。被 `foreign` 修饰的函数只能有函数声明，不能有函数实现。
-2. `foreign` 声明的函数，参数和返回类型必须符合 C 和仓颉数据类型之间的映射关系（详见下节：[类型映射](./cangjie-c.md#类型映射)）。
+2. `foreign` 声明的函数，参数和返回类型必须符合 C 和仓颉数据类型之间的映射关系（详情请参见[类型映射](./cangjie-c.md#类型映射)）。
 3. 由于 C 侧函数很可能产生不安全操作，所以调用 `foreign` 修饰的函数需要被 `unsafe` 块包裹，否则会发生编译错误。
 4. `@C` 修饰的 `foreign` 关键字只能用来修饰函数声明，不可用来修饰其他声明，否则会发生编译错误。
-5. `@C` 只支持修饰 `foreign` 函数、`top-level` 作用域中的非泛型函数和 `struct` 类型。
+5. `@C` 只支持修饰 `foreign` 函数、顶层作用域中的非泛型函数和 `struct` 类型。
 6. `foreign` 函数不支持命名参数和参数默认值。`foreign` 函数允许变长参数，使用 `...` 表达，只能用于参数列表的最后。变长参数均需要满足 `CType` 约束，但不必是同一类型。
-7. 仓颉（CJNative 后端）虽然提供了栈扩容能力，但是由于 C 侧函数实际使用栈大小仓颉无法感知，所以 ffi 调用进入 C 函数后，仍然存在栈溢出的风险，需要开发者根据实际情况，修改 `cjStackSize` 的配置。
+7. 仓颉（CJNative 后端）虽然提供了栈扩容能力，但是由于 C 侧函数实际使用栈大小仓颉无法感知，所以 ffi 调用进入 C 函数后，仍然存在栈溢出的风险（可能导致程序运行时崩溃或者产生不可预期的行为），需要开发者根据实际情况，修改 `cjStackSize` 的配置。
 
 一些不合法的 `foreign` 声明的示例代码如下：
 
@@ -119,12 +119,12 @@ main() {
 
 引用传值表达式具有以下约束：
 
-* 仅可用于对 `CFunc` 的调用处；
-* 其修饰对象的类型必须满足 `CType` 约束，但不可以是 `CString`；
-* 其修饰对象不可以是用 `let` 定义的，不可以是字面量、入参、其他表达式的值等临时变量；
-* 通过仓颉侧引用传值表达式传递到 C 侧的指针，仅保证在函数调用期间有效，即此种场景下 C 侧不应该保存指针以留作后用。
+- 仅可用于对 `CFunc` 的调用处。
+- 其修饰对象的类型必须满足 `CType` 约束，但不可以是 `CString`。
+- 其修饰对象不可以是用 `let` 定义的，不可以是字面量、入参、其他表达式的值等临时变量。
+- 通过仓颉侧引用传值表达式传递到 C 侧的指针，仅保证在函数调用期间有效，即此种场景下 C 侧不应该保存指针以留作后用。
 
-`inout` 修饰的变量，可以是定义在 `top-level` 作用域中的变量、局部变量、`struct` 中的成员变量，但不能直接或间接来源于 `class` 的实例成员变量。
+`inout` 修饰的变量，可以是定义在顶层作用域中的变量、局部变量、`struct` 中的成员变量，但不能直接或间接来源于 `class` 的实例成员变量。
 
 下面是一个例子：
 
@@ -176,11 +176,11 @@ main() {
 
 关于 unsafe 关键字，有以下几点说明：
 
-* `unsafe` 可以修饰函数、表达式，也可以修饰一段作用域。
-* 被 `@C` 修饰的函数，被调用处需要在 `unsafe` 上下文中。
-* 在调用 `CFunc` 时，使用处需要在 `unsafe` 上下文中。
-* `foreign` 函数在仓颉中进行调用，被调用处需要在 `unsafe` 上下文中。
-* 当被调用函数被 `unsafe` 修饰时，被调用处需要在 `unsafe` 上下文中。
+- `unsafe` 可以修饰函数、表达式，也可以修饰一段作用域。
+- 被 `@C` 修饰的函数，被调用处需要在 `unsafe` 上下文中。
+- 在调用 `CFunc` 时，使用处需要在 `unsafe` 上下文中。
+- `foreign` 函数在仓颉中进行调用，被调用处需要在 `unsafe` 上下文中。
+- 当被调用函数被 `unsafe` 修饰时，被调用处需要在 `unsafe` 上下文中。
 
 使用方式如下：
 
@@ -231,8 +231,8 @@ main() {
 
 函数调用约定描述调用者和被调用者双方如何进行函数调用（如参数如何传递、栈由谁清理等），函数调用和被调用双方必须使用相同的调用约定才能正常运行。仓颉编程语言通过 `@CallingConv` 来表示各种调用约定，支持的调用约定如下：
 
-* **CDECL**：`CDECL` 表示 clang 的 C 编译器在不同平台上默认使用的调用约定。
-* **STDCALL**：`STDCALL` 表示 Win32 API 使用的调用约定。
+- **CDECL**：`CDECL` 表示 clang 的 C 编译器在不同平台上默认使用的调用约定。
+- **STDCALL**：`STDCALL` 表示 Win32 API 使用的调用约定。
 
 通过 C 语言互操作机制调用的 C 函数，未指定调用约定时将采用默认的 `CDECL` 调用约定。如下调用 C 标准库函数 `rand` 示例：
 
@@ -247,7 +247,7 @@ main() {
 }
 ```
 
-`@CallingConv` 只能用于修饰 `foreign` 块、单个 `foreign` 函数和 `top-level` 作用域中的 `CFunc` 函数。当 `@CallingConv` 修饰 `foreign` 块时，会为 `foreign` 块中的每个函数分别加上相同的 `@CallingConv` 修饰。
+`@CallingConv` 只能用于修饰 `foreign` 块、单个 `foreign` 函数和顶层作用域中的 `CFunc` 函数。当 `@CallingConv` 修饰 `foreign` 块时，会为 `foreign` 块中的每个函数分别加上相同的 `@CallingConv` 修饰。
 
 ## 类型映射
 
@@ -325,11 +325,11 @@ foreign func addPoint(p1: Point3D, p2: Point3D): Point3D
 
 用 `@C` 修饰的 `struct` 必须满足以下限制：
 
-* 成员变量的类型必须满足 `CType` 约束
-* 不能实现或者扩展 `interfaces`
-* 不能作为 `enum` 的关联值类型
-* 不允许被闭包捕获
-* 不能具有泛型参数
+- 成员变量的类型必须满足 `CType` 约束
+- 不能实现或者扩展 `interfaces`
+- 不能作为 `enum` 的关联值类型
+- 不允许被闭包捕获
+- 不能具有泛型参数
 
 用 `@C` 修饰的 `struct` 自动满足 `CType` 约束。
 
@@ -472,8 +472,8 @@ struct S {
 ```cangjie
 @C
 struct S {
-    var a = VArray<Int32, $2>(item: 0)
-    var b = VArray<Int32, $0>(item: 0)
+    var a = VArray<Int32, $2>(repeat: 0)
+    var b = VArray<Int32, $0>(repeat: 0)
 }
 ```
 
@@ -485,21 +485,21 @@ struct S {
 
 特别地，对于 C 语言中的字符串类型，仓颉中设计了一个 `CString` 类型来对应。为简化为 C 语言字符串的操作，`CString` 提供了以下成员函数：
 
-* `init(p: CPointer<UInt8>)`  通过 CPointer 构造一个 CString
-* `func getChars()` 获取字符串的地址，类型为 `CPointer<UInt8>`
-* `func size(): Int64`  计算该字符串的长度
-* `func isEmpty(): Bool`  判断该字符串的长度是否为 0，如果字符串的指针为空返回 true
-* `func isNotEmpty(): Bool`  判断该字符串的长度是否不为 0，如果字符串的指针为空返回 false
-* `func isNull(): Bool`  判断该字符串的指针是否为 null
-* `func startsWith(str: CString): Bool`  判断该字符串是否以 str 开头
-* `func endsWith(str: CString): Bool`  判断该字符串是否以 str 结尾
-* `func equals(rhs: CString): Bool`  判断该字符串是否与 rhs 相等
-* `func equalsLower(rhs: CString): Bool`  判断该字符串是否与 rhs 相等，忽略大小写
-* `func subCString(start: UInt64): CString`  从 start 开始截取子串，返回的子串存储在新分配的空间中
-* `func subCString(start: UInt64, len: UInt64): CString`  从 start 开始截取长度为 len 的子串，返回的子串存储在新分配的空间中
-* `func compare(str: CString): Int32`  该字符串与 str 比较，返回结果与 C 语言的 `strcmp(this, str)` 一样
-* `func toString(): String`  用该字符串构造一个新的 String 对象
-* `func asResource(): CStringResource` 获取 CString 的 Resource 类型
+- `init(p: CPointer<UInt8>)`  通过 CPointer 构造一个 CString
+- `func getChars()` 获取字符串的地址，类型为 `CPointer<UInt8>`
+- `func size(): Int64`  计算该字符串的长度
+- `func isEmpty(): Bool`  判断该字符串的长度是否为 0，如果字符串的指针为空返回 true
+- `func isNotEmpty(): Bool`  判断该字符串的长度是否不为 0，如果字符串的指针为空返回 false
+- `func isNull(): Bool`  判断该字符串的指针是否为 null
+- `func startsWith(str: CString): Bool`  判断该字符串是否以 str 开头
+- `func endsWith(str: CString): Bool`  判断该字符串是否以 str 结尾
+- `func equals(rhs: CString): Bool`  判断该字符串是否与 rhs 相等
+- `func equalsLower(rhs: CString): Bool`  判断该字符串是否与 rhs 相等，忽略大小写
+- `func subCString(start: UInt64): CString`  从 start 开始截取子串，返回的子串存储在新分配的空间中
+- `func subCString(start: UInt64, len: UInt64): CString`  从 start 开始截取长度为 len 的子串，返回的子串存储在新分配的空间中
+- `func compare(str: CString): Int32`  该字符串与 str 比较，返回结果与 C 语言的 `strcmp(this, str)` 一样
+- `func toString(): String`  用该字符串构造一个新的 String 对象
+- `func asResource(): CStringResource` 获取 CString 的 Resource 类型
 
 另外，将 `String` 类型转换为 `CString` 类型，可以通过调用 LibC 中的 `mallocCString` 接口，使用完成后需要对 `CString` 进行释放。
 
@@ -658,22 +658,26 @@ main() {
 
 使用 C 互操作通常需要手动链接 C 的库，仓颉编译器提供了相应的编译选项。
 
-* `--library-path <value>`, `-L <value>`, `-L<value>`：指定要链接的库文件所在的目录。
+- `--library-path <value>`, `-L <value>`, `-L<value>`：指定要链接的库文件所在的目录。
 
   `--library-path <value>` 指定的路径会被加入链接器的库文件搜索路径。另外环境变量 `LIBRARY_PATH` 中指定的路径也会被加入链接器的库文件搜索路径中，通过 `--library-path` 指定的路径会比 `LIBRARY_PATH` 中的路径拥有更高的优先级。
 
-* `--library <value>`, `-l <value>`, `-l<value>`：指定要链接的库文件。
+- `--library <value>`, `-l <value>`, `-l<value>`：指定要链接的库文件。
 
   给定的库文件会被直接传给链接器，库文件名的格式应为 `lib[arg].[extension]`。
 
-关于仓颉编译器支持的所有编译选项，详见 [cjc 编译选项](../Appendix/compile_options_OHOS.md)。
+关于仓颉编译器支持的所有编译选项，详情请参见 "附录 > cjc 编译选项"。
 
 ## 示例
 
-假设有一个 C 库 `libpaint.so`，其头文件如下：
+这里演示如何使用 C 互操作以及 `write/read` 接口对一个结构体进行赋值和读取值。
+
+C 代码如下：
 
 ```c
-include <stdint.h>
+// draw.c
+#include<stdio.h>
+#include<stdint.h>
 
 typedef struct {
     int64_t x;
@@ -681,27 +685,31 @@ typedef struct {
 } Point;
 
 typedef struct {
-    int64_t x;
-    int64_t y;
-    int64_t r;
-} Circle;
+    float x;
+    float y;
+    float z;
+} Cube;
 
-int32_t DrawPoint(const Point* point);
-int32_t DrawCircle(const Circle* circle);
+int32_t drawPicture(Point* point, Cube* cube) {
+    point->x = 1;
+    point->y = 2;
+    printf("Draw Point finished.\n");
+
+    printf("Before draw cube\n");
+    printf("%f\n", cube->x);
+    printf("%f\n", cube->y);
+    printf("%f\n", cube->z);
+    cube->x = 4.4;
+    cube->y = 5.5;
+    cube->z = 6.6;
+    printf("Draw Cube finished.\n");
+}
 ```
 
-在仓颉代码中使用该 C 库的示例代码如下：
+仓颉代码如下：
 
 ```cangjie
 // main.cj
-foreign {
-    func DrawPoint(point: CPointer<Point>): Int32
-    func DrawCircle(circle: CPointer<Circle>): Int32
-
-    func malloc(size: UIntNative): CPointer<Int8>
-    func free(ptr: CPointer<Int8>): Unit
-}
-
 @C
 struct Point {
     var x: Int64 = 0
@@ -709,36 +717,37 @@ struct Point {
 }
 
 @C
-struct Circle {
-    var x: Int64 = 0
-    var y: Int64 = 0
-    var r: Int64 = 0
+struct Cube {
+    var x: Float32 = 0.0
+    var y: Float32 = 0.0
+    var z: Float32 = 0.0
+
+    init(x: Float32, y: Float32, z: Float32) {
+        this.x = x
+        this.y = y
+        this.z = z
+    }
 }
 
+foreign func drawPicture(point: CPointer<Point>, cube: CPointer<Cube>): Int32
+
 main() {
-    let SIZE_OF_POINT: UIntNative = 16
-    let SIZE_OF_CIRCLE: UIntNative = 24
-    let ptr1 = unsafe { malloc(SIZE_OF_POINT) }
-    let ptr2 = unsafe { malloc(SIZE_OF_CIRCLE) }
+    let pPoint = unsafe { LibC.malloc<Point>() }
+    let pCube = unsafe { LibC.malloc<Cube>() }
 
-    let pPoint = CPointer<Point>(ptr1)
-    let pCircle = CPointer<Circle>(ptr2)
-
-    var point = Point()
-    point.x = 10
-    point.y = 20
-    unsafe { pPoint.write(point) }
-
-    var circle = Circle()
-    circle.r = 1
-    unsafe { pCircle.write(circle) }
-
+    var cube = Cube(1.1, 2.2, 3.3)
     unsafe {
-        DrawPoint(pPoint)
-        DrawCircle(pCircle)
+        pCube.write(cube)
+        drawPicture(pPoint, pCube)   // in which x, y will be changed
 
-        free(ptr1)
-        free(ptr2)
+        println(pPoint.read().x)
+        println(pPoint.read().y)
+        println(pCube.read().x)
+        println(pCube.read().y)
+        println(pCube.read().z)
+
+        LibC.free(pPoint)
+        LibC.free(pCube)
     }
 }
 ```
@@ -746,11 +755,27 @@ main() {
 编译仓颉代码的命令如下（以 CJNative 后端为例）：
 
 ```shell
-cjc -L . -l paint ./main.cj
+cjc -L . -l draw ./main.cj
 ```
 
-其中编译命令中 `-L .` 表示链接库时从当前目录查找（假设 `libpaint.so` 存在于当前目录），`-l paint` 表示链接的库的名字，编译成功后默认生成二进制文件 `main`，执行二进制文件的命令如下：
+其中编译命令中 `-L .` 表示链接库时从当前目录查找（假设 `libdraw.so` 存在于当前目录），`-l draw` 表示链接的库的名字，编译成功后默认生成二进制文件 `main`，执行二进制文件的命令如下：
 
 ```shell
 LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH ./main
+```
+
+运行结果如下：
+
+```shell
+Draw Point finished.
+Before draw cube
+1.100000
+2.200000
+3.300000
+Draw Cube finished.
+1
+2
+4.400000
+5.500000
+6.600000
 ```

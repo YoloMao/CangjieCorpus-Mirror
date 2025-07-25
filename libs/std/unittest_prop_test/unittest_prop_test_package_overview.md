@@ -1,4 +1,4 @@
-# std.unittest.prop_test 包
+# std.unittest.prop_test
 
 ## 功能介绍
 
@@ -17,9 +17,9 @@ unittest.prop_test 为单元测试框架提供了参数化测试所需的类型�
 
 |              接口名          |           功能           |
 | --------------------------- | ------------------------ |
-| [Arbitrary](./unittest_prop_test_package_api/unittest_prop_test_package_interfaces.md#interface-arbitrary) | 生成 T 类型随机值的接口。 |
+| [Arbitrary\<T>](./unittest_prop_test_package_api/unittest_prop_test_package_interfaces.md#interface-arbitraryt) | 生成 T 类型随机值的接口。 |
 | [IndexAccess](./unittest_prop_test_package_api/unittest_prop_test_package_interfaces.md#interface-indexaccess) | 通过索引访问元组元素的实用程序接口。 |
-| [RandomSource](./unittest_prop_test_package_api/unittest_prop_test_package_interfaces.md#interface-randomsource) | 提供 [Arbitrary](./unittest_prop_test_package_api/unittest_prop_test_package_interfaces.md#interface-arbitrary) 所需的随机生成基础类型数据的能力。 |
+| [RandomSource](./unittest_prop_test_package_api/unittest_prop_test_package_interfaces.md#interface-randomsource) | 提供 [Arbitrary\<T>](./unittest_prop_test_package_api/unittest_prop_test_package_interfaces.md#interface-arbitraryt) 所需的随机生成基础类型数据的能力。 |
 | [Shrink](./unittest_prop_test_package_api/unittest_prop_test_package_interfaces.md#interface-shrinkt) | 将 T 类型的值缩减到多个“更小”的值。 |
 
 ### 类
@@ -27,7 +27,7 @@ unittest.prop_test 为单元测试框架提供了参数化测试所需的类型�
 |              类名          |           功能           |
 | --------------------------- | ------------------------ |
 | [Generators](./unittest_prop_test_package_api/unittest_prop_test_package_classes.md#class-generators) | 包含辅助函数的类，可帮助开发人员编写自己的生成器。 |
-| [LazySeq](./unittest_prop_test_package_api/unittest_prop_test_package_classes.md#class-lazyseq) | 延迟计算的 T 类型值序列。用于在迭代时计算和记忆值。 |
+| [LazySeq\<T>](./unittest_prop_test_package_api/unittest_prop_test_package_classes.md#class-lazyseqt) | 延迟计算的 T 类型值序列。用于在迭代时计算和记忆值。 |
 | [ShrinkHelpers](./unittest_prop_test_package_api/unittest_prop_test_package_classes.md#class-shrinkhelpers) | 提供对元组实现缩减迭代器的方法。 |
 
 ### 结构体

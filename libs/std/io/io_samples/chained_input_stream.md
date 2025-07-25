@@ -10,8 +10,8 @@ import std.collection.ArrayList
 main(): Unit {
     const size = 2
 
-    /* 创建两个 ByteArrayStream 并写入数据 */
-    let streamArr = Array<InputStream>(size, {_ => ByteArrayStream()})
+    /* 创建两个 ByteBuffer 并写入数据 */
+    let streamArr = Array<InputStream>(size, {_ => ByteBuffer()})
     for (i in 0..size) {
         match (streamArr[i]) {
             case v: OutputStream =>
@@ -21,22 +21,22 @@ main(): Unit {
         }
     }
 
-    /* 将两个 ByteArrayStream 绑定到 ChainedInputStream */
+    /* 将两个 ByteBuffer 绑定到 ChainedInputStream */
     let chainedInputStream = ChainedInputStream(streamArr)
     let res = ArrayList<Byte>()
-    let buffer = Array<Byte>(20, item: 0)
+    let buffer = Array<Byte>(20, repeat: 0)
     var readLen = chainedInputStream.read(buffer)
 
     /* 循环读取 chainedInputStream 中数据 */
     while (readLen != 0) {
-        res.appendAll(buffer[..readLen])
+        res.add(all: buffer[..readLen])
         readLen = chainedInputStream.read(buffer)
     }
     println(String.fromUtf8(res.toArray()))
 }
 ```
 
-运行结果
+运行结果：
 
 ```text
 now 0now 1

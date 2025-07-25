@@ -8,7 +8,7 @@ public class Configuration <: ToString {
 }
 ```
 
-功能：存储 `@Configure` 宏生成的 `unittest` 配置数据的对象。[Configuration](#class-configuration) 是一个类似 [HashMap](../../collection/collection_package_api/collection_package_class.md#class-hashmapk-v-where-k--hashable--equatablek) 的类，但它的键不是键和值类型，而是 [String](../../core/core_package_api/core_package_structs.md#struct-string) 类型，和任何给定类型的值。
+功能：存储 `@Configure` 宏生成的 `unittest` 配置数据的对象。[Configuration](#class-configuration) 与 [HashMap](../../collection/collection_package_api/collection_package_class.md#class-hashmapk-v-where-k--hashable--equatablek) 类似，但它的键是 [KeyFor](./unittest_common_package_interfaces.md#interface-keyfor)  类型，值为任何给定类型。
 
 父类型：
 
@@ -20,7 +20,7 @@ public class Configuration <: ToString {
 public init()
 ```
 
-功能：构造一个空的实例。
+功能：构造一个空的Configuration实例。
 
 ### func clone()
 
@@ -28,16 +28,16 @@ public init()
 public func clone(): Configuration
 ```
 
-功能：拷贝一份对象。
+功能：拷贝一份Configuration对象。
 
 返回值：
 
 - [Configuration](#class-configuration) - 拷贝的对象。
 
-### func get\<T>(String)
+### func get\<T>(KeyFor\<T>)
 
 ```cangjie
-public func get<T>(key: String): ?T
+public func get<T>(key: KeyFor<T>): ?T
 ```
 
 功能：获取 key 对应的值。
@@ -46,16 +46,46 @@ T 为 泛型参数，用于在对象中查找对应类型的值。
 
 参数：
 
-- key: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 键名称。
+- key: [KeyFor](./unittest_common_package_interfaces.md#interface-keyfor) - 配置项的键值。
 
 返回值：
 
 - ?T - 未找到时返回 None，找到对应类型及名称的值时返回 Some\<T>(v) 。
 
-### func remove\<T>(String)
+### func getByName\<T>(name: String): ?T
 
 ```cangjie
-public func remove<T>(key: String): ?T
+public func getByName<T>(name: String): ?T
+```
+
+功能：获取 key 对应的值。
+
+T 为 泛型参数，用于在对象中查找对应类型的值。
+
+参数：
+
+- name: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 键名称。
+
+### func remove\<T>(KeyFor\<T>)
+
+```cangjie
+public func remove<T>(key: KeyFor<T>): ?T
+```
+
+功能：删除对应键名称和类型的值。
+
+参数：
+
+- key: [KeyFor](./unittest_common_package_interfaces.md#interface-keyfor) - 配置项的键值。
+
+返回值：
+
+- ?T - 当存在该值时返回该值，当不存在时返回 None。
+
+### func removeByName\<T>(String)
+
+```cangjie
+public func removeByName<T>(name: String): ?T
 ```
 
 功能：删除对应键名称和类型的值。
@@ -68,17 +98,30 @@ public func remove<T>(key: String): ?T
 
 - ?T - 当存在该值时返回该值，当不存在时返回 None。
 
-### func set\<T>(String, T)
+### func set\<T>(KeyFor\<T>, T)
 
 ```cangjie
-public func set<T>(key: String, value: T)
+public func set<T>(key: KeyFor<T>, value: T)
 ```
 
 功能：给对应键名称和类型设置值。
 
 参数：
 
-- key: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 键名称。
+- key: [KeyFor](./unittest_common_package_interfaces.md#interface-keyfor) - 配置项的键值。
+- value: T - 键值。
+
+### func setByName\<T>(name: String, value: T)
+
+```cangjie
+public func setByName<T>(name: String, value: T): Unit
+```
+
+功能：给对应键名称和类型设置值。
+
+参数：
+
+- name: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 键名称。
 - value: T - 键值。
 
 ### func toString()
@@ -125,7 +168,7 @@ extend Configuration <: BenchmarkConfig {}
 #### func batchSize(Int64)
 
 ```cangjie
-public func batchSize(b: Int64) 
+public func batchSize(b: Int64)
 ```
 
 功能：配置性能测试时一个批次的执行次数。
@@ -161,7 +204,7 @@ public func explicitGC(x: ExplicitGcType)
 #### func minBatches(Int64)
 
 ```cangjie
-public func minBatches(x: Int64) 
+public func minBatches(x: Int64)
 ```
 
 功能：配置性能测试时最少的批次数。
@@ -180,12 +223,12 @@ public func minDuration(x: Duration)
 
 参数：
 
-- x: [Duration](../../time/time_package_api/time_package_structs.md#struct-duration) - 最短的执行时长。
+- x: [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) - 最短的执行时长。
 
 #### func warmup(Int64)
 
 ```cangjie
-public func warmup(x: Int64) 
+public func warmup(x: Int64)
 ```
 
 功能：配置性能测试时预热的秒数。
@@ -204,14 +247,12 @@ public func warmup(x: Duration)
 
 参数：
 
-- x: [Duration](../../time/time_package_api/time_package_structs.md#struct-duration) - 预热的时长。
+- x: [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) - 预热的时长。
 
 ## class ConfigurationKey
 
 ```cangjie
-abstract sealed class ConfigurationKey <: Equatable<ConfigurationKey> & Hashable {
-    public override operator func !=(that: ConfigurationKey)
-}
+abstract sealed class ConfigurationKey <: Equatable<ConfigurationKey> & Hashable {}
 ```
 
 功能：配置项的键值对象。提供判等及 hashCode 方法。
@@ -261,7 +302,7 @@ public override operator func ==(that: ConfigurationKey)
 
 - that: [ConfigurationKey](#class-configurationkey) - 被对比的数据
 
-返回值:
+返回值：
 
 - [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 是否相等。
 
@@ -277,7 +318,7 @@ public override operator func !=(that: ConfigurationKey)
 
 - that: [ConfigurationKey](#class-configurationkey) - 被对比的数据
 
-返回值:
+返回值：
 
 - [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 是否不相等。
 
@@ -291,18 +332,18 @@ public abstract class PrettyPrinter {
 
 功能：拥有颜色和对齐、缩进控制的打印器。
 
-### init(UInt64,UInt64)
+### PrettyPrinter(UInt64,UInt64)
 
 ```cangjie
 public PrettyPrinter(let indentationSize!: UInt64 = 4, let startingIndent!: UInt64 = 0)
 ```
 
-功能：构造器。
+功能：PrettyPrinter构造器。
 
 参数：
 
-- indentationSize!: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 一个缩进的空格数。
-- startingIndent!: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 开头的缩进个数。
+- indentationSize!: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 一个缩进的空格数，默认4格。
+- startingIndent!: [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - 开头的缩进个数，默认0个缩进。
 
 ### prop isTopLevel
 
@@ -399,7 +440,7 @@ public func appendLine(text: String): PrettyPrinter
 ### func appendLine\<PP>(PP) where PP <: PrettyPrintable
 
 ```cangjie
-public func appendLine<PP>(value: PP): PrettyPrinter where PP <: PrettyPrintable 
+public func appendLine<PP>(value: PP): PrettyPrinter where PP <: PrettyPrintable
 ```
 
 功能：增加一个实现了 [PrettyPrintable](./unittest_common_package_interfaces.md#interface-prettyprintable) 的对象到打印器中，跟着一个换行符。
@@ -432,7 +473,7 @@ public func appendRightAligned(text: String, space: UInt64): PrettyPrinter
 ### func colored(Color, body: () -> Unit)
 
 ```cangjie
-public func colored(color: Color, body: () -> Unit): PrettyPrinter 
+public func colored(color: Color, body: () -> Unit): PrettyPrinter
 ```
 
 功能：对闭包中给打印器增加的字符串指定颜色。
@@ -477,7 +518,7 @@ public func colored(color: Color, text: String): PrettyPrinter
 ### func customOffset(UInt64, body: () -> Unit)
 
 ```cangjie
-public func customOffset(symbols: UInt64, body: () -> Unit): PrettyPrinter 
+public func customOffset(symbols: UInt64, body: () -> Unit): PrettyPrinter
 ```
 
 功能：对闭包中给打印器增加的字符串指定额外缩进的个数。
@@ -610,9 +651,9 @@ public class PrettyText <: PrettyPrinter & PrettyPrintable & ToString {
 }
 ```
 
-功能：类似构造器的类，用于存储打印的输出。
-主要用途是中间存储和传递这些值。
-实现 [PrettyPrinter](#class-prettyprinter)（可以打印到）和 [PrettyPrintable](./unittest_common_package_interfaces.md#interface-prettyprintable)（可以从中打印）
+功能：存储打印的输出。主要用途是中间存储和传递这些值。
+
+实现了 [PrettyPrinter](#class-prettyprinter)（可以打印到）和 [PrettyPrintable](./unittest_common_package_interfaces.md#interface-prettyprintable)（可以从中打印）的方法。
 
 父类型：
 

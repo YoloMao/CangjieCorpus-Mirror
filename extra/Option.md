@@ -20,13 +20,13 @@ println(a.getOrThrow())  // 3
 ### Use `getOrDefaule` to extract `Some` value with default case
 
 To extract an `Option` value when it is of the form `Some(v)`, and returning a default
-value if it is `None`, use the `getOrDefaule` function. For example:
+value if it is `None`, use the `getOrDefault` function. For example:
 
 ```
 let a: Option<Int64> = Some(3)
-println(a.getOrDefaule({ => 0}))  // 3
+println(a.getOrDefault({ => 0}))  // 3
 let b: Option<Int64> = None
-println(b.getOrDefaule({ => 0}))  // 0
+println(b.getOrDefault({ => 0}))  // 0
 ```
 
 ### Matching on `Option`
@@ -35,7 +35,7 @@ To perform different action depending on the value of an `Option`, use
 `match-case` pattern.
 
 ```
-func printOption(a: Optain<Int64>) {
+func printOption(a: Option<Int64>) {
     match (a) {
         case None => println("a is None")
         case Some(v) => println("a is some value ${v}")

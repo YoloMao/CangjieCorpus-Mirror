@@ -12,9 +12,10 @@ public interface ValueListener<T> {
 }
 ```
 
-功能：此接口提供了多个成员函数以支持“监听”传入给桩签名的参数。
-即对每次调用中传入桩签名的参数进行指定的操作（ `addCallback()` 或 `onEach` 中的闭包函数即为对参数进行的操作内容）。
+功能：此接口提供了多个成员函数以支持“监听”传入给桩签名的参数。即对每次调用中传入桩签名的参数进行指定的操作（ `addCallback()` 或 `onEach` 中的闭包函数即为对参数进行的操作内容）。
+
 一般与参数匹配器生成函数 `argThat` 或者 `capture` 配合使用。
+
 值侦听器与参数捕获器一同作为参数匹配器的一种被传入到桩签名中，作为入参。在定义桩签名的参数值范围的同时检查参数值。
 
 举例来说：
@@ -61,7 +62,7 @@ func addCallback(callback: (T) -> Unit): Unit
 
 参数：
 
-- callback: (T) ->[Unit](../../core/core_package_api/core_package_intrinsics.md#unit) - 处理参数值的闭包函数
+- callback: (T) ->[Unit](../../core/core_package_api/core_package_intrinsics.md#unit) - 处理参数值的闭包函数。
 
 ### func allValues()
 
@@ -73,7 +74,7 @@ func allValues(): Array<T>
 
 返回值：
 
-- [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<T> - 返回“值监听器”对象所处理的所有值列表
+- [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<T> - 返回“值监听器”对象所处理的所有值列表。
 
 ### func lastValue()
 
@@ -97,7 +98,7 @@ static func new(): ValueListener<T>
 
 返回值：
 
-- [ValueListener](unittest_mock_package_interfaces.md#interface-valuelistenert)\<T> - “值监听器”对象
+- [ValueListener](unittest_mock_package_interfaces.md#interface-valuelistenert)\<T> - “值监听器”对象。
 
 ### func onEach((T) -> Unit)
 

@@ -1,4 +1,4 @@
-# std.time 包
+# std.time
 
 ## 功能介绍
 
@@ -131,12 +131,6 @@
 
 ## API 列表
 
-### 接口
-
-|                 接口名              |                功能                 |
-| --------------------------------- | ---------------------------------- |
-| [DurationExtension](./time_package_api/time_package_interfaces.md#interface-durationextension) | `DurationExtension` 用于拓展 `Duration` 实例作为右操作数时，返回乘积为新 `Duration` 实例的乘法运算。 |
-
 ### 类
 
 |                 类名              |                功能                 |
@@ -156,7 +150,6 @@
 |                 结构体名              |                功能                 |
 | --------------------------------- | ---------------------------------- |
 | [DateTime](./time_package_api/time_package_structs.md#struct-datetime) | `DateTime` 表示日期时间，是一个描述某一时间点的时间类型，提供了基于时区的日期时间读取、计算、比较、转换，以及序列化和反序列化等功能。 |
-| [Duration](./time_package_api/time_package_structs.md#struct-duration) | `Duration` 表示时间间隔，是一个描述一段时间的时间类型，提供了常用的静态实例，以及计算、比较等功能。 |
 | [MonoTime](./time_package_api/time_package_structs.md#struct-monotime) | `MonoTime` 表示单调时间，是一个用来衡量经过时间的时间类型，类似于一直运行的秒表，提供了获取当前时间，计算和比较等功能。 |
 
 ### 异常类

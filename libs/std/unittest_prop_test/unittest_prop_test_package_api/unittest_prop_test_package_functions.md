@@ -22,4 +22,4 @@ public func random<T>(): RandomDataStrategy<T> where T <: Arbitrary<T>
 
 返回值：
 
-- [Arbitrary](./unittest_prop_test_package_interfaces.md#interface-arbitrary)\<T> - 使用随机数据生成的 [RandomDataStrategy](../../unittest/unittest_package_api/unittest_package_classes.md#class-randomdatastrategy) 接口的实例。
+- [Arbitrary](./unittest_prop_test_package_interfaces.md#interface-arbitrary)\<T> - 使用随机数据生成的 [RandomDataStrategy](../../unittest/unittest_package_api/unittest_package_classes.md#class-randomdatastrategyt) 接口的实例。

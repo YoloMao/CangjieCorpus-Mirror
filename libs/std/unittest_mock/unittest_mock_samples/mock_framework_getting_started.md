@@ -59,19 +59,19 @@ class ControllerTest {
 
     @TestCase
     func testFindSuccessfully() {
-        //只需要创建mock，不用创建真正的Repository
+        // 只需要创建mock，不用创建真正的Repository
         let repository = mock<Repository>()
 
-        //使用@On宏配置testData行为
+        // 使用@On宏配置testData行为
         @On(repository.requestData(testId, _)).returns(testResponse)
 
-        //创建真正的Controller测试以便测试实际的实现
+        // 创建真正的Controller测试以便测试实际的实现
         let controller = Controller(repository)
 
-        //运行测试代码
+        // 运行测试代码
         let result = controller.findData(testId)
 
-        //对结果运行断言
+        // 对结果运行断言
         @Assert(result == Some(testResponse))
     }
 
@@ -79,15 +79,15 @@ class ControllerTest {
     func testTimeout() {
         let repository = mock<Repository>()
 
-        //设置getData抛出异常
+        // 设置getData抛出异常
         @On(repository.requestData(testId, _)).throws(TimeoutException())
 
         let controller = Controller(repository)
 
-        //底层实现抛出异常时，测试行为
+        // 底层实现抛出异常时，测试行为
         let result = controller.findData(testId)
 
-        //对结果运行断言
+        // 对结果运行断言
         @Assert(result == None)
     }
 }

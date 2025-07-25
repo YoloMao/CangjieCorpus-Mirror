@@ -139,7 +139,7 @@ func getMetaData(): Map<String, String>
 
 返回值：
 
-- [Map](../../collection/collection_package_api/collection_package_interface.md#interface-mapk-v-where-k--equatablek) < [String](../../core/core_package_api/core_package_structs.md#struct-string), [String](../../core/core_package_api/core_package_structs.md#struct-string) > - 数据源元数据。
+- [Map](../../collection/collection_package_api/collection_package_interface.md#interface-mapk-v)\<[String](../../core/core_package_api/core_package_structs.md#struct-string), [String](../../core/core_package_api/core_package_structs.md#struct-string)> - 数据源元数据。
 
 ### func prepareStatement(String)
 
@@ -236,7 +236,7 @@ prop preferredPooling: Bool
 
 功能：指示驱动程序是否与连接池亲和。
 
-如果否，则不建议使用连接池。比如 sqlite 驱动连接池化的收益不明显，不建议使用连接池。
+当该属性为 `false` 时，不建议使用连接池进行管理。例如，对于某些数据库驱动（如 SQLite），连接池化的收益不明显，因此不建议使用连接池。
 
 类型：[Bool](../../core/core_package_api/core_package_intrinsics.md#bool)
 
@@ -273,6 +273,9 @@ func open(connectionString: String, opts: Array<(String, String)>): Datasource
 public interface QueryResult <: Resource {
     prop columnInfos: Array<ColumnInfo>
     func next(values: Array<SqlDbType>): Bool
+    func next(): Bool
+    func get<T>(index: Int): T
+    func getOrNull<T>(index: Int): ?T
 }
 ```
 
@@ -294,7 +297,47 @@ prop columnInfos: Array<ColumnInfo>
 
 类型：[Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[ColumnInfo](database_sql_package_interfaces.md#interface-columninfo)>
 
-### func next(Array\<SqlDbType>)
+### func get\<T>(Int)
+
+```cangjie
+func get<T>(index: Int): T
+```
+
+功能：从结果集的当前行检索指定列的值。
+
+返回值：
+
+- T - `T` 类型的实例。
+
+### func getOrNull\<T>(Int)
+
+```cangjie
+func getOrNull<T>(index: Int): ?T
+```
+
+功能：从结果集的当前行检索指定列的值，数据库列允许 SQL NULL。
+
+返回值：
+
+- ?T - `T` 类型的实例，如果为空，返回 None。
+
+异常：
+
+- [SqlException](database_sql_package_exceptions.md#class-sqlexception) - 索引超出列范围，或者行数据未准备好时，抛出异常。
+
+### func next()
+
+```cangjie
+func next(): Bool
+```
+
+功能：向后移动一行，必须先调用一次 `next()` 才能移动到第一行，第二次调用移动到第二行，依此类推。当返回 `true` 时，驱动会在结果集的当前行填入数据，当返回 `false` 时结束，且不会修改结果集当前行的内容。
+
+返回值：
+
+- [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 下一行存在数据则返回 `true`，否则返回 `false`。
+
+### func next(Array\<SqlDbType>) <sup>(deprecated)</sup>
 
 ```cangjie
 func next(values: Array<SqlDbType>): Bool
@@ -302,15 +345,19 @@ func next(values: Array<SqlDbType>): Bool
 
 功能：向后移动一行，必须先调用一次 `next` 才能移动到第一行，第二次调用移动到第二行，依此类推。当返回 `true` 时，驱动会在 `values` 中填入行数据；当返回 `false` 时结束，且不会修改 `values` 的内容。
 
+> **注意：**
+>
+> 未来版本即将废弃不再使用，可使用 [next()](database_sql_package_interfaces.md#func-next) 替代。
+
 参数：
 
-- values: [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[SqlDbType](database_sql_package_interfaces.md#interface-sqldbtype)> - sql 数据类型的数据列表。
+- values: [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[SqlDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqldbtype-deprecated)> - sql 数据类型的数据列表。
 
 返回值：
 
 - [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - 下一行存在数据则返回 `true`，否则返回 `false`。
 
-## interface SqlDbType
+## interface SqlDbType <sup>(deprecated)</sup>
 
 ```cangjie
 public interface SqlDbType {
@@ -320,15 +367,19 @@ public interface SqlDbType {
 
 功能：所有 sql 数据类型的父类。
 
-要扩展用户定义的类型，请继承 [SqlDbType](database_sql_package_interfaces.md#interface-sqldbtype) 或 [SqlNullableDbType](database_sql_package_interfaces.md#interface-sqlnullabledbtype)。
+> **注意：**
+>
+> 未来版本即将废弃不再使用。
+
+要扩展用户定义的类型，请继承 [SqlDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqldbtype-deprecated) 或 [SqlNullableDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqlnullabledbtype-deprecated)。
 
 > **说明：**
 >
-> [SqlDbType](database_sql_package_interfaces.md#interface-sqldbtype) 接口所有实现类型都必须具有公共 `value` 属性。每种 sql 数据类型实现类，同时满足以下条件：
+> [SqlDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqldbtype-deprecated) 接口所有实现类型都必须具有公共 `value` 属性。每种 sql 数据类型实现类，同时满足以下条件：
 >
 > - 只有一个参数的构造函数，参数类型为 `T`（`T` 为仓颉语言支持的类型）。
 > - `public` 修饰的 `value` 属性，其类型必须上一条中使用的参数类型一致，其值为对应仓颉类型的值。
-> - 如果数据类型允许 `null` 值，继承 [SqlNullableDbType](database_sql_package_interfaces.md#interface-sqlnullabledbtype)，`null` 值时，`value` 字段的值为 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<T>.None。
+> - 如果数据类型允许 `null` 值，继承 [SqlNullableDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqlnullabledbtype-deprecated)，`null` 值时，`value` 字段的值为 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<T>.None。
 
 ### prop name
 
@@ -340,7 +391,7 @@ prop name: String
 
 类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)
 
-## interface SqlNullableDbType
+## interface SqlNullableDbType <sup>(deprecated)</sup>
 
 ```cangjie
 public interface SqlNullableDbType <: SqlDbType
@@ -348,11 +399,15 @@ public interface SqlNullableDbType <: SqlDbType
 
 功能：允许 `null` 值的 sql 数据类型父类。
 
+> **注意：**
+>
+> 未来版本即将废弃不再使用。
+
 如果为 `null` 值，`value` 属性值为 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont).None。
 
 父类型：
 
-- [SqlDbType](#interface-sqldbtype)
+- [SqlDbType <sup>(deprecated)</sup>](#interface-sqldbtype-deprecated)
 
 ## interface Statement
 
@@ -362,6 +417,10 @@ public interface Statement <: Resource {
     func query(params: Array<SqlDbType>): QueryResult
     func setOption(key: String, value: String): Unit
     func update(params: Array<SqlDbType>): UpdateResult
+    func set<T>(index: Int, value: T): Unit
+    func setNull(index: Int): Unit
+    func update(): UpdateResult
+    func query(): QueryResult
 }
 ```
 
@@ -383,17 +442,13 @@ prop parameterColumnInfos: Array<ColumnInfo>
 
 类型：[Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[ColumnInfo](database_sql_package_interfaces.md#interface-columninfo)>
 
-### func query(Array\<SqlDbType>)
+### func query()
 
 ```cangjie
-func query(params: Array<SqlDbType>): QueryResult
+func query(): QueryResult
 ```
 
 功能：执行 sql 语句，得到查询结果。
-
-参数：
-
-- params: [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[SqlDbType](database_sql_package_interfaces.md#interface-sqldbtype)> - sql 数据类型的数据列表，用于替换 sql 语句中的 `?` 占位符。
 
 返回值：
 
@@ -402,6 +457,55 @@ func query(params: Array<SqlDbType>): QueryResult
 异常：
 
 - [SqlException](database_sql_package_exceptions.md#class-sqlexception) - 当执行过程中发生了异常情况，比如网络中断，服务器超时，参数个数不正确时，抛出异常。
+
+### func query(Array\<SqlDbType>) <sup>(deprecated)</sup>
+
+```cangjie
+func query(params: Array<SqlDbType>): QueryResult
+```
+
+功能：执行 sql 语句，得到查询结果。
+
+> **注意：**
+>
+> 未来版本即将废弃不再使用，可使用 query() 替代。
+
+参数：
+
+- params: [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[SqlDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqldbtype-deprecated)> - sql 数据类型的数据列表，用于替换 sql 语句中的 `?` 占位符。
+
+返回值：
+
+- [QueryResult](database_sql_package_interfaces.md#interface-queryresult) - 查询结果。
+
+异常：
+
+- [SqlException](database_sql_package_exceptions.md#class-sqlexception) - 当执行过程中发生了异常情况，比如网络中断，服务器超时，参数个数不正确时，抛出异常。
+
+### func set\<T>(Int, T)
+
+```cangjie
+func set<T>(index: Int, value: T): Unit
+```
+
+功能：设置 sql 参数，将仓颉的数据类型转成数据库的数据类型。
+
+参数：
+
+- index: [Int](../../core/core_package_api/core_package_types.md#type-int) - 参数所在序列。
+- value: T - 参数值。
+
+### func setNull(Int)
+
+```cangjie
+func setNull(index: Int): Unit
+```
+
+功能：将指定位置处的语句参数设置为 SQL NULL。
+
+参数：
+
+- index: [Int](../../core/core_package_api/core_package_types.md#type-int) - 参数所在序列。
 
 ### func setOption(String, String)
 
@@ -416,7 +520,7 @@ func setOption(key: String, value: String): Unit
 - key: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 连接选项名称。
 - value: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 连接选项的值。
 
-### func update(Array\<SqlDbType>)
+### func update(Array\<SqlDbType>) <sup>(deprecated)</sup>
 
 ```cangjie
 func update(params: Array<SqlDbType>): UpdateResult
@@ -424,9 +528,29 @@ func update(params: Array<SqlDbType>): UpdateResult
 
 功能：执行 sql 语句，得到更新结果。
 
+> **注意：**
+>
+> 未来版本即将废弃不再使用，可使用 update() 替代。
+
 参数：
 
-- params: [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[SqlDbType](database_sql_package_interfaces.md#interface-sqldbtype)> - sql 数据类型的数据列表，用于替换 sql 语句中的 `?` 占位符。
+- params: [Array](../../core/core_package_api/core_package_structs.md#struct-arrayt)\<[SqlDbType <sup>(deprecated)</sup>](database_sql_package_interfaces.md#interface-sqldbtype-deprecated)> - sql 数据类型的数据列表，用于替换 sql 语句中的 `?` 占位符。
+
+返回值：
+
+- [UpdateResult](database_sql_package_interfaces.md#interface-updateresult) - 更新结果。
+
+异常：
+
+- [SqlException](database_sql_package_exceptions.md#class-sqlexception) - 当执行过程中发生了异常情况，比如网络中断、服务器超时，参数个数不正确时，抛出异常。
+
+### func update()
+
+```cangjie
+func update(): UpdateResult
+```
+
+功能：执行 sql 语句，得到更新结果。
 
 返回值：
 

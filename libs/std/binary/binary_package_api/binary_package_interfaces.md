@@ -85,16 +85,21 @@ public static func readBigEndian(buffer: Array<Byte>): Bool
 
 示例：
 
+<!-- verify -->
 ```cangjie
 import std.binary.*
-import std.unittest.*
-import std.unittest.testmacro.*
 
 main() {
     let buffer: Array<Byte> = [0x1]
     let n = Bool.readBigEndian(buffer)
-    @Assert(n, true)
+    println(n)
 }
+```
+
+运行结果：
+
+```text
+true
 ```
 
 #### func writeBigEndian(Array\<Byte>)
@@ -119,17 +124,23 @@ public func writeBigEndian(buffer: Array<Byte>): Int64
 
 示例：
 
+<!-- verify -->
 ```cangjie
 import std.binary.*
-import std.unittest.*
-import std.unittest.testmacro.*
 
 main() {
-    let buffer = Array<Byte>(8, item: 0)
+    let buffer = Array<Byte>(8, repeat: 0)
     let n = true.writeBigEndian(buffer)
-    @Assert(n, 1)
-    @Assert(buffer[..n], [0x01u8])
+    println(n == 1)
+    println(buffer[0] == 0x01u8)
 }
+```
+
+运行结果：
+
+```text
+true
+true
 ```
 
 ### extend Float16 <: BigEndianOrder\<Float16>
@@ -166,16 +177,22 @@ public static func readBigEndian(buffer: Array<Byte>): Float16
 
 示例：
 
+<!-- verify -->
 ```cangjie
 import std.binary.*
-import std.unittest.*
-import std.unittest.testmacro.*
 
 main() {
+    /* 12.5的IEEE 754表示为0x4A40 */
     let buffer: Array<Byte> = [0x4A, 0x40]
     let n = Float16.readBigEndian(buffer)
-    @Assert(n, 12.5)
+    println(n == 12.5)
 }
+```
+
+运行结果：
+
+```text
+true
 ```
 
 #### func writeBigEndian(Array\<Byte>)
@@ -200,17 +217,25 @@ public func writeBigEndian(buffer: Array<Byte>): Int64
 
 示例：
 
+<!-- verify -->
 ```cangjie
 import std.binary.*
-import std.unittest.*
-import std.unittest.testmacro.*
 
 main() {
-    let buffer = Array<Byte>(8, item: 0)
-    let n = 12.5f16.writeBigEndian(buffer)
-    @Assert(n, 2)
-    @Assert(buffer[..n], [0x4A, 0x40])
+    let buffer = Array<Byte>(8, repeat: 0)
+    let len = 12.5f16.writeBigEndian(buffer)
+    println(len)
+
+    /* 0x4A的十进制表示为74,0x40的十进制表示为64 */
+    println(buffer[0..len])
 }
+```
+
+运行结果：
+
+```text
+2
+[74, 64]
 ```
 
 ### extend Float32 <: BigEndianOrder\<Float32>
@@ -247,16 +272,21 @@ public static func readBigEndian(buffer: Array<Byte>): Float32
 
 示例：
 
+<!-- verify -->
 ```cangjie
 import std.binary.*
-import std.unittest.*
-import std.unittest.testmacro.*
 
 main() {
     let buffer: Array<Byte> = [0x41, 0x48, 0x00, 0x00]
     let n = Float32.readBigEndian(buffer)
-    @Assert(n, 12.5)
+    println(n)
 }
+```
+
+运行结果：
+
+```text
+12.500000
 ```
 
 #### func writeBigEndian(Array\<Byte>)
@@ -281,17 +311,25 @@ public func writeBigEndian(buffer: Array<Byte>): Int64
 
 示例：
 
+<!-- verify -->
 ```cangjie
 import std.binary.*
-import std.unittest.*
-import std.unittest.testmacro.*
 
 main() {
-    let buffer = Array<Byte>(8, item: 0)
-    let n = 12.5f32.writeBigEndian(buffer)
-    @Assert(n, 4)
-    @Assert(buffer[..n], [0x41, 0x48, 0x00, 0x00])
+    let buffer = Array<Byte>(8, repeat: 0)
+    let len = 12.5f32.writeBigEndian(buffer)
+    println(len)
+
+    /* 12.5的IEEE 754的单精度浮点表示为 0x4148 ,0x41的十进制表示为65，0x48的十进制表示为72 */
+    println(buffer[0..len])
 }
+```
+
+运行结果：
+
+```text
+4
+[65, 72, 0, 0]
 ```
 
 ### extend Float64 <: BigEndianOrder\<Float64>
@@ -328,6 +366,7 @@ public static func readBigEndian(buffer: Array<Byte>): Float64
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
@@ -362,16 +401,17 @@ public func writeBigEndian(buffer: Array<Byte>): Int64
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
 import std.unittest.testmacro.*
 
 main() {
-    let buffer = Array<Byte>(8, item: 0)
+    let buffer = Array<Byte>(8, repeat: 0)
     let n = 12.5f64.writeBigEndian(buffer)
     @Assert(n, 8)
-    @Assert(buffer[..n], [0x40, 0x29, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])
+    @Assert(buffer[..n] == [0x40, 0x29, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])
 }
 ```
 
@@ -409,6 +449,7 @@ public static func readBigEndian(buffer: Array<Byte>): Int16
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
@@ -443,16 +484,17 @@ public func writeBigEndian(buffer: Array<Byte>): Int64
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
 import std.unittest.testmacro.*
 
 main() {
-    let buffer = Array<Byte>(8, item: 0)
+    let buffer = Array<Byte>(8, repeat: 0)
     let n = 0x1234i16.writeBigEndian(buffer)
     @Assert(n, 2)
-    @Assert(buffer[..n], [0x12, 0x34])
+    @Assert(buffer[..n] == [0x12, 0x34])
 }
 ```
 
@@ -490,6 +532,7 @@ public static func readBigEndian(buffer: Array<Byte>): Int32
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
@@ -524,16 +567,18 @@ public func writeBigEndian(buffer: Array<Byte>): Int64
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
 import std.unittest.testmacro.*
 
 main() {
-    let buffer = Array<Byte>(8, item: 0)
-    let n = 0x12345678i32.writeBigEndian(buffer)
+    var buffer: Array<Byte> = Array<Byte>(8, repeat: 0)
+    let n = 0x12345678i32.
+    writeBigEndian(buffer)
     @Assert(n, 4)
-    @Assert(buffer[..n], [0x12, 0x34, 0x56, 0x78])
+    @Assert(buffer[..n] == [0x12u8, 0x34u8, 0x56u8, 0x78u8])
 }
 ```
 
@@ -571,6 +616,7 @@ public static func readBigEndian(buffer: Array<Byte>): Int64
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
@@ -605,16 +651,17 @@ public func writeBigEndian(buffer: Array<Byte>): Int64
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
 import std.unittest.testmacro.*
 
 main() {
-    let buffer = Array<Byte>(8, item: 0)
+    let buffer = Array<Byte>(8, repeat: 0)
     let n = 0x1234567890123456i64.writeBigEndian(buffer)
     @Assert(n, 8)
-    @Assert(buffer[..n], [0x12, 0x34, 0x56, 0x78, 0x90, 0x12, 0x34, 0x56])
+    @Assert(buffer[..n] == [0x12, 0x34, 0x56, 0x78, 0x90, 0x12, 0x34, 0x56])
 }
 ```
 
@@ -652,6 +699,7 @@ public static func readBigEndian(buffer: Array<Byte>): Int8
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
@@ -686,16 +734,17 @@ public func writeBigEndian(buffer: Array<Byte>): Int64
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
 import std.unittest.testmacro.*
 
 main() {
-    let buffer = Array<Byte>(8, item: 0)
+    let buffer = Array<Byte>(8, repeat: 0)
     let n = 0x12i8.writeBigEndian(buffer)
     @Assert(n, 1)
-    @Assert(buffer[..n], [0x12])
+    @Assert(buffer[..n] == [0x12])
 }
 ```
 
@@ -733,6 +782,7 @@ public static func readBigEndian(buffer: Array<Byte>): UInt16
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
@@ -767,16 +817,17 @@ public func writeBigEndian(buffer: Array<Byte>): Int64
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
 import std.unittest.testmacro.*
 
 main() {
-    let buffer = Array<Byte>(8, item: 0)
+    let buffer = Array<Byte>(8, repeat: 0)
     let n = 0x1234u16.writeBigEndian(buffer)
     @Assert(n, 2)
-    @Assert(buffer[..n], [0x12, 0x34])
+    @Assert(buffer[..n] == [0x12, 0x34])
 }
 ```
 
@@ -814,6 +865,7 @@ public static func readBigEndian(buffer: Array<Byte>): UInt32
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
@@ -848,16 +900,17 @@ public func writeBigEndian(buffer: Array<Byte>): Int64
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
 import std.unittest.testmacro.*
 
 main() {
-    let buffer = Array<Byte>(8, item: 0)
+    let buffer = Array<Byte>(8, repeat: 0)
     let n = 0x12345678u32.writeBigEndian(buffer)
     @Assert(n, 4)
-    @Assert(buffer[..n], [0x12, 0x34, 0x56, 0x78])
+    @Assert(buffer[..n] == [0x12, 0x34, 0x56, 0x78])
 }
 ```
 
@@ -895,6 +948,7 @@ public static func readBigEndian(buffer: Array<Byte>): UInt64
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
@@ -929,16 +983,17 @@ public func writeBigEndian(buffer: Array<Byte>): Int64
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
 import std.unittest.testmacro.*
 
 main() {
-    let buffer = Array<Byte>(8, item: 0)
+    let buffer = Array<Byte>(8, repeat: 0)
     let n = 0x1234567890123456u64.writeBigEndian(buffer)
     @Assert(n, 8)
-    @Assert(buffer[..n], [0x12, 0x34, 0x56, 0x78, 0x90, 0x12, 0x34, 0x56])
+    @Assert(buffer[..n] == [0x12, 0x34, 0x56, 0x78, 0x90, 0x12, 0x34, 0x56])
 }
 ```
 
@@ -976,6 +1031,7 @@ public static func readBigEndian(buffer: Array<Byte>): UInt8
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
@@ -1010,16 +1066,17 @@ public func writeBigEndian(buffer: Array<Byte>): Int64
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
 import std.unittest.testmacro.*
 
 main() {
-    let buffer = Array<Byte>(8, item: 0)
+    let buffer = Array<Byte>(8, repeat: 0)
     let n = 0x12u8.writeBigEndian(buffer)
     @Assert(n, 1)
-    @Assert(buffer[..n], [0x12])
+    @Assert(buffer[..n] == [0x12])
 }
 ```
 
@@ -1108,6 +1165,7 @@ public static func readLittleEndian(buffer: Array<Byte>): Bool
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
@@ -1142,16 +1200,17 @@ public func writeLittleEndian(buffer: Array<Byte>): Int64
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
 import std.unittest.testmacro.*
 
 main() {
-    let buffer = Array<Byte>(8, item: 0)
+    let buffer = Array<Byte>(8, repeat: 0)
     let n = true.writeLittleEndian(buffer)
     @Assert(n, 1)
-    @Assert(buffer[..n], [0x01])
+    @Assert(buffer[..n] == [0x01])
 }
 ```
 
@@ -1189,6 +1248,7 @@ public static func readLittleEndian(buffer: Array<Byte>): Float16
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
@@ -1223,16 +1283,17 @@ public func writeLittleEndian(buffer: Array<Byte>): Int64
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
 import std.unittest.testmacro.*
 
 main() {
-    let buffer = Array<Byte>(8, item: 0)
+    let buffer = Array<Byte>(8, repeat: 0)
     let n = 12.5f16.writeLittleEndian(buffer)
     @Assert(n, 2)
-    @Assert(buffer[..n], [0x40, 0x4A])
+    @Assert(buffer[..n] == [0x40, 0x4A])
 }
 ```
 
@@ -1270,6 +1331,7 @@ public static func readLittleEndian(buffer: Array<Byte>): Float32
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
@@ -1304,16 +1366,17 @@ public func writeLittleEndian(buffer: Array<Byte>): Int64
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
 import std.unittest.testmacro.*
 
 main() {
-    let buffer = Array<Byte>(8, item: 0)
+    let buffer = Array<Byte>(8, repeat: 0)
     let n = 12.5f32.writeLittleEndian(buffer)
     @Assert(n, 4)
-    @Assert(buffer[..n], [0x00, 0x00, 0x48, 0x41])
+    @Assert(buffer[..n] == [0x00, 0x00, 0x48, 0x41])
 }
 ```
 
@@ -1351,6 +1414,7 @@ public static func readLittleEndian(buffer: Array<Byte>): Float64
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
@@ -1385,16 +1449,17 @@ public func writeLittleEndian(buffer: Array<Byte>): Int64
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
 import std.unittest.testmacro.*
 
 main() {
-    let buffer = Array<Byte>(8, item: 0)
+    let buffer = Array<Byte>(8, repeat: 0)
     let n = 12.5f64.writeLittleEndian(buffer)
     @Assert(n, 8)
-    @Assert(buffer[..n], [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x29, 0x40])
+    @Assert(buffer[..n] == [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x29, 0x40])
 }
 ```
 
@@ -1432,6 +1497,7 @@ public static func readLittleEndian(buffer: Array<Byte>): Int16
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
@@ -1466,16 +1532,17 @@ public func writeLittleEndian(buffer: Array<Byte>): Int64
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
 import std.unittest.testmacro.*
 
 main() {
-    let buffer = Array<Byte>(8, item: 0)
+    let buffer = Array<Byte>(8, repeat: 0)
     let n = 0x1234i16.writeLittleEndian(buffer)
     @Assert(n, 2)
-    @Assert(buffer[..n], [0x34, 0x12])
+    @Assert(buffer[..n] == [0x34, 0x12])
 }
 ```
 
@@ -1513,6 +1580,7 @@ public static func readLittleEndian(buffer: Array<Byte>): Int32
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
@@ -1521,7 +1589,7 @@ import std.unittest.testmacro.*
 main() {
     let buffer: Array<Byte> = [0x78, 0x56, 0x34, 0x12]
     let n = Int32.readLittleEndian(buffer)
-    @Assert(n, 0x12345678i32)
+    @Assert(n, 0x12345678)
 }
 ```
 
@@ -1547,16 +1615,17 @@ public func writeLittleEndian(buffer: Array<Byte>): Int64
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
 import std.unittest.testmacro.*
 
 main() {
-    let buffer = Array<Byte>(8, item: 0)
+    let buffer = Array<Byte>(8, repeat: 0)
     let n = 0x12345678i32.writeLittleEndian(buffer)
     @Assert(n, 4)
-    @Assert(buffer[..n], [0x78, 0x56, 0x34, 0x12])
+    @Assert(buffer[..n] == [0x78, 0x56, 0x34, 0x12])
 }
 ```
 
@@ -1594,6 +1663,7 @@ public static func readLittleEndian(buffer: Array<Byte>): Int64
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
@@ -1602,7 +1672,7 @@ import std.unittest.testmacro.*
 main() {
     let buffer: Array<Byte> = [0x56, 0x34, 0x12, 0x90, 0x78, 0x56, 0x34, 0x12]
     let n = Int64.readLittleEndian(buffer)
-    @Assert(n, 0x1234567890123456i64)
+    @Assert(n, 0x1234567890123456)
 }
 ```
 
@@ -1628,16 +1698,17 @@ public func writeLittleEndian(buffer: Array<Byte>): Int64
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
 import std.unittest.testmacro.*
 
 main() {
-    let buffer = Array<Byte>(8, item: 0)
+    let buffer = Array<Byte>(8, repeat: 0)
     let n = 0x1234567890123456i64.writeLittleEndian(buffer)
     @Assert(n, 8)
-    @Assert(buffer[..n], [0x56, 0x34, 0x12, 0x90, 0x78, 0x56, 0x34, 0x12])
+    @Assert(buffer[..n] == [0x56, 0x34, 0x12, 0x90, 0x78, 0x56, 0x34, 0x12])
 }
 ```
 
@@ -1675,6 +1746,7 @@ public static func readLittleEndian(buffer: Array<Byte>): Int8
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
@@ -1709,16 +1781,17 @@ public func writeLittleEndian(buffer: Array<Byte>): Int64
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
 import std.unittest.testmacro.*
 
 main() {
-    let buffer = Array<Byte>(8, item: 0)
+    let buffer = Array<Byte>(8, repeat: 0)
     let n = 0x12i8.writeLittleEndian(buffer)
     @Assert(n, 1)
-    @Assert(buffer[..n], [0x12])
+    @Assert(buffer[..n] == [0x12])
 }
 ```
 
@@ -1756,6 +1829,7 @@ public static func readLittleEndian(buffer: Array<Byte>): UInt16
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
@@ -1790,16 +1864,17 @@ public func writeLittleEndian(buffer: Array<Byte>): Int64
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
 import std.unittest.testmacro.*
 
 main() {
-    let buffer = Array<Byte>(8, item: 0)
+    let buffer = Array<Byte>(8, repeat: 0)
     let n = 0x1234u16.writeLittleEndian(buffer)
     @Assert(n, 2)
-    @Assert(buffer[..n], [0x34, 0x12])
+    @Assert(buffer[..n] == [0x34, 0x12])
 }
 ```
 
@@ -1837,6 +1912,7 @@ public static func readLittleEndian(buffer: Array<Byte>): UInt32
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
@@ -1845,7 +1921,7 @@ import std.unittest.testmacro.*
 main() {
     let buffer: Array<Byte> = [0x78, 0x56, 0x34, 0x12]
     let n = UInt32.readLittleEndian(buffer)
-    @Assert(n, 0x12345678i32)
+    @Assert(n, 0x12345678)
 }
 ```
 
@@ -1871,16 +1947,17 @@ public func writeLittleEndian(buffer: Array<Byte>): Int64
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
 import std.unittest.testmacro.*
 
 main() {
-    let buffer = Array<Byte>(8, item: 0)
+    let buffer = Array<Byte>(8, repeat: 0)
     let n = 0x12345678u32.writeLittleEndian(buffer)
     @Assert(n, 4)
-    @Assert(buffer[..n], [0x78, 0x56, 0x34, 0x12])
+    @Assert(buffer[..n] == [0x78, 0x56, 0x34, 0x12])
 }
 ```
 
@@ -1918,6 +1995,7 @@ public static func readLittleEndian(buffer: Array<Byte>): UInt64
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
@@ -1926,7 +2004,7 @@ import std.unittest.testmacro.*
 main() {
     let buffer: Array<Byte> = [0x56, 0x34, 0x12, 0x90, 0x78, 0x56, 0x34, 0x12]
     let n = UInt64.readLittleEndian(buffer)
-    @Assert(n, 0x1234567890123456i64)
+    @Assert(n, 0x1234567890123456)
 }
 ```
 
@@ -1952,16 +2030,17 @@ public func writeLittleEndian(buffer: Array<Byte>): Int64
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
 import std.unittest.testmacro.*
 
 main() {
-    let buffer = Array<Byte>(8, item: 0)
+    let buffer = Array<Byte>(8, repeat: 0)
     let n = 0x1234567890123456u64.writeLittleEndian(buffer)
     @Assert(n, 8)
-    @Assert(buffer[..n], [0x56, 0x34, 0x12, 0x90, 0x78, 0x56, 0x34, 0x12])
+    @Assert(buffer[..n] == [0x56, 0x34, 0x12, 0x90, 0x78, 0x56, 0x34, 0x12])
 }
 ```
 
@@ -1999,6 +2078,7 @@ public static func readLittleEndian(buffer: Array<Byte>): UInt8
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
@@ -2033,16 +2113,17 @@ public func writeLittleEndian(buffer: Array<Byte>): Int64
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
 import std.unittest.testmacro.*
 
 main() {
-    let buffer = Array<Byte>(8, item: 0)
+    let buffer = Array<Byte>(8, repeat: 0)
     let n = 0x12u8.writeLittleEndian(buffer)
     @Assert(n, 1)
-    @Assert(buffer[..n], [0x12])
+    @Assert(buffer[..n] == [0x12])
 }
 ```
 
@@ -2088,12 +2169,13 @@ public func swapBytes(): Int16
 
 功能：反转 [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) 值的字节顺序。
 
-  返回值：
+返回值：
 
 - [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) - [Int16](../../core/core_package_api/core_package_intrinsics.md#int16) 值。
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
@@ -2126,12 +2208,13 @@ public func swapBytes(): Int32
 
 功能：反转 [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) 值的字节顺序。
 
-  返回值：
+返回值：
 
 - [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) - [Int32](../../core/core_package_api/core_package_intrinsics.md#int32) 值。
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
@@ -2164,12 +2247,13 @@ public func swapBytes(): Int64
 
 功能：反转 [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) 值的字节顺序。
 
-  返回值：
+返回值：
 
 - [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) 值。
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
@@ -2202,12 +2286,13 @@ public func swapBytes(): Int8
 
 功能：反转 [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) 值的字节顺序。
 
-  返回值：
+返回值：
 
 - [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) - [Int8](../../core/core_package_api/core_package_intrinsics.md#int8) 值。
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
@@ -2240,12 +2325,13 @@ public func swapBytes(): UInt16
 
 功能：反转 [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) 值的字节顺序。
 
-  返回值：
+返回值：
 
 - [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) - [UInt16](../../core/core_package_api/core_package_intrinsics.md#uint16) 值。
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
@@ -2278,12 +2364,13 @@ public func swapBytes(): UInt32
 
 功能：反转 [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) 值的字节顺序。
 
-  返回值：
+返回值：
 
 - [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) - [UInt32](../../core/core_package_api/core_package_intrinsics.md#uint32) 值。
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
@@ -2316,12 +2403,13 @@ public func swapBytes(): UInt64
 
 功能：反转 [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) 值的字节顺序。
 
-  返回值：
+返回值：
 
 - [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) - [UInt64](../../core/core_package_api/core_package_intrinsics.md#uint64) 值。
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*
@@ -2354,12 +2442,13 @@ public func swapBytes(): UInt8
 
 功能：反转 [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8)  值的字节顺序。
 
-  返回值：
+返回值：
 
 - [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) - [UInt8](../../core/core_package_api/core_package_intrinsics.md#uint8) 值。
 
 示例：
 
+<!-- run -->
 ```cangjie
 import std.binary.*
 import std.unittest.*

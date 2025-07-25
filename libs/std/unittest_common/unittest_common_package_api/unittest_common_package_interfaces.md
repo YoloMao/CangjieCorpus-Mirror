@@ -20,7 +20,7 @@ prop isInfinite: Bool
 
 功能：是否无法穷尽。
 
-类型：[Bool](../../core/core_package_api/core_package_intrinsics.md#bool) 。
+类型：[Bool](../../core/core_package_api/core_package_intrinsics.md#bool)
 
 ### func provide()
 
@@ -191,7 +191,7 @@ public interface PrettyPrintable {
 }
 ```
 
-功能：类型实现该接口表示可以较好得进行颜色及缩进格式的打印。
+功能：类型实现该接口表示可以较好地进行颜色及缩进格式的打印。
 
 ### func pprint(PrettyPrinter)
 
@@ -266,3 +266,25 @@ public func pprint(to: PrettyPrinter): PrettyPrinter
 返回值：
 
 - [PrettyPrinter](./unittest_common_package_classes.md#class-prettyprinter) - 打印器。
+
+## interface KeyFor
+
+```cangjie
+public interface KeyFor<T> {
+    prop name: String
+}
+```
+
+功能：[Configuration](../../unittest_common/unittest_common_package_api/unittest_common_package_classes.md#class-configuration) 中配置型的键的类型。
+
+可以通过 [@UnitestOption](./../../unittest_testmacro/unittest_testmacro_package_api/unittest_testmacro_package_macros.md#unittestoption-宏) 定义自定义配置项键值。内置的 unittest 配置项可以根据[命名规则](../../unittest_testmacro/unittest_testmacro_package_api/unittest_testmacro_package_macros.md#customassertion-宏)获取。例如，可以通过 `KeyRandomSeed.randomSeed` 键从 [Configuration](../../unittest_common/unittest_common_package_api/unittest_common_package_classes.md#class-configuration) 中提取 `randomSeed` 。
+
+### prop name
+
+```cangjie
+prop name: String
+```
+
+功能：[Configuration](./unittest_common_package_classes.md#class-configuration) 中使用的键名称的字符串表示形式。
+
+类型：[String](../../core/core_package_api/core_package_structs.md#struct-string)

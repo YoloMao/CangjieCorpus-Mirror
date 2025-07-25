@@ -8,7 +8,7 @@ import std.math.*
 import std.math.numeric.*
 
 main() {
-    let decimalProperties = Decimal("-123456.7890123456789")
+    let decimalProperties = Decimal.parse("-123456.7890123456789")
     println("decimal: ${decimalProperties}")
     println("decimal sign: ${decimalProperties.sign}")
     println("decimal scale: ${decimalProperties.scale}")
@@ -16,7 +16,7 @@ main() {
     println("decimal precision: ${decimalProperties.precision}")
 
     // 如果希望初始化一个带有指定精度和舍入方式的 Decimal 对象，可以采用如下方式
-    let decimalProperties2 = Decimal("-123456.7890123456789").roundWithPrecision(10, roundingMode: HALF_EVEN)
+    let decimalProperties2 = Decimal.parse("-123456.7890123456789").roundWithPrecision(10, roundingMode: HalfEven)
     println("decimal2: ${decimalProperties2}")
     println("decimal2 sign: ${decimalProperties2.sign}")
     println("decimal2 scale: ${decimalProperties2.scale}")
@@ -27,7 +27,7 @@ main() {
 }
 ```
 
-运行结果:
+运行结果：
 
 ```text
 decimal: -123456.7890123456789

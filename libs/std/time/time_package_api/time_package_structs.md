@@ -3,7 +3,7 @@
 ## struct DateTime
 
 ```cangjie
-public struct DateTime <: ToString & Hashable & Comparable<DateTime>
+public struct DateTime <: ToString & Hashable & Comparable<DateTime> & Formattable & Parsable<DateTime>
 ```
 
 功能：[DateTime](time_package_structs.md#struct-datetime) 表示日期时间，是一个描述某一时间点的时间类型，提供了基于时区的日期时间读取、计算、比较、转换，以及序列化和反序列化等功能。
@@ -22,6 +22,8 @@ public struct DateTime <: ToString & Hashable & Comparable<DateTime>
 - [ToString](../../core/core_package_api/core_package_interfaces.md#interface-tostring)
 - [Hashable](../../core/core_package_api/core_package_interfaces.md#interface-hashable)
 - [Comparable](../../core/core_package_api/core_package_interfaces.md#interface-comparablet)\<[DateTime](#struct-datetime)>
+- [Formattable](../../convert/convert_package_api/convert_package_interfaces.md#interface-formattable)
+- [Parsable](../../convert/convert_package_api/convert_package_interfaces.md#interface-parsablet)\<[DateTime](#struct-datetime)>
 
 ### static prop UnixEpoch
 
@@ -63,6 +65,16 @@ public prop dayOfYear: Int64
 
 类型：[Int64](../../core/core_package_api/core_package_intrinsics.md#int64)
 
+### prop date
+
+```cangjie
+public prop date: (Int64, Month, Int64)
+```
+
+功能：获取 [DateTime](time_package_structs.md#struct-datetime) 实例的年份、月份和当前月第几日。
+
+类型：([Int64](../../core/core_package_api/core_package_intrinsics.md#int64),[Month](time_package_enums.md#enum-month), [Int64](../../core/core_package_api/core_package_intrinsics.md#int64))
+
 ### prop hour
 
 ```cangjie
@@ -103,13 +115,17 @@ public prop month: Month
 
 类型：[Month](time_package_enums.md#enum-month)
 
-### prop monthValue
+### prop monthValue <sup>(deprecated)</sup>
 
 ```cangjie
 public prop monthValue: Int64
 ```
 
 功能：获取 [DateTime](time_package_structs.md#struct-datetime) 实例以数字形式表示的月份。
+
+> **注意：**
+>
+> 未来版本即将废弃不再使用。
 
 类型：[Int64](../../core/core_package_api/core_package_intrinsics.md#int64)
 
@@ -143,6 +159,16 @@ public prop year: Int64
 
 类型：[Int64](../../core/core_package_api/core_package_intrinsics.md#int64)
 
+### prop time
+
+```cangjie
+public prop time: (Int64, Int64, Int64)
+```
+
+功能：获取 [DateTime](time_package_structs.md#struct-datetime) 实例的时、分、秒。
+
+类型：([Int64](../../core/core_package_api/core_package_intrinsics.md#int64),[Int64](../../core/core_package_api/core_package_intrinsics.md#int64), [Int64](../../core/core_package_api/core_package_intrinsics.md#int64))
+
 ### prop zone
 
 ```cangjie
@@ -171,7 +197,7 @@ public prop zoneOffset: Duration
 
 功能：获取 [DateTime](time_package_structs.md#struct-datetime) 实例所关联的 [TimeZone](time_package_classes.md#class-timezone) 实例的时间偏移。
 
-类型：[Duration](time_package_structs.md#struct-duration)
+类型：[Duration](../../core/core_package_api/core_package_structs.md#struct-duration)
 
 ### static func fromUnixTimeStamp(Duration)
 
@@ -183,7 +209,7 @@ public static func fromUnixTimeStamp(d: Duration): DateTime
 
 参数：
 
-- d: [Duration](time_package_structs.md#struct-duration) - 时间间隔。
+- d: [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) - 时间间隔。
 
 返回值：
 
@@ -347,7 +373,7 @@ public static func ofUTC(
 
 异常：
 
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当参数值超出指定范围时，抛出异常
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当参数值超出指定范围时，抛出异常。
 
 ### static func ofUTC(Int64, Month, Int64, Int64, Int64, Int64, Int64)
 
@@ -368,7 +394,7 @@ public static func ofUTC(
 参数：
 
 - year!: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 年，范围[-999,999,999, 999,999,999]。
-- month!: [Month](time_package_enums.md#enum-month) - 月，[Month](time_package_enums.md#enum-month) 类型
+- month!: [Month](time_package_enums.md#enum-month) - 月，[Month](time_package_enums.md#enum-month) 类型。
 - dayOfMonth!: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 日, 范围[1, 31]，最大取值需要跟 month 匹配，可能是 28、29、30、31。
 - hour!: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 时，范围[0, 23]。
 - minute!: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 分，范围[0, 59]。
@@ -409,7 +435,7 @@ public static func parse(str: String): DateTime
 public static func parse(str: String, format: String): DateTime
 ```
 
-功能：根据 `format` 指定的时间格式，从字符串 `str` 中解析得到时间，解析成功时返回 [DateTime](time_package_structs.md#struct-datetime) 实例，解析具体规格可见下文“从字符串中解析得到时间”模块。
+功能：根据 `format` 指定的时间格式，从字符串 `str` 中解析得到时间，解析成功时返回 [DateTime](time_package_structs.md#struct-datetime) 实例。
 
 参数：
 
@@ -425,13 +451,17 @@ public static func parse(str: String, format: String): DateTime
 - [TimeParseException](time_package_exceptions.md#class-timeparseexception) - 当无法正常解析时，或存在同一 `format` 的多次取值时，抛出异常。
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当 `format` 格式不正确时，抛出异常。
 
-### static func parse(String, DateTimeFormat)
+### static func parse(String, DateTimeFormat) <sup>(deprecated)</sup>
 
 ```cangjie
 public static func parse(str: String, format: DateTimeFormat): DateTime
 ```
 
-功能：根据 `format` 指定的时间格式，从字符串 `str` 中解析得到时间，解析成功时返回 [DateTime](time_package_structs.md#struct-datetime) 实例，解析具体规格可见下文“从字符串中解析得到时间”模块。
+功能：根据 `format` 指定的时间格式，从字符串 `str` 中解析得到时间，解析成功时返回 [DateTime](time_package_structs.md#struct-datetime) 实例。
+
+> **注意：**
+>
+> 未来版本即将废弃，使用 [parse(String, String)](#static-func-parsestring-string) 替代。
 
 参数：
 
@@ -447,6 +477,22 @@ public static func parse(str: String, format: DateTimeFormat): DateTime
 - [TimeParseException](time_package_exceptions.md#class-timeparseexception) - 当无法正常解析时，或存在同一 `format` 的多次取值时，抛出异常。
 - [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当 `format` 格式不正确时，抛出异常。
 
+### static func tryParse(String)
+
+```cangjie
+public static func tryParse(str: String): Option<DateTime>
+```
+
+功能：从参数 `str` 中解析得到时间，解析成功时返回 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<[DateTime](time_package_structs.md#struct-datetime)> 实例。
+
+参数：
+
+- str: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 时间字符串，格式为 `RFC3339` 中 `date-time` 格式，可包含小数秒，如 "2023-04-10T08:00:00[.123456]+08:00"(`[]` 中的内容表示可选项)。
+
+返回值：
+
+- [Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<[DateTime](time_package_structs.md#struct-datetime)> - 从参数 `str` 中解析出的 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<[DateTime](time_package_structs.md#struct-datetime)> 实例，如果解析失败返回 [Option](../../core/core_package_api/core_package_enums.md#enum-optiont)\<DateTime>.None。
+
 ### func addDays(Int64)
 
 ```cangjie
@@ -461,11 +507,11 @@ public func addDays(n: Int64): DateTime
 
 返回值：
 
-- [DateTime](time_package_structs.md#struct-datetime) -  [DateTime](time_package_structs.md#struct-datetime) 实例 `n` 天后的时间。
+- [DateTime](time_package_structs.md#struct-datetime) - [DateTime](time_package_structs.md#struct-datetime) 实例 `n` 天后的时间。
 
 异常：
 
-- [ArithmeticException](../../core/core_package_api/core_package_exceptions.md#class-arithmeticexception) -  [DateTime](time_package_structs.md#struct-datetime) 实例 `n` 天后的日期时间超过表示范围时，抛出异常。
+- [ArithmeticException](../../core/core_package_api/core_package_exceptions.md#class-arithmeticexception) - [DateTime](time_package_structs.md#struct-datetime) 实例 `n` 天后的日期时间超过表示范围时，抛出异常。
 
 ### func addHours(Int64)
 
@@ -481,11 +527,11 @@ public func addHours(n: Int64): DateTime
 
 返回值：
 
-- [DateTime](time_package_structs.md#struct-datetime) -  [DateTime](time_package_structs.md#struct-datetime) 实例 `n` 小时后的时间。
+- [DateTime](time_package_structs.md#struct-datetime) - [DateTime](time_package_structs.md#struct-datetime) 实例 `n` 小时后的时间。
 
 异常：
 
-- [ArithmeticException](../../core/core_package_api/core_package_exceptions.md#class-arithmeticexception) -  [DateTime](time_package_structs.md#struct-datetime) 实例 `n` 小时后的日期时间超过表示范围时，抛出异常。
+- [ArithmeticException](../../core/core_package_api/core_package_exceptions.md#class-arithmeticexception) - [DateTime](time_package_structs.md#struct-datetime) 实例 `n` 小时后的日期时间超过表示范围时，抛出异常。
 
 ### func addMinutes(Int64)
 
@@ -501,11 +547,11 @@ public func addMinutes(n: Int64): DateTime
 
 返回值：
 
-- [DateTime](time_package_structs.md#struct-datetime) -  [DateTime](time_package_structs.md#struct-datetime) 实例 `n` 分钟后的时间。
+- [DateTime](time_package_structs.md#struct-datetime) - [DateTime](time_package_structs.md#struct-datetime) 实例 `n` 分钟后的时间。
 
 异常：
 
-- [ArithmeticException](../../core/core_package_api/core_package_exceptions.md#class-arithmeticexception) -  [DateTime](time_package_structs.md#struct-datetime) 实例 `n` 分钟后的日期时间超过表示范围时，抛出异常。
+- [ArithmeticException](../../core/core_package_api/core_package_exceptions.md#class-arithmeticexception) - [DateTime](time_package_structs.md#struct-datetime) 实例 `n` 分钟后的日期时间超过表示范围时，抛出异常。
 
 ### func addMonths(Int64)
 
@@ -517,7 +563,7 @@ public func addMonths(n: Int64): DateTime
 
 > **注意：**
 >
-> 由于月的间隔不固定，若设 dt 表示 “2020年3月30日”，`dt.addMonths(1)` 不会返回非法日期“2020年3月31日”。为了尽量返回有效的日期，会偏移到当月最后一天，返回“2020年4月30日”。
+> 由于月的间隔不固定，若设 dt 表示 “2020年3月31日”，`dt.addMonths(1)` 不会返回非法日期“2020年4月31日”。为了尽量返回有效的日期，会偏移到当月最后一天，返回“2020年4月30日”。
 
 参数：
 
@@ -525,11 +571,11 @@ public func addMonths(n: Int64): DateTime
 
 返回值：
 
-- [DateTime](time_package_structs.md#struct-datetime) -  [DateTime](time_package_structs.md#struct-datetime) 实例 `n` 月后的时间。
+- [DateTime](time_package_structs.md#struct-datetime) - [DateTime](time_package_structs.md#struct-datetime) 实例 `n` 月后的时间。
 
 异常：
 
-- [ArithmeticException](../../core/core_package_api/core_package_exceptions.md#class-arithmeticexception) -  [DateTime](time_package_structs.md#struct-datetime) 实例 `n` 月后的日期时间超过表示范围时，抛出异常。
+- [ArithmeticException](../../core/core_package_api/core_package_exceptions.md#class-arithmeticexception) - [DateTime](time_package_structs.md#struct-datetime) 实例 `n` 月后的日期时间超过表示范围时，抛出异常。
 
 ### func addNanoseconds(Int64)
 
@@ -545,11 +591,11 @@ public func addNanoseconds(n: Int64): DateTime
 
 返回值：
 
-- [DateTime](time_package_structs.md#struct-datetime) -  [DateTime](time_package_structs.md#struct-datetime) 实例 `n` 纳秒后的时间。
+- [DateTime](time_package_structs.md#struct-datetime) - [DateTime](time_package_structs.md#struct-datetime) 实例 `n` 纳秒后的时间。
 
 异常：
 
-- [ArithmeticException](../../core/core_package_api/core_package_exceptions.md#class-arithmeticexception) -  [DateTime](time_package_structs.md#struct-datetime) 实例 `n` 纳秒后时间的日期时间超过表示范围时，抛出异常。
+- [ArithmeticException](../../core/core_package_api/core_package_exceptions.md#class-arithmeticexception) - [DateTime](time_package_structs.md#struct-datetime) 实例 `n` 纳秒后时间的日期时间超过表示范围时，抛出异常。
 
 ### func addSeconds(Int64)
 
@@ -565,11 +611,11 @@ public func addSeconds(n: Int64): DateTime
 
 返回值：
 
-- [DateTime](time_package_structs.md#struct-datetime) -  [DateTime](time_package_structs.md#struct-datetime) 实例 `n` 秒后的时间。
+- [DateTime](time_package_structs.md#struct-datetime) - [DateTime](time_package_structs.md#struct-datetime) 实例 `n` 秒后的时间。
 
 异常：
 
-- [ArithmeticException](../../core/core_package_api/core_package_exceptions.md#class-arithmeticexception) -  [DateTime](time_package_structs.md#struct-datetime) 实例 `n` 秒后的日期时间超过表示范围时，抛出异常。
+- [ArithmeticException](../../core/core_package_api/core_package_exceptions.md#class-arithmeticexception) - [DateTime](time_package_structs.md#struct-datetime) 实例 `n` 秒后的日期时间超过表示范围时，抛出异常。
 
 ### func addWeeks(Int64)
 
@@ -585,7 +631,7 @@ public func addWeeks(n: Int64): DateTime
 
 返回值：
 
-- [DateTime](time_package_structs.md#struct-datetime) -  [DateTime](time_package_structs.md#struct-datetime) 实例 `n` 周后的时间。
+- [DateTime](time_package_structs.md#struct-datetime) - [DateTime](time_package_structs.md#struct-datetime) 实例 `n` 周后的时间。
 
 异常：
 
@@ -609,11 +655,11 @@ public func addYears(n: Int64): DateTime
 
 返回值：
 
-- [DateTime](time_package_structs.md#struct-datetime) -  [DateTime](time_package_structs.md#struct-datetime) 实例 `n` 年后的时间。
+- [DateTime](time_package_structs.md#struct-datetime) - [DateTime](time_package_structs.md#struct-datetime) 实例 `n` 年后的时间。
 
 异常：
 
-- [ArithmeticException](../../core/core_package_api/core_package_exceptions.md#class-arithmeticexception) -  [DateTime](time_package_structs.md#struct-datetime) 实例 `n` 年后的日期时间超过表示范围时，抛出异常。
+- [ArithmeticException](../../core/core_package_api/core_package_exceptions.md#class-arithmeticexception) - [DateTime](time_package_structs.md#struct-datetime) 实例 `n` 年后的日期时间超过表示范围时，抛出异常。
 
 ### func compare(DateTime)
 
@@ -629,7 +675,7 @@ public func compare(rhs: DateTime): Ordering
 
 返回值：
 
-- [Ordering](../../core/core_package_api/core_package_enums.md#enum-ordering) -  [DateTime](time_package_structs.md#struct-datetime) 实例与 `rhs` 大小关系。
+- [Ordering](../../core/core_package_api/core_package_enums.md#enum-ordering) - [DateTime](time_package_structs.md#struct-datetime) 实例与 `rhs` 大小关系。
 
 ### func hashCode()
 
@@ -653,7 +699,7 @@ public func inLocal(): DateTime
 
 返回值：
 
-- [DateTime](time_package_structs.md#struct-datetime) -  [DateTime](time_package_structs.md#struct-datetime) 实例在本地时区的时间。
+- [DateTime](time_package_structs.md#struct-datetime) - [DateTime](time_package_structs.md#struct-datetime) 实例在本地时区的时间。
 
 异常：
 
@@ -673,7 +719,7 @@ public func inTimeZone(timeZone: TimeZone): DateTime
 
 返回值：
 
-- [DateTime](time_package_structs.md#struct-datetime) -  [DateTime](time_package_structs.md#struct-datetime) 实例在参数 `timezone` 指定时区的时间。
+- [DateTime](time_package_structs.md#struct-datetime) - [DateTime](time_package_structs.md#struct-datetime) 实例在参数 `timezone` 指定时区的时间。
 
 异常：
 
@@ -689,7 +735,7 @@ public func inUTC(): DateTime
 
 返回值：
 
-- [DateTime](time_package_structs.md#struct-datetime) -  [DateTime](time_package_structs.md#struct-datetime) 实例在 `UTC` 时区的时间。
+- [DateTime](time_package_structs.md#struct-datetime) - [DateTime](time_package_structs.md#struct-datetime) 实例在 `UTC` 时区的时间。
 
 异常：
 
@@ -705,35 +751,39 @@ public func toString(): String
 
 返回值：
 
-- [String](../../core/core_package_api/core_package_structs.md#struct-string) -  [DateTime](time_package_structs.md#struct-datetime) 实例的字符串表示。
+- [String](../../core/core_package_api/core_package_structs.md#struct-string) - [DateTime](time_package_structs.md#struct-datetime) 实例的字符串表示。
 
-### func toString(String)
+### func format(String)
 
 ```cangjie
-public func toString(format: String): String
+public func format(fmt: String): String
 ```
 
-功能：返回一个表示 [DateTime](time_package_structs.md#struct-datetime) 实例的字符串，其格式由参数 `format` 指定。格式说明详见[时间字符串格式](../time_package_overview.md#时间字符串格式)
+功能：返回一个表示 [DateTime](time_package_structs.md#struct-datetime) 实例的字符串，其格式由参数 `fmt` 指定。格式说明详见[时间字符串格式](../time_package_overview.md#时间字符串格式)。
 
 参数：
 
-- format: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 返回字符串的格式，其格式可为 "yyyy/MM/dd HH:mm:ss OOOO"。
+- fmt: [String](../../core/core_package_api/core_package_structs.md#struct-string) - 返回字符串的格式，其格式可为 "yyyy/MM/dd HH:mm:ss OOOO"。
 
 返回值：
 
-- [String](../../core/core_package_api/core_package_structs.md#struct-string) -  [DateTime](time_package_structs.md#struct-datetime) 实例在 `format` 指定格式下的字符串。
+- [String](../../core/core_package_api/core_package_structs.md#struct-string) - [DateTime](time_package_structs.md#struct-datetime) 实例在 `fmt` 指定格式下的字符串，如果无法解析则原样返回 `fmt` 指定格式。
 
 异常：
 
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当 `format` 格式不正确时，抛出异常。
+- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当 `fmt` 格式不符合[时间字符串格式](../time_package_overview.md#时间字符串格式)，则抛出异常。
 
-### func toString(DateTimeFormat)
+### func toString(DateTimeFormat) <sup>(deprecated)</sup>
 
 ```cangjie
 public func toString(format: DateTimeFormat): String
 ```
 
-功能：返回一个表示 [DateTime](time_package_structs.md#struct-datetime) 实例的字符串，其格式由参数 `format` 指定。格式说明详见[时间字符串格式](../time_package_overview.md#时间字符串格式)
+功能：返回一个表示 [DateTime](time_package_structs.md#struct-datetime) 实例的字符串，其格式由参数 `format` 指定。格式说明详见[时间字符串格式](../time_package_overview.md#时间字符串格式)。
+
+> **注意：**
+>
+> 未来版本即将废弃不再使用。
 
 参数：
 
@@ -741,7 +791,7 @@ public func toString(format: DateTimeFormat): String
 
 返回值：
 
-- [String](../../core/core_package_api/core_package_structs.md#struct-string) -  [DateTime](time_package_structs.md#struct-datetime) 实例在 `format` 指定格式下的字符串。
+- [String](../../core/core_package_api/core_package_structs.md#struct-string) - [DateTime](time_package_structs.md#struct-datetime) 实例在 `format` 指定格式下的字符串。
 
 异常：
 
@@ -757,7 +807,7 @@ public func toUnixTimeStamp(): Duration
 
 返回值：
 
-- [Duration](time_package_structs.md#struct-duration) - 当前实例自 [UnixEpoch](#static-prop-unixepoch) 的时间间隔。
+- [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) - 当前实例自 [UnixEpoch](#static-prop-unixepoch) 的时间间隔。
 
 ### operator func !=(DateTime)
 
@@ -783,11 +833,11 @@ public operator func !=(r: DateTime): Bool
 public operator func +(r: Duration): DateTime
 ```
 
-功能：实现 [DateTime](time_package_structs.md#struct-datetime) 类型和 [Duration](time_package_structs.md#struct-duration) 类型加法，即 [DateTime](time_package_structs.md#struct-datetime) + [Duration](time_package_structs.md#struct-duration) 运算。
+功能：实现 [DateTime](time_package_structs.md#struct-datetime) 类型和 [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) 类型加法，即 [DateTime](time_package_structs.md#struct-datetime) + [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) 运算。
 
 参数：
 
-- r: [Duration](time_package_structs.md#struct-duration) - 加法的右操作数。
+- r: [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) - 加法的右操作数。
 
 返回值：
 
@@ -811,7 +861,7 @@ public operator func -(r: DateTime): Duration
 
 返回值：
 
-- [Duration](time_package_structs.md#struct-duration) - [DateTime](time_package_structs.md#struct-datetime) 类型实例和 `r` 的差。
+- [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) - [DateTime](time_package_structs.md#struct-datetime) 类型实例和 `r` 的差。
 
 ### operator func -(Duration)
 
@@ -819,11 +869,11 @@ public operator func -(r: DateTime): Duration
 public operator func -(r: Duration): DateTime
 ```
 
-功能：实现 [DateTime](time_package_structs.md#struct-datetime) 类型和 [Duration](time_package_structs.md#struct-duration) 类型减法，即 [DateTime](time_package_structs.md#struct-datetime) - [Duration](time_package_structs.md#struct-duration) 运算。
+功能：实现 [DateTime](time_package_structs.md#struct-datetime) 类型和 [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) 类型减法，即 [DateTime](time_package_structs.md#struct-datetime) - [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) 运算。
 
 参数：
 
-- r: [Duration](time_package_structs.md#struct-duration) - 减法的右操作数。
+- r: [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) - 减法的右操作数。
 
 返回值：
 
@@ -915,547 +965,6 @@ public operator func >=(r: DateTime): Bool
 
 - [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - `true` 或 `false`。当前 [DateTime](time_package_structs.md#struct-datetime) 实例晚于或等于 `r` 时，返回 `true`；否则，返回 `false`。
 
-## struct Duration
-
-```cangjie
-public struct Duration <: ToString & Hashable & Comparable<Duration>
-```
-
-功能：[Duration](time_package_structs.md#struct-duration) 表示时间间隔，是一个描述一段时间的时间类型，提供了常用的静态实例，以及计算、比较等功能。
-
-> **说明：**
->
-> - [Duration](time_package_structs.md#struct-duration) 表示范围为 [Duration](time_package_structs.md#struct-duration).Min 至 [Duration](time_package_structs.md#struct-duration).Max，数值表示为 [-2<sup>63</sup>, 2<sup>63</sup>)（单位为秒），精度为纳秒。
-> - [Duration](time_package_structs.md#struct-duration) 每个时间单位均用整数表示，如果实际值不为整数，则向绝对值小的方向取整。例如表示 `1小时30分46秒` 的 [Duration](time_package_structs.md#struct-duration) 实例调用 `toHours` 方法，将返回结果 1 而不是 1.5 或 2。
-
-父类型：
-
-- [ToString](../../core/core_package_api/core_package_interfaces.md#interface-tostring)
-- [Hashable](../../core/core_package_api/core_package_interfaces.md#interface-hashable)
-- [Comparable](../../core/core_package_api/core_package_interfaces.md#interface-comparablet)\<[Duration](#struct-duration)>
-
-### static prop Max
-
-```cangjie
-public static prop Max: Duration
-```
-
-功能：表示最大时间间隔的 [Duration](time_package_structs.md#struct-duration) 实例。
-
-类型：[Duration](time_package_structs.md#struct-duration)
-
-### static prop Min
-
-```cangjie
-public static prop Min: Duration
-```
-
-功能：表示最小时间间隔的 [Duration](time_package_structs.md#struct-duration) 实例。
-
-类型：[Duration](time_package_structs.md#struct-duration)
-
-### static prop Zero
-
-```cangjie
-public static prop Zero: Duration
-```
-
-功能：表示 0 纳秒时间间隔的 [Duration](time_package_structs.md#struct-duration) 实例。
-
-类型：[Duration](time_package_structs.md#struct-duration)
-
-### static prop day
-
-```cangjie
-public static prop day: Duration
-```
-
-功能：表示 1 天时间间隔的 [Duration](time_package_structs.md#struct-duration) 实例。
-
-类型：[Duration](time_package_structs.md#struct-duration)
-
-### static prop hour
-
-```cangjie
-public static prop hour: Duration
-```
-
-功能：表示 1 小时时间间隔的 [Duration](time_package_structs.md#struct-duration) 实例。
-
-类型：[Duration](time_package_structs.md#struct-duration)
-
-### static prop microsecond
-
-```cangjie
-public static prop microsecond: Duration
-```
-
-功能：表示 1 微秒时间间隔的 [Duration](time_package_structs.md#struct-duration) 实例。
-
-类型：[Duration](time_package_structs.md#struct-duration)
-
-### static prop millisecond
-
-```cangjie
-public static prop millisecond: Duration
-```
-
-功能：表示 1 毫秒时间间隔的 [Duration](time_package_structs.md#struct-duration) 实例。
-
-类型：[Duration](time_package_structs.md#struct-duration)
-
-### static prop minute
-
-```cangjie
-public static prop minute: Duration
-```
-
-功能：表示 1 分钟时间间隔的 [Duration](time_package_structs.md#struct-duration) 实例。
-
-类型：[Duration](time_package_structs.md#struct-duration)
-
-### static prop nanosecond
-
-```cangjie
-public static prop nanosecond: Duration
-```
-
-功能：表示 1 纳秒时间间隔的 [Duration](time_package_structs.md#struct-duration) 实例。
-
-类型：[Duration](time_package_structs.md#struct-duration)
-
-### static prop second
-
-```cangjie
-public static prop second: Duration
-```
-
-功能：表示 1 秒时间间隔的 [Duration](time_package_structs.md#struct-duration) 实例。
-
-类型：[Duration](time_package_structs.md#struct-duration)
-
-### static func since(DateTime)
-
-```cangjie
-public static func since(t: DateTime): Duration
-```
-
-功能：计算从参数 `t` 开始到当前时间为止的时间间隔。
-
-参数：
-
-- t: [DateTime](time_package_structs.md#struct-datetime) - [DateTime](time_package_structs.md#struct-datetime) 实例。
-
-返回值：
-
-- [Duration](time_package_structs.md#struct-duration) - [Duration](time_package_structs.md#struct-duration) 实例。
-
-### static func until(DateTime)
-
-```cangjie
-public static func until(t: DateTime): Duration
-```
-
-功能：计算从当前时间开始到参数 `t` 为止的时间间隔。
-
-参数：
-
-- t: [DateTime](time_package_structs.md#struct-datetime) - [DateTime](time_package_structs.md#struct-datetime) 实例。
-
-返回值：
-
-- [Duration](time_package_structs.md#struct-duration) - [Duration](time_package_structs.md#struct-duration) 实例。
-
-### func abs()
-
-```cangjie
-public func abs(): Duration
-```
-
-功能：返回一个新的 [Duration](time_package_structs.md#struct-duration) 实例，其值大小为当前 [Duration](time_package_structs.md#struct-duration) 实例绝对值。
-
-返回值：
-
-- [Duration](time_package_structs.md#struct-duration) - 当前 [Duration](time_package_structs.md#struct-duration) 实例取绝对值的结果。
-
-异常：
-
-- [ArithmeticException](../../core/core_package_api/core_package_exceptions.md#class-arithmeticexception) - 如果当前 [Duration](time_package_structs.md#struct-duration) 实例等于 [Duration](time_package_structs.md#struct-duration).Min，会因为取绝对值超出 [Duration](time_package_structs.md#struct-duration) 表示范围而抛异常。
-
-### func compare(Duration)
-
-```cangjie
-public func compare(rhs: Duration): Ordering
-```
-
-功能：比较当前 [Duration](time_package_structs.md#struct-duration) 实例与另一个 [Duration](time_package_structs.md#struct-duration) 实例的关系，如果大于，返回 [Ordering](../../core/core_package_api/core_package_enums.md#enum-ordering).GT；如果等于，返回 [Ordering](../../core/core_package_api/core_package_enums.md#enum-ordering).EQ；如果小于，返回 [Ordering](../../core/core_package_api/core_package_enums.md#enum-ordering).LT。
-
-参数：
-
-- rhs: [Duration](time_package_structs.md#struct-duration) - 参与比较的 [Duration](time_package_structs.md#struct-duration) 实例。
-
-返回值：
-
-- [Ordering](../../core/core_package_api/core_package_enums.md#enum-ordering) - 当前 [Duration](time_package_structs.md#struct-duration) 实例与 `rhs` 的大小关系。
-
-### func hashCode()
-
-```cangjie
-public func hashCode(): Int64
-```
-
-功能：获得当前 [Duration](time_package_structs.md#struct-duration) 实例的哈希值。
-
-返回值：
-
-- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 当前 [Duration](time_package_structs.md#struct-duration) 实例的哈希值。
-
-### func toDays()
-
-```cangjie
-public func toDays(): Int64
-```
-
-功能：获得当前 [Duration](time_package_structs.md#struct-duration) 实例以天为单位的整数大小。
-
-返回值：
-
-- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 当前 [Duration](time_package_structs.md#struct-duration) 实例以天为单位的大小。
-
-### func toHours()
-
-```cangjie
-public func toHours(): Int64
-```
-
-功能：获得当前 [Duration](time_package_structs.md#struct-duration) 实例以小时为单位的整数大小。
-
-返回值：
-
-- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 当前 [Duration](time_package_structs.md#struct-duration) 实例以小时为单位的大小。
-
-### func toMicroseconds()
-
-```cangjie
-public func toMicroseconds(): Int64
-```
-
-功能：获得当前 [Duration](time_package_structs.md#struct-duration) 实例以微秒为单位的整数大小。
-
-返回值：
-
-- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 当前 [Duration](time_package_structs.md#struct-duration) 实例以微秒为单位的大小。
-
-异常：
-
-- [ArithmeticException](../../core/core_package_api/core_package_exceptions.md#class-arithmeticexception) - 当 [Duration](time_package_structs.md#struct-duration) 实例以微秒为单位的大小超过 [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) 表示范围时，抛出异常。
-
-### func toMilliseconds()
-
-```cangjie
-public func toMilliseconds(): Int64
-```
-
-功能：获得当前 [Duration](time_package_structs.md#struct-duration) 实例以毫秒为单位的整数大小。
-
-返回值：
-
-- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 当前 [Duration](time_package_structs.md#struct-duration) 实例以毫秒为单位的大小。
-
-异常：
-
-- [ArithmeticException](../../core/core_package_api/core_package_exceptions.md#class-arithmeticexception) - 当 [Duration](time_package_structs.md#struct-duration) 实例以毫秒为单位的大小超过 [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) 表示范围时，抛出异常。
-
-### func toMinutes()
-
-```cangjie
-public func toMinutes(): Int64
-```
-
-功能：获得当前 [Duration](time_package_structs.md#struct-duration) 实例以分钟为单位的整数大小。
-
-返回值：
-
-- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 当前 [Duration](time_package_structs.md#struct-duration) 实例以分钟为单位的大小。
-
-### func toNanoseconds()
-
-```cangjie
-public func toNanoseconds(): Int64
-```
-
-功能：获得当前 [Duration](time_package_structs.md#struct-duration) 实例以纳秒为单位的整数大小，向绝对值小的方向取整。
-
-返回值：
-
-- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 当前 [Duration](time_package_structs.md#struct-duration) 实例以纳秒为单位的大小。
-
-异常：
-
-- [ArithmeticException](../../core/core_package_api/core_package_exceptions.md#class-arithmeticexception) - 当 [Duration](time_package_structs.md#struct-duration) 实例以“纳秒”为单位的大小超过 [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) 表示范围时，抛出异常。
-
-### func toSeconds()
-
-```cangjie
-public func toSeconds(): Int64
-```
-
-功能：获得当前 [Duration](time_package_structs.md#struct-duration) 实例以秒为单位的整数大小。
-
-返回值：
-
-- [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 当前 [Duration](time_package_structs.md#struct-duration) 实例以秒为单位的大小。
-
-### func toString()
-
-```cangjie
-public func toString(): String
-```
-
-功能：获得当前 [Duration](time_package_structs.md#struct-duration) 实例的字符串表示，格式形如："1d2h3m4s5ms6us7ns"，表示“1天2小时3分钟4秒5毫秒6微秒7纳秒”。某个单位下数值为 0 时此项会被省略，特别地，当所有单位下数值都为 0 时，返回 "0s"。
-
-返回值：
-
-- [String](../../core/core_package_api/core_package_structs.md#struct-string) - 当前 [Duration](time_package_structs.md#struct-duration) 实例的字符串表示。
-
-### operator func !=(Duration)
-
-```cangjie
-public operator func !=(r: Duration): Bool
-```
-
-功能：判断当前 [Duration](time_package_structs.md#struct-duration) 实例是否不等于 `r`。
-
-参数：
-
-- r: [Duration](time_package_structs.md#struct-duration) - [Duration](time_package_structs.md#struct-duration) 实例。
-
-返回值：
-
-- [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - `true` 或 `false`。当前 [Duration](time_package_structs.md#struct-duration) 实例不等于 `r` 时，返回 `true`；否则，返回 `false`。
-
-### operator func *(Float64)
-
-```cangjie
-public operator func *(r: Float64): Duration
-```
-
-功能：实现 [Duration](time_package_structs.md#struct-duration) 类型与 [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) 类型的乘法，即 [Duration](time_package_structs.md#struct-duration) * [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) 运算。
-
-参数：
-
-- r: [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 乘法的右操作数。
-
-返回值：
-
-- [Duration](time_package_structs.md#struct-duration) - [Duration](time_package_structs.md#struct-duration) 类型实例和 `r` 的乘积。
-
-异常：
-
-- [ArithmeticException](../../core/core_package_api/core_package_exceptions.md#class-arithmeticexception) - 当相乘后的结果超出 [Duration](time_package_structs.md#struct-duration) 的表示范围时，抛出异常。
-
-### operator func *(Int64)
-
-```cangjie
-public operator func *(r: Int64): Duration
-```
-
-功能：实现 [Duration](time_package_structs.md#struct-duration) 类型与 [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) 类型的乘法，即 [Duration](time_package_structs.md#struct-duration) * [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) 运算。
-
-参数：
-
-- r: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 乘法的右操作数。
-
-返回值：
-
-- [Duration](time_package_structs.md#struct-duration) - [Duration](time_package_structs.md#struct-duration) 类型实例和 `r` 的乘积。
-
-异常：
-
-- [ArithmeticException](../../core/core_package_api/core_package_exceptions.md#class-arithmeticexception) - 当相乘后的结果超出 [Duration](time_package_structs.md#struct-duration) 的表示范围时，抛出异常。
-
-### operator func +(Duration)
-
-```cangjie
-public operator func +(r: Duration): Duration
-```
-
-功能：实现 [Duration](time_package_structs.md#struct-duration) 类型之间的加法，即 [Duration](time_package_structs.md#struct-duration) + [Duration](time_package_structs.md#struct-duration) 运算。
-
-参数：
-
-- r: [Duration](time_package_structs.md#struct-duration) - 加法的右操作数。
-
-返回值：
-
-- [Duration](time_package_structs.md#struct-duration) - [Duration](time_package_structs.md#struct-duration) 类型实例和 `r` 的和。
-
-异常：
-
-- [ArithmeticException](../../core/core_package_api/core_package_exceptions.md#class-arithmeticexception) - 当相加后的结果超出 [Duration](time_package_structs.md#struct-duration) 的表示范围时，抛出异常。
-
-### operator func -(Duration)
-
-```cangjie
-public operator func -(r: Duration): Duration
-```
-
-功能：实现 [Duration](time_package_structs.md#struct-duration) 类型之间的减法，即 [Duration](time_package_structs.md#struct-duration) - [Duration](time_package_structs.md#struct-duration) 运算。
-
-参数：
-
-- r: [Duration](time_package_structs.md#struct-duration) - 减法的右操作数。
-
-返回值：
-
-- [Duration](time_package_structs.md#struct-duration) - [Duration](time_package_structs.md#struct-duration) 类型实例和 `r` 的差。
-
-异常：
-
-- [ArithmeticException](../../core/core_package_api/core_package_exceptions.md#class-arithmeticexception) - 当相减后的结果超出 [Duration](time_package_structs.md#struct-duration) 的表示范围时，抛出异常。
-
-### operator func /(Duration)
-
-```cangjie
-public operator func /(r: Duration): Float64
-```
-
-功能：实现 [Duration](time_package_structs.md#struct-duration) 类型与 [Duration](time_package_structs.md#struct-duration) 类型的除法，即 [Duration](time_package_structs.md#struct-duration) / [Duration](time_package_structs.md#struct-duration) 运算。
-
-参数：
-
-- r: [Duration](time_package_structs.md#struct-duration) - 除数。
-
-返回值：
-
-- [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - [Duration](time_package_structs.md#struct-duration) 类型实例和 `r` 的商。
-
-异常：
-
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当 `r` 等于 [Duration](time_package_structs.md#struct-duration).Zero 时，抛出异常。
-
-### operator func /(Float64)
-
-```cangjie
-public operator func /(r: Float64): Duration
-```
-
-功能：实现 [Duration](time_package_structs.md#struct-duration) 类型与 [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) 类型的除法，即 [Duration](time_package_structs.md#struct-duration) / [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) 运算。
-
-参数：
-
-- r: [Float64](../../core/core_package_api/core_package_intrinsics.md#float64) - 除数。
-
-返回值：
-
-- [Duration](time_package_structs.md#struct-duration) - [Duration](time_package_structs.md#struct-duration) 类型实例和 `r` 的商。
-
-异常：
-
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当 `r` 等于 0 时，抛出异常。
-- [ArithmeticException](../../core/core_package_api/core_package_exceptions.md#class-arithmeticexception) - 当相除后的结果超出 [Duration](time_package_structs.md#struct-duration) 的表示范围时，抛出异常。
-
-### operator func /(Int64)
-
-```cangjie
-public operator func /(r: Int64): Duration
-```
-
-功能：实现 [Duration](time_package_structs.md#struct-duration) 类型与 [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) 类型的除法，即 [Duration](time_package_structs.md#struct-duration) / [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) 运算。
-
-参数：
-
-- r: [Int64](../../core/core_package_api/core_package_intrinsics.md#int64) - 除数。
-
-返回值：
-
-- [Duration](time_package_structs.md#struct-duration) - [Duration](time_package_structs.md#struct-duration) 类型实例和 `r` 的商。
-
-异常：
-
-- [IllegalArgumentException](../../core/core_package_api/core_package_exceptions.md#class-illegalargumentexception) - 当 `r` 等于 0 时，抛出异常。
-- [ArithmeticException](../../core/core_package_api/core_package_exceptions.md#class-arithmeticexception) - 当相除后的结果超出 [Duration](time_package_structs.md#struct-duration) 的表示范围时，抛出异常。
-
-### operator func <(Duration)
-
-```cangjie
-public operator func <(r: Duration): Bool
-```
-
-功能：判断当前 [Duration](time_package_structs.md#struct-duration) 实例是否小于 `r`。
-
-参数：
-
-- r: [Duration](time_package_structs.md#struct-duration) - [Duration](time_package_structs.md#struct-duration) 实例。
-
-返回值：
-
-- [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - `true` 或 `false`。当前 [Duration](time_package_structs.md#struct-duration) 实例小于 `r` 时，返回 `true`；否则，返回 `false`。
-
-### operator func <=(Duration)
-
-```cangjie
-public operator func <=(r: Duration): Bool
-```
-
-功能：判断当前 [Duration](time_package_structs.md#struct-duration) 实例是否小于等于 `r`。
-
-参数：
-
-- r: [Duration](time_package_structs.md#struct-duration) - [Duration](time_package_structs.md#struct-duration) 实例。
-
-返回值：
-
-- [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - `true` 或 `false`。当前 [Duration](time_package_structs.md#struct-duration) 实例小于等于 `r` 时，返回 `true`；否则，返回 `false`。
-
-### operator func ==(Duration)
-
-```cangjie
-public operator func ==(r: Duration): Bool
-```
-
-功能：判断当前 [Duration](time_package_structs.md#struct-duration) 实例是否等于 `r`。
-
-参数：
-
-- r: [Duration](time_package_structs.md#struct-duration) - [Duration](time_package_structs.md#struct-duration) 实例。
-
-返回值：
-
-- [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - `true` 或 `false`。当前 [Duration](time_package_structs.md#struct-duration) 实例等于 `r` 时，返回 `true`；否则，返回 `false`。
-
-### operator func >(Duration)
-
-```cangjie
-public operator func >(r: Duration): Bool
-```
-
-功能：判断当前 [Duration](time_package_structs.md#struct-duration) 实例是否大于 `r`。
-
-参数：
-
-- r: [Duration](time_package_structs.md#struct-duration) - [Duration](time_package_structs.md#struct-duration) 实例。
-
-返回值：
-
-- [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - `true` 或 `false`。当前 [Duration](time_package_structs.md#struct-duration) 实例大于 `r` 时，返回 `true`；否则，返回 `false`。
-
-### operator func >=(Duration)
-
-```cangjie
-public operator func >=(r: Duration): Bool
-```
-
-功能：判断当前 [Duration](time_package_structs.md#struct-duration) 实例是否大于等于 `r`。
-
-参数：
-
-- r: [Duration](time_package_structs.md#struct-duration) - [Duration](time_package_structs.md#struct-duration) 实例。
-
-返回值：
-
-- [Bool](../../core/core_package_api/core_package_intrinsics.md#bool) - `true` 或 `false`。当前 [Duration](time_package_structs.md#struct-duration) 实例大于等于 `r` 时，返回 `true`；否则，返回 `false`。
-
 ## struct MonoTime
 
 ```cangjie
@@ -1464,7 +973,7 @@ public struct MonoTime <: Hashable & Comparable<MonoTime>
 
 功能：[MonoTime](time_package_structs.md#struct-monotime) 表示单调时间，是一个用来衡量经过时间的时间类型，类似于一直运行的秒表，提供了获取当前时间，计算和比较等功能。
 
-- [MonoTime](time_package_structs.md#struct-monotime) 可表示的范围为 [Duration.Zero](#static-prop-zero) 至 [Duration.Max](#static-prop-max)，数值表示为 [0, 2<sup>63</sup>)（单位为秒），精度为纳秒。通过 [now](#static-func-now) 方法创建的 [MonoTime](time_package_structs.md#struct-monotime) 总是晚于先使用该方式创建的 [MonoTime](time_package_structs.md#struct-monotime)，常用于性能测试和时间优先的任务队列。
+- [MonoTime](time_package_structs.md#struct-monotime) 可表示的范围为 [Duration.Zero](../../core/core_package_api/core_package_structs.md#static-const-zero) 至 [Duration.Max](../../core/core_package_api/core_package_structs.md#static-const-max)，数值表示为 [0, 2<sup>63</sup>)（单位为秒），精度为纳秒。通过 [now](#static-func-now) 方法创建的 [MonoTime](time_package_structs.md#struct-monotime) 总是晚于先使用该方式创建的 [MonoTime](time_package_structs.md#struct-monotime)，常用于性能测试和时间优先的任务队列。
 - 以下为 [MonoTime](time_package_structs.md#struct-monotime) 中 [now](#static-func-now) 函数获取当前时间使用的系统调用函数：
 
   | 系统    | 系统调用函数   | 时钟类型 |
@@ -1540,11 +1049,11 @@ public operator func !=(r: MonoTime): Bool
 public operator func +(r: Duration): MonoTime
 ```
 
-功能：实现 [MonoTime](time_package_structs.md#struct-monotime) 类型和 [Duration](time_package_structs.md#struct-duration) 类型加法，即 [MonoTime](time_package_structs.md#struct-monotime) + [Duration](time_package_structs.md#struct-duration) 运算。
+功能：实现 [MonoTime](time_package_structs.md#struct-monotime) 类型和 [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) 类型加法，即 [MonoTime](time_package_structs.md#struct-monotime) + [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) 运算。
 
 参数：
 
-- r: [Duration](time_package_structs.md#struct-duration) - 时间间隔。
+- r: [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) - 时间间隔。
 
 返回值：
 
@@ -1560,11 +1069,11 @@ public operator func +(r: Duration): MonoTime
 public operator func -(r: Duration): MonoTime
 ```
 
-功能：实现 [MonoTime](time_package_structs.md#struct-monotime) 类型和 [Duration](time_package_structs.md#struct-duration) 类型减法，即 [MonoTime](time_package_structs.md#struct-monotime) - [Duration](time_package_structs.md#struct-duration) 运算。
+功能：实现 [MonoTime](time_package_structs.md#struct-monotime) 类型和 [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) 类型减法，即 [MonoTime](time_package_structs.md#struct-monotime) - [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) 运算。
 
 参数：
 
-- r: [Duration](time_package_structs.md#struct-duration) - 时间间隔。
+- r: [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) - 时间间隔。
 
 返回值：
 
@@ -1588,7 +1097,7 @@ public operator func -(r: MonoTime): Duration
 
 返回值：
 
-- [Duration](time_package_structs.md#struct-duration) - 当前实例距 `r` 经过的时间间隔。
+- [Duration](../../core/core_package_api/core_package_structs.md#struct-duration) - 当前实例距 `r` 经过的时间间隔。
 
 ### operator func <(MonoTime)
 

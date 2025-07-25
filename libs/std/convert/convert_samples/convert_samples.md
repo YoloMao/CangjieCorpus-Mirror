@@ -1,39 +1,168 @@
-# convert 使用示例
+# convert 包使用示例
 
-代码如下：
+## format 使用示例
+
+### 格式化整型
+
+下面是格式化整型示例。
+
+示例：
 
 <!-- verify -->
-
 ```cangjie
 import std.convert.*
 
-main():Int64 {
-    var strBool_parse : String = "true"
-    var strBool_tryParse : String = "false"
-    var strChar_parse : String = "'a'"
-    var strChar_tryParse : String = "'\\u{00e2}'"
-    var strInt8_parse : String = "-128"
-    var strInt8_tryParse : String = "127"
-    var strInt16_parse : String = "-32768"
-    var strInt16_tryParse : String = "32767"
-    var strInt32_parse : String = "-2147483648"
-    var strInt32_tryParse : String = "2147483647"
-    var strInt64_parse : String = "-9223372036854775808"
-    var strInt64_tryParse : String = "9223372036854775807"
-    var strFloat16_parse : String = "-65504.0"
-    var strFloat16_tryParse : String = "65504.0"
-    var strFloat32_parse : String = "-3.14159"
-    var strFloat32_tryParse : String = "3.14159"
-    var strFloat64_parse : String = "-3.1415926"
-    var strFloat64_tryParse : String = "3.1415926"
-    var strUInt8_parse : String = "255"
-    var strUInt8_tryParse : String = "255"
-    var strUInt16_parse : String = "65535"
-    var strUInt16_tryParse : String = "65535"
-    var strUInt32_parse : String = "4294967295"
-    var strUInt32_tryParse : String = "4294967295"
-    var strUInt64_parse : String = "18446744073709551615"
-    var strUInt64_tryParse : String = "18446744073709551615"
+main(): Int64 {
+    var a: Int32 = -20
+    var res1 = a.format("-10")
+    var res2 = a.format("+10")
+    var res3 = (-20).format("10")
+    var res4 = a.format("-")
+    println("\"${res1}\"")
+    println("\"${res2}\"")
+    println("\"${res3}\"")
+    println("\"${res4}\"")
+    return 0
+}
+```
+
+运行结果：
+
+```text
+"-20       "
+"       -20"
+"       -20"
+"-20"
+```
+
+### 格式化浮点型
+
+下面是格式化浮点型示例。
+
+示例：
+
+<!-- verify -->
+```cangjie
+import std.convert.*
+
+main(): Int64 {
+    var a: Float16 = -0.34
+    var b: Float32 = .34
+    var c: Float64 = 3_0.3__4_
+    var d: Float64 = 20.00
+
+    /* 左对齐 */
+    var res1 = a.format("-20")
+
+    /* 右对齐 */
+    var res2 = b.format("+20")
+
+    /* 右对齐 */
+    var res3 = c.format("10")
+
+    /* 左对齐 */
+    var res4 = d.format("-10")
+
+    /* 正常输出 */
+    var res5 = d.format("-")
+
+    println("\"${res1}\"")
+    println("\"${res2}\"")
+    println("\"${res3}\"")
+    println("\"${res4}\"")
+    println("\"${res5}\"")
+    return 0
+}
+```
+
+运行结果：
+
+```text
+"-0.340088           "
+"           +0.340000"
+" 30.340000"
+"20.000000 "
+"20.000000"
+```
+
+### 格式化字符型
+
+下面是格式化字符型示例。
+
+示例：
+
+<!-- verify -->
+```cangjie
+import std.convert.*
+
+main(): Int64 {
+    var a: Rune = 'a'
+    var b: Rune = '-'
+
+    /* 左对齐 */
+    var res1 = a.format("-10")
+
+    /* 左对齐 */
+    var res2 = b.format("-10")
+
+    /* 右对齐 */
+    var res3 = a.format("10")
+
+    /* 右对齐 */
+    var res4 = b.format("10")
+
+    println("\"${res1}\"")
+    println("\"${res2}\"")
+    println("\"${res3}\"")
+    println("\"${res4}\"")
+    return 0
+}
+```
+
+运行结果：
+
+```text
+"a         "
+"-         "
+"         a"
+"         -"
+```
+
+## convert 使用示例
+
+示例：
+
+<!-- verify -->
+```cangjie
+import std.convert.*
+
+main(): Int64 {
+    var strBool_parse: String = "true"
+    var strBool_tryParse: String = "false"
+    var strChar_parse: String = "'a'"
+    var strChar_tryParse: String = "'\\u{00e2}'"
+    var strInt8_parse: String = "-128"
+    var strInt8_tryParse: String = "127"
+    var strInt16_parse: String = "-32768"
+    var strInt16_tryParse: String = "32767"
+    var strInt32_parse: String = "-2147483648"
+    var strInt32_tryParse: String = "2147483647"
+    var strInt64_parse: String = "-9223372036854775808"
+    var strInt64_tryParse: String = "9223372036854775807"
+    var strFloat16_parse: String = "-65504.0"
+    var strFloat16_tryParse: String = "65504.0"
+    var strFloat32_parse: String = "-3.14159"
+    var strFloat32_tryParse: String = "3.14159"
+    var strFloat64_parse: String = "-3.1415926"
+    var strFloat64_tryParse: String = "3.1415926"
+    var strUInt8_parse: String = "255"
+    var strUInt8_tryParse: String = "255"
+    var strUInt16_parse: String = "65535"
+    var strUInt16_tryParse: String = "65535"
+    var strUInt32_parse: String = "4294967295"
+    var strUInt32_tryParse: String = "4294967295"
+    var strUInt64_parse: String = "18446744073709551615"
+    var strUInt64_tryParse: String = "18446744073709551615"
 
     println("After the conversion of parse, \"true\" became ${Bool.parse(strBool_parse)}")
     println("After the conversion of tryParse, \"false\" became ${Bool.tryParse(strBool_tryParse)}")
@@ -77,7 +206,7 @@ main():Int64 {
 }
 ```
 
-运行结果如下：
+运行结果：
 
 ```text
 After the conversion of parse, "true" became true

@@ -182,7 +182,6 @@ public enum TokenKind <: ToString {
     UNIT|                     /*  "Unit"        */
     STRUCT|                   /*  "struct"      */
     ENUM|                     /*  "enum"        */
-    CFUNC|                    /*  "CFunc"       */
     VARRAY|                   /*  "VArray"      */
     THISTYPE|                 /*  "This"        */
     PACKAGE|                  /*  "package"     */
@@ -250,6 +249,8 @@ public enum TokenKind <: ToString {
     SENTINEL|                 /*  ";"             */
     RUNE_LITERAL|             /*  e.g. "r'x'"      */
     STRING_LITERAL|           /*  e.g. ""xx""     */
+    SINGLE_QUOTED_STRING_LITERAL|
+                              /*  e.g. "'xx'"    */
     JSTRING_LITERAL|          /*  e.g. "J"xx""     */
     MULTILINE_STRING|         /*  e.g. """"aaa""""   */
     MULTILINE_RAW_STRING|     /*  e.g. "#"aaa"#"     */
@@ -257,7 +258,9 @@ public enum TokenKind <: ToString {
     UNIT_LITERAL|             /*  "()"               */
     DOLLAR_IDENTIFIER|        /*  e.g. "$x"          */
     ANNOTATION|               /*  e.g. "@When"       */
-    ILLEGAL
+    AT_EXCL|                  /*  e.g. "@!"          */
+    ILLEGAL|
+    ...
 }
 ```
 
@@ -346,6 +349,14 @@ AT
 ```
 
 功能：构造一个表示 `@` 的枚举实例。
+
+### AT_EXCL
+
+```cangjie
+AT_EXCL
+```
+
+功能：构造一个表示 `@!` 的枚举实例。
 
 ### BACKARROW
 
@@ -450,14 +461,6 @@ CATCH
 ```
 
 功能：构造一个表示 `catch` 的枚举实例。
-
-### CFUNC
-
-```cangjie
-CFUNC
-```
-
-功能：构造一个表示 `cfunc` 的枚举实例。
 
 ### CLASS
 
@@ -1299,6 +1302,14 @@ SENTINEL
 
 功能：构造一个表示 `;` 的枚举实例。
 
+### SINGLE_QUOTED_STRING_LITERAL
+
+```cangjie
+SINGLE_QUOTED_STRING_LITERAL
+```
+
+功能：构造一个表示*单引号字符串字面量*的枚举实例。
+
 ### SPAWN
 
 ```cangjie
@@ -1321,7 +1332,7 @@ STATIC
 STRING_LITERAL
 ```
 
-功能：构造一个表示*字符串字面量*的枚举实例。
+功能：构造一个表示*双引号字符串字面量*的枚举实例。
 
 ### STRUCT
 
@@ -1377,7 +1388,7 @@ THIS
 THISTYPE
 ```
 
-功能：构造一个表示 `this` 的枚举实例。
+功能：构造一个表示 `This` 的枚举实例。
 
 ### THROW
 
@@ -1457,7 +1468,7 @@ UNIT
 UNIT_LITERAL
 ```
 
-功能：构造一个表示 `unit` 的枚举实例。
+功能：构造一个表示 `unit` 字面量的枚举实例。
 
 ### UNSAFE
 
@@ -1558,4 +1569,3 @@ public func toString(): String
 返回值：
 
 - [String](../../core/core_package_api/core_package_structs.md#struct-string) - [TokenKind](ast_package_enums.md#enum-tokenkind) 转换后的字符串值。
-

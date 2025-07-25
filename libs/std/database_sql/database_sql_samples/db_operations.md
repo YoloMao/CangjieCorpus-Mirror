@@ -13,26 +13,27 @@ main() {
     let ds = drv.open("opengauss://testuser:testpwd@localhost:5432/testdb", [])
     let conn = ds.connect()
 
-    // 插入数据示例
+    // 插入数据 1
     var stmt = conn.prepareStatement("INSERT INTO test VALUES(?, ?)")
-    var name = SqlVarchar("li lei")
-    var age = SqlNullableInteger(12)
-    var ur = stmt.update(name, age)
+    stmt.set<String>(0, "li lei")
+    stmt.set<Int32>(1, 12)
+    var ur = stmt.update()
     println("Update Result: ${ur.rowCount} ${ur.lastInsertId}")
-    name.value = "han meimei"
-    age.value = 13
-    ur = stmt.update(name, age)
+
+    // 插入数据 2
+    stmt.set<String>(0, "han meimei")
+    stmt.set<Int32>(1, 13)
+    ur = stmt.update()
     println("Update Result: ${ur.rowCount} ${ur.lastInsertId}")
 
     // 如果需要在插入数据后返回插入的 id 值，可以参考如下方式：
     let sql = "INSERT INTO test (name, age) VALUES (?,?) RETURNING id, name"
     try (stmt = conn.prepareStatement(sql)) {
-        var name = SqlVarchar("li hua")
-        var age = SqlNullableInteger(12)
-        let qr = stmt.query(name, age)
-        let id = SqlInteger(0)
-        while (qr.next(id, name)) {
-            println("id = ${id.value}, name=${name.value}")
+        stmt.set<String>(0, "li lei")
+        stmt.set<Int32>(1, 12)
+        let qr = stmt.query()
+        while (qr.next()) {
+            println("id = ${qr.get<Int32>(0)}, name=${qr.get<String>(1)}")
         }
     } catch (e: Exception) {
         e.printStackTrace()
@@ -56,12 +57,10 @@ main() {
 
     // 查询操作示例
     var stmt = conn.prepareStatement("select * from test where name = ?")
-    var name = SqlNullableVarchar("li lei")
-    let id = SqlInteger(0)
-    let qr = stmt.query(name)
-    var age = SqlNullableInteger(0)
-    while (qr.next(id, name, age)) {
-        println("id = ${id.value}, name = ${name.value}, age=${age.value}")
+    stmt.set<String>(0, "li lei")
+    let qr = stmt.query()
+    while (qr.next()) {
+        println("id = ${qr.get<Int32>(0)}, name = ${qr.get<String>(1)}, age=${qr.get<Int32>(2)}")
     }
     stmt.close()
 }
@@ -82,9 +81,9 @@ main() {
 
     // 更新操作示例
     var stmt = conn.prepareStatement("update test set age = ? where name = ?")
-    var age = SqlNullableInteger(15)
-    var name = SqlNullableVarchar("li lei")
-    var ur = stmt.update(age, name)
+    stmt.set<Int32>(0, 15)
+    stmt.set<String>(1, "li lei")
+    var ur = stmt.update()
     println("Update Result: ${ur.rowCount} ${ur.lastInsertId}")
     stmt.close()
 }
@@ -105,8 +104,8 @@ main() {
 
     // 删除操作示例
     var stmt = conn.prepareStatement("delete from test where name = ?")
-    var name = SqlNullableVarchar("li lei")
-    var ur = stmt.update(name)
+    stmt.set<String>(0, "li lei")
+    var ur = stmt.update()
     println("Update Result: ${ur.rowCount} ${ur.lastInsertId}")
     stmt.close()
 }

@@ -53,7 +53,7 @@ let s9 = ###"
 
 ### Size
 
-To obtain the length of a `Strinf`, use `str.size`. Note `size` is a property, so
+To obtain the length of a `String`, use `str.size`. Note `size` is a property, so
 no parenthesis should be added.
 
 ### Join
@@ -74,7 +74,7 @@ main() {
     let s1 = "abc"
     var s2 = "abd"
     println(s1 == s2)  // false
-    println(s1 + s2)  // abcABC
+    println(s1 + s2)  // abcabd
     println(s1 < s2)  // true
     println(s2 < s1)  // false
 }
@@ -138,7 +138,7 @@ main() {
 
 ### Parsing a string to integer
 
-To parse string into integers or other primitive types, import the `std.convert.*` package,
+To parse a string into integers or other primitive types, import the `std.convert.*` package,
 then use `parse` function. For example:
 
 ```
@@ -164,7 +164,7 @@ main() {
     println(words[2..])  // llo, World
     println(words[..5])  // Hello
     println(words[2..5])  // llo
-    println(words[2..=])  // llo,
+    println(words[2..=5])  // llo,
 }
 ```
 
@@ -196,6 +196,6 @@ main() {
         print("${c} ")
     }  // h e l l o
     println()
-    println(count(filter({c => c == r'l'})(s.runes())))  // 2
+    println(s.runes() |> filter {c => c == r'l'} |> count)  // 2
 }
 ```

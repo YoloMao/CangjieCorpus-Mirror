@@ -7,8 +7,8 @@
 import std.io.*
 
 main(): Unit {
-    let byteArrayStream = ByteArrayStream()
-    let stringWriter = StringWriter(byteArrayStream)
+    let byteBuffer = ByteBuffer()
+    let stringWriter = StringWriter(byteBuffer)
 
     /* 写入字符串 */
     stringWriter.write("number")
@@ -21,11 +21,11 @@ main(): Unit {
 
     stringWriter.flush()
 
-    println(String.fromUtf8(byteArrayStream.readToEnd()))
+    println(String.fromUtf8(readToEnd(byteBuffer)))
 }
 ```
 
-运行结果
+运行结果：
 
 ```text
 number is:

@@ -1,4 +1,4 @@
-### Numbers
+## Numbers
 
 ### Operation on numbers
 
@@ -12,7 +12,7 @@ Operation on integers are mostly as usual. Make note of the following.
 
 ### Priority between operations
 
-The unary minus `_` has higher priority than taking power. This can lead to
+The unary minus `-` has higher priority than taking power. This can lead to
 some counterintuitive results. Use parenthesis to ensure the right evaluation.
 For example:
 
@@ -23,16 +23,16 @@ main() {
 }
 ```
 
-#### Bitwise operations
+### Bitwise operations
 
-The bitwise AND and OR uses `&` and `|` as in other languages. The bitwise Not operation
+The bitwise AND and OR uses `&` and `|` as in other languages. The bitwise NOT operation
 uses `!` sign (instead of `~`).
 
 ```
 main() {
-    let a: Uint8 = 5    //00000101
-    let b: Uint8 = 9    //00001001
-    println("Bitwise Not of a: ${!a}")      // 11111010
+    let a: UInt8 = 5    //00000101
+    let b: UInt8 = 9    //00001001
+    println("Bitwise NOT of a: ${!a}")      // 11111010
     println("Bitwise AND of a and b: ${a & b}")      // 00000001
     println("Bitwise OR of a and b: ${a | b}")      // 00001101
 }
@@ -70,8 +70,7 @@ main() {
 ### Converting floating point number to integer
 
 To convert a floating point number to an integer, use syntax like `Int64(s)` (change
-to desired type of target value if necessary). This conversion rounds the floating-point
-number downward (same as `floor`).
+to desired type of target value if necessary). This conversion rounds the floating-point number toward zero.
 
 ```
 println(Int64(3.4))  // prints 3
@@ -83,8 +82,13 @@ available after importing `std,math.*`. These functions still return floating-po
 so another `Int64(.)` is needed. For example:
 
 ```
+println(Int64(3.4))  // prints 3
+println(Int64(-3.6))  // prints -3
 println(Int64(ceil(3.4)))   // prints 4
+println(Int64(ceil(-3.4)))   // prints -3
 println(Int64(floor(3.4)))  // prints 3
+println(Int64(floor(-3.4)))  // prints -4
 println(Int64(round(3.4)))  // prints 3
-println(Int64(round(3.6)))  // prints 4
+println(Int64(round(-3.4)))  // prints -3
+println(Int64(round(-3.6)))  // prints -4
 ```

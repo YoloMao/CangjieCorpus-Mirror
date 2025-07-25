@@ -6,11 +6,14 @@ mock/spy 对象和桩的使用方法多种多样。本文介绍了不同的模�
 
 [桩](./mock_framework_basics.md#配置-api) 通过在测试用例内部调用 `@On` 宏来声明，该声明在特定测试用例执行完成之前有效。多个测试用例之间可以[共享桩](#共享-mock-对象和桩)。
 
-mock 框架处理 mock/spy 对象成员调用时的顺序如下：
+mock 框架处理 mock/spy 对象成员（或静态成员或顶层函数或顶层变量）调用时的顺序如下：
 
-* 查找特定成员的桩。后声明的桩优先于之前声明的桩。测试用例主体内部声明的桩优先于共享桩。
+* 查找特定声明的桩。后声明的桩优先于之前声明的桩。测试用例主体内部声明的桩优先于共享桩。
 * 应用每个桩的**参数匹配器**。如果所有参数都成功匹配，则执行该桩定义的操作。
-* 如果找不到桩，或者没有与实际参数匹配的桩，则应用默认行为：对于 mock 对象，上报**未打桩调用**错误；对于 spy 对象，调用监控实例的原始成员。
+* 如果找不到桩，或者没有与实际参数匹配的桩，则应用默认行为：
+    * 对于 mock 对象，上报**未打桩调用**错误；
+    * 对于 spy 对象，调用被监视实例的原始成员；
+    * 对于静态成员或顶层函数或顶层变量，调用原始对应声明。
 
 无论是否为单个成员定义了多个桩，每个桩都有自己的预期，需要满足这些[预期](./mock_framework_basics.md#预期)才能通过测试。
 
@@ -34,7 +37,7 @@ foo.bar(2)
 // 测试服务开始失败时会发生什么事情
 ```
 
-## 同一成员定义多个桩
+## 同一声明定义多个桩
 
 根据不同参数，可以使用多个桩来定义不同的行为。
 
@@ -93,24 +96,24 @@ let isVisible = { c: Component => c.isVisible }
 class TestFoo {
     let foo = mock<Foo>()
 
-    //单元测试框架会在执行测试用例之前调用以下内容
+    // 单元测试框架会在执行测试用例之前调用以下内容
     public func beforeAll(): Unit {
-        //在所有测试用例之间共享默认行为
-        //此桩无需在每个测试用例中使用
+        // 在所有测试用例之间共享默认行为
+        // 此桩无需在每个测试用例中使用
         @On(foo.bar(_)).returns("default")
     }
 
     @TestCase
     func testZero() {
-        @On(foo.bar(0)).returns("zero") //本测试用例中需要使用此桩
-        foo.bar(0) //返回 "zero"
-        foo.bar(1) //返回 "default"
+        @On(foo.bar(0)).returns("zero") // 本测试用例中需要使用此桩
+        foo.bar(0) // 返回 "zero"
+        foo.bar(1) // 返回 "default"
     }
 
     @TestCase
     func testOne() {
         @On(foo.bar(0)).returns("one")
-        foo.bar(0) //返回 "one"
+        foo.bar(0) // 返回 "one"
     }
 }
 ```
@@ -131,17 +134,17 @@ class TestFoo {
         setupDefaultStubs()
         @On(foo.bar(0)).returns("zero")
 
-        foo.bar(0) //返回"zero"
-        foo.bar(1) //返回"default"
+        foo.bar(0) // 返回"zero"
+        foo.bar(1) // 返回"default"
     }
 
     @TestCase
     func testOne() {
         setupDefaultStubs()
         @On(foo.bar(0)).returns("zero")
-        foo.bar(0) //返回"zero"
+        foo.bar(0) // 返回"zero"
 
-        //预期失败，桩已声明但从未使用
+        // 预期失败，桩已声明但从未使用
     }
 }
 ```
@@ -151,7 +154,7 @@ class TestFoo {
 ## 捕获参数
 <!-- 链接至值侦听器API （自动生成的 API 手册） -->
 
-mock 框架使用 `captor(ValueListener)` 参数匹配器**捕获**参数来检查传递到桩成员的实际参数。只要触发了桩，`ValueListener` 就会拦截相应的参数，并检查参数和/或添加验证参数。
+mock 框架使用 `captor(ValueListener)` 参数匹配器**捕获**参数来检查传递到桩声明的实际参数。只要触发了桩，`ValueListener` 就会拦截相应的参数，并检查参数和/或添加验证参数。
 
 每次调用时，还可以使用 ValueListener.onEach 静态函数来验证某个条件。接受 lambda 后，触发桩时都会调用这个 lambda 。lambda 用于接收参数的值。
 
@@ -241,7 +244,7 @@ extend Matchers {
 <!--compile-->
 ```cangjie
 extend Matchers {
-    //只接受Int参数。
+    // 只接受Int参数。
     static func isDivisibleBy(n: Int): TypedMatcher<Int> {
         argThat { arg: Int => arg % n == 0}
     }
@@ -250,24 +253,24 @@ extend Matchers {
 
 大多数匹配器函数都指定了返回类型 `TypedMatcher<T>` 。这样的匹配器只接受类型为 `T` 。在桩声明中使用参数匹配器调用时，类型为 `T` 的值应该是被打桩函数或属性 setter 的有效参数。换句话说，类型 `T` 应该是参数子类型或与参数实际类型相同。
 
-## 设置属性和字段
+## 设置属性和字段和顶层变量
 
-字段和属性打桩的方式与方法相同，可以依[相同操作](./mock_framework_basics.md#操作-api)来配置返回值。
+字段和属性和顶层变量打桩的方式与函数相同，可以依[相同操作](./mock_framework_basics.md#操作-api)来配置返回值。
 
 setter 类似于返回 `Unit` 的函数。特殊操作 `doesNothing()` 可用于 setter。
 
 可变属性打桩的常用模式如下：
 
 ```cangjie
-@On(foo.prop).returns("value")  //配置getter
-@On(foo.prop = _).doesNothing() //忽略setter调用
+@On(foo.prop).returns("value")  // 配置getter
+@On(foo.prop = _).doesNothing() // 忽略setter调用
 ```
 
 极少场景下，我们期望可变属性的行为与字段的行为相同。要创建**合成字段**（框架生成的字段），请使用 `SyntheticField.create` 静态函数。合成字段存储由 mock 框架来管理。适用于 mock 含有可变属性和字段的接口或抽象类的场景。
 
 <!-- 链接至SyntheticField类 （自动生成的 API 手册）-->
 
-执行 `getsField` 和 `setsField` 桩操作将字段绑定到特定的调用，这些操作可以将预期配置为任何其他操作。
+执行 `getsField` 和 `setsField` 桩操作将字段或顶层变量绑定到特定的调用，这些操作可以将预期配置为任何其他操作。
 
 <!-- 待办：链接至字段操作 -->
 
@@ -283,26 +286,31 @@ func test() {
     @On(foo.bar).getsField(syntheticField)     // 对属性的读取访问即为读取合成字段
     @On(foo.bar = _).setsField(syntheticField) // 为属性写入新值
 
-    //此时'bar'属性表现为字段
+    // 此时'bar'属性表现为字段
 }
 ```
 
+> **注意：**
+>
 > 如果多个测试用例之间共享 `SyntheticField` 对象，则该字段本身的值会在每个测试用例之前重置为 `initialValue` ，避免在测试之间共享可变状态。
 
 ## 桩的模式
 
-通常，当一些调用匹配不到任何桩时将抛出异常。
-但是，对于某些常见情况， mock 对象可以配置增加默认行为，此时，当匹配不到任何桩时，将执行默认行为。这通过启用**桩模式**来实现。
-有两种可用的模式 `ReturnsDefaults` 和 `SyntheticFields` 。
-这些模式通过枚举类型 `StubMode` 表示。可以通过在创建 mock 对象时将其传递给 `mock` 函数来为特定的 mock 对象启用桩模式。
+通常，当一些调用匹配不到任何桩时将抛出异常。但是，对于某些常见情况，mock 对象可以配置增加默认行为，此时，当匹配不到任何桩时，将执行默认行为。这通过启用**桩模式**来实现。
+
+有两种可用的模式 `ReturnsDefaults` 和 `SyntheticFields` 。这些模式通过枚举类型 `StubMode` 表示。可以通过在创建 mock 对象时将其传递给 `mock` 函数来为特定的 mock 对象启用桩模式。
 
 ```cangjie
 public func mock<T>(modes: Array<StubMode>): T
 ```
 
 桩模式可用于在配置 mock 对象时减少代码，并且它们可以与显式桩自由组合。显式的桩始终优先于其默认行为。
-请注意，使用桩模式不会对 mock 对象的成员强加任何期望。
-当用例是检查是否仅调用 mock 对象的某些特定成员，则应谨慎使用桩模式。被测对象的行为可能会以不期望的方式发生变化，但测试仍可能通过。
+
+> **注意：**
+>
+> 使用桩模式不会对 mock 对象的成员强加任何期望。
+> 当用例是检查是否仅调用 mock 对象的某些特定成员，则应谨慎使用桩模式。被测对象的行为可能会以不期望的方式发生变化，但测试仍可能通过。
+> 当前桩模式不支持打桩静态成员和顶级函数/变量。
 
 ### ReturnsDefaults 模式
 
@@ -331,7 +339,8 @@ let foo = mock<Foo>(ReturnsDefaults)
 
 ### SyntheticFields 模式
 
-`SyntheticFields` 模式可简化对 `SyntheticField` 的配置动作，详见 [设置属性和字段](#设置属性和字段) 章节。
+`SyntheticFields` 模式可简化对 `SyntheticField` 的配置动作，详见 [设置属性和字段和顶层变量](#设置属性和字段和顶层变量) 章节。
+
 `SyntheticFields` 将通过 mock 框架为所有属性和字段隐式创建对应类型的合成字段。但是，这些字段只能在被赋值后读取。仅对可变属性和字段生效。
 
 ```cangjie
@@ -342,6 +351,7 @@ foo.bar = "Hello"
 ```
 
 赋给属性和字段的值仅在相应的测试用例中可见。
+
 当同时启用 `SyntheticFields` 和 `ReturnsDefaults` 时，赋的值优先于默认值。但是，只要字段或属性尚未被赋值，就可以使用默认值。
 
 ```cangjie

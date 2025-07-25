@@ -8,12 +8,12 @@
 import std.ast.*
 
 class MyVisitor <: Visitor {
-    public var unitializedVars = Tokens() // 存储变量词法单元
+    public var uninitializedVars = Tokens() // 存储变量词法单元
     override public func visit(varDecl: VarDecl) {
         try {
             varDecl.expr
         } catch (e: ASTException) {
-            unitializedVars.append(varDecl.identifier)
+            uninitializedVars.append(varDecl.identifier)
         }
         breakTraverse() // 不会继续遍历 varDecl 的子节点
         return
@@ -27,7 +27,7 @@ main(): Int64 {
     let varDecl = parseDecl(input)
     let visitor = MyVisitor() // MyVisitor中定义了对 varDecl 节点的处理
     varDecl.traverse(visitor) // 实现对 varDecl 节点的处理
-    println("Unitialized VarDecl size is ${visitor.unitializedVars.size}")
+    println("Uninitialized VarDecl size is ${visitor.uninitializedVars.size}")
     0
 }
 ```
@@ -35,5 +35,5 @@ main(): Int64 {
 运行结果：
 
 ```text
-Unitialized VarDecl size is 1
+Uninitialized VarDecl size is 1
 ```

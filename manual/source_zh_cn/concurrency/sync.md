@@ -74,12 +74,12 @@ main(): Int64 {
     let list = ArrayList<Future<Int64>>()
 
     // create 1000 threads.
-    for (i in 0..1000) {
+    for (_ in 0..1000) {
         let fut = spawn {
             sleep(Duration.millisecond) // sleep for 1ms.
             count.fetchAdd(1)
         }
-        list.append(fut)
+        list.add(fut)
     }
 
     // Wait for all threads finished.
@@ -163,24 +163,20 @@ false
 true
 ```
 
-## 可重入互斥锁 ReentrantMutex
+## 可重入互斥锁 Mutex
 
 可重入互斥锁的作用是对临界区加以保护，使得任意时刻最多只有一个线程能够执行临界区的代码。当一个线程试图获取一个已被其他线程持有的锁时，该线程会被阻塞，直到锁被释放，该线程才会被唤醒，可重入是指线程获取该锁后可再次获得该锁。
-
-> **注意：**
->
-> ReentrantMutex 是内置的互斥锁，开发者需要保证不继承它。
 
 使用可重入互斥锁时，必须牢记两条规则：
 
 1. 在访问共享数据之前，必须尝试获取锁；
-2. 处理完共享数据后，必须进行解锁，以便其他线程可以获得锁。
+2. 处理完共享数据后，必须释放锁，以便其他线程可以获得锁。
 
-`ReentrantMutex` 提供的主要成员函数如下：
+`Mutex` 提供的主要成员函数如下：
 
 ```cangjie
-public open class ReentrantMutex {
-    // Create a ReentrantMutex.
+public class Mutex <: UniqueLock {
+    // Create a Mutex.
     public init()
 
     // Locks the mutex, blocks if the mutex is not available.
@@ -193,10 +189,13 @@ public open class ReentrantMutex {
     // Tries to lock the mutex, returns false if the mutex is not
     // available, otherwise returns true.
     public func tryLock(): Bool
+
+    // Generate a Condition instance for the mutex.
+    public func condition(): Condition
 }
 ```
 
-下方示例演示了如何使用 `ReentrantMutex` 来保护对全局共享变量 `count` 的访问，对 `count` 的操作即属于临界区：
+下方示例演示了如何使用 `Mutex` 来保护对全局共享变量 `count` 的访问，对 `count` 的操作即属于临界区：
 
 <!-- verify -->
 
@@ -206,12 +205,12 @@ import std.time.*
 import std.collection.*
 
 var count: Int64 = 0
-let mtx = ReentrantMutex()
+let mtx = Mutex()
 
 main(): Int64 {
     let list = ArrayList<Future<Unit>>()
 
-    // creat 1000 threads.
+    // create 1000 threads.
     for (i in 0..1000) {
         let fut = spawn {
             sleep(Duration.millisecond) // sleep for 1ms.
@@ -219,7 +218,7 @@ main(): Int64 {
             count++
             mtx.unlock()
         }
-        list.append(fut)
+        list.add(fut)
     }
 
     // Wait for all threads finished.
@@ -244,29 +243,36 @@ count = 1000
 
 ```cangjie
 import std.sync.*
+import std.time.*
 
 main(): Int64 {
-    let mtx: ReentrantMutex = ReentrantMutex()
+    let mtx: Mutex = Mutex()
     var future: Future<Unit> = spawn {
         mtx.lock()
-        while (true) {}
+        println("get the lock, do something")
+        sleep(Duration.millisecond * 10)
         mtx.unlock()
     }
-    let res: Option<Unit> = future.get(10*1000*1000)
-    match (res) {
-        case Some(v) => ()
-        case None =>
-            if (mtx.tryLock()) {
-                mtx.unlock()
-                return 1
-            }
-            return 0
+    try {
+        future.get(Duration.millisecond * 10)
+    } catch (e: TimeoutException) {
+        if (mtx.tryLock()) {
+            println("tryLock sucess, do something")
+            mtx.unlock()
+            return 1
+        }
+        println("tryLock failed, do nothing")
+        return 0
     }
     return 2
 }
 ```
 
-输出结果应为空。
+一种可能的输出结果如下：
+
+```text
+get the lock, do something
+```
 
 以下是互斥锁的一些错误示例：
 
@@ -276,7 +282,7 @@ main(): Int64 {
 import std.sync.*
 
 var sum: Int64 = 0
-let mutex = ReentrantMutex()
+let mutex = Mutex()
 
 main() {
     let foo = spawn { =>
@@ -299,7 +305,7 @@ main() {
 import std.sync.*
 
 var sum: Int64 = 0
-let mutex = ReentrantMutex()
+let mutex = Mutex()
 
 main() {
     let foo = spawn { =>
@@ -314,8 +320,9 @@ main() {
 错误示例 3：`tryLock()` 并不保证获取到锁，可能会造成不在锁的保护下操作临界区和在没有持有锁的情况下调用 `unlock` 抛出异常等行为。
 
 ```cangjie
+import std.sync.*
 var sum: Int64 = 0
-let mutex = ReentrantMutex()
+let mutex = Mutex()
 
 main() {
     for (i in 0..100) {
@@ -328,13 +335,13 @@ main() {
 }
 ```
 
-另外，`ReentrantMutex` 在设计上是一个可重入锁，也就是说：在某个线程已经持有一个 `ReentrantMutex` 锁的情况下，再次尝试获取同一个 `ReentrantMutex` 锁，永远可以立即获得该 `ReentrantMutex` 锁。
+另外，`Mutex` 在设计上是一个可重入锁，也就是说：在某个线程已经持有一个 `Mutex` 锁的情况下，再次尝试获取同一个 `Mutex` 锁，永远可以立即获得该 `Mutex` 锁。
 
 > **注意：**
 >
-> 虽然 `ReentrantMutex` 是一个可重入锁，但是调用 `unlock()` 的次数必须和调用 `lock()` 的次数相同，才能成功释放该锁。
+> 虽然 `Mutex` 是一个可重入锁，但是调用 `unlock()` 的次数必须和调用 `lock()` 的次数相同，才能成功释放该锁。
 
-下方示例代码演示了 `ReentrantMutex` 可重入的特性：
+下方示例代码演示了 `Mutex` 可重入的特性：
 
 <!-- verify -->
 
@@ -343,7 +350,7 @@ import std.sync.*
 import std.time.*
 
 var count: Int64 = 0
-let mtx = ReentrantMutex()
+let mtx = Mutex()
 
 func foo() {
     mtx.lock()
@@ -379,34 +386,42 @@ main(): Int64 {
 count = 220
 ```
 
-在上方示例中，无论是主线程还是新创建的线程，如果在 `foo()` 中已经获得了锁，那么继续调用 `bar()` 的话，在 `bar()` 函数中由于是对同一个 `ReentrantMutex` 进行加锁，因此也是能立即获得该锁的，不会出现死锁。
+在上方示例中，无论是主线程还是新创建的线程，如果在 `foo()` 中已经获得了锁，那么继续调用 `bar()` 的话，在 `bar()` 函数中由于是对同一个 `Mutex` 进行加锁，因此也是能立即获得该锁的，不会出现死锁。
 
-## Monitor
+## Condition
 
-`Monitor` 是一个内置的数据结构，它绑定了互斥锁和单个与之相关的条件变量（也就是等待队列）。`Monitor` 可以使线程阻塞并等待来自另一个线程的信号以恢复执行。这是一种利用共享变量进行线程同步的机制，主要提供如下方法：
+`Condition` 是与某个互斥锁绑定的条件变量（也就是等待队列），`Condition` 实例由互斥锁创建，一个互斥锁可以创建多个 `Condition` 实例。`Condition` 可以使线程阻塞并等待来自另一个线程的信号以恢复执行。这是一种利用共享变量进行线程同步的机制，主要提供如下方法：
 
 ```cangjie
-public class Monitor <: ReentrantMutex {
-    // Create a monitor.
-    public init()
+public class Mutex <: UniqueLock {
+    // ...
+    // Generate a Condition instance for the mutex.
+    public func condition(): Condition
+}
 
+public interface Condition {
     // Wait for a signal, blocking the current thread.
-    public func wait(timeout!: Duration = Duration.Max): Bool
+    func wait(): Unit
+    func wait(timeout!: Duration): Bool
+
+    // Wait for a signal and predicate, blocking the current thread.
+    func waitUntil(predicate: ()->Bool): Unit
+    func waitUntil(predicate: ()->Bool, timeout!: Duration): Bool
 
     // Wake up one thread of those waiting on the monitor, if any.
-    public func notify(): Unit
+    func notify(): Unit
 
     // Wake up all threads waiting on the monitor, if any.
-    public func notifyAll(): Unit
+    func notifyAll(): Unit
 }
 ```
 
-调用 `Monitor` 对象的 `wait`、`notify` 或 `notifyAll` 方法前，需要确保当前线程已经持有对应的 `Monitor` 锁。`wait` 方法包含如下动作：
+调用 `Condition` 接口的 `wait`、`notify` 或 `notifyAll` 方法前，需要确保当前线程已经持有绑定的锁。`wait` 方法包含如下动作：
 
-1. 添加当前线程到该 `Monitor` 对应的等待队列中;
-2. 阻塞当前线程，同时完全释放该 `Monitor` 锁，并记录锁的重入次数;
-3. 等待某个其它线程使用同一个 `Monitor` 实例的 `notify` 或 `notifyAll` 方法向该线程发出信号;
-4. 当前线程被唤醒后，会自动尝试重新获取 `Monitor` 锁，且持有锁的重入状态与第 2 步记录的重入次数相同；但是如果尝试获取 `Monitor` 锁失败，则当前线程会阻塞在该 `Monitor` 锁上。
+1. 添加当前线程到对应锁的等待队列中；
+2. 阻塞当前线程，同时完全释放该锁，并记录锁的重入次数；
+3. 等待某个其他线程使用同一个 `Condition` 实例的 `notify` 或 `notifyAll` 方法向该线程发出信号；
+4. 当前线程被唤醒后，会自动尝试重新获取锁，且持有锁的重入状态与第 2 步记录的重入次数相同；但是如果尝试获取锁失败，则当前线程会阻塞在该锁上。
 
 `wait` 方法接受一个可选参数 `timeout`。需要注意的是，业界很多常用的常规操作系统不保证调度的实时性，因此无法保证一个线程会被阻塞“精确的 N 纳秒”——可能会观察到与系统相关的不精确情况。此外，当前语言规范明确允许实现产生虚假唤醒——在这种情况下，`wait` 返回值是由实现决定的——可能为 `true` 或 `false`。因此鼓励开发者始终将 `wait` 包在一个循环中：
 
@@ -418,7 +433,7 @@ synchronized (obj) {
 }
 ```
 
-以下是使用 `Monitor` 的一个正确示例：
+以下是使用 `Condition` 的一个正确示例：
 
 <!-- verify -->
 
@@ -426,32 +441,35 @@ synchronized (obj) {
 import std.sync.*
 import std.time.*
 
-var mon = Monitor()
+let mtx = Mutex()
+let condition = synchronized(mtx) {
+    mtx.condition()
+}
 var flag: Bool = true
 
 main(): Int64 {
     let fut = spawn {
-        mon.lock()
+        mtx.lock()
         while (flag) {
             println("New thread: before wait")
-            mon.wait()
+            condition.wait()
             println("New thread: after wait")
         }
-        mon.unlock()
+        mtx.unlock()
     }
 
     // Sleep for 10ms, to make sure the new thread can be executed.
     sleep(10 * Duration.millisecond)
 
-    mon.lock()
+    mtx.lock()
     println("Main thread: set flag")
     flag = false
-    mon.unlock()
+    mtx.unlock()
 
-    mon.lock()
+    mtx.lock()
     println("Main thread: notify")
-    mon.notifyAll()
-    mon.unlock()
+    condition.notifyAll()
+    mtx.unlock()
 
     // wait for the new thread finished.
     fut.get()
@@ -468,15 +486,18 @@ Main thread: notify
 New thread: after wait
 ```
 
-`Monitor` 对象执行 `wait` 时，必须在锁的保护下进行，否则 `wait` 中释放锁的操作会抛出异常。
+`Condition` 对象执行 `wait` 时，必须在锁的保护下进行，否则 `wait` 中释放锁的操作会抛出异常。
 
 以下是使用条件变量的一些错误示例：
 
 ```cangjie
 import std.sync.*
 
-var m1 = Monitor()
-var m2 = ReentrantMutex()
+let m1 = Mutex()
+let c1 = synchronized(m1) {
+    m1.condition()
+}
+let m2 = Mutex()
 var flag: Bool = true
 var count: Int64 = 0
 
@@ -484,97 +505,48 @@ func foo1() {
     spawn {
         m2.lock()
         while (flag) {
-            m1.wait() // Error：The lock used together with the condition variable must be the same lock and in the locked state. Otherwise, the unlock operation in `wait` throws an exception.
+            c1.wait() // Error：The lock used together with the condition variable must be the same lock and in the locked state. Otherwise, the unlock operation in `wait` throws an exception.
         }
         count = count + 1
         m2.unlock()
     }
     m1.lock()
     flag = false
-    m1.notifyAll()
+    c1.notifyAll()
     m1.unlock()
 }
 
 func foo2() {
     spawn {
         while (flag) {
-            m1.wait() // Error：The `wait` of a conditional variable must be called with a lock held.
+            c1.wait() // Error：The `wait` of a conditional variable must be called with a lock held.
         }
         count = count + 1
     }
     m1.lock()
     flag = false
-    m1.notifyAll()
+    c1.notifyAll()
     m1.unlock()
 }
 
 main() {
     foo1()
     foo2()
-    m1.wait()
+    c1.wait()
     return 0
 }
 ```
 
-## MultiConditionMonitor
-
-`MultiConditionMonitor` 是一个内置的数据结构，它绑定了互斥锁和一组与之相关的动态创建的条件变量。该类应仅当在 `Monitor` 类不足以满足复杂的线程间同步的场景下使用。主要提供如下方法：
-
-```cangjie
-public class MultiConditionMonitor <: ReentrantMutex {
-   // Constructor.
-   init()
-
-   // Returns a new ConditionID associated with this monitor. May be used to implement
-   // "single mutex -- multiple wait queues" concurrent primitives.
-   // Throws IllegalSynchronizationStateException("Mutex is not locked by the current thread") if the current thread does not hold this mutex.
-   func newCondition(): ConditionID
-
-   // Blocks until either a paired `notify` is invoked or `timeout` nanoseconds pass.
-   // Returns `true` if the specified condition was signalled by another thread or `false` on timeout.
-   // Spurious wakeups are allowed.
-   // Throws IllegalSynchronizationStateException("Mutex is not locked by the current thread") if the current thread does not hold this mutex.
-   // Throws IllegalSynchronizationStateException("Invalid condition") if `id` was not returned by `newCondition` of this MultiConditionMonitor instance.
-   func wait(id: ConditionID, timeout!: Duration = Duration.Max): Bool
-
-   // Wakes up a single thread waiting on the specified condition, if any (no particular admission policy implied).
-   // Throws IllegalSynchronizationStateException("Mutex is not locked by the current thread") if the current thread does not hold this mutex.
-   // Throws IllegalSynchronizationStateException("Invalid condition") if `id` was not returned by `newCondition` of this MultiConditionMonitor instance.
-   func notify(id: ConditionID): Unit
-
-   // Wakes up all threads waiting on the specified condition, if any (no particular admission policy implied).
-   // Throws IllegalSynchronizationStateException("Mutex is not locked by the current thread") if the current thread does not hold this mutex.
-   // Throws IllegalSynchronizationStateException("Invalid condition") if `id` was not returned by `newCondition` of this MultiConditionMonitor instance.
-   func notifyAll(id: ConditionID): Unit
-}
-```
-
-1. `newCondition(): ConditionID`：创建一个新的条件变量并与当前对象关联，返回一个特定的 `ConditionID` 标识符
-2. `wait(id: ConditionID, timeout!: Duration = Duration.Max): Bool`：等待信号，阻塞当前线程
-3. `notify(id: ConditionID): Unit`：唤醒一个在 `Monitor` 上等待的线程（如果有）
-4. `notifyAll(id: ConditionID): Unit`：唤醒所有在 `Monitor` 上等待的线程（如果有）
-
-初始化时，`MultiConditionMonitor` 没有与之相关的 `ConditionID` 实例。每次调用 `newCondition` 都会将创建一个新的条件变量并与当前对象关联，并返回如下类型作为唯一标识符：
-
-```cangjie
-public struct ConditionID {
-   private init() { ... } // constructor is intentionally private to prevent
-                          // creation of such structs outside of MultiConditionMonitor
-}
-```
-
-请注意使用者不可以将一个 `MultiConditionMonitor` 实例返回的 `ConditionID` 传给其它实例，或者手动创建 `ConditionID`（例如使用 `unsafe`）。由于 `ConditionID` 所包含的数据（例如内部数组的索引，内部队列的直接地址，或任何其他类型数据等）和创建它的 `MultiConditionMonitor` 相关，所以将“外部” `conditonID` 传入 `MultiConditionMonitor` 中会导致 `IllegalSynchronizationStateException`。
-
-以下是使用 `MultiConditionMonitor` 去实现一个长度固定的有界 `FIFO` 队列，当队列为空，`get()` 会被阻塞；当队列满了时，`put()` 会被阻塞。
+有时在复杂的线程间同步的场景下需要对同一个锁对象生成多个 `Condition` 实例，以下示例实现了一个长度固定的有界 `FIFO` 队列。当队列为空，`get()` 会被阻塞；当队列已满，`put()` 会被阻塞。
 
 ```cangjie
 import std.sync.*
 
 class BoundedQueue {
-    // Create a MultiConditionMonitor, two Conditions.
-    let m: MultiConditionMonitor = MultiConditionMonitor()
-    var notFull: ConditionID
-    var notEmpty: ConditionID
+    // Create a Mutex, two Conditions.
+    let m: Mutex = Mutex()
+    var notFull: Condition
+    var notEmpty: Condition
 
     var count: Int64 // Object count in buffer.
     var head: Int64  // Write index.
@@ -589,8 +561,8 @@ class BoundedQueue {
         tail = 0
 
         synchronized(m) {
-          notFull  = m.newCondition()
-          notEmpty = m.newCondition()
+          notFull  = m.condition()
+          notEmpty = m.condition()
         }
     }
 
@@ -600,7 +572,7 @@ class BoundedQueue {
         synchronized(m) {
           while (count == 100) {
             // If the queue is full, wait for the "queue notFull" event.
-            m.wait(notFull)
+            notFull.wait()
           }
           items[head] = x
           head++
@@ -612,7 +584,7 @@ class BoundedQueue {
           // An object has been inserted and the current queue is no longer
           // empty, so wake up the thread previously blocked on get()
           // because the queue was empty.
-          m.notify(notEmpty)
+          notEmpty.notify()
         } // Release the mutex.
     }
 
@@ -622,7 +594,7 @@ class BoundedQueue {
         synchronized(m) {
           while (count == 0) {
             // If the queue is empty, wait for the "queue notEmpty" event.
-            m.wait(notEmpty)
+            notEmpty.wait()
           }
           let x: Object = items[tail]
           tail++
@@ -634,7 +606,7 @@ class BoundedQueue {
           // An object has been popped and the current queue is no longer
           // full, so wake up the thread previously blocked on put()
           // because the queue was full.
-          m.notify(notFull)
+          notFull.notify()
 
           return x
         } // Release the mutex.
@@ -644,7 +616,7 @@ class BoundedQueue {
 
 ## synchronized 关键字
 
-互斥锁 `ReentrantMutex` 提供了一种便利灵活的加锁的方式，同时因为它的灵活性，也可能引起忘了解锁，或者在持有互斥锁的情况下抛出异常不能自动释放持有的锁的问题。因此，仓颉编程语言提供一个 `synchronized` 关键字，搭配 `ReentrantMutex` 一起使用，可以在其后跟随的作用域内自动进行加锁解锁操作，用来解决类似的问题。
+`Lock` 提供了一种便利灵活的加锁的方式，同时因为它的灵活性，也可能引起忘记解锁，或者在持有锁的情况下抛出异常不能自动释放持有的锁的问题。因此，仓颉编程语言提供一个 `synchronized` 关键字，搭配 `Lock` 一起使用，可以在其后跟随的作用域内自动进行加锁解锁操作，用来解决类似的问题。
 
 下方示例代码演示了如何使用 `synchronized` 关键字来保护共享数据：
 
@@ -656,12 +628,12 @@ import std.time.*
 import std.collection.*
 
 var count: Int64 = 0
-let mtx = ReentrantMutex()
+let mtx = Mutex()
 
 main(): Int64 {
     let list = ArrayList<Future<Unit>>()
 
-    // creat 1000 threads.
+    // create 1000 threads.
     for (i in 0..1000) {
         let fut = spawn {
             sleep(Duration.millisecond) // sleep for 1ms.
@@ -670,7 +642,7 @@ main(): Int64 {
                 count++
             }
         }
-        list.append(fut)
+        list.add(fut)
     }
 
     // Wait for all threads finished.
@@ -689,10 +661,10 @@ main(): Int64 {
 count = 1000
 ```
 
-通过在 `synchronized` 后面加上一个 `ReentrantMutex` 实例，对其后面修饰的代码块进行保护，可以使得任意时刻最多只有一个线程可以执行被保护的代码：
+通过在 `synchronized` 后面加上一个 `Lock` 实例，对其后面修饰的代码块进行保护，可以使得任意时刻最多只有一个线程可以执行被保护的代码：
 
-1. 一个线程在进入 `synchronized` 修饰的代码块之前，会自动获取 `ReentrantMutex` 实例对应的锁，如果无法获取锁，则当前线程被阻塞；
-2. 一个线程在退出 `synchronized` 修饰的代码块之前，会自动释放该 `ReentrantMutex` 实例的锁。
+1. 一个线程在进入 `synchronized` 修饰的代码块之前，会自动获取 `Lock` 实例对应的锁，如果无法获取锁，则当前线程被阻塞；
+2. 一个线程在退出 `synchronized` 修饰的代码块之前，会自动释放该 `Lock` 实例的锁。
 
 对于控制转移表达式（如 `break`、`continue`、`return`、`throw`），在导致程序的执行跳出 `synchronized` 代码块时，也符合上面第 2 条的说明，也就说也会自动释放 `synchronized` 表达式对应的锁。
 
@@ -705,7 +677,7 @@ import std.sync.*
 import std.collection.*
 
 var count: Int64 = 0
-var mtx: ReentrantMutex = ReentrantMutex()
+var mtx: Mutex = Mutex()
 
 main(): Int64 {
     let list = ArrayList<Future<Unit>>()
@@ -719,7 +691,7 @@ main(): Int64 {
                 }
             }
         }
-        list.append(fut)
+        list.add(fut)
     }
 
     // Wait for all threads finished.
@@ -740,31 +712,22 @@ main(): Int64 {
 in main, count = 10
 ```
 
-实际上 `in thread` 这行不会被打印，因为 `break` 语句实际上会让程序执行跳出 `while` 循环（当然，在跳出 `while` 循环之前，是先跳出 `synchronized` 代码块）。
+实际上 `in thread` 这行不会被打印，因为 `break` 语句实际上会让程序执行跳出 `while` 循环（在跳出 `while` 循环之前，先跳出 `synchronized` 代码块）。
 
 ## 线程局部变量 ThreadLocal
 
-使用 core 包中的 `ThreadLocal` 可以创建并使用线程局部变量，每一个线程都有它独立的一个存储空间来保存这些线程局部变量，因此，在每个线程可以安全地访问他们各自的线程局部变量，而不受其他线程的影响。
+使用 core 包中的 `ThreadLocal` 可以创建并使用线程局部变量，每一个线程都有它独立的一个存储空间来保存这些线程局部变量。因此，在每个线程可以安全地访问他们各自的线程局部变量，而不受其他线程的影响。
 
 ```cangjie
 public class ThreadLocal<T> {
-    /*
-     * 构造一个携带空值的仓颉线程局部变量
-     */
+    /* 构造一个携带空值的仓颉线程局部变量 */
     public init()
 
-    /*
-     * 获得仓颉线程局部变量的值，如果值不存在，则返回 Option<T>.None
-     * 返回值 Option<T> - 仓颉线程局部变量的值
-     */
-    public func get(): Option<T>
+    /* 获得仓颉线程局部变量的值 */
+    public func get(): Option<T> // 如果值不存在，则返回 Option<T>.None。返回值 Option<T> - 仓颉线程局部变量的值
 
-    /*
-     * 通过 value 设置仓颉线程局部变量的值
-     * 如果传入 Option<T>.None，该局部变量的值将被删除，在线程后续操作中将无法获取
-     * 参数 value - 需要设置的局部变量的值
-     */
-    public func set(value: Option<T>): Unit
+    /* 通过 value 设置仓颉线程局部变量的值 */
+    public func set(value: Option<T>): Unit // 如果传入 Option<T>.None，该局部变量的值将被删除，在线程后续操作中将无法获取。参数 value - 需要设置的局部变量的值。
 }
 ```
 

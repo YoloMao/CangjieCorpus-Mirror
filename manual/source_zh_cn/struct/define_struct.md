@@ -24,11 +24,11 @@ struct Rectangle {
 
 > **注意：**
 >
-> `struct` 只能定义在源文件顶层。
+> `struct` 只能定义在源文件的顶层作用域。
 
 ## struct 成员变量
 
-`struct` 成员变量分为实例成员变量和静态成员变量（使用 `static` 修饰符修饰，且必须有初值），二者访问上的区别在于实例成员变量只能通过 `struct` 实例（我们说 `a` 是 `T` 类型的实例，指的是 `a` 是一个 `T` 类型的值）访问，静态成员变量只能通过 `struct` 类型名访问。
+`struct` 成员变量分为实例成员变量和静态成员变量（使用 `static` 修饰符修饰），二者访问上的区别在于实例成员变量只能通过 `struct` 实例（说 `a` 是 `T` 类型的实例，指的是 `a` 是一个 `T` 类型的值）访问，静态成员变量只能通过 `struct` 类型名访问。
 
 实例成员变量定义时可以不设置初值（但必须标注类型，如上例中的 `width` 和 `height`），也可以设置初值，例如：
 
@@ -192,10 +192,10 @@ struct Rectangle {
 
 `struct` 的成员（包括成员变量、成员属性、构造函数、成员函数、操作符函数（详见[操作符重载](../function/operator_overloading.md)章节））用 4 种访问修饰符修饰：`private`、`internal`、`protected` 和 `public`，缺省的修饰符是 `internal`。
 
-* `private` 表示在 `struct` 定义内可见。
-* `internal` 表示仅当前包及子包（包括子包的子包，详见[包](../package/toplevel_access.md)章节）内可见。
-* `protected` 表示当前模块（详见[包](../package/toplevel_access.md)章节）可见。
-* `public` 表示模块内外均可见。
+- `private` 表示在 `struct` 定义内可见。
+- `internal` 表示仅当前包及子包（包括子包的子包，详见[包](../package/toplevel_access.md)章节）内可见。
+- `protected` 表示当前模块（详见[包](../package/toplevel_access.md)章节）可见。
+- `public` 表示模块内外均可见。
 
 下面的例子中，`width` 是 `public` 修饰的成员，在类外可以访问，`height` 是缺省访问修饰符的成员，仅在当前包及子包可见，其他包无法访问。
 

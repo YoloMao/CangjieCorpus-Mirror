@@ -8,9 +8,9 @@
 import std.collection.*
 ```
 
-我们可以使用 HashMap 类型来构造元素为键值对的 Collection。
+可以使用 HashMap 类型来构造元素为键值对的 Collection。
 
-HashMap 是一种哈希表，提供对其包含的元素的快速访问。表中的每个元素都使用其键作为标识，我们可以使用键来访问相应的值。
+HashMap 是一种哈希表，提供对其包含的元素的快速访问。表中的每个元素都使用其键作为标识，可以使用键来访问相应的值。
 
 仓颉使用 `HashMap<K, V>` 表示 HashMap 类型，K 表示 HashMap 的键类型，K 必须是实现了 Hashable 和 `Equatable<K>` 接口的类型，例如数值或 String。V 表示 HashMap 的值类型，V 可以是任意类型。
 
@@ -41,7 +41,7 @@ let e = HashMap<Int64, Int64>(10, {x: Int64 => (x, x * x)}) // Created a HashMap
 
 ## 访问 HashMap 成员
 
-当我们需要对 HashMap 的所有元素进行访问时，可以使用 for-in 循环遍历 HashMap 的所有元素。
+当需要对 HashMap 的所有元素进行访问时，可以使用 for-in 循环遍历 HashMap 的所有元素。
 
 需要注意的是，HashMap 并不保证按插入元素的顺序排列，因此遍历的顺序和插入的顺序可能不同。
 
@@ -66,7 +66,7 @@ The key is b, the value is 1
 The key is c, the value is 2
 ```
 
-当我们需要知道某个 HashMap 包含的元素个数时，可以使用 size 属性获得对应信息。
+当需要知道某个 HashMap 包含的元素个数时，可以使用 size 属性获得对应信息。
 
 <!-- verify -->
 
@@ -89,7 +89,7 @@ main() {
 The size of hashmap is 3
 ```
 
-当我们想判断某个键是否被包含 HashMap 中时，可以使用 contains 函数。如果该键存在会返回 true，否则返回 false。
+当想判断 HashMap 中是否包含某个键时，可以使用 contains 函数。如果该键存在会返回 true，否则返回 false。
 
 <!-- run -->
 
@@ -99,7 +99,7 @@ let a = map.contains("a") // a == true
 let b = map.contains("d") // b == false
 ```
 
-当我们想访问指定键对应的元素时，可以使用下标语法访问（下标的类型必须是键类型）。使用不存在的键作为索引会触发运行时异常。
+当想访问指定键对应的元素时，可以使用下标语法访问（下标的类型必须是键类型）。使用不存在的键作为索引会触发运行时异常。
 
 ```cangjie
 let map = HashMap<String, Int64>([("a", 0), ("b", 1), ("c", 2)])
@@ -112,9 +112,9 @@ let c = map["d"] // Runtime exceptions
 
 HashMap 是一种可变的引用类型，HashMap 类型提供了修改元素、添加元素、删除元素的功能。
 
-HashMap 的可变性是一个非常有用的特征，我们可以让同一个 HashMap 实例的所有引用都共享同样的元素，并且对它们统一进行修改。
+HashMap 的可变性是一个非常有用的特征，可以让同一个 HashMap 实例的所有引用都共享同样的元素，并且对它们统一进行修改。
 
-我们可以使用下标语法对某个键对应的值进行修改。
+可以使用下标语法对某个键对应的值进行修改。
 
 <!-- run -->
 
@@ -137,19 +137,19 @@ map2["a"] = 3
 // map2 contains the elements ("a", 3), ("b", 1), ("c", 2)
 ```
 
-如果需要将单个键值对添加到 HashMap 的末尾，请使用 put 函数。如果希望同时添加多个键值对，可以使用 putAll 函数。当键不存在时，put 函数会执行添加的操作，当键存在时，put 函数会将新的值覆盖旧的值。
+如果需要将单个键值对添加到 HashMap 里，请使用 add 函数。如果希望同时添加多个键值对，可以使用 `add(all!: Collection<(K, V)>)` 函数。当键不存在时，add 函数会执行添加的操作，当键存在时，add 函数会将新的值覆盖旧的值。
 
 <!-- run -->
 
 ```cangjie
 let map = HashMap<String, Int64>()
-map.put("a", 0) // map contains the element ("a", 0)
-map.put("b", 1) // map contains the elements ("a", 0), ("b", 1)
+map.add("a", 0) // map contains the element ("a", 0)
+map.add("b", 1) // map contains the elements ("a", 0), ("b", 1)
 let map2 = HashMap<String, Int64>([("c", 2), ("d", 3)])
-map.putAll(map2) // map contains the elements ("a", 0), ("b", 1), ("c", 2), ("d", 3)
+map.add(all: map2) // map contains the elements ("a", 0), ("b", 1), ("c", 2), ("d", 3)
 ```
 
-除了使用 put 函数以外，我们也可以使用赋值的方式直接将新的键值对添加到 HashMap。
+除了使用 add 函数以外，也可以使用赋值的方式直接将新的键值对添加到 HashMap。
 
 <!-- run -->
 

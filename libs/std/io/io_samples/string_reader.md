@@ -8,9 +8,9 @@ import std.io.*
 
 main(): Unit {
     let arr1 = "012\n346789".toArray()
-    let byteArrayStream = ByteArrayStream()
-    byteArrayStream.write(arr1)
-    let stringReader = StringReader(byteArrayStream)
+    let byteBuffer = ByteBuffer()
+    byteBuffer.write(arr1)
+    let stringReader = StringReader(byteBuffer)
 
     /* 读取一个字节 */
     let ch = stringReader.read()
@@ -30,7 +30,7 @@ main(): Unit {
 }
 ```
 
-运行结果
+运行结果：
 
 ```text
 0

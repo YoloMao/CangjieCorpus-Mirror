@@ -41,7 +41,6 @@ public init(message: String)
 public class AssertIntermediateException <: Exception {
     public let expression: String
     public let originalException: Exception
-    public let position: Int64
 }
 ```
 
@@ -70,16 +69,6 @@ public let originalException: Exception
 功能：原始的类型信息。
 
 类型：[Exception](../../core/core_package_api/core_package_exceptions.md#class-exception)。
-
-### let position
-
-```cangjie
-public let position: Int64
-```
-
-功能：位置信息。
-
-类型：[Int64](../../core/core_package_api/core_package_intrinsics.md#int64)。
 
 ### func getOriginalStackTrace
 
